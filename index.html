@@ -120,7 +120,11 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  color:black;
 }
+
+#ui-bar{
+display:none;}
 
 #story, #passages {
   width: 100%;
@@ -141,17 +145,12 @@ html, body {
   overflow: hidden;        /* corta qualquer excesso */
   animation: sceneFade 1s ease;
   background-size: 100% 100%; /* força cobrir largura e altura */
-  padding-top: 50px; 
 }
 
 .text-box{
-width:100%;
-height:100%;
-margin:10% 20%;
-}
+margin:2% 20%;
 
-#ui-bar {
-display: none;
+
 }
 
 #passages{
@@ -184,10 +183,39 @@ display: none;
   
 }
 
+.text-box{
+  font-size:1.2em;
+  background-color:rgb(255,255,255,0.45);
+  padding:1%;
+  border-radius:20px;
+}
+
 h1{
 font-family:"Winky Rough", sans-serif;
 font-size:3em;
-color:orange;}
+  color:orange;
+}
+
+.stroke {
+	-webkit-text-stroke: 1px black;
+}
+.text-shadow {
+	text-shadow: 0 0 2px grey;
+}
+.text-shadow-multiple {
+	text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+}
+
+.drop-shadow {
+	filter: drop-shadow(0 0 2px black);
+}
+.drop-shadow-multiple {
+	filter: drop-shadow(0 0 1px white) drop-shadow(0 0 0.5px white) drop-shadow(0 0 0.5px white);
+}
+.combination {
+	text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+	filter: drop-shadow(0 0 0.5px white);
+}
 
 .village{
   background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/bg-village.png);
@@ -209,6 +237,7 @@ background-repeat: no-repeat;
 
 p{
   font-size:1em;
+  color:black;
 }
 
 a{
@@ -218,6 +247,8 @@ color:white;
 padding:1% 2%;
 font-weight:bold;
 border-radius:10px;
+  filter: drop-shadow(0 0 2px black);
+
 }
 
 a:hover{
@@ -235,66 +266,15 @@ transition:0.5s;
   gap: 1rem;
 }
 
-#top-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1em;
-    box-sizing: border-box;
-    z-index: 9999;
-    font-family: system-ui, sans-serif;
-    font-size: 1em;
-    pointer-events: auto;
-}
-
-#top-menu .menu-left {
-    display: flex;
-    align-items: center;
-}
-
-#top-menu .menu-left .logo {
-    height: 30px;
-    margin-right: 0.5em;
-}
-
-#top-menu .menu-left .project-name {
-    font-weight: bold;
-}
-
-#top-menu .menu-right {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-}
-
-.menu-button {
-    text-decoration: none;
-    color: inherit;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0.3em 0.6em;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.menu-button:hover {
-    background-color: rgba(255,165,0,0.2);
-    transform: translateY(-1px);
-}
-
-
 
 @keyframes sceneFade {
   from { opacity: 0; transform: scale(1.02); }
   to { opacity: 1; transform: scale(1); }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">$(document).on(':passagestart', function () {
   $('.scene').hide().fadeIn(900);
-});</script><tw-passagedata pid="1" name="Agarro no carro e evacuo de acordo com as indicações das autoridades" tags="" position="1000,250" size="100,100">[[Boa! Contribuiste para resolver esta situação]]</tw-passagedata><tw-passagedata pid="2" name="Agarro no carro e vou-me embora sem ponderar riscos" tags="" position="875,125" size="100,100">[[Oh oh! o Fogo apanhou-te]]</tw-passagedata><tw-passagedata pid="3" name="Aguardo pelas indicações autoridades" tags="" position="1000,375" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="4" name="As autoridades indicam que é obrigatório evacuar" tags="" position="1100,1050" size="100,100">[[Faço o que as autoridades indicam e evacuo]] 
+});
+
+l10nStrings.restartTitle = "⟳";</script><tw-passagedata pid="1" name="Agarro no carro e evacuo de acordo com as indicações das autoridades" tags="" position="1000,250" size="100,100">[[Boa! Contribuiste para resolver esta situação]]</tw-passagedata><tw-passagedata pid="2" name="Agarro no carro e vou-me embora sem ponderar riscos" tags="" position="875,125" size="100,100">[[Oh oh! o Fogo apanhou-te]]</tw-passagedata><tw-passagedata pid="3" name="Aguardo pelas indicações autoridades" tags="" position="1000,375" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="4" name="As autoridades indicam que é obrigatório evacuar" tags="" position="1100,1050" size="100,100">[[Faço o que as autoridades indicam e evacuo]] 
 [[Ignoro e decido manter-me em casa]]</tw-passagedata><tw-passagedata pid="5" name="Aviso os vizinhos mais próximos" tags="" position="450,525" size="100,100">[[Vejo as chamas a aproximar]]</tw-passagedata><tw-passagedata pid="6" name="Decido avisar a população" tags="" position="300,600" size="100,100">Quem?
 [[Aviso os vizinhos mais próximos]]
 [[Ligo para pedir ao responsável que toque o aviso sonoro geral]]</tw-passagedata><tw-passagedata pid="7" name="Decido evacuar" tags="" position="800,400" size="100,100">[[Agarro no carro e vou-me embora sem ponderar riscos]] 
@@ -355,7 +335,7 @@ O fogo começa a afastar-se e  já não há perigo
 [[As autoridades indicam que é obrigatório evacuar]] 
 [[Aguardo pelas indicações autoridades]] </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene village&quot;&gt;
   &lt;div class=&quot;text-box&quot;&gt;
-    &lt;h1&gt;Há fogo na aldeia.&lt;/h1&gt;
+    &lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;
      &lt;div class=&quot;choices&quot;&gt;
    	 	[[Começar-&gt;Vê-se fumo ao longe]]
      &lt;/div&gt;
