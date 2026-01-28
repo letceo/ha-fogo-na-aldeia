@@ -108,6 +108,11 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 @import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
 
 
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+
 .winky-rough {
   font-family: "Winky Rough", sans-serif;
   font-optical-sizing: auto;
@@ -115,12 +120,123 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   font-style: normal;
 }
 
+
+.fira-sans-thin {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.fira-sans-extralight {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.fira-sans-light {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.fira-sans-regular {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.fira-sans-medium {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.fira-sans-semibold {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.fira-sans-bold {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.fira-sans-extrabold {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.fira-sans-black {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.fira-sans-thin-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.fira-sans-extralight-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.fira-sans-light-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.fira-sans-regular-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.fira-sans-medium-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.fira-sans-semibold-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.fira-sans-bold-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.fira-sans-extrabold-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.fira-sans-black-italic {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   color:black;
+  gap:0;
 }
 
 #ui-bar{
@@ -134,24 +250,19 @@ display:none;}
 }
 
 .scene {
-  position: relative;
+  position: absolute;
   width: 100vw;
   height: 100vh;           /* 100% da viewport */
-  background-position: center center; /* centraliza */
-  background-repeat: no-repeat;
-  display: flex;
+  top:0!important;
+  padding:0;
   align-items: center;
   justify-content: center;
-  overflow: hidden;        /* corta qualquer excesso */
-  animation: sceneFade 1s ease;
-  background-size: 100% 100%; /* força cobrir largura e altura */
 }
 
-.text-box{
-margin:2% 20%;
-
-
+.scene p{
+  font-family: "Roboto Condensed", sans-serif;
 }
+
 
 #passages{
   background-image:none!important;
@@ -176,7 +287,6 @@ margin:2% 20%;
   height: 100vh;           /* 100% da viewport */
   background-position: center center; /* centraliza */
   background-repeat: no-repeat;
-  display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;  
@@ -184,16 +294,24 @@ margin:2% 20%;
 }
 
 .text-box{
+  position: absolute;
+  bottom:0!important;
   font-size:1.2em;
-  background-color:rgb(255,255,255,0.45);
-  padding:1%;
-  border-radius:20px;
+  padding:0% 2%;
+  color:white;
+  background-image:url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/texture.png);
+  border:15px solid #b77e56;
+  border-radius:6px;
+  width: 100vw;
+  line-height:1.4!important;
+  
 }
 
 h1{
 font-family:"Winky Rough", sans-serif;
 font-size:3em;
   color:orange;
+  text-shadow: 1px 1px 2px darkorange;
 }
 
 .stroke {
@@ -221,6 +339,11 @@ font-size:3em;
   background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/bg-village.png);
 background-size: cover;
 background-repeat: no-repeat;
+  background-position: center center; /* centraliza */
+  overflow: hidden;        /* corta qualquer excesso */
+  animation: sceneFade 1s ease;
+   width: 100vw;
+  height: 100vh; 
   
 
 }
@@ -242,9 +365,9 @@ p{
 
 a{
 background-color:orange;
-font-size:1em;
+font-size:0.8em;
 color:white;
-padding:1% 2%;
+padding:10px 10px;
 font-weight:bold;
 border-radius:10px;
   filter: drop-shadow(0 0 2px black);
@@ -260,7 +383,6 @@ transition:0.5s;
 }
 
 .choices {
-  margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -283,31 +405,29 @@ l10nStrings.restartTitle = "⟳";</script><tw-passagedata pid="1" name="Agarro n
 [[Agarro no carro e evacuo de acordo com as indicações das autoridades]]
 [[tenho mobilidade reduzida e não posso ajudar]]</tw-passagedata><tw-passagedata pid="8" name="Decido ficar em casa" tags="" position="775,1100" size="100,100">[[As autoridades indicam que é obrigatório evacuar]]
 [[A minha casa é segura porque segui todas as indicações de proteção da casa]]</tw-passagedata><tw-passagedata pid="9" name="Entro em pânico" tags="" position="1050,850" size="100,100">[[Oh oh! Contribuiste para pioriar a situação]]</tw-passagedata><tw-passagedata pid="10" name="Faço o que as autoridades indicam e evacuo" tags="" position="1375,850" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="11" name="Ignoro e decido manter-me em casa" tags="" position="1300,1050" size="100,100">[[Oh oh! Contribuiste para pioriar a situação]]</tw-passagedata><tw-passagedata pid="12" name="Ignoro porque o fogo está longe" tags="" position="375,950" size="100,100">[[Vejo as chamas a aproximar]]
-[[Decido ficar em casa]] </tw-passagedata><tw-passagedata pid="13" name="Ligo 112" tags="" position="300,400" size="100,100">Que indicações devo dar?
-sua localização – Morada ou nome da rua/estrada/localidade e caso não saiba dizer, indicar o ponto de referência mais próximo (nome de um café/restaurante, ponto de referência na paisagem etc.);
+[[Decido ficar em casa]] </tw-passagedata><tw-passagedata pid="13" name="Ligo 112" tags="" position="300,400" size="100,100">&lt;div class=&quot;scene village&quot;&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;b&gt;Que indicações devo dar?&lt;/b&gt;
+A sua localização – Morada ou nome da rua/estrada/localidade e caso não saiba dizer, indicar o ponto de referência mais próximo (nome de um café/restaurante, ponto de referência na paisagem etc.);
 •	O que vê – se chamas, fumo e qual a sua cor, se próximo ou afastado de onde se encontra, qual o tipo de vegetação a arder (se mato, se árvores, se pasto, etc.)
 •	Direção do incêndio – utilizar um ponto de referência para poder indicar onde se encontra o incêndio e para onde se dirige
-
-[[Vejo as chamas a aproximar]]</tw-passagedata><tw-passagedata pid="14" name="Oh oh! Contribuiste para pioriar a situação" tags="" position="1225,700" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="Oh oh! o Fogo apanhou-te" tags="" position="1150,100" size="100,100"></tw-passagedata><tw-passagedata pid="16" name="Vejo as chamas a aproximar" tags="" position="650,525" size="100,100">O que faço?
+    
+    &lt;b&gt;O que fazer?&lt;/b&gt;
+    
+     &lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="14" name="Oh oh! Contribuiste para pioriar a situação" tags="" position="1225,700" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="Oh oh! o Fogo apanhou-te" tags="" position="1150,100" size="100,100"></tw-passagedata><tw-passagedata pid="16" name="Vejo as chamas a aproximar" tags="" position="650,525" size="100,100">O que faço?
 [[Decido evacuar]] 
 [[Entro em pânico]] 
 [[Decido ficar em casa]]</tw-passagedata><tw-passagedata pid="17" name="Vou para o ponto de encontro da aldeia" tags="" position="925,550" size="100,100">Caso não exista um ponto de encontro estabelecido, dirija-se a um local aberto e sem vegetação
 [[Aguardo pelas indicações autoridades]]
 [[Entro em pânico]] 
-[[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades]]</tw-passagedata><tw-passagedata pid="18" name="Vê-se fumo ao longe" tags="" position="100,600" size="100,100">&lt;div class=&quot;scene village&quot;&gt;
-  &lt;div class=&quot;text-box&quot;&gt;
-    É mais um dia na aldeia. O Verão tem estado mais quente que o habitual, há uma leve brisa no ar, mas o calor intenso continua. Dentro de casa, ao respirar o ar que vem da janela, sente-se um cheiro a queimado e, na distância, vê-se fumo ao longe.
+[[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades]]</tw-passagedata><tw-passagedata pid="18" name="Vê-se fumo ao longe" tags="" position="100,600" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+É mais um dia na aldeia. O Verão tem estado mais quente que o habitual, há uma leve brisa no ar, mas o calor intenso continua. Dentro de casa, ao respirar o ar que vem da janela, sente-se um cheiro a queimado e, na distância, vê-se fumo ao longe.
     
     &lt;b&gt;O que fazer?&lt;/b&gt;
     
      &lt;div class=&quot;choices&quot;&gt;
 [[Ligo 112]]
 [[Decido avisar a população]]
-[[Ignoro porque o fogo está longe]]
-
-     &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+[[Ignoro porque o fogo está longe]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 
 
@@ -333,14 +453,8 @@ sua localização – Morada ou nome da rua/estrada/localidade e caso não saiba
 O fogo começa a afastar-se e  já não há perigo
 
 [[As autoridades indicam que é obrigatório evacuar]] 
-[[Aguardo pelas indicações autoridades]] </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene village&quot;&gt;
-  &lt;div class=&quot;text-box&quot;&gt;
-    &lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;
-     &lt;div class=&quot;choices&quot;&gt;
-   	 	[[Começar-&gt;Vê-se fumo ao longe]]
-     &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
+[[Aguardo pelas indicações autoridades]] </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box&quot;&gt;&lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;Vê-se fumo ao longe]]&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="100,725" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="100,850" size="100,100"></tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
