@@ -268,6 +268,19 @@ display:none;}
   z-index: 3;
 }
 
+.alarm{
+  margin:25%;
+  width:auto;
+  padding:1% 2%;
+  background-image:url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/texture.png);
+  border:15px solid #b77e56;
+  border-radius:6px;
+  line-height:1.4!important;
+  z-index: 3;
+  color:white;
+  font-size:1.3em;
+}
+
 .image-bg, .image-overlay{
   position:absolute;
 background-size: cover;
@@ -276,7 +289,7 @@ background-repeat: no-repeat;
   overflow: hidden;        /* corta qualquer excesso */
   animation: sceneFade 1s ease;
    width: 100vw;
-  height: 80vh;
+  height: 85vh;
 }
 
 .image-bg{
@@ -287,6 +300,7 @@ background-repeat: no-repeat;
   display: flex;
   flex-wrap: wrap;
   gap:1rem;
+  align-items:center;
 }
 
 .image-overlay {
@@ -294,6 +308,17 @@ background-repeat: no-repeat;
   pointer-events: none;
   animation: fireFlicker 3s infinite alternate;
 }
+
+.alarm-scene .image-bg{
+height:100vh!important;}
+
+.ui-btn{
+position:absolute;
+right:1%!important;
+display: flex;
+gap: 1rem;}
+
+
 
 
 
@@ -306,26 +331,11 @@ font-size:3em;
   text-shadow: 1px 1px 2px darkorange;
 }
 
-.stroke {
-	-webkit-text-stroke: 1px black;
-}
-.text-shadow {
-	text-shadow: 0 0 2px grey;
-}
-.text-shadow-multiple {
-	text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
-}
 
 .drop-shadow {
 	filter: drop-shadow(0 0 2px black);
 }
-.drop-shadow-multiple {
-	filter: drop-shadow(0 0 1px white) drop-shadow(0 0 0.5px white) drop-shadow(0 0 0.5px white);
-}
-.combination {
-	text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
-	filter: drop-shadow(0 0 0.5px white);
-}
+
 
 .passage-start{
   width:100%;
@@ -337,25 +347,72 @@ p{
   color:black;
 }
 
-a{
-background-color:darkorange;
-font-size:0.8em;
-color:white;
-padding:10px 10px;
-font-weight:bold;
-border-radius:10px;
-  filter: drop-shadow(0 0 2px black);
-
+.choices a,
+.choices button {
+  background-color: darkorange;
+  font-size: 0.8em;
+  color: white;
+  padding: 10px 10px;
+  font-weight: bold;
+  border: 2px solid darkorange;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow:
+    0 2.8px 2.2px rgb(0 0 0 / 0.034),
+    0 6.7px 5.3px rgb(0 0 0 / 0.048),
+    0 12.5px 10px rgb(0 0 0 / 0.06);
 }
 
-a:hover{
-color:white;
+.choices a:hover,
+.choices button:hover {
+  background-color: #e67e00;
+  border-color: #e67e00;
+  transform: scale(1.05) rotate(2deg);
+  transition: 0.5s;
+}
+
+.cancel .macro-back {
+  background-color: #f7fcfe;
+  color: darkorange;
+  border: 2px solid darkorange;
+}
+
+.cancel .macro-back:hover {
+  background-color: darkorange;
+  color: white;
+}
+
+.ui-btn a,
+.ui-btn button {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  color: white;
+  font-size: 2em;
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6); 
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.ui-btn a:hover,
+.ui-btn button:hover{
+  transform: scale(1.1);
+  transition: 0.5s;
 text-decoration:none;
-background-color:darkorange;
-transition:0.5s;
-
 }
 
+.ui-btn a:first-child {
+  opacity: 0.6;
+  font-size;1em;
+}
+
+.ui-btn a:first-child:hover {
+  opacity: 1;
+}
 
 /* ANIMAÇÃO EFEITOS E TRANSIÇÕES*/
 
@@ -445,14 +502,17 @@ A sua localização – Morada ou nome da rua/estrada/localidade e caso não sai
 &lt;div class=&quot;choices&quot;&gt;[[Decido evacuar]] [[Entro em pânico]] [[Decido ficar em casa]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="17" name="Vou para o ponto de encontro da aldeia" tags="" position="925,550" size="100,100">Caso não exista um ponto de encontro estabelecido, dirija-se a um local aberto e sem vegetação
 [[Aguardo pelas indicações autoridades]]
 [[Entro em pânico]] 
-[[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades]]</tw-passagedata><tw-passagedata pid="18" name="Vê-se fumo ao longe" tags="" position="100,600" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+[[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades]]</tw-passagedata><tw-passagedata pid="18" name="Vê-se fumo ao longe" tags="" position="100,600" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 É mais um dia na aldeia. O Verão tem estado mais quente que o habitual, há uma leve brisa no ar, mas o calor intenso continua. Dentro de casa, ao respirar o ar que vem da janela, sente-se um cheiro a queimado e, na distância, vê-se fumo ao longe.
     
     &lt;b&gt;O que fazer?&lt;/b&gt;
      &lt;div class=&quot;choices&quot;&gt;
 [[Ligo 112]]
 [[Decido avisar a população]]
-[[Ignoro porque o fogo está longe]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="19" name="Ligo para pedir ao responsável que toque o aviso sonoro geral" tags="" position="450,725" size="100,100">[[Vejo as chamas a aproximar]] </tw-passagedata><tw-passagedata pid="20" name="tenho mobilidade reduzida e não posso ajudar" tags="" position="600,800" size="100,100">[[Aguardo pelas indicações autoridades]] 
+[[Ignoro porque o fogo está longe]]&lt;/div&gt;&lt;/div&gt;
+
+&lt;/div&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="19" name="Ligo para pedir ao responsável que toque o aviso sonoro geral" tags="" position="450,725" size="100,100">[[Vejo as chamas a aproximar]] </tw-passagedata><tw-passagedata pid="20" name="tenho mobilidade reduzida e não posso ajudar" tags="" position="600,800" size="100,100">[[Aguardo pelas indicações autoridades]] 
 [[Entro em pânico]] 
 [[Decido ficar em casa]] </tw-passagedata><tw-passagedata pid="21" name="A minha casa é segura porque segui todas as indicações de proteção da casa" tags="" position="975,1200" size="100,100">A minha casa é segura porque segui todas as indicações de proteção:
 
@@ -469,9 +529,12 @@ O fogo começa a afastar-se e  já não há perigo
 
 [[As autoridades indicam que é obrigatório evacuar]] 
 [[Aguardo pelas indicações autoridades]] </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;&lt;audio &quot;birds&quot; loop volume 1 play&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box&quot;&gt;&lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;Vê-se fumo ao longe]]&lt;/div&gt;&lt;/div&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="100,725" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="100,850" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;/audio/birds.mp3&quot;&gt;&gt; 
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="0,950" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;/audio/birds.mp3&quot;&gt;&gt; 
 
 &lt;&lt;cacheaudio &quot;fire&quot; &quot;/audio/fire.mp3&quot;&gt;&gt; 
+</tw-passagedata><tw-passagedata pid="27" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]] &lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
 </tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
