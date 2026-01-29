@@ -220,6 +220,17 @@ display:none;}
   padding: 0;
 }
 
+#ui-overlay {
+  background-color: #000;
+  height: 0%;
+  left: 0%;
+  opacity: 0;
+  position: fixed;
+  top: 0%;
+  visibility: hidden;
+}
+
+
 .scene {
   position: relative;
   width: 100vw;
@@ -545,6 +556,16 @@ animation: call 1.2s ease-in-out forwards;
 }
 
 /* IMAGENS CALL VIZINHOS */
+
+
+
+
+
+@media screen and (max-width: 1136px) {
+  #ui-bar.stowed ~ #story {
+    margin-left: 0!important;
+  }
+}
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">$(document).on(':passagestart', function () {
   $('.scene').hide().fadeIn(200);
 });
