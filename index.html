@@ -274,6 +274,14 @@ display:none;}
   
 }
 
+p{
+color:white!important}
+
+.textbox p {
+  font-size: 1em;
+  color: white!important;
+}
+
 .text-box{
   position: absolute;
   bottom:0!important;
@@ -326,7 +334,6 @@ background-repeat: no-repeat;
   gap: 1rem;
   align-items: center;
   opacity: 0;
-  animation: fadeInChoices 0.5s ease forwards;
 }
 
 .image-overlay {
@@ -657,7 +664,11 @@ animation: em-panico 1.2s ease-in-out forwards;
   }
 }
 
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">$(document).on(':passagestart', function (ev) {
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">$(document).on('mouseenter', '.choices a, .choices button', function () {
+  SimpleAudio.tracks.get('hover').volume(0.4).play();
+});
+
+$(document).on(':passagestart', function (ev) {
   var name = ev.passage.title;
 
   $('.scene').hide().fadeIn(200);
@@ -680,7 +691,7 @@ if (
 
 // Phone toca por cima dos birds na passagem Ligo 112
 if (name.indexOf('Ligo 112') > -1) {
-  SimpleAudio.tracks.get('phone').loop(true).volume(0.5).play();
+  SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
 }
 
   if (
@@ -696,26 +707,55 @@ if (name.indexOf('Ligo 112') > -1) {
   
 });
 $(document).on(':passageend', function () {
-  var $parags = $('.text-box p');
+  var $box = $('.text-box');
+  var $children = $box.children().not('.ui-btn');
 
-  $parags.each(function () {
-    var $el = $(this);
-    var text = $('<div>').html($el.html()).text();
-    $el.empty();
-
-    $('.choices').css('visibility', 'hidden');
-
-    var i = 0;
-    var interval = setInterval(function () {
-      $el.text($el.text() + text.charAt(i));
-      i++;
-      if (i >= text.length) {
-        clearInterval(interval);
-        $('.choices').css('visibility', 'visible');
-      }
-    }, 22);
+  // Esconde tudo excepto o ui-btn
+  $children.each(function () {
+    $(this).css({ opacity: 0, visibility: 'visible' });
   });
-});</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="Agarro no carro e evacuo de acordo com as indicações das autoridades" tags="" position="1000,250" size="100,100">[[Boa! Contribuiste para resolver esta situação]]</tw-passagedata><tw-passagedata pid="2" name="Agarro no carro e vou-me embora sem ponderar riscos" tags="" position="875,125" size="100,100">[[Oh oh! o Fogo apanhou-te]]</tw-passagedata><tw-passagedata pid="3" name="Aguardo pelas indicações autoridades" tags="" position="1000,375" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="4" name="As autoridades indicam que é obrigatório evacuar" tags="" position="1100,1050" size="100,100">[[Faço o que as autoridades indicam e evacuo]] 
+
+  var index = 0;
+
+  function showNext() {
+    if (index >= $children.length) return;
+
+    var $el = $($children[index]);
+    index++;
+
+    if ($el.hasClass('animar')) {
+      // Animação palavra a palavra
+      var original = $el.html();
+      var wrapped = original.replace(/(<[^>]+>)|([^\s<]+)/g, function (match, tag, word) {
+        if (tag) return tag;
+        return '<span class="word" style="opacity:0;display:inline;">' + word + ' </span>';
+      });
+      $el.html(wrapped).css('opacity', 1);
+
+      var $words = $el.find('.word');
+      var i = 0;
+      var interval = setInterval(function () {
+        $($words[i]).animate({ opacity: 1 }, 150);
+        i++;
+        if (i >= $words.length) {
+          clearInterval(interval);
+          showNext();
+        }
+      }, 60);
+
+    } else {
+      // Fade simples para os restantes
+      $el.animate({ opacity: 1 }, 300, function () {
+        showNext();
+      });
+    }
+  }
+
+  showNext();
+});
+
+
+</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="Agarro no carro e evacuo de acordo com as indicações das autoridades" tags="" position="1000,250" size="100,100">[[Boa! Contribuiste para resolver esta situação]]</tw-passagedata><tw-passagedata pid="2" name="Agarro no carro e vou-me embora sem ponderar riscos" tags="" position="875,125" size="100,100">[[Oh oh! o Fogo apanhou-te]]</tw-passagedata><tw-passagedata pid="3" name="Aguardo pelas indicações autoridades" tags="" position="1000,375" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="4" name="As autoridades indicam que é obrigatório evacuar" tags="" position="1100,1050" size="100,100">[[Faço o que as autoridades indicam e evacuo]] 
 [[Ignoro e decido manter-me em casa]]</tw-passagedata><tw-passagedata pid="5" name="Aviso os vizinhos mais próximos" tags="" position="450,500" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
 &lt;b&gt;Penso nos vizinhos do lado e vou ajudá-los.&lt;/b&gt;
@@ -726,7 +766,7 @@ $(document).on(':passageend', function () {
 
 </tw-passagedata><tw-passagedata pid="6" name="Decido avisar a população" tags="" position="300,650" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
-&lt;b&gt;Quem?&lt;/b&gt;
+&lt;b class=&quot;animar&quot;&gt;Quem?&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
 
 [[Aviso os vizinhos mais próximos]]
@@ -770,9 +810,9 @@ Decido ficar em casa porque o fogo ainda está longe.
 &lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call112&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
 &lt;b&gt;Que indicações devo dar?&lt;/b&gt;
-A sua localização – Morada ou nome da rua/estrada/localidade e caso não saiba dizer, indicar o ponto de referência mais próximo (nome de um café/restaurante, ponto de referência na paisagem etc.);
+&lt;p&gt;A sua localização – Morada ou nome da rua/estrada/localidade e caso não saiba dizer, indicar o ponto de referência mais próximo (nome de um café/restaurante, ponto de referência na paisagem etc.);
 •	O que vê – se chamas, fumo e qual a sua cor, se próximo ou afastado de onde se encontra, qual o tipo de vegetação a arder (se mato, se árvores, se pasto, etc.)
-•	Direção do incêndio – utilizar um ponto de referência para poder indicar onde se encontra o incêndio e para onde se dirige
+•	Direção do incêndio – utilizar um ponto de referência para poder indicar onde se encontra o incêndio e para onde se dirige&lt;/p&gt;
     
     &lt;b&gt;O que fazer?&lt;/b&gt;
     
@@ -781,15 +821,10 @@ A sua localização – Morada ou nome da rua/estrada/localidade e caso não sai
 &lt;div class=&quot;choices&quot;&gt;[[Decido evacuar]] [[Entro em pânico]] [[Decido ficar em casa]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="17" name="Vou para o ponto de encontro da aldeia" tags="" position="925,550" size="100,100">Caso não exista um ponto de encontro estabelecido, dirija-se a um local aberto e sem vegetação
 [[Aguardo pelas indicações autoridades]]
 [[Entro em pânico]] 
-[[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades]]</tw-passagedata><tw-passagedata pid="18" name="Vê-se fumo ao longe" tags="" position="100,600" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay reparar-overlay turn-around&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-É mais um dia na aldeia. O Verão tem estado mais quente que o habitual, há uma leve brisa no ar, mas o calor intenso continua. Dentro de casa, ao respirar o ar que vem da janela, sente-se um cheiro a queimado e, à distância, vê-se fumo ao longe.
-    
-    &lt;b&gt;O que fazer?&lt;/b&gt;
-     &lt;div class=&quot;choices&quot;&gt;
+[[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades]]</tw-passagedata><tw-passagedata pid="18" name="Vê-se fumo ao longe" tags="" position="150,625" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay reparar-overlay turn-around&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p&quot;&gt;É mais um dia na aldeia. O Verão tem estado mais quente que o habitual, há uma leve brisa no ar, mas o calor intenso continua. Dentro de casa, ao respirar o ar que vem da janela, sente-se um cheiro a queimado e, à distância, vê-se fumo ao longe.&lt;/p&gt;&lt;b&gt;O que fazer?&lt;/b&gt;&lt;div class=&quot;choices&quot;&gt;
 [[Ligo 112]]
 [[Decido avisar a população]]
 [[Ignoro porque o fogo está longe]]&lt;/div&gt;&lt;/div&gt;
-
 &lt;/div&gt;&lt;/div&gt;
 </tw-passagedata><tw-passagedata pid="19" name="Ligo para pedir ao responsável que toque o aviso sonoro geral" tags="" position="450,750" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  sino&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 &lt;b&gt;Decido ir avisar os bombeiros e blablabla&lt;/b&gt;
@@ -813,7 +848,8 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box&quot;&gt;&lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;Vê-se fumo ao longe]]&lt;/div&gt;&lt;/div&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="0,950" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="0,950" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;hover&quot; &quot;audio/hover.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;fire&quot;  &quot;audio/fire.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;phone&quot;  &quot;audio/phone.mp3&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]] &lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
