@@ -663,7 +663,7 @@ animation: em-panico 1.2s ease-in-out forwards;
     name === 'Start' ||
     name.indexOf('fumo ao longe') > -1 ||
     name.indexOf('Ligo 112') > -1 ||
-    name.indexOf('avisar a população') > -1 ||
+    name.indexOf('avisar a popula') > -1 ||
     name.indexOf('vizinhos mais pr') > -1 ||
     name.indexOf('aviso sonoro') > -1 ||
     name.indexOf('fogo est') > -1 ||
@@ -683,11 +683,7 @@ animation: em-panico 1.2s ease-in-out forwards;
   ) {
     SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
   }
-  if (
-    name.indexOf('avisar a população') > -1
-  ) {
-    SimpleAudio.tracks.get('phone').loop(true).volume(0.7).play();
-  }
+  
 });
 $(document).on(':passageend', function () {
   var $parags = $('.text-box p');
