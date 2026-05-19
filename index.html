@@ -656,62 +656,11 @@ animation: em-panico 1.2s ease-in-out forwards;
   var name = ev.passage.title;
 
   $('.scene').hide().fadeIn(200);
-
-  SimpleAudio.select(':all').stop();
-
-  if (
-    name === 'Start' ||
-    name.indexOf('fumo ao longe') > -1 ||
-    name.indexOf('Ligo 112') > -1 ||
-    name.indexOf('avisar a popula') > -1 ||
-    name.indexOf('vizinhos mais pr') > -1 ||
-    name.indexOf('aviso sonoro') > -1 ||
-    name.indexOf('fogo est') > -1 ||
-    name.indexOf('ficar em casa') > -1 ||
-    name.indexOf('mobilidade reduzida') > -1
-  ) {
-    SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
-  }
-
-  if (
-    name.indexOf('chamas a aproximar') > -1 ||
-    name.indexOf('em p') > -1 ||
-    name.indexOf('evacuar') > -1 ||
-    name.indexOf('sem ponderar') > -1 ||
-    name.indexOf('apanhou') > -1 ||
-    name.indexOf('pioriar') > -1
-  ) {
-    SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
-  }
 });
-$(document).on(':passageend', function () {
-  var $parags = $('.text-box p');
 
-  $parags.each(function () {
-    var $el = $(this);
-    var text = $('<div>').html($el.html()).text();
-    $el.empty();
-
-    $('.choices').css('visibility', 'hidden');
-
-    var i = 0;
-    var interval = setInterval(function () {
-      $el.text($el.text() + text.charAt(i));
-      i++;
-      if (i >= text.length) {
-        clearInterval(interval);
-        $('.choices').css('visibility', 'visible');
-      }
-    }, 22);
-  });
-});</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="Agarro no carro e evacuo de acordo com as indicações das autoridades" tags="" position="1000,250" size="100,100">[[Boa! Contribuiste para resolver esta situação]]</tw-passagedata><tw-passagedata pid="2" name="Agarro no carro e vou-me embora sem ponderar riscos" tags="" position="875,125" size="100,100">[[Oh oh! o Fogo apanhou-te]]</tw-passagedata><tw-passagedata pid="3" name="Aguardo pelas indicações autoridades" tags="" position="1000,375" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="4" name="As autoridades indicam que é obrigatório evacuar" tags="" position="1100,1050" size="100,100">[[Faço o que as autoridades indicam e evacuo]] 
-[[Ignoro e decido manter-me em casa]]</tw-passagedata><tw-passagedata pid="5" name="Aviso os vizinhos mais próximos" tags="" position="450,500" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-
-&lt;b&gt;Penso nos vizinhos do lado e vou ajudá-los.&lt;/b&gt;
-&lt;div class=&quot;choices&quot;&gt;
-
-[[Vejo as chamas a aproximar]]
-&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="Agarro no carro e evacuo de acordo com as indicações das autoridades" tags="" position="1000,250" size="100,100">[[Boa! Contribuiste para resolver esta situação]]</tw-passagedata><tw-passagedata pid="2" name="Agarro no carro e vou-me embora sem ponderar riscos" tags="" position="875,125" size="100,100">[[Oh oh! o Fogo apanhou-te]]</tw-passagedata><tw-passagedata pid="3" name="Aguardo pelas indicações autoridades" tags="" position="1000,375" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="4" name="As autoridades indicam que é obrigatório evacuar" tags="" position="1100,1050" size="100,100">[[Faço o que as autoridades indicam e evacuo]] 
+[[Ignoro e decido manter-me em casa]]</tw-passagedata><tw-passagedata pid="5" name="Aviso os vizinhos mais próximos" tags="" position="450,525" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;b&gt;Penso nos vizinhos do lado e vou ajudá-los.&lt;/b&gt;
+&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="6" name="Decido avisar a população" tags="" position="300,650" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
@@ -793,10 +742,11 @@ A sua localização – Morada ou nome da rua/estrada/localidade e caso não sai
 O fogo começa a afastar-se e  já não há perigo
 
 [[As autoridades indicam que é obrigatório evacuar]] 
-[[Aguardo pelas indicações autoridades]] </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box&quot;&gt;&lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;Vê-se fumo ao longe]]&lt;/div&gt;&lt;/div&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="0,950" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;fire&quot;  &quot;audio/fire.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;phone&quot;  &quot;audio/phone.mp3&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]] &lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+[[Aguardo pelas indicações autoridades]] </tw-passagedata><tw-passagedata pid="22" name="Boa! Contribuiste para resolver esta situação" tags="" position="1300,300" size="100,100"></tw-passagedata><tw-passagedata pid="23" name="Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades" tags="" position="1150,500" size="100,100">[[Boa! Contribuiste para resolver esta situação]] </tw-passagedata><tw-passagedata pid="24" name="Start" tags="" position="100,450" size="100,100">&lt;&lt;audio &quot;birds&quot; loop volume 1 play&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box&quot;&gt;&lt;h1 class=&quot;drop-shadow&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;Vê-se fumo ao longe]]&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="25" name="StoryStylesheet" tags="" position="0,950" size="100,100"></tw-passagedata><tw-passagedata pid="26" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;/audio/birds.mp3&quot;&gt;&gt; 
+
+&lt;&lt;cacheaudio &quot;fire&quot; &quot;/audio/fire.mp3&quot;&gt;&gt; 
+</tw-passagedata><tw-passagedata pid="27" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]] &lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 </tw-passagedata></tw-storydata>
