@@ -425,6 +425,9 @@ margin:auto;
 .phone-call:hover {
   background: #aa1111;
 }
+
+
+
 /* DETAils */
 
 h1{
@@ -820,28 +823,8 @@ $(document).on('mouseenter', '.phone-key', function () {
   SimpleAudio.tracks.get('phone-tap').volume(0.1).play();
 });
 
-$(document).on(':passagestart', function (ev) {
-  var name = ev.passage.title;
-
-  $('.scene').hide().fadeIn(200);
-
-  SimpleAudio.select(':all').stop();
-
-if (
-  name === 'Start' ||
-  name.indexOf('fumo ao longe') > -1 ||
-  name.indexOf('2') > -1 ||
-  name.indexOf('avisar a popula') > -1 ||
-  name.indexOf('vizinhos mais pr') > -1 ||
-  name.indexOf('aviso sonoro') > -1 ||
-  name.indexOf('fogo est') > -1 ||
-  name.indexOf('ficar em casa') > -1 ||
-  name.indexOf('mobilidade reduzida') > -1
-) {
-  SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
-}
-  
-  $(document).one(':passagestart', function () {
+// Cria o botão de som uma única vez
+$(document).one(':passagestart', function () {
   var $btn = $('<button id="sound-btn">🔊</button>');
   $('body').append($btn);
 
@@ -856,28 +839,64 @@ if (
   });
 });
 
-// Phone toca por cima dos birds na passagem Ligo 112
-if (name.indexOf('Ligo 112') > -1) {
-  SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
-}
+$(document).on(':passagestart', function (ev) {
+  var name = ev.passage.title;
 
-  if (
-    name.indexOf('chamas a aproximar') > -1 ||
-    name.indexOf('em p') > -1 ||
-    name.indexOf('evacuar') > -1 ||
-    name.indexOf('sem ponderar') > -1 ||
-    name.indexOf('apanhou') > -1 ||
-    name.indexOf('pioriar') > -1
-  ) {
+  $('.scene').hide().fadeIn(200);
+
+  SimpleAudio.select(':all').stop();
+
+  var birdsPassages = ['Start', '1', '2', '2.1', '3', '4', '5', '6', '9', '10', '15'];
+  var firePassages = ['7', '8', '11', '12', '13', '14', '16', '17', '19', 'fim3'];
+
+  if (birdsPassages.indexOf(name) > -1) {
+    SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
+  }
+
+  if (name === '2') {
+    SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
+  }
+
+  if (firePassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
   }
-  
 });
+
 $(document).on(':passageend', function () {
+
+  if (passage() === '2.1') {
+    if ($('#phone-screen').length === 0) {
+      var $screen = $('<div id="phone-screen">___</div>');
+      $screen.css({
+        'position': 'absolute',
+        'top': '26%',
+        'left': '50%',
+        'transform': 'translateX(-50%)',
+        'width': '40%',
+        'text-align': 'center',
+        'font-size': '1.3em',
+        'font-weight': 'bold',
+        'color': 'white',
+        'letter-spacing': '0.3em',
+        'z-index': '5',
+        'pointer-events': 'none',
+        'background': 'none',
+        'border': 'none',
+        'padding': '0',
+        'margin': '0',
+        'min-width': 'unset',
+        'max-width': 'unset',
+        'min-height': 'unset',
+        'bottom': 'unset',
+        'overflow': 'visible'
+      });
+      $('.phone-scene').append($screen);
+    }
+  }
+
   var $box = $('.text-box');
   var $children = $box.children().not('.ui-btn');
 
-  // Esconde tudo excepto o ui-btn
   $children.each(function () {
     $(this).css({ opacity: 0, visibility: 'visible' });
   });
@@ -891,7 +910,6 @@ $(document).on(':passageend', function () {
     index++;
 
     if ($el.hasClass('animar')) {
-      // Animação palavra a palavra
       var original = $el.html();
       var wrapped = original.replace(/(<[^>]+>)|([^\s<]+)/g, function (match, tag, word) {
         if (tag) return tag;
@@ -911,7 +929,6 @@ $(document).on(':passageend', function () {
       }, 60);
 
     } else {
-      // Fade simples para os restantes
       $el.animate({ opacity: 1 }, 300, function () {
         showNext();
       });
@@ -922,42 +939,48 @@ $(document).on(':passageend', function () {
 });
 
 $(document).on('click', '.phone-key', function () {
+  var $screen = $('#phone-screen');
   var num = $(this).data('num');
-  var current = $('#phone-screen').text().replace(/_/g, '');
+  var current = $screen.text().replace(/_/g, '').replace(/[^0-9*#]/g, '');
+
   if (current.length < 3) {
     var next = current + num;
     var display = next + '___'.slice(next.length);
-    $('#phone-screen').text(display);
+    $screen.text(display).css('color', 'white');
+
     if (next.length === 3) {
       if (next === '112') {
         setTimeout(function () {
-          Engine.play('Ligo 112');
+          Engine.play('2');
         }, 800);
       } else {
+        $screen.css('color', '#cc2222').text('Nº inválido');
         setTimeout(function () {
-          $('#phone-screen').text('___');
-          $('#phone-screen').css('color', 'white');
-        }, 600);
-        $('#phone-screen').css('color', '#cc2222');
+          $screen.text('___').css('color', 'white');
+        }, 1500);
       }
     }
   }
 });
 
 $(document).on('click', '.phone-call', function () {
-  var current = $('#phone-screen').text().replace(/_/g, '');
-  if (current === '112') {
-    Engine.play('Ligo 112');
-  } else {
-    $('#phone-screen').css('color', '#cc2222');
-    setTimeout(function () {
-      $('#phone-screen').text('___');
-      $('#phone-screen').css('color', 'white');
-    }, 800);
-  }
-});
+  var $screen = $('#phone-screen');
+  var current = $screen.text().replace(/_/g, '').replace(/[^0-9*#]/g, '');
 
-</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1000,250" size="100,100">
+  if (current === '112') {
+    Engine.play('2');
+  } else if (current.length === 0 || current === '') {
+    $screen.css('color', '#cc2222').text('Marca um nº');
+    setTimeout(function () {
+      $screen.text('___').css('color', 'white');
+    }, 1500);
+  } else {
+    $screen.css('color', '#cc2222').text('Nº errado');
+    setTimeout(function () {
+      $screen.text('___').css('color', 'white');
+    }, 1500);
+  }
+});</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1000,250" size="100,100">
 
 [[fim1]]</tw-passagedata><tw-passagedata pid="2" name="11" tags="" position="875,125" size="100,100">[[fim2]]</tw-passagedata><tw-passagedata pid="3" name="13" tags="" position="1000,375" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1050" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 As cinzas começam-se a aproximar mais. O cheiro a fumo intensifica-se e com ele o ar fica mais difícil de respirar. Coloco um pano na boca para me proteger e evitar a inalação do fumo. O barulho das chamas fica cada vez mais forte, mas do nada ouço um bater na porta que vem de fora. É a proteção civil. Tenho de evacuar, dizem eles. 
@@ -1025,7 +1048,7 @@ Decido ficar em casa porque o fogo ainda está longe.
 &lt;b&gt;Decido ir avisar os bombeiros e blablabla&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
 [[Vejo as chamas a aproximar-&gt;7]] 
-&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="20" name="9" tags="" position="725,875" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg sino&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 &lt;b&gt;&lt;/b&gt;
@@ -1062,8 +1085,7 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;&lt;if $corretas eq 5 and $erradas eq 0&gt;&gt;&lt;p class=&quot;animar&quot;&gt;✅ Perfeito! Deste todas as informações correctas ao operador. Os bombeiros já estão a caminho.&lt;/p&gt;&lt;&lt;elseif $corretas gte 3 and $erradas eq 0&gt;&gt;&lt;p class=&quot;animar&quot;&gt;🟡 Boa, mas faltou alguma informação importante. O operador pediu mais detalhes.&lt;/p&gt;&lt;&lt;elseif $erradas gt 0&gt;&gt;
 &lt;p class=&quot;animar&quot;&gt;❌ Forneceste informação desnecessária que atrasou o atendimento. Em emergências cada segundo conta!&lt;/p&gt;&lt;&lt;else&gt;&gt;
 &lt;p class=&quot;animar&quot;&gt;❌ Não deste informação suficiente. O operador demorou a conseguir localizar o incêndio, mas já vão a caminho..&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;div class=&quot;resumo-112&quot;&gt;&lt;b&gt;As informações correctas são&lt;/b&gt;&lt;ul&gt;&lt;li&gt;✅ Localização ou morada&lt;/li&gt;&lt;li&gt;✅ Ponto de referência próximo&lt;/li&gt;&lt;li&gt;✅ O que vês — chamas ou fumo e a sua cor&lt;/li&gt;&lt;li&gt;✅ Tipo de vegetação a arder&lt;/li&gt;&lt;li&gt;✅ Direção do incêndio&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
-&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="28" name="2.1" tags="" position="225,275" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;&lt;div class=&quot;phone-scene&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/phone.png&quot;&gt;&lt;div class=&quot;phone-keys&quot;&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;1&quot;&gt;1&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;2&quot;&gt;2&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;3&quot;&gt;3&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;4&quot;&gt;4&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;5&quot;&gt;5&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;6&quot;&gt;6&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;7&quot;&gt;7&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;8&quot;&gt;8&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;9&quot;&gt;9&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;*&quot;&gt;*&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;0&quot;&gt;0&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;#&quot;&gt;#&lt;/button&gt;&lt;button class=&quot;phone-call&quot; id=&quot;phone-call&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/phone-call.png&quot;&gt;&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="28" name="2.1" tags="" position="225,275" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;&lt;div class=&quot;phone-scene&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/phone.png&quot;&gt;&lt;div class=&quot;phone-keys&quot;&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;1&quot;&gt;1&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;2&quot;&gt;2&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;3&quot;&gt;3&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;4&quot;&gt;4&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;5&quot;&gt;5&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;6&quot;&gt;6&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;7&quot;&gt;7&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;8&quot;&gt;8&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;9&quot;&gt;9&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;*&quot;&gt;*&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;0&quot;&gt;0&lt;/button&gt;&lt;button class=&quot;phone-key&quot; data-num=&quot;#&quot;&gt;#&lt;/button&gt;&lt;button class=&quot;phone-call&quot; id=&quot;phone-call&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/phone-call.png&quot;&gt;&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 &lt;p&gt;O fumo cinzento escuro parece aumentar cada vez mais, apesar de ainda aparentar estar longe. É melhor avisar a proteção civil, mas para qual número ligar? &lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
