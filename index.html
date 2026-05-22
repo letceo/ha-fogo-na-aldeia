@@ -315,6 +315,29 @@ color:white!important}
   font-size:1.3em;
 }
 
+.alarm .choices {
+  opacity: 1 !important;
+}
+
+.alarm .choices a,
+.alarm .choices button {
+  opacity: 1 !important;
+  background-color: darkorange !important;
+  border: 2px solid darkorange !important;
+  color: white !important;
+}
+
+.alarm .cancel .macro-back {
+  background-color: #f7fcfe !important;
+  color: darkorange !important;
+  border: 2px solid darkorange !important;
+}
+
+.alarm .cancel .macro-back:hover {
+  background-color: darkorange !important;
+  color: white !important;
+}
+
 .image-bg, .image-overlay{
   position:absolute;
 background-size: cover;
@@ -454,9 +477,7 @@ p{
   color:black;
 }
 
-.choices a,
-.choices button {
-  background-color: darkorange;
+button .choices a{background-color: darkorange!important;
   font-size: 0.8em;
   color: white;
   padding: 10px 10px;
@@ -468,6 +489,31 @@ p{
     0 2.8px 2.2px rgb(0 0 0 / 0.034),
     0 6.7px 5.3px rgb(0 0 0 / 0.048),
     0 12.5px 10px rgb(0 0 0 / 0.06);
+}
+
+
+.choices a,
+.choices button {
+  background-color: darkorange!important;
+  font-size: 0.8em;
+  color: white;
+  padding: 10px 10px;
+  font-weight: bold;
+  border: 2px solid darkorange!important;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow:
+    0 2.8px 2.2px rgb(0 0 0 / 0.034),
+    0 6.7px 5.3px rgb(0 0 0 / 0.048),
+    0 12.5px 10px rgb(0 0 0 / 0.06);
+}
+
+button .choices a:hover,
+.choices button:hover {
+  background-color: #e67e00!important;
+  border-color: #e67e00;
+  transform: scale(1.05) rotate(2deg);
+  transition: 0.5s;
 }
 
 .choices a:hover,
@@ -873,7 +919,8 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
   }
   if (name === '20') {
-    SimpleAudio.tracks.get('heavy-breathing').loop(false).volume(0.5).play();
+    SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
+    SimpleAudio.tracks.get('ear-ringing').loop(true).volume(0.1).play();
   }
 
   if (firePassages.indexOf(name) > -1) {
@@ -912,6 +959,8 @@ $(document).on(':passageend', function () {
       $('.phone-scene').append($screen);
     }
   }
+  if (passage() === '⟲') return;
+  var $box = $('.text-box');
 
   var $box = $('.text-box');
   var $children = $box.children().not('.ui-btn');
@@ -999,7 +1048,9 @@ $(document).on('click', '.phone-call', function () {
       $screen.text('___').css('color', 'white');
     }, 1500);
   }
-});</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1000,250" size="100,100">
+});
+
+</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1000,250" size="100,100">
 
 [[fim1]]</tw-passagedata><tw-passagedata pid="2" name="11" tags="" position="875,125" size="100,100">[[fim2]]</tw-passagedata><tw-passagedata pid="3" name="13" tags="" position="1000,375" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1050" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 As cinzas começam-se a aproximar mais. O cheiro a fumo intensifica-se e com ele o ar fica mais difícil de respirar. Coloco um pano na boca para me proteger e evitar a inalação do fumo. O barulho das chamas fica cada vez mais forte, mas do nada ouço um bater na porta que vem de fora. É a proteção civil. Tenho de evacuar, dizem eles. 
@@ -1013,7 +1064,6 @@ Olho em volta para tomar uma decisão. Todas as minhas coisas estão aqui, a min
 
 &lt;b&gt;Penso nos vizinhos do lado e vou ajudá-los.&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
-
 [[Vejo as chamas a aproximar-&gt;7]]
 &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -1093,6 +1143,7 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;&lt;cacheaudio &quot;phone&quot;  &quot;audio/phone.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;phone-tap&quot;  &quot;audio/phone-tap.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;heavy-breathing&quot;  &quot;audio/heavy-breathing.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;ear-ringing&quot;  &quot;audio/ear-ringing.mp3&quot;&gt;&gt;
 
 &lt;&lt;set $muted to false&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]] &lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
