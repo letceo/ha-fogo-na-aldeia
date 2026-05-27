@@ -1125,6 +1125,10 @@ $(document).on(':passagestart', function (ev) {
   if (name === '2') {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
   }
+  
+  if (name === '6') {
+    SimpleAudio.tracks.get('sinos').loop(false).volume(0.3).play();
+  }
 
   if (name === '20') {
     SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
@@ -1133,11 +1137,12 @@ $(document).on(':passagestart', function (ev) {
   
   if (name === '4' || name === '10') {
   SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
-}
-if (name === '16' || name === '18') {
+  }
+  
+  if (name === '16' || name === '18') {
   SimpleAudio.tracks.get('cough').loop(true).volume(0.6).play();
 }
-
+  
   if (firePassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
   }
@@ -1369,6 +1374,7 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;&lt;cacheaudio &quot;ear-ringing&quot;  &quot;audio/ear-ringing.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;heartbeat&quot;  &quot;audio/heartbeat.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;cough&quot;  &quot;audio/cough.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;sinos&quot;  &quot;audio/sinos.mp3&quot;&gt;&gt;
 
 &lt;&lt;set $muted to false&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]] &lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
