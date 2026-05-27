@@ -721,6 +721,34 @@ button{
   background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/sino.png);
 }
 
+/*BG CASA PARA CASA FIRE em overlay*/
+
+.overlay-top {
+  z-index: 3 !important;
+  height: 100vh !important;
+}
+
+.casafire-de {
+  z-index: 2;
+  background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/casa.png");
+  animation: fadeOut-de 3s ease-in-out forwards;
+}
+
+.casafire-para {
+  z-index: 1;
+  background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/casa-fire.jpg");
+}
+
+@keyframes fadeOut-de {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.fullheight {
+  height: 100vh !important;
+}
+
+
 /* IMAGENS REPARAR */
 
 .reparar-overlay{
@@ -1217,10 +1245,9 @@ Decido ficar em casa porque o fogo ainda está longe.
 </tw-passagedata><tw-passagedata pid="9" name="20" tags="end" position="1050,850" size="100,100">&lt;div class=&quot;scene panico-scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  panico&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Não sei o que fazer. Respirar é difícil e sinto tudo a andar à roda. Tenho as mãos a tremer.Estou em pânico, não sei o que fazer.
 &lt;div class=&quot;choices&quot;&gt;[[Respirar-&gt;21]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
-</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1375,850" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="11" name="18" tags="" position="1300,1050" size="100,100">[[fim4]]</tw-passagedata><tw-passagedata pid="12" name="4" tags="" position="300,925" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1375,850" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="11" name="18" tags="" position="1300,1050" size="100,100">[[fim4]]</tw-passagedata><tw-passagedata pid="12" name="4" tags="" position="300,925" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar... estão claramente a dramatizar. 
 
-&lt;b&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar... estão claramente a dramatizar. 
-Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, e a eletricidade parece falhar.  Mas.. como, se ainda nem se passaram 10 minutos? &lt;/b&gt;
+Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, e a eletricidade parece falhar.  Mas.. como, se ainda nem se passaram 10 minutos? 
 &lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="13" name="2" tags="" position="300,400" size="100,100">&lt;&lt;silently&gt;&gt;&lt;&lt;set $r1 to false&gt;&gt;&lt;&lt;set $r2 to false&gt;&gt;&lt;&lt;set $r3 to false&gt;&gt;&lt;&lt;set $r4 to false&gt;&gt;&lt;&lt;set $r5 to false&gt;&gt;&lt;&lt;set $r6 to false&gt;&gt;&lt;&lt;set $r7 to false&gt;&gt;&lt;&lt;set $r8 to false&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;O operador atende.O que dizer agora?&lt;/p&gt;&lt;div class=&quot;choices-112&quot;&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r1&quot; false true&gt;&gt; A minha morada ou localização&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r2&quot; false true&gt;&gt; O nome do meu médico de família&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r3&quot; false true&gt;&gt; Se vejo chamas ou fumo e qual a sua cor&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r4&quot; false true&gt;&gt; O meu número de contribuinte&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r5&quot; false true&gt;&gt; O tipo de vegetação a arder&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r6&quot; false true&gt;&gt; A direção do incêndio e para onde se dirige&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r7&quot; false true&gt;&gt; O número da minha conta bancária&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r8&quot; false true&gt;&gt; Um ponto de referência próximo se não souber a morada&lt;/label&gt;&lt;/div&gt;
 &lt;div class=&quot;choices&quot;&gt;&lt;&lt;button &quot;Enviar informação&quot; &quot;Resultado 112&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="14" name="fim4" tags="" position="1300,650" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="fim2" tags="" position="1150,100" size="100,100"></tw-passagedata><tw-passagedata pid="16" name="7" tags="" position="675,575" size="100,100">&lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;&lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;O céu parece ficar cada vez mais escuro, e o cheiro a queimado entra pelas frinchas da porta. A proteção civil avisou de que poderia ser necessário evacuar. &lt;b&gt;O que faço?&lt;/b&gt;
