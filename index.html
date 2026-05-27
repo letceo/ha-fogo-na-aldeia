@@ -939,6 +939,81 @@ animation: em-panico 1.2s ease-in-out forwards;
   font-size: 0.85em;
   color: white;
   line-height: 1.8;
+}
+
+
+
+/* PROGRESSÃO FUMO E ELETRICIDADE*/
+.fumo-leve {
+  background-image: none !important;
+  background-color: rgba(180, 180, 180, 0.15);
+  backdrop-filter: blur(1px);
+  z-index: 4;
+  animation: fumo-pulso-leve 4s ease-in-out infinite alternate !important;
+}
+
+.fumo-medio {
+  background-image: none !important;
+  background-color: rgba(180, 180, 180, 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 4;
+  animation: fumo-pulso-medio 3s ease-in-out infinite alternate !important;
+}
+
+.fumo-forte {
+  background-image: none !important;
+  background-color: rgba(180, 180, 180, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 4;
+  animation: fumo-pulso-forte 2s ease-in-out infinite alternate !important;
+}
+
+@keyframes fumo-pulso-leve {
+  from { opacity: 0.3; backdrop-filter: blur(0.5px); }
+  to   { opacity: 0.7; backdrop-filter: blur(1.5px); }
+}
+
+@keyframes fumo-pulso-medio {
+  from { opacity: 0.5; backdrop-filter: blur(1px); }
+  to   { opacity: 0.9; backdrop-filter: blur(3px); }
+}
+
+@keyframes fumo-pulso-forte {
+  from { opacity: 0.6; backdrop-filter: blur(2px); }
+  to   { opacity: 1;   backdrop-filter: blur(5px); }
+}
+
+.eletricidade-leve {
+  animation: eletricidade-leve-anim 8s ease-in-out infinite !important;
+}
+
+.eletricidade-media {
+  animation: eletricidade-media-anim 5s ease-in-out infinite !important;
+}
+
+.eletricidade-forte {
+  animation: eletricidade-forte-anim 3s ease-in-out infinite !important;
+}
+
+@keyframes eletricidade-leve-anim {
+  0%, 92%, 94%, 96%, 100% { filter: brightness(1); }
+  93%                      { filter: brightness(0.3); }
+  95%                      { filter: brightness(0.7); }
+}
+
+@keyframes eletricidade-media-anim {
+  0%, 85%, 88%, 91%, 100% { filter: brightness(1); }
+  86%                     { filter: brightness(0.2); }
+  89%                     { filter: brightness(0.6); }
+  90%                     { filter: brightness(0.1); }
+}
+
+@keyframes eletricidade-forte-anim {
+  0%, 70%, 73%, 76%, 80%, 100% { filter: brightness(1); }
+  71%                          { filter: brightness(0.1); }
+  74%                          { filter: brightness(0.5); }
+  77%                          { filter: brightness(0); }
+  79%                          { filter: brightness(0.3); }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">var decisionTimer = null;
 var countdownInterval = null;
 
@@ -981,7 +1056,7 @@ function clearTimers() {
 function startDecisionTimer() {
   clearTimers();
 
-  var seconds = 10;
+  var seconds = 30;
 
   var $timer = $('<div id="decision-timer"></div>');
   $timer.css({
@@ -1041,7 +1116,7 @@ $(document).on(':passagestart', function (ev) {
   var firePassages = ['7', '8', '11', '12', '13', '14', '16', '17', '19', '20', '21'];
   var heartPassages = ['7', '20', '21', '8'];
   var timerPassages = ['7', '8', '10', '16'];
-  var coughPassages =['4'];
+
 
   if (birdsPassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
@@ -1055,6 +1130,13 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
     SimpleAudio.tracks.get('ear-ringing').loop(true).volume(0.05).play();
   }
+  
+  if (name === '4' || name === '10') {
+  SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
+}
+if (name === '16' || name === '18') {
+  SimpleAudio.tracks.get('cough').loop(true).volume(0.6).play();
+}
 
   if (firePassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
@@ -1062,9 +1144,6 @@ $(document).on(':passagestart', function (ev) {
 
   if (heartPassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('heartbeat').loop(true).volume(0.1).play();
-  }
-  if (coughPassages.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('cough').loop(false).volume(0.1).play();
   }
 
   if (timerPassages.indexOf(name) > -1) {
@@ -1245,10 +1324,8 @@ Decido ficar em casa porque o fogo ainda está longe.
 </tw-passagedata><tw-passagedata pid="9" name="20" tags="end" position="1050,850" size="100,100">&lt;div class=&quot;scene panico-scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  panico&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Não sei o que fazer. Respirar é difícil e sinto tudo a andar à roda. Tenho as mãos a tremer.Estou em pânico, não sei o que fazer.
 &lt;div class=&quot;choices&quot;&gt;[[Respirar-&gt;21]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
-</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1375,850" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="11" name="18" tags="" position="1300,1050" size="100,100">[[fim4]]</tw-passagedata><tw-passagedata pid="12" name="4" tags="" position="300,925" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar... estão claramente a dramatizar. 
-
-Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, e a eletricidade parece falhar.  Mas.. como, se ainda nem se passaram 10 minutos? 
-&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="13" name="2" tags="" position="300,400" size="100,100">&lt;&lt;silently&gt;&gt;&lt;&lt;set $r1 to false&gt;&gt;&lt;&lt;set $r2 to false&gt;&gt;&lt;&lt;set $r3 to false&gt;&gt;&lt;&lt;set $r4 to false&gt;&gt;&lt;&lt;set $r5 to false&gt;&gt;&lt;&lt;set $r6 to false&gt;&gt;&lt;&lt;set $r7 to false&gt;&gt;&lt;&lt;set $r8 to false&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1375,850" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="11" name="18" tags="" position="1300,1050" size="100,100">[[fim4]]</tw-passagedata><tw-passagedata pid="12" name="4" tags="" position="300,925" size="100,100">&lt;div class=&quot;scene eletricidade-leve&quot;&gt;&lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fumo-leve fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar. 
+Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, e a eletricidade parece falhar. Mas.. como, se ainda nem se passaram 10 minutos?&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="13" name="2" tags="" position="300,400" size="100,100">&lt;&lt;silently&gt;&gt;&lt;&lt;set $r1 to false&gt;&gt;&lt;&lt;set $r2 to false&gt;&gt;&lt;&lt;set $r3 to false&gt;&gt;&lt;&lt;set $r4 to false&gt;&gt;&lt;&lt;set $r5 to false&gt;&gt;&lt;&lt;set $r6 to false&gt;&gt;&lt;&lt;set $r7 to false&gt;&gt;&lt;&lt;set $r8 to false&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;O operador atende.O que dizer agora?&lt;/p&gt;&lt;div class=&quot;choices-112&quot;&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r1&quot; false true&gt;&gt; A minha morada ou localização&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r2&quot; false true&gt;&gt; O nome do meu médico de família&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r3&quot; false true&gt;&gt; Se vejo chamas ou fumo e qual a sua cor&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r4&quot; false true&gt;&gt; O meu número de contribuinte&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r5&quot; false true&gt;&gt; O tipo de vegetação a arder&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r6&quot; false true&gt;&gt; A direção do incêndio e para onde se dirige&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r7&quot; false true&gt;&gt; O número da minha conta bancária&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r8&quot; false true&gt;&gt; Um ponto de referência próximo se não souber a morada&lt;/label&gt;&lt;/div&gt;
 &lt;div class=&quot;choices&quot;&gt;&lt;&lt;button &quot;Enviar informação&quot; &quot;Resultado 112&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="14" name="fim4" tags="" position="1300,650" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="fim2" tags="" position="1150,100" size="100,100"></tw-passagedata><tw-passagedata pid="16" name="7" tags="" position="675,575" size="100,100">&lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;&lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;O céu parece ficar cada vez mais escuro, e o cheiro a queimado entra pelas frinchas da porta. A proteção civil avisou de que poderia ser necessário evacuar. &lt;b&gt;O que faço?&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;[[Decido evacuar-&gt;8]] [[Entro em pânico-&gt;20]] [[Decido ficar em casa-&gt;10]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="17" name="14" tags="" position="900,600" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;b&gt;Dirijo-me ao ponto de encontro da aldeia, (indicar características), um local aberto e sem vegetação. &lt;/b&gt;
