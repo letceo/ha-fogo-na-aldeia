@@ -1073,7 +1073,7 @@ function clearTimers() {
 function startDecisionTimer() {
   clearTimers();
 
-  var seconds = 30;
+  var seconds = 20;
 
   var $timer = $('<div id="decision-timer"></div>');
   $timer.css({
@@ -1103,7 +1103,7 @@ function startDecisionTimer() {
     seconds--;
     $timer.text(seconds);
 
-    if (seconds <= 5) {
+    if (seconds <= 10) {
       $timer.css('border-color', '#cc2222');
       $timer.css('color', '#ff4444');
     }
@@ -1117,7 +1117,7 @@ function startDecisionTimer() {
     decisionTimer = null;
     clearTimers();
     Engine.play('20');
-  }, 10000);
+  }, 20000);
 }
 
 $(document).on(':passagestart', function (ev) {
