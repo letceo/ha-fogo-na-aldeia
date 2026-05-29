@@ -647,20 +647,37 @@ button{
   background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/homem-sino.png");
 }
 
+.sino-bg-abanar {
+  animation: abanar-sino-bg 2.5s ease-in-out infinite !important;
+  transform-origin: 50% 85%;
+  filter: blur(1.5px);
+  opacity: 0.85;
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at center, black 60%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 90% at center, black 60%, transparent 100%);
+}
+
+@keyframes abanar-sino-bg {
+  0%   { transform: scale(1.01) rotate(0deg); }
+  20%  { transform: scale(1.01) rotate(1deg); }
+  40%  { transform: scale(1.01) rotate(-0.8deg); }
+  60%  { transform: scale(1.01) rotate(0.5deg); }
+  80%  { transform: scale(1.01) rotate(-0.4deg); }
+  100% { transform: scale(1.01) rotate(0deg); }
+}
+
 .sino-abanar {
   animation: abanar-sino 2.5s ease-in-out infinite !important;
-  transform-origin: center top;
+  transform-origin: 50% 85%;
 }
 
 @keyframes abanar-sino {
   0%   { transform: rotate(0deg); }
-  20%  { transform: rotate(-8deg); }
-  40%  { transform: rotate(6deg); }
-  60%  { transform: rotate(-4deg); }
-  80%  { transform: rotate(3deg); }
+  20%  { transform: rotate(-4deg); }
+  40%  { transform: rotate(3deg); }
+  60%  { transform: rotate(-2deg); }
+  80%  { transform: rotate(1.5deg); }
   100% { transform: rotate(0deg); }
 }
-
 /*............. IMAGENS DE FUNDO...................*/
 .village{
   background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/bg-village.png);
@@ -1297,16 +1314,8 @@ Olho em volta para tomar uma decisão. Todas as minhas coisas estão aqui, a min
 [[Vejo as chamas a aproximar-&gt;7]]
 &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
-</tw-passagedata><tw-passagedata pid="6" name="3" tags="" position="300,650" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-
-&lt;b class=&quot;animar&quot;&gt;Quem?&lt;/b&gt;
-&lt;div class=&quot;choices&quot;&gt;
-
-[[Aviso os amigos mais próximos-&gt;5]]
-[[Ligo para pedir ao responsável que toque o aviso sonoro geral-&gt;6]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
-
-
-</tw-passagedata><tw-passagedata pid="7" name="8" tags="" position="800,400" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="6" name="3" tags="" position="300,650" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;div class=&quot;animar&quot;&gt;&lt;b&gt;Quem?&lt;/b&gt;&lt;/div&gt;
+&lt;div class=&quot;choices&quot;&gt;[[Aviso os amigos mais próximos-&gt;5]] [[Ligo para pedir ao responsável que toque o aviso sonoro geral-&gt;6]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="7" name="8" tags="" position="800,400" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 &lt;b&gt;Decido que o mais seguro é evacuar, então contemplo como o fazer:  &lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
 [[Agarro no carro e vou-me embora sem ponderar riscos-&gt;11]] 
@@ -1330,7 +1339,7 @@ Decido ficar em casa porque o fogo ainda está longe.
 &lt;div class=&quot;choices&quot;&gt;[[Respirar-&gt;21]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1375,850" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="11" name="18" tags="" position="1300,1050" size="100,100">[[fim4]]</tw-passagedata><tw-passagedata pid="12" name="4" tags="" position="300,925" size="100,100">&lt;div class=&quot;scene eletricidade-leve&quot;&gt;&lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fumo-leve fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar. 
-Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, e a eletricidade parece falhar. Mas.. como, se ainda nem se passaram 10 minutos?&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="13" name="2" tags="" position="300,400" size="100,100">&lt;&lt;silently&gt;&gt;&lt;&lt;set $r1 to false&gt;&gt;&lt;&lt;set $r2 to false&gt;&gt;&lt;&lt;set $r3 to false&gt;&gt;&lt;&lt;set $r4 to false&gt;&gt;&lt;&lt;set $r5 to false&gt;&gt;&lt;&lt;set $r6 to false&gt;&gt;&lt;&lt;set $r7 to false&gt;&gt;&lt;&lt;set $r8 to false&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
+Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, e a eletricidade parece falhar. Mas... como, se ainda nem se passaram 10 minutos?&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="13" name="2" tags="" position="300,400" size="100,100">&lt;&lt;silently&gt;&gt;&lt;&lt;set $r1 to false&gt;&gt;&lt;&lt;set $r2 to false&gt;&gt;&lt;&lt;set $r3 to false&gt;&gt;&lt;&lt;set $r4 to false&gt;&gt;&lt;&lt;set $r5 to false&gt;&gt;&lt;&lt;set $r6 to false&gt;&gt;&lt;&lt;set $r7 to false&gt;&gt;&lt;&lt;set $r8 to false&gt;&gt;&lt;&lt;/silently&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;O operador atende.O que dizer agora?&lt;/p&gt;&lt;div class=&quot;choices-112&quot;&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r1&quot; false true&gt;&gt; A minha morada ou localização&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r2&quot; false true&gt;&gt; O nome do meu médico de família&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r3&quot; false true&gt;&gt; Se vejo chamas ou fumo e qual a sua cor&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r4&quot; false true&gt;&gt; O meu número de contribuinte&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r5&quot; false true&gt;&gt; O tipo de vegetação a arder&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r6&quot; false true&gt;&gt; A direção do incêndio e para onde se dirige&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r7&quot; false true&gt;&gt; O número da minha conta bancária&lt;/label&gt;&lt;label&gt;&lt;&lt;checkbox &quot;$r8&quot; false true&gt;&gt; Um ponto de referência próximo se não souber a morada&lt;/label&gt;&lt;/div&gt;
 &lt;div class=&quot;choices&quot;&gt;&lt;&lt;button &quot;Enviar informação&quot; &quot;Resultado 112&quot;&gt;&gt;&lt;&lt;/button&gt;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="14" name="fim4" tags="" position="1300,650" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="fim2" tags="" position="1150,100" size="100,100"></tw-passagedata><tw-passagedata pid="16" name="7" tags="" position="675,575" size="100,100">&lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;&lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;O céu parece ficar cada vez mais escuro, e o cheiro a queimado entra pelas frinchas da porta. A proteção civil avisou de que poderia ser necessário evacuar. &lt;b&gt;O que faço?&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;[[Decido evacuar-&gt;8]] [[Entro em pânico-&gt;20]] [[Decido ficar em casa-&gt;10]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="17" name="14" tags="" position="900,600" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;b&gt;Dirijo-me ao ponto de encontro da aldeia, (indicar características), um local aberto e sem vegetação. &lt;/b&gt;
@@ -1341,7 +1350,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 [[Decido avisar a população-&gt;3]]
 [[Ignoro porque o fogo está longe-&gt;4]]&lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;/div&gt;
-</tw-passagedata><tw-passagedata pid="19" name="6" tags="" position="450,750" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg sino&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  sino-overlay sino-abanar&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="19" name="6" tags="" position="450,750" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg sino sino-bg-abanar&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  sino-overlay sino-abanar&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 &lt;b&gt;Decido ir avisar os bombeiros e blablabla&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
 [[Vejo as chamas a aproximar-&gt;7]] 
