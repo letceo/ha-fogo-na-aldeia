@@ -1337,6 +1337,10 @@ $(document).on(':passagestart', function (ev) {
   SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
 }
   
+     if (name === '26') {
+  SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
+}
+  
   if (firePassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
   }
@@ -1565,6 +1569,7 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;&lt;cacheaudio &quot;sinos&quot;  &quot;audio/sinos.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;car-stopping&quot;  &quot;audio/car-stopping.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;car-start&quot;  &quot;audio/car-start.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;crowd&quot;  &quot;audio/multidao.mp3&quot;&gt;&gt;
 
 &lt;&lt;set $muted to false&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;&lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;[[Recomeçar-&gt;Start]] &lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
