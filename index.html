@@ -1315,7 +1315,7 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
   }
 
-  if (name === '2') {
+  if (name === '2' || name === '5') {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
   }
   
@@ -1499,15 +1499,10 @@ Olho em volta para tomar uma decisão. Todas as minhas coisas estão aqui, a min
 [[Ignoro e decido manter-me em casa-&gt;18]]
 &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
-</tw-passagedata><tw-passagedata pid="5" name="5" tags="" position="450,500" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-
-&lt;p class=&quot;animar&quot;&gt;Penso nos vizinhos do lado e vou ajudá-los.&lt;/p&gt;
-&lt;div class=&quot;choices&quot;&gt;
-[[Vejo as chamas a aproximar-&gt;7]]
-&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="5" name="5" tags="" position="450,500" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Ligo à Dona Laurinda e a outros vizinhos da rua para avisar do incêndio. Ainda ficamos a debater o que fazer. Alguns dizem que não é nada, que é longe mas em breve passa... será? Outros ofereceram-me ajuda para evacuar, logo veremos.&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="6" name="3" tags="" position="300,650" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;div class=&quot;animar&quot;&gt;&lt;b&gt;Quem?&lt;/b&gt;&lt;/div&gt;
-&lt;div class=&quot;choices&quot;&gt;[[Aviso os amigos mais próximos-&gt;5]][$avisouVizinhos = true; $tocouSinoGeral = true]] [[Ligo para pedir ao responsável que toque o aviso sonoro geral-&gt;6]][$tocouSino = true; $tocouSinoGeral = true]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="7" name="8" tags="" position="800,375" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+&lt;div class=&quot;choices&quot;&gt;[[Aviso os amigos mais próximos-&gt;5][$avisouVizinhos = true; $tocouSinoGeral = true]] [[Ligo para pedir ao responsável que toque o aviso sonoro geral-&gt;6][$tocouSinoGeral = true]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="7" name="8" tags="" position="800,375" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 &lt;b&gt;Decido que o mais seguro é evacuar, então contemplo como o fazer:  &lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
 [[Agarro no carro para sair o mais rápido possível-&gt;11]] 
