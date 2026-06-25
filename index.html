@@ -621,16 +621,6 @@ button .choices a{background-color: darkorange!important;
   background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/wood-dark.png")!important;
 }
 
-.cancel .macro-back {
-  background-color: #f7fcfe;
-  color: darkorange;
-  border: 2px solid darkorange;
-}
-
-.cancel .macro-back:hover {
-  background-color: darkorange;
-  color: white;
-}
 
 .ui-btn a,
 .ui-btn button {
@@ -1537,6 +1527,11 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
     SimpleAudio.tracks.get('ear-ringing').loop(true).volume(0.05).play();
   }
+  
+    if (name === '21') {
+    SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
+    SimpleAudio.tracks.get('ear-ringing').loop(true).volume(0.02).play();
+  }
 
   if (name === '4' || name === '10' || name === '28') {
     SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
@@ -1861,6 +1856,8 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;&lt;cacheaudio &quot;car-stopping&quot;  &quot;audio/car-stopping.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;car-start&quot;  &quot;audio/car-start.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;crowd&quot;  &quot;audio/multidao.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;breathing-exercise&quot;  &quot;audio/breathing-exercise.mp3&quot;&gt;&gt;
+
 
 &lt;&lt;set $muted to false&gt;&gt;
 
@@ -1874,7 +1871,7 @@ O fogo começa a afastar-se e  já não há perigo
 &lt;&lt;set $mobilidadeReduzida to false&gt;&gt;
 &lt;&lt;set $foiResgatado to false&gt;&gt;
 &lt;&lt;set $ignorouAlerta to false&gt;&gt;
-&lt;&lt;set $casaPreparada to false&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;&lt;div class=&quot;cancel&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;[[Recomeçar-&gt;Start]] &lt;/div&gt;&lt;/div&gt;
+&lt;&lt;set $casaPreparada to false&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="⟲" tags="" position="0,750" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;De certeza que queres recomeçar? Vais perder todo o progresso.&lt;/h2&gt;&lt;div class=&quot;choices&quot;&gt;&lt;div class=&quot;btn-sobre&quot;&gt;&lt;&lt;back &quot;Cancelar&quot;&gt;&gt;&lt;/div&gt;[[Recomeçar-&gt;Start]] &lt;/div&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="26" name="Resultado 112" tags="" position="475,325" size="100,100">&lt;&lt;silently&gt;&gt;&lt;&lt;set $corretas to 0&gt;&gt;&lt;&lt;if $r1&gt;&gt;&lt;&lt;set $corretas to $corretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $r3&gt;&gt;&lt;&lt;set $corretas to $corretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $r5&gt;&gt;&lt;&lt;set $corretas to $corretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $r6&gt;&gt;&lt;&lt;set $corretas to $corretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $r8&gt;&gt;&lt;&lt;set $corretas to $corretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;set $erradas to 0&gt;&gt;&lt;&lt;if $r2&gt;&gt;&lt;&lt;set $erradas to $erradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $r4&gt;&gt;&lt;&lt;set $erradas to $erradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $r7&gt;&gt;&lt;&lt;set $erradas to $erradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
