@@ -562,10 +562,25 @@ button .choices a{background-color: darkorange!important;
     0 12.5px 10px rgb(0 0 0 / 0.06);
 }
 
+.choices a{
+  background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/wood.png");
+  background-size: cover !important;
+  background-position: center !important;
+  color: #FFF5E6 !important;
+  border: 2px solid #5C3A1E !important;
+  border-bottom: 4px solid #3E2410 !important;
+  border-radius: 6px !important;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 3px 6px rgba(0,0,0,0.4) !important;
+  padding: 10px 20px !important;
+  font-family: "Winky Rough", sans-serif !important;
+  width: auto !important;
+  display: inline-block !important;
+  white-space: nowrap;
+}
 
-.choices a,
-.choices button {
-  background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/wood.png") !important;
+.choices button{
+  background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/wood.png")!important;
   background-size: cover !important;
   background-position: center !important;
   color: #FFF5E6 !important;
@@ -586,6 +601,10 @@ button .choices a{background-color: darkorange!important;
   transform: scale(1.03) !important;
   border-bottom-width: 2px !important; /* simula pressionar */
   transition: 0.2s !important;
+}
+
+.btn-sobre a {
+  background-image: url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/wood-dark.png")!important;
 }
 
 .cancel .macro-back {
@@ -1744,7 +1763,7 @@ O fogo começa a afastar-se e  já não há perigo
 [[13]] 
 &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
-</tw-passagedata><tw-passagedata pid="21" name="fim1" tags="" position="1400,450" size="100,100"></tw-passagedata><tw-passagedata pid="22" name="17" tags="" position="1150,500" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="23" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;div class=&quot;sombrinha centro&quot;&gt;&lt;h1 class=&quot;drop-shadow animar&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;p class=&quot;readable animar&quot;&gt;Para uma melhor experiência, verifica se o som está ligado.&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]][[Sobre]]&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;footer&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/isa.png&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/logo-ceabn.png&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/logo.png&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+</tw-passagedata><tw-passagedata pid="21" name="fim1" tags="" position="1400,450" size="100,100"></tw-passagedata><tw-passagedata pid="22" name="17" tags="" position="1150,500" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="23" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;div class=&quot;sombrinha centro&quot;&gt;&lt;h1 class=&quot;drop-shadow animar&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;p class=&quot;readable animar&quot;&gt;Para uma melhor experiência, verifica se o som está ligado.&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]]&lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;footer&quot;&gt;&lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/isa.png&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/logo-ceabn.png&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/logo.png&quot; &gt;&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 </tw-passagedata><tw-passagedata pid="24" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;hover&quot; &quot;audio/hover.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;fire&quot;  &quot;audio/fire.mp3&quot;&gt;&gt;
