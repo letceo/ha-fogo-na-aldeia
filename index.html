@@ -1329,6 +1329,68 @@ animation: em-panico 1.2s ease-in-out forwards;
     left: 44%;
     transform: rotate(-50deg);
   }
+}
+
+
+
+  /* RESPONSIVIDADE*/
+
+@media screen and (max-width: 768px) {
+
+  /* Título menor */
+  h1 {
+    font-size: 3em !important;
+    padding-top: 4% !important;
+  }
+
+  /* Texto introdutório menor */
+  .sombrinha p {
+    font-size: 1em !important;
+  }
+
+  /* Footer com logos menores e menos padding */
+  .footer img {
+    max-height: 30px !important;
+    padding: 10px 8px !important;
+  }
+
+  /* Botões da homepage mais pequenos */
+  .sombrinha .choices a,
+  .sombrinha .choices button,
+  .btn-sobre a {
+    font-size: 0.85em !important;
+    padding: 8px 14px !important;
+  }
+
+  /* text-box menor em mobile */
+  .text-box {
+    font-size: 1em !important;
+    max-height: 35vh !important;
+    padding: 2% 3% !important;
+  }
+
+  /* alarm (Sobre, ⟲, Resultados) mais largo em mobile */
+  .alarm {
+    width: 85% !important;
+    font-size: 1em !important;
+  }
+
+  /* botões de som e fonte mais pequenos */
+  #sound-btn {
+    font-size: 1.4em !important;
+  }
+
+  #font-btn {
+    font-size: 1.1em !important;
+    left: 8% !important;
+  }
+
+  .phone-scene {
+    top: 5% !important;
+    left: 50% !important;
+    height: 50% !important;
+    transform: translateX(-50%) !important;
+  }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">// variáveis globais de fonte
 var fontSizes = ['1.2em', '1.5em', '1.8em'];
 var fontIndex = 0;
