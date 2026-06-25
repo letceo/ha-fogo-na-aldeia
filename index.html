@@ -520,11 +520,23 @@ width:100%;
  text-align:center;
   justify-content: center;
   align-items: center;
-flex-wrap:wrap;}
+flex-wrap:wrap;
+}
+
+.footer a{
+transition: transform 0.4s ease-in-out;}
+
+.footer a:hover{
+transform: scale(1.005) rotate(1deg);}
 
 .footer img {
 max-height:50px;
-padding:40px;}
+padding:40px;
+}
+
+.footer a::after {
+  display: none !important;
+}
 
 .passage-start{
   width:100%;
