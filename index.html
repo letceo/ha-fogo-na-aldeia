@@ -220,6 +220,8 @@ body::before{
     	url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/rio.png),
     url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/kit1.png),
     url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/kit2.png),
+        url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/112-talking.png),
+    url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/112-results.png),
       url("https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/phone.png");
 }
 
@@ -1300,8 +1302,8 @@ animation: em-panico 1.2s ease-in-out forwards;
   position: absolute;
   width: 40%;
   bottom: 18%;
-  left: 30%;
-  transform: rotate(-50deg);
+  left: 35%;
+  transform: rotate(15deg);
   animation: carro-floresta-img-anim 3s ease-in forwards;
   transform-origin: center center;
   z-index: 2;
@@ -1313,16 +1315,53 @@ animation: em-panico 1.2s ease-in-out forwards;
     width: 40%;
     bottom: 18%;
     left: 30%;
-    transform: rotate(-50deg);
+    transform: rotate(15deg);
   }
   100% {
     width: 12%;
-    bottom: 52%;
-    left: 44%;
-    transform: rotate(-50deg);
+    bottom: 40%;
+    left: 60%;
+    transform: rotate(15deg);
   }
 }
 
+.overlay-rio {
+background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/rio.png);
+  z-index:2;
+}
+
+.image-bg.rio-para-fogo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.image-bg.rio-para-fogo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/rio.png);
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.image-bg.rio-para-fogo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+background-image: url(https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/floresta.png);
+  background-size: cover;
+  background-position: center;
+  z-index: 2;
+  opacity: 0;
+  animation: fade-para-fogo 2s ease-in 0.4s forwards;
+}
+
+@keyframes fade-para-fogo {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
 /* TOASTS - Notificações*/
 
 .toast-notif {
@@ -1447,20 +1486,124 @@ animation: em-panico 1.2s ease-in-out forwards;
     left: 8% !important;
   }
 
-  .phone-scene {
-    top: 5% !important;
-    left: 50% !important;
-    height: 50% !important;
-    transform: translateX(-50%) !important;
-  }
   
   .ui-btn {
-  top:-40px;
-  background-color:#b77e56;
-  border-radius:5px;
-  padding:2%;
-  z-index:100}
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">window.mostrarToast = function(tipo, conteudo, iconeCustom) {
+    position: fixed !important;
+    top: 8px !important;
+    right: 8px !important;
+    z-index: 200 !important;
+    background-color: #b77e56;
+    border-radius: 5px;
+    padding: 4px 8px;
+  }
+  
+  /* jogo telemível otimizado */
+  .phone-scene {
+    top: 2% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    height: 55% !important;
+    width: 55% !important;
+  }
+
+  .phone-keys {
+    margin-left: 24% !important;
+    width: 52% !important;
+    top: 33% !important;
+    gap: 5% !important;
+  }
+
+  .phone-call {
+    bottom: -35% !important;
+    right: 0% !important;
+    margin-right: 20% !important;
+  }
+  
+  /* centra personagens em mobile*/
+  .overlay-personagem {
+    background-position: center center !important;
+    background-size: contain !important;
+  }
+  
+  /* Largura pequena — menos margem, mais espaço para os números */
+@media screen and (max-width: 612px) {
+  .phone-scene {
+    left: 50% !important;
+    transform: translateX(-50%) scale(0.85) !important;
+    transform-origin: top center !important;
+    height: 60% !important;
+    width: 60% !important;
+  }
+}
+
+/* Altura pequena — sobe o numpad e reduz espaço do display */
+/* Portrait mobile geral */
+@media screen and (max-width: 612px) {
+  .phone-scene {
+    top: 2% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    height: 45% !important;
+    width: 65% !important;
+  }
+
+  .phone-keys {
+    margin-left: 23% !important;
+    width: 54% !important;
+    top: 34% !important;
+    gap: 4% !important;
+  }
+
+  .phone-call {
+    bottom: -32% !important;
+    right: 0% !important;
+    margin-right: 18% !important;
+  }
+
+  .text-box {
+    max-height: 28vh !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .phone-scene {
+    top: 2% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    height: 70vh !important;
+    width: 59% !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .phone-call {
+    bottom: -38% !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 654px) {
+  .phone-scene {
+    width: 75% !important;
+  }
+}
+
+@media screen and (max-width: 546px) {
+  .phone-scene {
+    width: 85% !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .phone-scene {
+    width: 100% !important;
+  }
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">//sistema de notificações
+
+window.mostrarToast = function(tipo, conteudo, iconeCustom) {
   setTimeout(function() {
     $('.toast-notif').remove();
 
@@ -1546,6 +1689,7 @@ $(document).one(':passagestart', function () {
     fontIndex = (fontIndex + 1) % fontSizes.length;
     aplicarFonte();
   });
+
 });
 
 function clearTimers() {
@@ -1889,7 +2033,7 @@ $(document).on('click', '.phone-call', function () {
 
 Dou por mim numa zona de floresta, com o caminho para a cidade interrompido. Para onde vou?&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Zona sem árvores-&gt;22]][[Floresta-&gt;23]][[Fico na estrada-&gt;25]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
-</tw-passagedata><tw-passagedata pid="3" name="13" tags="" position="1025,400" size="100,100">Sobreviver? Desemvolver
+</tw-passagedata><tw-passagedata pid="3" name="13" tags="" position="1050,375" size="100,100">Sobreviver? Desemvolver
 
 [[fim1]] </tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1050" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;div class=&quot;image-overlay fumo-overlay&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 As cinzas começam-se a aproximar mais. O cheiro a fumo intensifica-se e com ele o ar fica mais difícil de respirar. Coloco um pano na boca para me proteger e evitar a inalação do fumo. O barulho das chamas fica cada vez mais forte, mas do nada ouço um bater na porta que vem de fora. É a proteção civil. Tenho de evacuar, dizem eles. 
@@ -1942,17 +2086,18 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;b&gt;&lt;/b&gt;
 &lt;div class=&quot;choices&quot;&gt;
 [[Decido evacuar-&gt;13]] [[Entro em pânico-&gt;20]] [[Decido ficar em casa-&gt;10]] 
-&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="20" name="15" tags="" position="975,1200" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg bg-seguranca&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-A minha casa é segura porque segui todas as indicações de proteção:
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="20" name="15" tags="" position="1075,1275" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay reparar-overlay turn-around&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Olhando para tudo à minha volta, não quero ficar em casa 
+Ou
+O fogo parece estar já demasiado próximo, por isso não é seguro evacuar. Terei de ficar aqui. Mas será que preparei a casa com as medidas de segurança necessárias?
+
 * O terreno à volta da casa está com a vegetação controlada, 
 * Não tenho lenha ou outros objetos que possam ser inflamáveis junto ás paredes da casa.
 * Todas as portas e janelas estão fechadas
 * Tenho acesso a água e/ou extintores
 
-O fogo começa a afastar-se e  já não há perigo
 &lt;div class=&quot;choices&quot;&gt;
-[[16]] 
-[[13]] 
+[[Oops falhei-&gt;16]] 
+[[O fogo começa a acalmar-&gt;13]] 
 &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 
 </tw-passagedata><tw-passagedata pid="21" name="fim1" tags="" position="1400,450" size="100,100"></tw-passagedata><tw-passagedata pid="22" name="17" tags="" position="1150,500" size="100,100">[[fim1]] </tw-passagedata><tw-passagedata pid="23" name="Start" tags="" position="100,450" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;div class=&quot;sombrinha centro&quot;&gt;&lt;h1 class=&quot;drop-shadow animar&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;&lt;p class=&quot;readable animar&quot;&gt;Para uma melhor experiência, verifica se o som está ligado.&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]]&lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;footer&quot;&gt;&lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/isa.png&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/logo-ceabn.png&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/ui/logo.png&quot; &gt;&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
@@ -2006,17 +2151,17 @@ Em colaboração com o Colab ForestWise e Proteção Civil. &lt;/p&gt;
 &lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]][[Como jogar]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="31" name="22" tags="" position="1000,25" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;&lt;run mostrarToast(&#39;bom&#39;, &#39;Boa escolha! Zona sem vegetação é mais segura.&#39;, &#39;✅&#39;)&gt;&gt;&lt;div class=&quot;image-bg transito&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  carro-inversao&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Como nesta estrada posso fazer inversão de marcha, aproveito para respirar e pensar onde poderia encontrar refúgio: um local sem árvores e com pouca vegetação até pode ser seguro para evitar que o fogo me pegue. Que tal o parque de estacionamento aqui perto?
 
 Vamos lá!&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Continuar para local sem árvores-&gt;26]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
-</tw-passagedata><tw-passagedata pid="32" name="23" tags="" position="875,25" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;, &#39;🌲&#39;)&gt;&gt;&lt;div class=&quot;image-bg rio&quot;&gt;&lt;/div&gt;&lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/car.png&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Lembro-me de um atalho pelo meio da floresta, longe de onde o incêndio parece estar. Por ali devo conseguir ficar em segurança.
+</tw-passagedata><tw-passagedata pid="32" name="23" tags="" position="875,25" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;, &#39;🌲&#39;)&gt;&gt;&lt;div class=&quot;image-bg rio&quot;&gt;&lt;/div&gt;&lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/car-invert.png&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Lembro-me de um atalho pelo meio da floresta, longe de onde o incêndio parece estar. Por ali devo conseguir ficar em segurança.
 
 Vamos lá!&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Continuar-&gt;24]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
-</tw-passagedata><tw-passagedata pid="33" name="25" tags="" position="475,125" size="100,100"></tw-passagedata><tw-passagedata pid="34" name="26" tags="" position="1250,50" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  multidao&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;No parque de estacionamento encontram-se já algumas pessoas. Vejo que estão equipadas, têm os documentos, dinheiro, os seus animais estão em segurança. Fico a pensar em tudo que deixei em casa, espero que a situação não piore.&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Continuar-&gt;27]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="35" name="27" tags="" position="1375,50" size="100,100">&lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;&lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay cinzas-overlay&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;As horas passam e o fogo começa a acalmar. A aldeia passa fica agora envolta numa onda de fumo. Daqui a umas horas, é possível voltar para casa com os devidos cuidados.
+</tw-passagedata><tw-passagedata pid="33" name="25" tags="" position="625,175" size="100,100"></tw-passagedata><tw-passagedata pid="34" name="26" tags="" position="1250,50" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  multidao&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;No parque de estacionamento encontram-se já algumas pessoas. Vejo que estão equipadas, têm os documentos, dinheiro, os seus animais estão em segurança. Fico a pensar em tudo que deixei em casa, espero que a situação não piore.&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Continuar-&gt;27]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="35" name="27" tags="" position="1375,50" size="100,100">&lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;&lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay cinzas-overlay&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;As horas passam e o fogo começa a acalmar. A aldeia passa fica agora envolta numa onda de fumo. Daqui a umas horas, é possível voltar para casa com os devidos cuidados.
 
 E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes momentos seriam mais difíceis ainda.&lt;/p&gt;
-&lt;div class=&quot;choices&quot;&gt;[[Resultados]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="36" name="Resultados" tags="" position="1650,325" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;Resultado&lt;/h2&gt;&lt;div class=&quot;resumo-112&quot;&gt;&lt;&lt;if $kit&gt;&gt;&lt;p&gt;✅ Levaste o kit de evacuação.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Não levaste o kit de evacuação.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $cao&gt;&gt;&lt;p&gt;✅ Protegeste o teu cão.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Abandonaste o teu cão ao incêndio....&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $ligou112&gt;&gt;&lt;p&gt;✅ Avisaste as autoridades&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Esqueceste-te de avisar as autoridades.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $casaPreparada&gt;&gt;&lt;p&gt;✅ Preparaste a tua casa com antecedência.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ A tua casa ficou em risco porque não fizeste a preparação adequada.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $avisouVizinhos&gt;&gt;&lt;p&gt;✅ Avisaste ou ajudaste os vizinhos.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Não avisaste nem ajudaste os vizinhos.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $entrouPanico&gt;&gt;&lt;p&gt;⚠️ Entraste em pânico num momento crítico.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $foiResgatado&gt;&gt;&lt;p&gt;🚨 Ficaste em perigo e tiveste de ser resgatado.&lt;/p&lt;&lt;/if&gt;&gt;&lt;/div&gt;&lt;&lt;set $erros to 0&gt;&gt;&lt;&lt;if !$kit&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if !$cao&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if !$casaPreparada&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if !$avisouVizinhos&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $entrouPanico&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $foiResgatado&gt;&gt;&lt;h3&gt;Ficaste em perigo e tiveste de ser resgatado.&lt;/h3&gt;&lt;&lt;elseif $erros eq 0&gt;&gt;&lt;h3&gt;Sobreviveste sem erros! Seguiste todas as boas práticas.&lt;/h3&gt;&lt;&lt;elseif $erros lte 2&gt;&gt;&lt;h3&gt;Sobreviveste, mas com alguns erros.&lt;/h3&gt;&lt;&lt;else&gt;&gt;&lt;h3&gt;Sobreviveste, mas cometeste vários erros graves.&lt;/h3&gt;&lt;&lt;/if&gt;&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="37" name="24" tags="" position="750,25" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg rio-fogo&quot;&gt;&lt;/div&gt;&lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/car.png&quot;&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;A conduzir por entre as árvores apercebo-me que o fumo se aproxima cada vez mais e tudo fica mais quente e cinzento. Acho que não deveria ter arriscado, mas e agora?
+&lt;div class=&quot;choices&quot;&gt;[[Resultados]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="36" name="Resultados" tags="" position="1650,325" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;Resultado&lt;/h2&gt;&lt;div class=&quot;resumo-112&quot;&gt;&lt;&lt;if $kit&gt;&gt;&lt;p&gt;✅ Levaste o kit de evacuação.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Não levaste o kit de evacuação.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $cao&gt;&gt;&lt;p&gt;✅ Protegeste o teu cão.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Abandonaste o teu cão ao incêndio....&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $ligou112&gt;&gt;&lt;p&gt;✅ Avisaste as autoridades&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Esqueceste-te de avisar as autoridades.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $casaPreparada&gt;&gt;&lt;p&gt;✅ Preparaste a tua casa com antecedência.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ A tua casa ficou em risco porque não fizeste a preparação adequada.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $avisouVizinhos&gt;&gt;&lt;p&gt;✅ Avisaste ou ajudaste os vizinhos.&lt;/p&gt;&lt;&lt;else&gt;&gt;&lt;p&gt;❌ Não avisaste nem ajudaste os vizinhos.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $entrouPanico&gt;&gt;&lt;p&gt;⚠️ Entraste em pânico num momento crítico.&lt;/p&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $foiResgatado&gt;&gt;&lt;p&gt;🚨 Ficaste em perigo e tiveste de ser resgatado.&lt;/p&lt;&lt;/if&gt;&gt;&lt;/div&gt;&lt;&lt;set $erros to 0&gt;&gt;&lt;&lt;if !$kit&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if !$cao&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if !$casaPreparada&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if !$avisouVizinhos&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $entrouPanico&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;&lt;&lt;if $foiResgatado&gt;&gt;&lt;h3&gt;Ficaste em perigo e tiveste de ser resgatado.&lt;/h3&gt;&lt;&lt;elseif $erros eq 0&gt;&gt;&lt;h3&gt;Sobreviveste sem erros! Seguiste todas as boas práticas.&lt;/h3&gt;&lt;&lt;elseif $erros lte 2&gt;&gt;&lt;h3&gt;Sobreviveste, mas com alguns erros.&lt;/h3&gt;&lt;&lt;else&gt;&gt;&lt;h3&gt;Sobreviveste, mas cometeste vários erros graves.&lt;/h3&gt;&lt;&lt;/if&gt;&gt;&lt;div class=&quot;choices&quot;&gt;[[Recomeçar-&gt;Start]]&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="37" name="24" tags="" position="750,25" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg rio-para-fogo&quot;&gt;&lt;/div&gt;&lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/car.png&quot;&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;A conduzir por entre as árvores apercebo-me que o fumo se aproxima cada vez mais e tudo fica mais quente e cinzento. Acho que não deveria ter arriscado, mas e agora?
 
 &lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Continuar-&gt;28]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="38" name="28" tags="" position="600,0" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg floresta&quot;&gt;&lt;/div&gt;&lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/car.png&quot;&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Quando dou por mim, o fogo já está quase a circundar-me. Não acredito que chegou até aqui tão rápido. As cinzas são tantas que mal consigo respirar, e sinto-me a ficar cada vez mais quente. Será o fim?
 
-&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Será o fim?-&gt;29][$foiResgatado= true]]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="39" name="29" tags="" position="450,0" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg floresta&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  carro-floresta&quot;&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Quando dou por mim, o fogo já está quase a circundar-me. Não acredito que chegou até aqui tão rápido. As cinzas são tantas que mal consigo respirar, e sinto-me a ficar cada vez mais quente. Será o fim?
+&lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Será o fim?-&gt;29][$foiResgatado= true]]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="39" name="29" tags="" position="450,0" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg floresta&quot;&gt;&lt;/div&gt;&lt;div class=&quot;image-overlay  carro-floresta&quot;&quot;&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;&lt;p class=&quot;animar&quot;&gt;Perco a consciência entre o fumo e o calor. Quando acordo, estou num hospital. Os bombeiros encontraram-me a tempo — por muito pouco. Fui resgatado, mas podia não ter sido. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
 
 &lt;/p&gt;&lt;div class=&quot;choices&quot;&gt;[[Resultados]] &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="40" name="30" tags="" position="550,1300" size="100,100">&lt;div class=&quot;scene&quot;&gt;&lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;&lt;img class=&quot;kit-overlay&quot; src=&quot;https://raw.githubusercontent.com/letceo/ha-fogo-na-aldeia/refs/heads/main/images/cenas/kit1.png&quot;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;text-box fira-sans-regular&quot;&gt;&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;Da janela vejo alguns dos meus vizinhos evacuar, mas o fogo parece-me ainda estar longe. Vou esperando para ver o que acontece?
 &lt;b&gt;O que fazer?&lt;/b&gt;
