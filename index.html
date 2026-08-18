@@ -2158,25 +2158,7 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="13" tags="" position="1050,375" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;set $imgClasse to &quot;&quot;&gt;&gt;
-&lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-    &lt;&lt;set $imgClasse to &quot;image-bg mobilidade&quot;&gt;&gt;
-&lt;&lt;/if&gt;&gt;
-&lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;$imgClasse&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;&lt;if $ligou112&gt;&gt;
-            &lt;b&gt;Como já tinha ligado para o 112, as autoridades sabem que tenho mobilidade reduzida e vêm buscar-me.&lt;/b&gt;
-        &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-            &lt;b&gt;Por sorte, como os meus vizinhos foram avisados, eles vêm ajudar-me a evacuar.&lt;/b&gt;
-        &lt;&lt;else&gt;&gt;
-            &lt;b&gt;Não avisei ninguém. Com a minha mobilidade reduzida, não consigo sair sozinha, por isso ligo para o 112 para pedir ajuda.&lt;/b&gt;
-        &lt;&lt;/if&gt;&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1025" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="13" tags="" position="1050,375" size="100,100"></tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1025" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;
@@ -2373,7 +2355,7 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
       [[Vejo as chamas a aproximar-&gt;7]]
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="9" tags="" position="800,850" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="9" tags="" position="750,825" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;&lt;set $mobilidadeReduzida = true&gt;&gt;
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg sino&quot;&gt;&lt;/div&gt;
@@ -2382,7 +2364,7 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     		&lt;b&gt;Tenho mobilidade reduzida e não consigo evacuar sozinha.&lt;/b&gt;
     		&lt;div class=&quot;choices&quot;&gt;
-                [[Decido evacuar-&gt;13]] 
+                [[Decido evacuar-&gt;36]] 
                 [[Entro em pânico-&gt;20]] 
                 [[Decido ficar em casa-&gt;10]] 
     		&lt;/div&gt;
@@ -2683,7 +2665,6 @@ Em colaboração com o Colab ForestWise e Proteção Civil. &lt;/p&gt;&lt;b&gt;C
     E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes momentos seriam mais difíceis ainda.&lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;[[Resultados]]&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;  ← este está a mais, não fecha nada
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Resultados" tags="" position="1650,350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;
@@ -2919,6 +2900,24 @@ setTimeout(function() {
 
     &lt;div class=&quot;choices&quot;&gt;
         [[Resultados]]
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="36" tags="" position="800,975" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set $imgClasse to &quot;&quot;&gt;&gt;
+&lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+    &lt;&lt;set $imgClasse to &quot;image-bg mobilidade&quot;&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;div class=&quot;scene&quot;&gt;
+    &lt;div class=&quot;$imgClasse&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;&lt;if $ligou112&gt;&gt;
+            &lt;b&gt;Como já tinha ligado para o 112, as autoridades sabem que tenho mobilidade reduzida e vêm buscar-me.&lt;/b&gt;
+        &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+            &lt;b&gt;Por sorte, como os meus vizinhos foram avisados, eles vêm ajudar-me a evacuar.&lt;/b&gt;
+        &lt;&lt;else&gt;&gt;
+            &lt;b&gt;Não avisei ninguém. Com a minha mobilidade reduzida, não consigo sair sozinha, por isso ligo para o 112 para pedir ajuda.&lt;/b&gt;
+        &lt;&lt;/if&gt;&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata></tw-storydata>
