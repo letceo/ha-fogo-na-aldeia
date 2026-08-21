@@ -149,30 +149,6 @@ html, body {
   gap: 0;
 }
 
-body::before {
-  background-image:
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/sino.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ligar.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico2.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/estrada-impedida.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ponto-de-encontro.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/multidao.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/floresta.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/rio.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit1.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit2.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112-talking.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112-results.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fogo-na-casa.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/phone.png");
-}
-
 #ui-bar { display: none; }
 
 #story, #passages {
@@ -1962,7 +1938,7 @@ button {
 
 
 /* ============================================================
-   TELEMÓVEL (cena 2.1) — VERSÃO CONSOLIDADA
+   TELEMÓVEL (cena 2.1)
    ============================================================ */
 
 .phone-scene {
@@ -2333,6 +2309,225 @@ button {
         margin-left: -40px !important;
         font-size: 2.2em !important;
     }
+}
+
+/* ============================================================
+   PÁGINA DE CARREGAMENTO
+   ============================================================ */
+
+/* ===== OVERRIDE DO ECRÃ NATIVO DO SUGARCUBE ===== */
+#init-screen {
+	background-color: #1a1108 !important; /* mesma cor do teu #loading-screen */
+}
+
+html[data-init="loading"] #init-loading {
+  background: none !important;
+  animation: init-spin 1s linear infinite !important;
+
+  width: 60px !important;
+  height: 60px !important;
+  border: 3px solid rgba(255, 165, 0, 0.25) !important;
+  border-top-color: rgba(255, 165, 0, 0.8) !important;
+  border-radius: 50% !important;
+}
+
+@keyframes init-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* LOADING SCREEN */
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1a1108; 
+  transition: opacity 0.6s ease;
+}
+
+#loading-screen.loading-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* BACKGROUND */
+
+.loading-background {
+    position: absolute;
+    inset: 0;
+	background-color: #1a1108;
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
+
+    background-size: cover;
+    background-position: center;
+
+    filter: blur(5px);
+    transform: scale(1.05);
+
+    z-index: -2;
+}
+
+
+.loading-background::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(255,255,255,0.10);
+}
+
+
+/* CONTEÚDO CENTRAL*/
+
+.loading-content {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    font-size: 16px;
+}
+
+
+/*TÍTULO*/
+.loading-title {
+  font-family: "Winky Rough", sans-serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-optical-sizing: auto !important;
+
+  font-size: 4.5em !important;      
+  text-align: center !important;  
+  margin-bottom: -0.5em;           
+  margin-top:0.5em;    
+
+  color: orange !important;
+
+  text-shadow:
+    3px 3px 0 #7A5130,
+    6px 6px 0 #5C3921,
+    9px 9px 15px rgba(50,30,15,.35),
+    1px 1px 3px rgba(0,0,0,0.6) !important;
+}
+
+/* CHAMA */
+.loading-flame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 18.75em;   
+    height: 18.75em;
+
+    margin-bottom: -2em;
+    margin-top: -1em; 
+}
+
+.loading-flame dotlottie-wc {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* BARRA DE PROGRESSO (estilo madeira)*/
+
+.custom-loader {
+  width: 45%;
+  height: 22px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
+  background-size: cover;
+  background-position: center;
+
+  border: 4px solid #5C3A1E;
+  border-bottom: 4px solid #3E2410;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 3px 6px rgba(0,0,0,0.4);
+}
+
+.custom-loader::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  right: calc(100% - var(--progress, 0%)); 
+  border-radius: 20px;
+
+  background-color: #B77E56;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+
+  transition: right 0.25s ease; 
+}
+
+/* TEXTO "CARREGANDO..."*/
+
+.loading-text {
+    margin: 12px 0 0;
+    text-align: center;
+
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 600;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+
+/* FOOTER / DICAS*/
+
+.loading-footer {
+    position: relative;
+    width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    text-align: center;
+
+    font-family: "Fira Sans", sans-serif;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.tip-label {
+    font-weight: 600;
+}
+
+#tip-text {
+    font-weight: 400;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .loading-content {
+        font-size: 12px;
+    }
+
+    .loading-flame {
+        width: 300px;
+        height: 300px;
+    }
+
+    .loading-flame dotlottie-wc {
+        width: 300px;
+        height: 300px;
+    }
+
+    .progress-container {
+        width: 75%;
+    }
+
+    .loading-footer {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
@@ -2450,14 +2645,6 @@ function ajustarPhone() {
             var safeBottom = Math.max(safeTop + 180, textTop - safeGap);
             var availableH = Math.max(180, safeBottom - safeTop);
 
-            /*
-             * Largura-alvo:
-             * smartphone = ~78% do ecrã;
-             * tablet portrait = ~48% do ecrã.
-             *
-             * Depois limitamos pela altura disponível para garantir que
-             * o telefone nunca entra na caixa de texto.
-             */
             var targetW;
             if (w <= 600) {
                 targetW = Math.min(sceneWidth * 1.00, w * 1.00, 520);
@@ -2563,10 +2750,6 @@ window.mostrarToast = function(tipo, conteudo, iconeCustom) {
 
   }, 300);
 };
-
-// variáveis globais de fonte
-var fontSizes = ['1.55em', '1.85em', '2.15em'];
-var fontIndex = 0;
 
 // variáveis globais de fonte
 var fontSizes = ['1.25em', '1.55em', '1.85em', '2.15em'];
@@ -3014,6 +3197,126 @@ $(document).one(':passagestart', function () {
   tentarBloquearOrientacao();
 });
 
+// ============ PÁGINA DE CARREGAMENTO ================
+
+var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/';
+var IMG = CDN + 'images/';
+
+var imagesToPreload = [
+  // Cenas principais
+  IMG + 'cenas/sino.png',
+  IMG + 'cenas/ligar.png',
+  IMG + 'cenas/repararbefore.png',
+  IMG + 'cenas/reparar.png',
+  IMG + 'cenas/reparar3.png',
+  IMG + 'cenas/112before.png',
+  IMG + 'cenas/112.png',
+  IMG + 'cenas/112-talking.png',
+  IMG + 'cenas/112-results.png',
+  IMG + 'cenas/panico2.png',
+  IMG + 'cenas/panico3.png',
+  IMG + 'cenas/seguranca.png',
+  IMG + 'cenas/seguranca2.png',
+  IMG + 'cenas/estrada-impedida.png',
+  IMG + 'cenas/car.png',
+  IMG + 'cenas/ponto-de-encontro.png',
+  IMG + 'cenas/multidao.png',
+  IMG + 'cenas/floresta.png',
+  IMG + 'cenas/rio.png',
+  IMG + 'cenas/kit1.png',
+  IMG + 'cenas/kit2.png',
+  IMG + 'cenas/bg-village.png',
+
+  // Fogo / casa
+  IMG + 'cenas/fogo-na-casa.png',
+  IMG + 'cenas/fogo-na-casa-overlay.png',
+  IMG + 'cenas/casa.png',
+  IMG + 'cenas/casa-fire.jpg',
+  IMG + 'cenas/fire-transparent.png',
+  IMG + 'cenas/fire-forest.png',
+  IMG + 'cenas/cinzas.png',
+
+  // Outros
+  IMG + 'cenas/homem-sino.png',
+  IMG + 'cenas/avisar-vizinhos.png',
+  IMG + 'cenas/mobilidade.jpg',
+  IMG + 'cenas/phone.png',
+
+  // Texturas de UI
+  IMG + 'ui/wood.png',
+  IMG + 'ui/wood-dark.png',
+  IMG + 'ui/texture.png'
+];
+
+var tips = [
+  " Nunca faça fogueiras em dias de vento forte.", " Não atire fósforos para o chão.", " Se vir um incêndio, ligue o 112."
+];
+
+$(document).one(':storyready', function () {
+
+  // Injeta o script do Lottie
+  if (!document.querySelector('script[src*="dotlottie-wc"]')) {
+    var lottieScript = document.createElement('script');
+    lottieScript.type = 'module';
+    lottieScript.src = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
+    document.head.appendChild(lottieScript);
+  }
+
+  var overlay = document.createElement('div');
+  overlay.id = 'loading-screen';
+  overlay.innerHTML =
+    '<div class="loading-background"></div>' +
+    '<main class="loading-content">' +
+      '<h1 class="loading-title">Há fogo na aldeia.</h1>' +
+      '<div class="loading-flame">' +
+        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
+      '</div>' +
+      '<span class="custom-loader"></span>' +
+      '<p class="loading-text">Carregando...</p>' +
+    '</main>' +
+    '<footer class="loading-footer">' +
+      '<div class="prevention-tip">' +
+        '<span class="tip-label">Dica:</span>' +
+        '<span id="tip-text"></span>' +
+      '</div>' +
+    '</footer>';
+  document.body.appendChild(overlay);
+  
+  SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
+
+  var tipEl = overlay.querySelector('#tip-text');
+  if (tips.length) {
+    tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
+  }
+
+  var loaded = 0;
+  var total = imagesToPreload.length;
+
+  function updateProgress() {
+    loaded++;
+    var pct = Math.round((loaded / total) * 100);
+    overlay.style.setProperty('--progress', pct + '%');
+    if (loaded >= total) finishLoading();
+  }
+
+  function finishLoading() {
+    setTimeout(function () {
+      overlay.classList.add('loading-done');
+      setTimeout(function () { overlay.remove(); }, 700);
+    }, 300);
+  }
+
+  if (total === 0) {
+    finishLoading();
+  } else {
+    imagesToPreload.forEach(function (src) {
+      var img = new Image();
+      img.onload = updateProgress;
+      img.onerror = updateProgress;
+      img.src = src;
+    });
+  }
+});
 </script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
