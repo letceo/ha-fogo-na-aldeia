@@ -370,6 +370,11 @@ p { color: white !important; }
   pointer-events: none;
 }
 
+.image-overlay.kit1 {
+    background-size: 60% auto !important;
+    background-position: right top !important;
+}
+
 .alarm-scene .image-bg {
   height: 100vh !important;
 }
@@ -1005,6 +1010,10 @@ button {
 
 .kit {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit2.png);
+}
+
+.kit1 {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit1.png);
 }
 
 .kit-overlay {
@@ -2751,7 +2760,69 @@ html[data-init="loading"] #init-loading {
   transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
   will-change: transform;
   transform-origin: top left;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
+}
+
+/* ============================================================
+   ANIMAÇÃO PARA BALÕES DE PENSAMENTO (passagens 15 e 31)
+   ============================================================ */
+
+/* Versão A - kit1: opacidade gradual, bounce muito suave */
+.thought-bubble-kit-a {
+    animation: kitBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: right top;
+}
+
+@keyframes kitBounceA {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateX(8px) translateY(-6px);
+    }
+    35% {
+        opacity: 0.5;
+        transform: scale(0.97) translateX(3px) translateY(-2px);
+    }
+    60% {
+        opacity: 0.85;
+        transform: scale(1.02) translateX(-1px) translateY(1px);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(0.99) translateX(0px) translateY(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateX(0) translateY(0);
+    }
+}
+
+/* Versão A - seguranca: opacidade gradual, bounce muito suave */
+.thought-fade-in-a {
+    animation: segurancaBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes segurancaBounceA {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(6px);
+    }
+    40% {
+        opacity: 0.6;
+        transform: scale(0.97) translateY(2px);
+    }
+    65% {
+        opacity: 0.9;
+        transform: scale(1.02) translateY(-2px);
+    }
+    85% {
+        opacity: 1;
+        transform: scale(0.99) translateY(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
 // de phone.png. Isto evita que o teclado varie para a esquerda/direita
@@ -3098,21 +3169,79 @@ function startDecisionTimer() {
 
 $(document).on(':passagestart', function (ev) {
   var name = ev.passage.title;
-
+  TocarBirds();
   clearTimers();
 
   $('.scene').hide().fadeIn(200);
 
   SimpleAudio.select(':all').stop();
 
-  var birdsPassages = ['Start', '1', '2', '2.1', '3', '4', '5', '6','7', '9', '10', '15'];
-  var firePassages = ['7', '8', '9', '11', '12', '13', '14','15', '16', '17', '19', '20', '21','24','28','34', '31'];
+  // Lista de passagens no exterior (birds mais alto)
+  var exteriorPassages = ['Start', '6', '14','27']; //adicionar depois finais felizes ou nos parques de estacionamento
+
+  // Lista de passagens no interior (birds mais baixo)
+  var interiorPassages = ['1','2', '2.1', '3', '4', '5'];
+
+  // Ajustar volume do birds
+  if (exteriorPassages.indexOf(name) > -1) {
+      ajustarVolumeBirds('exterior');
+  } else if (interiorPassages.indexOf(name) > -1) {
+      ajustarVolumeBirds('interior');
+  }
+
+  //Fogo por proximidade
+
+  var fogoProximidade = {
+      // Nível 1: muito longe
+      'muito_longe': ['1','2', '2.1', '3', '5', '6','14','26','27'],
+      
+      // Nível 2: longe
+      'longe': ['4','8','10','11','12','13','22','23'],
+      
+      // Nível 3: perto
+      'perto': ['7', '9','15','31','24','31'],
+      
+      // Nível 4: muito perto
+      'muito_perto': ['16','19', '28','25','32','33'],
+      
+      // Nível 5: dentro de casa
+      'dentro_casa': ['34'],
+      
+      // Sem fogo (fadeout)
+      'fadeout': ['Start', '1', '20', '21','29','35']
+  };
+
+  // Aplicar volume com base no mapa
+  var nivelEncontrado = false;
+
+  for (var nivel in fogoProximidade) {
+      if (fogoProximidade[nivel].indexOf(name) > -1) {
+          if (nivel === 'fadeout') {
+              // Se for fadeout, para o fogo
+              var fire = SimpleAudio.tracks.get('fire');
+              if (fire) {
+                  fire.stop();
+              }
+          } else {
+              // Caso contrário, ajusta o volume e toca
+              ajustarVolumeFogo(nivel);
+              SimpleAudio.tracks.get('fire').loop(true).play();
+          }
+          nivelEncontrado = true;
+          break;
+      }
+  }
+
+  // Se a passagem NÃO estiver em nenhuma lista, para o fogo (segurança)
+  if (!nivelEncontrado) {
+      var fire = SimpleAudio.tracks.get('fire');
+      if (fire) {
+          fire.stop();
+      }
+  }
+  
   var heartPassages = ['7', '20', '21', '8'];
   var timerPassages = ['7', '8', '10', '16'];
-
-  if (birdsPassages.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
-  }
 
   if (name === '2' || name === '5') {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
@@ -3158,10 +3287,6 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
   }
 
-  if (firePassages.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
-  }
-
   if (heartPassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('heartbeat').loop(true).volume(0.1).play();
   }
@@ -3169,6 +3294,8 @@ $(document).on(':passagestart', function (ev) {
   if (timerPassages.indexOf(name) > -1) {
     startDecisionTimer();
   }
+
+
   
    // Ajuste do telemóvel na passagem 2.1
     if (name === '2.1') {
@@ -3186,6 +3313,54 @@ $(document).on(':passagestart', function (ev) {
       $(window).off('resize.phone');
   }
 });
+
+// ============================================================
+// AJUSTAR VOLUME DO BIRDS CONFORME LOCALIZAÇÃO
+// ============================================================
+
+function ajustarVolumeBirds(localizacao) {
+    var birds = SimpleAudio.tracks.get('birds');
+    if (!birds) return;
+
+    if (localizacao === 'fadeout') {
+        birds.volume(0.6);
+        birds.fade(0.6, 0, 1000);
+        return;
+    }
+
+    var vol = localizacao === 'exterior' ? 0.8
+             : localizacao === 'interior' ? 0.4
+             : 0.4;
+
+    birds.loop(true).volume(vol).play();
+}
+
+// ============================================================
+// AJUSTAR VOLUME DO FOGO CONFORME PROXIMIDADE
+// ============================================================
+
+function ajustarVolumeFogo(nivel) {
+    var fire = SimpleAudio.tracks.get('fire');
+    if (!fire) return;
+
+    var volumes = {
+        'muito_longe': 0.15,
+        'longe': 0.30,
+        'perto': 0.55,
+        'muito_perto': 0.75,
+        'dentro_casa': 0.85,
+        'fadeout': 0
+    };
+
+    var vol = volumes[nivel];
+    if (vol === undefined) vol = 0.30; // valor padrão
+
+    if (nivel === 'fadeout') {
+        fire.fade(fire.volume(), 0, 1500);
+    } else {
+        fire.volume(vol);
+    }
+}
 
 $(document).on(':passageend', function () {
 
@@ -3659,19 +3834,22 @@ function animarTitulo(titleEl, targetTitle) {
 });
 
 // ============ ÁUDIO: desbloqueio de autoplay ============
-var audioDesbloqueado = false;
+var birdsStarted = false;
 
 function TocarBirds() {
+  if (birdsStarted) return;
   var birds = SimpleAudio.tracks.get('birds');
   if (!birds) return;
-  birds.loop(true).volume(0.6).play();
-}
 
-$(document).one('click touchstart keydown', function () {
-  if (audioDesbloqueado) return;
-  audioDesbloqueado = true;
-  TocarBirds();
-});</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
+  birdsStarted = true; // otimista, evita chamadas duplicadas
+  var p = birds.loop(true).volume(0.6).play();
+
+  if (p && typeof p.catch === 'function') {
+    p.catch(function () {
+      birdsStarted = false; // bloqueado por autoplay — tenta de novo na próxima passagem
+    });
+  }
+}</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay call&quot;&gt;&lt;/div&gt;
@@ -3873,8 +4051,6 @@ $(document).one('click touchstart keydown', function () {
       &lt;/div&gt;
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="fim4" tags="" position="1300,650" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;
-    &lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay  fire-overlay chamas-mexer fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;
@@ -3972,7 +4148,7 @@ $(document).one('click touchstart keydown', function () {
 
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay seguranca&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
@@ -4424,7 +4600,7 @@ setTimeout(function() {
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Onde estou? Que se passou?&lt;/b&gt;
-    Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas, e os meus amigos e família à minha volta.. Os bombeiros encontraram-me mesmo a tempo de ser resgatado. Tive sorte, mas podia não ter tidop. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
+    Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas, e os meus amigos e família à minha volta.. Os bombeiros encontraram-me mesmo a tempo de ser resgatado. Tive sorte, mas podia não ter tido. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
     &lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
         [[Resultados]]
@@ -4448,7 +4624,7 @@ setTimeout(function() {
 
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay kitseguranca&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
@@ -4614,7 +4790,7 @@ setTimeout(function() {
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-          &lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Evacuo na hora, entrando no carro para me dirigir ao ponto de encontro na aldeia. Saí mesmo a tempo, o fogo está cada vez mais próximo e o trânsito já se faz sentir. Tenho pena de não ter conseguido preparar o Kit, ou pegar no cão Bobi, mas aqueles segundos podiam ter custado a minha vida e bão havia tempo para tudo.. Nem deixei a casa preparada, espero que fique tudo bem.&lt;/p&gt;
+          &lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Evacuo na hora, entrando no carro para me dirigir ao ponto de encontro na aldeia. Saí mesmo a tempo, o fogo está cada vez mais próximo e o trânsito já se faz sentir. Tenho pena de não ter conseguido preparar o Kit, ou pegar no cão Bobi, mas aqueles segundos podiam ter custado a minha vida e não havia tempo para tudo.. Nem deixei a casa preparada, espero que fique tudo bem.&lt;/p&gt;
     	&lt;div class=&quot;choices&quot;&gt;
     		[[Dirijo-me para o ponto de encontro da aldeia-&gt;26]] 
     	&lt;/div&gt;
