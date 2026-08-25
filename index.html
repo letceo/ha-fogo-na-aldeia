@@ -3105,6 +3105,11 @@ function clearTimers() {
 }
 
 function startDecisionTimer() {
+  // Se o pânico já foi usado (entrouPanico === true), NÃO inicia o timer
+  if (State.variables.entrouPanico === true) {
+    return;
+  }
+
   clearTimers();
 
   var seconds = 20;
@@ -3135,9 +3140,9 @@ function startDecisionTimer() {
   $('body').append($timer);
 
   countdownInterval = setInterval(function () {
-    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM
-    if (passage() !== currentPassage) {
-      clearTimers(); // Se mudou, para o timer
+    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM E SE O PÂNICO NÃO FOI USADO
+    if (passage() !== currentPassage || State.variables.entrouPanico === true) {
+      clearTimers(); // Se mudou ou o pânico foi usado, para o timer
       return;
     }
     
@@ -3155,14 +3160,17 @@ function startDecisionTimer() {
   }, 1000);
 
   decisionTimer = setTimeout(function () {
-    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM
-    if (passage() !== currentPassage) {
+    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM E SE O PÂNICO NÃO FOI USADO
+    if (passage() !== currentPassage || State.variables.entrouPanico === true) {
       clearTimers();
       return;
     }
     
     decisionTimer = null;
     clearTimers();
+    
+    // Quando o timer acaba, o jogador entra em pânico automaticamente
+    State.variables.entrouPanico = true;
     Engine.play('20');
   }, 20000);
 }
@@ -4060,7 +4068,9 @@ function TocarBirds() {
         &lt;p class=&quot;animar&quot;&gt;O céu parece ficar cada vez mais escuro, e o cheiro a queimado entra pelas frinchas da porta. A proteção civil avisou de que poderia ser necessário evacuar. &lt;b&gt;O que faço?&lt;/b&gt;&lt;/p&gt;
     		&lt;div class=&quot;choices&quot;&gt;
             	[[Decido evacuar-&gt;8]] 
-                [[Entro em pânico-&gt;20][$entrouPanico = true]]
+                &lt;&lt;if not $entrouPanico&gt;&gt;
+                    [[Entro em pânico-&gt;20][$entrouPanico = true]]
+                &lt;&lt;/if&gt;&gt;
                 [[Decido ficar em casa-&gt;10]]
             &lt;/div&gt;
         &lt;/div&gt;
@@ -4074,7 +4084,9 @@ function TocarBirds() {
         &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Dirijo-me ao ponto de encontro da aldeia, (indicar características), um local aberto e sem vegetação.&lt;/b&gt;&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
             [[Aguardo pelas indicações autoridades-&gt;13]]
-            [[Entro em pânico-&gt;20]]
+            &lt;&lt;if not $entrouPanico&gt;&gt;
+                [[Entro em pânico-&gt;20][$entrouPanico = true]]
+            &lt;&lt;/if&gt;&gt;
             [[Ajudo na evacuação das pessoas prioritárias, seguindo a orientação das autoridades-&gt;17]]
         &lt;/div&gt;
     &lt;/div&gt;
