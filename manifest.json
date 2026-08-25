@@ -1,0 +1,13 @@
+{
+  "name": "Há Fogo na Aldeia",
+  "short_name": "Fogo na Aldeia",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait", 
+  "background_color": "#1a1108",
+  "theme_color": "#b77e56",
+  "icons": [
+    { "src": "images/favicon/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "images/favicon/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -128,6 +128,17 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 .fira-sans-bold-italic { font-family: "Fira Sans", sans-serif; font-weight: 700; font-style: italic; }
 .fira-sans-extrabold-italic { font-family: "Fira Sans", sans-serif; font-weight: 800; font-style: italic; }
 
+
+/* ============================================================
+   ALINHAMENTO CONSISTENTE: sound-btn + font-btn
+   ============================================================ */
+
+:root {
+  --icon-btn-size: 44px;
+  --icon-btn-gap: 14px;
+}
+
+
 /* GERAL */
 html, body {
   width: 100%;
@@ -136,30 +147,8 @@ html, body {
   padding: 0;
   color: black;
   gap: 0;
-}
-
-body::before {
-  background-image:
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/sino.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ligar.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico2.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/estrada-impedida.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ponto-de-encontro.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/multidao.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/floresta.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/rio.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit1.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit2.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112-talking.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112-results.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fogo-na-casa.png"),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/phone.png");
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 #ui-bar { display: none; }
@@ -169,6 +158,8 @@ body::before {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 #ui-overlay {
@@ -190,6 +181,8 @@ body::before {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 #passages {
@@ -227,50 +220,87 @@ p { color: white !important; }
 }
 
 .text-box {
-    position: absolute !important;
-    bottom: 0 !important;
-    right: 0 !important;
-    left: auto !important;
-    font-size: 1.55em !important;
-    padding: 1% 4% !important;
-    color: white !important;
-    background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png) !important;
-    background-size: cover !important;
-    background-position: center !important;
-    border: 15px solid #b77e56 !important;
-    border-radius: 6px !important;
-    line-height: 1.6 !important;
-    max-width: 100% !important;
-    min-height: 15vh !important;
-    max-height: 30vh !important;
-    z-index: 3 !important;
-    overflow-y: auto !important;
-    width: -webkit-fill-available !important;
-    width: -moz-available !important;
-    width: 100% !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  font-size: 1.55em !important;
+  padding: 1% 4% !important;
+  padding-top: clamp(2rem, 5vw, 3.2rem) !important;
+  color: white !important;
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  border: 8px solid #b77e56 !important;
+  border-radius: 6px !important;
+  line-height: 1.6 !important;
+  max-width: 100% !important;
+  min-height: 15vh !important;
+  max-height: 30vh !important;
+  z-index: 3 !important;
+  overflow-y: auto !important;
+  width: -webkit-fill-available !important;
+  width: -moz-available !important;
+  width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+
+  /* Firefox: */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
+}
+
+/* Chrome/Safari/Edge: */
+.text-box::-webkit-scrollbar {
+  width: 5px;
+}
+
+.text-box::-webkit-scrollbar-track {
+  background: rgba(250, 237, 205, 0.15);
+  border-radius: 999px;
+  margin: 6px 0;
+}
+
+.text-box::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 252, 224, 0.8);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  min-height: 26px;
+}
+
+.text-box::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 252, 224, 0.95);
 }
 
 .text-box p {
-    margin: 0.3em 0 !important;
-    padding: 0 !important;
-    color: white !important;
+  margin: 0.3em 0 !important;
+  padding: 0 !important;
+  color: white !important;
 }
 
 .text-box .choices {
-    margin: 0.3em 0 !important;
-    padding: 0 !important;
+  margin: 0.3em 0 !important;
+  padding: 0 !important;
 }
 
 .text-box .ui-btn {
-    margin: 0 !important;
-    padding: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Evita que a 1ª linha do parágrafo fique por baixo dos botões
+   [[⟲]]/voltar (o .ui-btn é absolute e sai do fluxo normal). */
+.text-box .ui-btn + p {
+  margin-top: 0 !important;
 }
 
 .text-box a {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
 
 .alarm {
@@ -294,15 +324,20 @@ p { color: white !important; }
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
-.alarm .choices { opacity: 1 !important; }
+.alarm .choices {
+  opacity: 1 !important;
+}
+
 .alarm .choices a, .alarm .choices button {
   opacity: 1 !important;
   border: 2px solid #5C3A1E !important;
   color: white !important;
 }
+
 .alarm .cancel .macro-back {
   border: 2px solid #3f2a14 !important;
 }
+
 .alarm .cancel .macro-back:hover {
   border: 2px solid #3f2a14 !important;
 }
@@ -318,7 +353,9 @@ p { color: white !important; }
   height: 85vh;
 }
 
-.image-bg { z-index: 1; }
+.image-bg {
+  z-index: 1;
+}
 
 .choices {
   padding-top: 1%;
@@ -333,14 +370,25 @@ p { color: white !important; }
   pointer-events: none;
 }
 
-.alarm-scene .image-bg { height: 100vh !important; }
+.image-overlay.kit1 {
+    background-size: 60% auto !important;
+    background-position: right top !important;
+}
+
+.alarm-scene .image-bg {
+  height: 100vh !important;
+}
 
 .ui-btn {
   position: absolute;
-  right: 1% !important;
+  top: -15px;
+  right: 0px !important;
   display: flex;
-  gap: 1rem;
+  gap: 0rem;
+  z-index: 4;
+  font-size: 16px !important;
 }
+
 
 /* DETAils */
 h1 {
@@ -396,13 +444,16 @@ h1 {
 .footer a {
   transition: transform 0.4s ease-in-out;
 }
+
 .footer a:hover {
   transform: scale(1.005) rotate(1deg);
 }
+
 .footer img {
   max-height: 50px;
   padding: 40px;
 }
+
 .footer a::after {
   display: none !important;
 }
@@ -420,7 +471,9 @@ h1 {
   flex-direction: column;
 }
 
-.readable { font-style: italic; }
+.readable {
+  font-style: italic;
+}
 
 p {
   font-size: 1em;
@@ -475,13 +528,16 @@ button .choices a {
   white-space: nowrap;
 }
 
-.choices a:hover, .choices button:hover {
+.choices a:hover,
+.choices button:hover {
   transform: scale(1.03) !important;
   border-bottom-width: 2px !important;
   transition: 0.2s !important;
 }
 
-.choices a, .choices button, .phone-key {
+.choices a,
+.choices button,
+.phone-key {
   touch-action: manipulation;
 }
 
@@ -489,12 +545,13 @@ button .choices a {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
 }
 
-.ui-btn a, .ui-btn button {
+.ui-btn a,
+.ui-btn button {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
   color: white;
-  font-size: 2em;
+  font-size: 1.55em;
   padding: 0;
   cursor: pointer;
   line-height: 1;
@@ -502,7 +559,8 @@ button .choices a {
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-.ui-btn a:hover, .ui-btn button:hover {
+.ui-btn a:hover,
+.ui-btn button:hover {
   transform: scale(1.1);
   transition: 0.5s;
   text-decoration: none;
@@ -510,25 +568,26 @@ button .choices a {
 
 .ui-btn a:first-child {
   opacity: 0.6;
-  font-size: 1em;
 }
+
 .ui-btn a:first-child:hover {
   opacity: 1;
 }
 
-button #sound-btn {
-  background: none !important;
-  border: none !important;
-  font-size: 2em !important;
-  cursor: pointer;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
-  transition: transform 0.25s ease !important;
-}
+
+/* ============================================================
+   SOUND + FONT BUTTONS
+   ============================================================ */
 
 #sound-btn {
   position: fixed;
-  top: 1%;
+  top: max(1%, env(safe-area-inset-top));
   left: 1%;
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
   font-size: 2em !important;
   text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
@@ -537,11 +596,17 @@ button #sound-btn {
 #sound-btn button {
   background: none !important;
   border: none !important;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2em !important;
   cursor: pointer;
   text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
   transition: transform 0.25s ease !important;
 }
+
 #sound-btn button:hover {
   transform: scale(1.2) !important;
 }
@@ -562,8 +627,13 @@ button {
 
 #font-btn {
   position: fixed;
-  top: 1%;
-  left: 5%;
+  top: max(1%, env(safe-area-inset-top));
+  left: calc(1% + var(--icon-btn-size) + var(--icon-btn-gap));
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
   font-size: 1.5em !important;
   font-weight: bold;
@@ -571,43 +641,79 @@ button {
   text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
   cursor: pointer;
 }
+
 #font-btn:hover {
   transform: scale(1.2);
   transition: 0.2s;
 }
 
+
 /* ANIMAÇÃO EFEITOS E TRANSIÇÕES */
 @keyframes sceneFade {
-  from { opacity: 0; transform: scale(1.02); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .chamas-mexer {
   animation: fireFlicker 3s infinite alternate;
 }
+
 @keyframes fireFlicker {
-  from { opacity: 0.6; }
-  to { opacity: 0.9; }
+  from {
+    opacity: 0.6;
+  }
+
+  to {
+    opacity: 0.9;
+  }
 }
 
 .panico-scene .image-bg {
   animation: tremer-suave 0.6s infinite, sceneFade 1s ease;
 }
+
 .panico-scene .image-overlay {
   animation: tremer-suave 0.6s infinite, em-panico 1.2s ease-in-out forwards;
 }
 
 @keyframes tremer-suave {
-  0% { transform: translate(0px, 0px); filter: blur(0px); }
-  25% { transform: translate(-1px, 1px); filter: blur(0.4px); }
-  50% { transform: translate(1px, 0px); filter: blur(0.8px); }
-  75% { transform: translate(0px, -1px); filter: blur(0.4px); }
-  100% { transform: translate(0px, 0px); filter: blur(0px); }
+  0% {
+    transform: translate(0px, 0px);
+    filter: blur(0px);
+  }
+
+  25% {
+    transform: translate(-1px, 1px);
+    filter: blur(0.4px);
+  }
+
+  50% {
+    transform: translate(1px, 0px);
+    filter: blur(0.8px);
+  }
+
+  75% {
+    transform: translate(0px, -1px);
+    filter: blur(0.4px);
+  }
+
+  100% {
+    transform: translate(0px, 0px);
+    filter: blur(0px);
+  }
 }
 
 .sino-overlay {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/homem-sino.png");
 }
+
 .sino-bg-abanar {
   animation: abanar-sino-bg 2.5s ease-in-out infinite !important;
   transform-origin: 50% 85%;
@@ -616,31 +722,70 @@ button {
   -webkit-mask-image: radial-gradient(ellipse 90% 90% at center, black 60%, transparent 100%);
   mask-image: radial-gradient(ellipse 90% 90% at center, black 60%, transparent 100%);
 }
+
 @keyframes abanar-sino-bg {
-  0% { transform: scale(1.01) rotate(0deg); }
-  20% { transform: scale(1.01) rotate(1deg); }
-  40% { transform: scale(1.01) rotate(-0.8deg); }
-  60% { transform: scale(1.01) rotate(0.5deg); }
-  80% { transform: scale(1.01) rotate(-0.4deg); }
-  100% { transform: scale(1.01) rotate(0deg); }
+  0% {
+    transform: scale(1.01) rotate(0deg);
+  }
+
+  20% {
+    transform: scale(1.01) rotate(1deg);
+  }
+
+  40% {
+    transform: scale(1.01) rotate(-0.8deg);
+  }
+
+  60% {
+    transform: scale(1.01) rotate(0.5deg);
+  }
+
+  80% {
+    transform: scale(1.01) rotate(-0.4deg);
+  }
+
+  100% {
+    transform: scale(1.01) rotate(0deg);
+  }
 }
+
 .sino-abanar {
   animation: abanar-sino 2.5s ease-in-out infinite !important;
   transform-origin: 50% 85%;
 }
+
 @keyframes abanar-sino {
-  0% { transform: rotate(0deg); }
-  20% { transform: rotate(-4deg); }
-  40% { transform: rotate(3deg); }
-  60% { transform: rotate(-2deg); }
-  80% { transform: rotate(1.5deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  20% {
+    transform: rotate(-4deg);
+  }
+
+  40% {
+    transform: rotate(3deg);
+  }
+
+  60% {
+    transform: rotate(-2deg);
+  }
+
+  80% {
+    transform: rotate(1.5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
+
 
 /* IMAGENS DE FUNDO */
 .village {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png);
 }
+
 .village::after {
   content: '';
   position: absolute;
@@ -653,43 +798,90 @@ button {
   mask-image: radial-gradient(ellipse 60% 60% at center, black 10%, transparent 80%);
   pointer-events: none;
 }
-.village .centro, .village .footer {
+
+.village .centro,
+.village .footer {
   position: relative;
   z-index: 1;
 }
 
-.bg-pontodeencontro { background-image: url("images/cenas/multidao-pontode-encontro"); }
-.bg-seguranca { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca.png); }
-.seguranca { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca2.png); }
+.bg-pontodeencontro {
+  background-image: url("images/cenas/multidao-pontode-encontro");
+}
+
+.bg-seguranca {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca.png);
+}
+
+.seguranca {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca2.png);
+}
+
 
 /* IMAGENS FOGO */
-.fire-overlay { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fire-transparent.png"); }
-.cinzas-overlay { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/cinzas.png"); }
+.fire-overlay {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fire-transparent.png");
+}
+
+.cinzas-overlay {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/cinzas.png");
+}
 
 .vibrate-2 {
   animation: vibrate-2 0.35s linear infinite both;
 }
+
 @keyframes vibrate-2 {
-  0% { transform: translate(0); opacity: 1; }
-  20% { transform: translate(0.75px, -0.75px); opacity: 0.92; }
-  40% { transform: translate(0.75px, 0.75px); opacity: 0.97; }
-  60% { transform: translate(-0.75px, 0.75px); opacity: 0.9; }
-  80% { transform: translate(-0.75px, -0.75px); opacity: 0.95; }
-  100% { transform: translate(0); opacity: 1; }
+  0% {
+    transform: translate(0);
+    opacity: 1;
+  }
+
+  20% {
+    transform: translate(0.75px, -0.75px);
+    opacity: 0.92;
+  }
+
+  40% {
+    transform: translate(0.75px, 0.75px);
+    opacity: 0.97;
+  }
+
+  60% {
+    transform: translate(-0.75px, 0.75px);
+    opacity: 0.9;
+  }
+
+  80% {
+    transform: translate(-0.75px, -0.75px);
+    opacity: 0.95;
+  }
+
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
 }
 
 .fire-overlay.fogo-de {
   z-index: 3;
   animation: vibrate-2 0.35s linear infinite both, fogo-fade-out 4s ease-in-out forwards;
 }
+
 .cinzas-overlay {
   z-index: 3;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/cinzas.png");
   animation: cinzas-fade-in 4s ease-in-out forwards;
 }
+
 @keyframes cinzas-fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .fogo-floresta {
@@ -699,28 +891,63 @@ button {
   animation: vibrate-2 0.35s linear infinite both, fogo-expandir 3s ease-in forwards;
   opacity: 0;
 }
+
 @keyframes fogo-expandir {
-  0% { background-size: 100%; opacity: 0.8; }
-  100% { background-size: 110%; opacity: 1; }
+  0% {
+    background-size: 100%;
+    opacity: 0.8;
+  }
+
+  100% {
+    background-size: 110%;
+    opacity: 1;
+  }
 }
+
 @keyframes vibrate-3 {
-  0% { transform: translate(0); }
-  20% { transform: translate(0.75px, -0.75px); }
-  40% { transform: translate(0.75px, 0.75px); }
-  60% { transform: translate(-0.75px, 0.75px); }
-  80% { transform: translate(-0.75px, -0.75px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(0.75px, -0.75px);
+  }
+
+  40% {
+    transform: translate(0.75px, 0.75px);
+  }
+
+  60% {
+    transform: translate(-0.75px, 0.75px);
+  }
+
+  80% {
+    transform: translate(-0.75px, -0.75px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
 }
+
 .fire-overlay.fogo-aparece {
   z-index: 3;
   opacity: 0;
-  animation: vibrate-3 0.35s linear 2s infinite both,
+  animation:
+    vibrate-3 0.35s linear 2s infinite both,
     fogo-aparecer 4s ease-in 2s forwards;
 }
+
 @keyframes fogo-aparecer {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
+
 .fade-black-overlay {
   position: absolute;
   inset: 0;
@@ -730,119 +957,232 @@ button {
   pointer-events: none;
   animation: fade-to-black 4s ease-in 10s forwards;
 }
+
 @keyframes fade-to-black {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
-.casa { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa.png); }
-.casa-fire { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-fire.jpg); }
-.sino { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/sino.png); }
-.transito { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/estrada-impedida.png); }
-.carro-andar { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png); }
-.carro-inversao { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png); }
-.ponto-de-encontro { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ponto-de-encontro.png); }
-.multidao { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/multidao.png); }
-.rio { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/rio.png); }
-.floresta { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/floresta.png); }
-.kit { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit2.png); }
-.kit-overlay { position: absolute; top: 0; right: 0; }
-.fogo-na-casa { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fogo-na-casa.png); }
-.fogo-na-casa-overlay { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fogo-na-casa-overlay.png); }
-.mobilidade { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/mobilidade.jpg); }
+.casa {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa.png);
+}
+
+.casa-fire {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-fire.jpg);
+}
+
+.sino {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/sino.png);
+}
+
+.transito {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/estrada-impedida.png);
+}
+
+.carro-andar {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png);
+}
+
+.carro-inversao {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png);
+}
+
+.ponto-de-encontro {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ponto-de-encontro.png);
+}
+
+.multidao {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/multidao.png);
+}
+
+.rio {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/rio.png);
+}
+
+.floresta {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/floresta.png);
+}
+
+.kit {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit2.png);
+}
+
+.kit1 {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit1.png);
+}
+
+.kit-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.fogo-na-casa {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fogo-na-casa.png);
+}
+
+.fogo-na-casa-overlay {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fogo-na-casa-overlay.png);
+}
+
+.mobilidade {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/mobilidade.jpg);
+}
 
 .overlay-top {
   z-index: 3 !important;
   height: 100vh !important;
 }
+
 .casafire-de {
   z-index: 2;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa.png");
   animation: fadeOut-de 3s ease-in-out forwards;
 }
+
 .casafire-para {
   z-index: 1;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-fire.jpg");
 }
+
 @keyframes fadeOut-de {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
-.reparar-overlay { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png); }
+.reparar-overlay {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png);
+}
+
 .turn-around {
   animation: turnAround 1.2s ease-in-out forwards;
   transform-origin: center bottom;
 }
+
 @keyframes turnAround {
   0%, 40% {
     transform: rotate(0deg);
     background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png");
   }
+
   70% {
     transform: rotate(10deg);
     background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar.png");
   }
+
   100% {
     transform: rotate(8deg);
     background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar.png");
   }
 }
 
-.call112-overlay { background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112.png); }
+.call112-overlay {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112.png);
+}
+
 .call112 {
   animation: call-112 1.2s ease-in-out forwards;
   transform-origin: center bottom;
 }
+
 @keyframes call-112 {
-  0%, 40% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png"); }
-  70% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png"); }
-  100% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112.png"); }
+  0%, 40% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png");
+  }
+
+  70% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png");
+  }
+
+  100% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112.png");
+  }
 }
 
 .call {
   animation: call-only 1.2s ease-in-out forwards;
   transform-origin: center bottom;
 }
+
 @keyframes call-only {
-  0%, 40% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png"); }
-  70% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png"); }
-  100% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ligar.png"); }
+  0%, 40% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png");
+  }
+
+  70% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png");
+  }
+
+  100% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/ligar.png");
+  }
 }
 
 .call-vizinho {
   animation: call-viz 1.2s ease-in-out forwards;
   transform-origin: center bottom;
 }
+
 @keyframes call-viz {
-  0%, 40% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png"); }
-  70% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png"); }
-  100% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/avisar-vizinhos.png"); }
+  0%, 40% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png");
+  }
+
+  70% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png");
+  }
+
+  100% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/avisar-vizinhos.png");
+  }
 }
 
 .panico {
   animation: em-panico 1.2s ease-in-out forwards;
   transform-origin: center bottom;
 }
+
 @keyframes em-panico {
-  0%, 40% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar.png"); }
-  70% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar3.png"); }
-  100% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico2.png"); }
+  0%, 40% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar.png");
+  }
+
+  70% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/reparar3.png");
+  }
+
+  100% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico2.png");
+  }
 }
 
 .acalmar-panico {
   animation: acalmarpanico 1.2s ease-in-out forwards;
   transform-origin: center bottom;
 }
-@keyframes acalmarpanico {
-  0%, 40% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico2.png"); }
-  70% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico3.png"); }
-  100% { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png"); }
-}
 
-@keyframes fadeInChoices {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes acalmarpanico {
+  0%, 40% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico2.png");
+  }
+
+  70% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/panico3.png");
+  }
+
+  100% {
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/112before.png");
+  }
 }
 
 @media screen and (max-width: 1136px) {
@@ -859,18 +1199,21 @@ button {
   font-size: 0.9em;
   color: white;
 }
+
 .choices-112 label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
 }
+
 .choices-112 input[type="checkbox"] {
   width: 1.2em;
   height: 1.2em;
   accent-color: darkorange;
   cursor: pointer;
 }
+
 .resumo-112 {
   margin-top: 0.8rem;
   font-size: 0.85em;
@@ -885,6 +1228,7 @@ button {
   z-index: 4;
   animation: fumo-pulso-leve 4s ease-in-out infinite alternate !important;
 }
+
 .fumo-medio {
   background-image: none !important;
   background-color: rgba(180, 180, 180, 0.35);
@@ -892,6 +1236,7 @@ button {
   z-index: 4;
   animation: fumo-pulso-medio 3s ease-in-out infinite alternate !important;
 }
+
 .fumo-forte {
   background-image: none !important;
   background-color: rgba(180, 180, 180, 0.6);
@@ -899,39 +1244,107 @@ button {
   z-index: 4;
   animation: fumo-pulso-forte 2s ease-in-out infinite alternate !important;
 }
+
 @keyframes fumo-pulso-leve {
-  from { opacity: 0.3; backdrop-filter: blur(0.5px); }
-  to { opacity: 0.7; backdrop-filter: blur(1.5px); }
-}
-@keyframes fumo-pulso-medio {
-  from { opacity: 0.5; backdrop-filter: blur(1px); }
-  to { opacity: 0.9; backdrop-filter: blur(3px); }
-}
-@keyframes fumo-pulso-forte {
-  from { opacity: 0.6; backdrop-filter: blur(2px); }
-  to { opacity: 1; backdrop-filter: blur(5px); }
+  from {
+    opacity: 0.3;
+    backdrop-filter: blur(0.5px);
+  }
+
+  to {
+    opacity: 0.7;
+    backdrop-filter: blur(1.5px);
+  }
 }
 
-.eletricidade-leve { animation: eletricidade-leve-anim 8s ease-in-out infinite !important; }
-.eletricidade-media { animation: eletricidade-media-anim 5s ease-in-out infinite !important; }
-.eletricidade-forte { animation: eletricidade-forte-anim 3s ease-in-out infinite !important; }
+@keyframes fumo-pulso-medio {
+  from {
+    opacity: 0.5;
+    backdrop-filter: blur(1px);
+  }
+
+  to {
+    opacity: 0.9;
+    backdrop-filter: blur(3px);
+  }
+}
+
+@keyframes fumo-pulso-forte {
+  from {
+    opacity: 0.6;
+    backdrop-filter: blur(2px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: blur(5px);
+  }
+}
+
+.eletricidade-leve {
+  animation: eletricidade-leve-anim 8s ease-in-out infinite !important;
+}
+
+.eletricidade-media {
+  animation: eletricidade-media-anim 5s ease-in-out infinite !important;
+}
+
+.eletricidade-forte {
+  animation: eletricidade-forte-anim 3s ease-in-out infinite !important;
+}
+
 @keyframes eletricidade-leve-anim {
-  0%, 92%, 94%, 96%, 100% { filter: brightness(1); }
-  93% { filter: brightness(0.3); }
-  95% { filter: brightness(0.7); }
+  0%, 92%, 94%, 96%, 100% {
+    filter: brightness(1);
+  }
+
+  93% {
+    filter: brightness(0.3);
+  }
+
+  95% {
+    filter: brightness(0.7);
+  }
 }
+
 @keyframes eletricidade-media-anim {
-  0%, 85%, 88%, 91%, 100% { filter: brightness(1); }
-  86% { filter: brightness(0.2); }
-  89% { filter: brightness(0.6); }
-  90% { filter: brightness(0.1); }
+  0%, 85%, 88%, 91%, 100% {
+    filter: brightness(1);
+  }
+
+  86% {
+    filter: brightness(0.2);
+  }
+
+  89% {
+    filter: brightness(0.6);
+  }
+
+  90% {
+    filter: brightness(0.1);
+  }
 }
+
 @keyframes eletricidade-forte-anim {
-  0%, 70%, 73%, 76%, 80%, 100% { filter: brightness(1); }
-  71% { filter: brightness(0.1); }
-  74% { filter: brightness(0.5); }
-  77% { filter: brightness(0); }
-  79% { filter: brightness(0.3); }
+  0%, 70%, 73%, 76%, 80%, 100% {
+    filter: brightness(1);
+  }
+
+  71% {
+    filter: brightness(0.1);
+  }
+
+  74% {
+    filter: brightness(0.5);
+  }
+
+  77% {
+    filter: brightness(0);
+  }
+
+  79% {
+    filter: brightness(0.3);
+  }
 }
 
 .fumo-overlay {
@@ -950,11 +1363,27 @@ button {
   animation: fumo-mover 8s ease-in-out infinite alternate !important;
   backdrop-filter: blur(1px);
 }
+
 @keyframes fumo-mover {
-  0% { background-position: 0% 0%, 100% 100%, 50% 50%; opacity: 0.6; }
-  33% { background-position: 10% 20%, 80% 70%, 40% 60%; opacity: 0.9; }
-  66% { background-position: 20% 10%, 60% 80%, 60% 40%; opacity: 0.7; }
-  100% { background-position: 5% 15%, 90% 60%, 45% 55%; opacity: 0.8; }
+  0% {
+    background-position: 0% 0%, 100% 100%, 50% 50%;
+    opacity: 0.6;
+  }
+
+  33% {
+    background-position: 10% 20%, 80% 70%, 40% 60%;
+    opacity: 0.9;
+  }
+
+  66% {
+    background-position: 20% 10%, 60% 80%, 60% 40%;
+    opacity: 0.7;
+  }
+
+  100% {
+    background-position: 5% 15%, 90% 60%, 45% 55%;
+    opacity: 0.8;
+  }
 }
 
 .carro-andar {
@@ -962,10 +1391,19 @@ button {
   transform-origin: center bottom;
   background-position: center bottom;
 }
+
 @keyframes carro-andar-anim {
-  0% { transform: translate(0, 0) scale(1); }
-  78% { transform: translate(-1.9%, -25%) scale(0.895); }
-  100% { transform: translate(-1.6%, -23%) scale(0.91); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  78% {
+    transform: translate(-1.9%, -25%) scale(0.895);
+  }
+
+  100% {
+    transform: translate(-1.6%, -23%) scale(0.91);
+  }
 }
 
 .carro-inversao {
@@ -973,11 +1411,26 @@ button {
   transform-origin: center bottom;
   background-position: center bottom;
 }
+
 @keyframes carro-inversao-anim {
-  0% { transform: translate(-1.6%, -23%) scale(0.91) rotate(0deg); animation-timing-function: ease-in; }
-  38% { transform: translate(-1.75%, -23.3%) scale(0.9) rotate(-10deg); animation-timing-function: linear; }
-  62% { transform: translate(-1.75%, -23.3%) scale(0.9) rotate(-170deg); animation-timing-function: ease-out; }
-  100% { transform: translate(-1.6%, -23%) scale(0.91) rotate(-180deg); }
+  0% {
+    transform: translate(-1.6%, -23%) scale(0.91) rotate(0deg);
+    animation-timing-function: ease-in;
+  }
+
+  38% {
+    transform: translate(-1.75%, -23.3%) scale(0.9) rotate(-10deg);
+    animation-timing-function: linear;
+  }
+
+  62% {
+    transform: translate(-1.75%, -23.3%) scale(0.9) rotate(-170deg);
+    animation-timing-function: ease-out;
+  }
+
+  100% {
+    transform: translate(-1.6%, -23%) scale(0.91) rotate(-180deg);
+  }
 }
 
 .carro-floresta {
@@ -987,9 +1440,17 @@ button {
   background-repeat: no-repeat;
   animation: carro-floresta-anim 3s ease-in forwards;
 }
+
 @keyframes carro-floresta-anim {
-  0% { background-size: 40%; background-position: 15% 85%; }
-  100% { background-size: 12%; background-position: 52% 42%; }
+  0% {
+    background-size: 40%;
+    background-position: 15% 85%;
+  }
+
+  100% {
+    background-size: 12%;
+    background-position: 52% 42%;
+  }
 }
 
 .carro-floresta-img {
@@ -1003,20 +1464,34 @@ button {
   z-index: 2;
   pointer-events: none;
 }
+
 @keyframes carro-floresta-img-anim {
-  0% { width: 40%; bottom: 18%; left: 30%; transform: rotate(15deg); }
-  100% { width: 12%; bottom: 40%; left: 60%; transform: rotate(15deg); }
+  0% {
+    width: 40%;
+    bottom: 18%;
+    left: 30%;
+    transform: rotate(15deg);
+  }
+
+  100% {
+    width: 12%;
+    bottom: 40%;
+    left: 60%;
+    transform: rotate(15deg);
+  }
 }
 
 .overlay-rio {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/rio.png);
   z-index: 2;
 }
+
 .image-bg.rio-para-fogo {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
+
 .image-bg.rio-para-fogo::before {
   content: '';
   position: absolute;
@@ -1026,6 +1501,7 @@ button {
   background-position: center;
   z-index: 1;
 }
+
 .image-bg.rio-para-fogo::after {
   content: '';
   position: absolute;
@@ -1037,18 +1513,30 @@ button {
   opacity: 0;
   animation: fade-para-fogo 2s ease-in 0.4s forwards;
 }
+
 @keyframes fade-para-fogo {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .passagem-29-bg {
   filter: blur(12px);
   animation: focar 4s ease-out 4s forwards;
 }
+
 @keyframes focar {
-  0% { filter: blur(12px); }
-  100% { filter: blur(0px); }
+  0% {
+    filter: blur(12px);
+  }
+
+  100% {
+    filter: blur(0px);
+  }
 }
 
 .piscar-overlay {
@@ -1060,14 +1548,44 @@ button {
   pointer-events: none;
   animation: piscar 6s ease-in-out 3s forwards;
 }
+
 @keyframes piscar {
-  0% { opacity: 1; background: black; filter: blur(0); }
-  25% { opacity: 0.3; background: white; filter: blur(8px); }
-  40% { opacity: 0.8; background: black; filter: blur(2px); }
-  55% { opacity: 1; background: black; filter: blur(0); }
-  75% { opacity: 0.3; background: white; filter: blur(6px); }
-  100% { opacity: 0; filter: blur(0); }
+  0% {
+    opacity: 1;
+    background: black;
+    filter: blur(0);
+  }
+
+  25% {
+    opacity: 0.3;
+    background: white;
+    filter: blur(8px);
+  }
+
+  40% {
+    opacity: 0.8;
+    background: black;
+    filter: blur(2px);
+  }
+
+  55% {
+    opacity: 1;
+    background: black;
+    filter: blur(0);
+  }
+
+  75% {
+    opacity: 0.3;
+    background: white;
+    filter: blur(6px);
+  }
+
+  100% {
+    opacity: 0;
+    filter: blur(0);
+  }
 }
+
 
 /* TOASTS - Notificações */
 .toast-notif {
@@ -1089,17 +1607,33 @@ button {
   background-size: cover;
   background-position: center;
 }
-.toast-notif.toast-visivel { right: 16px; }
-.toast-notif.toast-bom { border-color: #5fba5f; }
-.toast-notif.toast-perigoso { border-color: #cc3333; }
-.toast-notif.toast-atencao { border-color: #f0c000; }
-.toast-notif.toast-achievement { border-color: #b77e56; }
+
+.toast-notif.toast-visivel {
+  right: 16px;
+}
+
+.toast-notif.toast-bom {
+  border-color: #5fba5f;
+}
+
+.toast-notif.toast-perigoso {
+  border-color: #cc3333;
+}
+
+.toast-notif.toast-atencao {
+  border-color: #f0c000;
+}
+
+.toast-notif.toast-achievement {
+  border-color: #b77e56;
+}
 
 .toast-icone {
   font-size: 1.5em;
   line-height: 1;
   flex-shrink: 0;
 }
+
 .toast-titulo {
   font-family: "Winky Rough", sans-serif;
   font-size: 1em;
@@ -1108,6 +1642,7 @@ button {
   display: block;
   margin-bottom: 2px;
 }
+
 .toast-texto {
   font-size: 0.85em;
   color: #FFF5E6;
@@ -1115,31 +1650,43 @@ button {
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   display: block;
 }
+
 .toast-corpo {
   display: flex;
   flex-direction: column;
 }
 
+
 /* ============================================================
-   RESPONSIVIDADE MELHORADA (geral — não relacionada com o telefone)
+   RESPONSIVIDADE MELHORADA
    ============================================================ */
 
 @media screen and (max-width: 768px) {
+
+  :root {
+    --icon-btn-size: 36px;
+    --icon-btn-gap: 10px;
+  }
+
   h1 {
     font-size: 3em !important;
     padding-top: 4% !important;
   }
+
   .sombrinha p {
     font-size: 1em !important;
   }
+
   .footer {
     gap: 0.5rem !important;
     padding: 0.5rem !important;
   }
+
   .footer img {
     max-height: 30px !important;
     padding: 5px !important;
   }
+
   .sombrinha .choices {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -1147,6 +1694,7 @@ button {
     width: 90% !important;
     margin: 1rem auto !important;
   }
+
   .sombrinha .choices a,
   .sombrinha .choices button,
   .btn-sobre a {
@@ -1157,6 +1705,7 @@ button {
     width: 100% !important;
     box-sizing: border-box !important;
   }
+
   .text-box {
     font-size: 1.25em !important;
     max-height: 35vh !important;
@@ -1169,6 +1718,7 @@ button {
     border-radius: 0 !important;
     border-width: 8px !important;
   }
+
   .alarm {
     width: 90% !important;
     max-width: 90% !important;
@@ -1177,39 +1727,58 @@ button {
     top: 50% !important;
     transform: translate(-50%, -50%) !important;
   }
+
   .alarm h2 {
     font-size: 1.5em !important;
   }
+
+
+  /* --- SOUND + FONT BUTTONS MOBILE --- */
+
   #sound-btn {
     font-size: 1.4em !important;
-    top: 1% !important;
+    top: max(1%, env(safe-area-inset-top)) !important;
     left: 1% !important;
   }
+
   #font-btn {
     font-size: 1.1em !important;
-    left: 8% !important;
-    top: 1% !important;
+    top: max(1%, env(safe-area-inset-top)) !important;
+    left: calc(1% + var(--icon-btn-size) + var(--icon-btn-gap)) !important;
   }
+
+
   .ui-btn {
     position: fixed !important;
     top: 8px !important;
     right: 8px !important;
     z-index: 200 !important;
-    background-color: rgba(0,0,0,0.6) !important;
-    border-radius: 6px !important;
-    padding: 4px 8px !important;
-    gap: 0.5rem !important;
-    backdrop-filter: blur(4px) !important;
+    background-color: #CC864E !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 4px 6px !important;
+    gap: 0.4rem !important;
+    box-shadow: none !important;
+    font-size: 16px !important;
   }
+
   .ui-btn a,
   .ui-btn button {
-    font-size: 1.4em !important;
+    font-size: 1.3em !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-shadow: none !important;
   }
+
   .choices {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 0.6rem !important;
   }
+
   .choices a,
   .choices button {
     font-size: 0.85em !important;
@@ -1222,19 +1791,23 @@ button {
   }
 }
 
-/* Ecrãs baixos em geral: encolhe a caixa de texto de qualquer cena
-   (incluía-se antes, por engano, dentro de regras mortas do telefone). */
+
+/* Ecrãs baixos em geral */
 @media screen and (max-height: 700px) {
-  .text-box { max-height: 30vh !important; }
+  .text-box {
+    max-height: 30vh !important;
+  }
 }
 
-/* Tipografia da caixa de texto vai encolhendo em ecrãs muito estreitos. */
+
+/* Tipografia da caixa de texto vai encolhendo em ecrãs muito estreitos */
 @media screen and (max-width: 600px) {
   .text-box {
     padding: 2.5% 4% !important;
     font-size: 1.15em !important;
   }
 }
+
 @media screen and (max-width: 480px) {
   .text-box {
     padding: 2% 4% !important;
@@ -1243,6 +1816,7 @@ button {
     max-height: 35vh !important;
   }
 }
+
 @media screen and (max-width: 400px) {
   .text-box {
     padding: 2% 4% !important;
@@ -1251,6 +1825,7 @@ button {
     max-height: 38vh !important;
   }
 }
+
 @media screen and (max-width: 340px) {
   .text-box {
     padding: 4% 5% !important;
@@ -1260,8 +1835,9 @@ button {
   }
 }
 
+
 /* ============================================================
-   AJUSTES RESPONSIVOS FINAIS (página inicial)
+   AJUSTES RESPONSIVOS (página inicial)
    ============================================================ */
 
 .image-bg.village.fullheight {
@@ -1299,14 +1875,15 @@ button {
 .image-bg.village.fullheight > .footer img {
   display: block;
   width: auto;
-  max-width: min(24vw, 180px);
+  max-width: min(24vw, 260px);
   height: auto;
-  max-height: clamp(30px, 6vw, 52px);
-  padding: clamp(4px, 1vw, 12px);
+  max-height: clamp(34px, 8vw, 100px);
+  padding: clamp(6px, 1.4vw, 22px);
   box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
+
   .image-bg.village.fullheight > .centro {
     padding: 1rem 0.75rem 7rem !important;
   }
@@ -1341,7 +1918,11 @@ button {
   }
 }
 
-/* 2.1 — caixa de texto com uma altura semelhante às restantes cenas. */
+
+/* ============================================================
+   CAIXA DE TEXTO DO TELEFONE
+   ============================================================ */
+
 .phone-text-box {
   min-height: clamp(15vh, 18vh, 22vh) !important;
   max-height: min(32vh, 22rem) !important;
@@ -1370,19 +1951,9 @@ button {
   }
 }
 
-/* ============================================================
-   TELEMÓVEL (cena 2.1) — VERSÃO CONSOLIDADA
-   ------------------------------------------------------------
-   Importante: em mobile/tablet (retrato, largura ≤1024px) a
-   posição e o tamanho do .phone-scene são calculados e aplicados
-   via JS (ajustarPhone(), em style.js) com !important — isso tem
-   sempre prioridade sobre qualquer regra CSS aqui em baixo, por
-   isso NÃO redefinimos top/left/width/height do .phone-scene
-   nesse intervalo. Só o teclado, o botão de chamada e o ecrã são
-   posicionados por percentagem em CSS.
 
-   Fora desse intervalo (ecrã em paisagem, ou desktop >1024px),
-   o JS só define width/height — a posição (top/left) vem daqui.
+/* ============================================================
+   TELEMÓVEL (cena 2.1)
    ============================================================ */
 
 .phone-scene {
@@ -1396,8 +1967,7 @@ button {
   overflow: visible;
   transform: translateX(-50%);
   transform-origin: center center;
-  /* Fallback: centro do teclado assume o centro geométrico do PNG
-     até o JS calcular o centro real da área visível (só em tablet). */
+
   --phone-visible-center-x: 50%;
 }
 
@@ -1454,6 +2024,7 @@ button {
   align-items: center;
   justify-content: center;
 }
+
 .phone-key:hover {
   background-color: #353535 !important;
 }
@@ -1473,9 +2044,11 @@ button {
   position: static;
   transform: none;
 }
+
 .phone-call:hover {
   background-color: #3a9e16 !important;
 }
+
 .phone-call img {
   width: 35%;
   height: auto;
@@ -1502,42 +2075,53 @@ button {
   white-space: nowrap;
 }
 
-/* --- Desktop (>1024px, qualquer orientação): telefone mais para a direita --- */
+
+/* --- Desktop (>1024px, qualquer orientação) --- */
+
 @media screen and (min-width: 1025px) {
-  .phone-text-box {
-    height: 30vh !important;
-    min-height: 30vh !important;
-    max-height: 30vh !important;
-    box-sizing: border-box !important;
+
+  .phone-keys {
+    height: auto;              
+    grid-template-rows: repeat(5, auto);
+    gap: 4%;
+    align-content: start; 
   }
-  .phone-scene {
-    left: 73%;
+
+  .phone-key,
+  .phone-call {
+    width: 78%;
+    height: auto;               
+    aspect-ratio: 1 / 1;
   }
 }
+
 @media screen and (min-width: 1400px) {
   .phone-scene {
     left: 79%;
   }
 }
 
-/* --- Paisagem em ecrãs intermédios (tablets/telemóveis deitados) ---
-   Fora do intervalo controlado pelo JS (que só atua em retrato ≤1024px),
-   por isso a posição do .phone-scene aqui é real e precisa de ficar
-   definida em CSS. */
+
+/* --- Paisagem em ecrãs intermédios --- */
+
 @media screen and (orientation: landscape) and (max-width: 1024px) {
+
   .phone-scene {
     left: 66%;
     top: 6%;
     height: 68%;
   }
+
   .phone-keys {
     font-size: 0.95em;
   }
 }
 
-/* --- Mobile em retrato (≤600px): telefone centrado na ilustração ---
-   (posição/tamanho do .phone-scene vêm do JS; aqui só o teclado). */
+
+/* --- Mobile em retrato (≤600px) --- */
+
 @media screen and (max-width: 600px) and (orientation: portrait) {
+
   .phone-keys {
     left: 26%;
     top: 30%;
@@ -1545,6 +2129,7 @@ button {
     height: 56%;
     gap: 4%;
   }
+
   .phone-key,
   .phone-call {
     min-width: 42px;
@@ -1552,12 +2137,15 @@ button {
     max-width: 64px;
     max-height: 64px;
   }
+
   .phone-key {
     font-size: clamp(0.9rem, 4.5vw, 1.3rem);
   }
+
   .phone-call img {
     max-width: 22px;
   }
+
   #phone-screen {
     top: 20%;
     width: 46%;
@@ -1567,18 +2155,18 @@ button {
 }
 
 @media screen and (max-width: 400px) and (orientation: portrait) {
+
   .phone-keys {
     left: 25%;
     width: 50%;
   }
 }
 
-/* --- Tablet/iPad em retrato (601–1024px): telefone à direita
-   (posição do .phone-scene vem do JS: left:73%), teclado e ecrã
-   centrados no centro REAL do corpo do telefone via a variável
-   --phone-visible-center-x, que o JS calcula (alinharOverlaysAoTelefone).
-   Enquanto o JS não corre (ou falha), o fallback é 50%. --- */
+
+/* --- Tablet/iPad em retrato (601–1024px) --- */
+
 @media screen and (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+
   .phone-keys {
     left: var(--phone-visible-center-x, 50%);
     top: 30%;
@@ -1589,6 +2177,7 @@ button {
     transform: translateX(-50%);
     transform-origin: center center;
   }
+
   .phone-key,
   .phone-call {
     min-width: 48px;
@@ -1596,12 +2185,15 @@ button {
     max-width: 76px;
     max-height: 76px;
   }
+
   .phone-key {
     font-size: clamp(22px, 3.2vw, 34px);
   }
+
   .phone-call img {
     max-width: 30px;
   }
+
   #phone-screen {
     left: var(--phone-visible-center-x, 50%);
     top: 21%;
@@ -1613,12 +2205,624 @@ button {
   }
 }
 
-/* --- Ecrãs muito baixos em retrato (teclado precisa de menos altura) --- */
+
+/* --- Ecrãs muito baixos em retrato --- */
+
 @media screen and (max-height: 600px) and (orientation: portrait) {
+
   .phone-keys {
     height: 48%;
   }
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
+}
+
+/* ============================================================
+   AVISO DE ROTAÇÃO - ESTILO COESO COM O JOGO
+   ============================================================ */
+
+.rotate-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    
+    /* Fundo com overlay preto MAIS TRANSPARENTE */
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    color: white;
+    font-family: "Fira Sans", sans-serif;
+}
+
+/* Camada de overlay preto ainda mais transparente */
+.rotate-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 0;
+}
+
+/* Conteúdo fica acima do overlay - CENTRALIZADO PERFEITAMENTE */
+.rotate-overlay .rotate-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+    width: 90%;
+    
+    /* Centralização garantida */
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ===== CAIXA DE TEXTO COM ÍCONE E SUBTÍTULO DENTRO ===== */
+.rotate-overlay .rotate-message {
+    font-family: "Fira Sans", sans-serif;
+    color: #FFF5E6 !important;
+    line-height: 1.6;
+    padding: 1.8rem 2rem;
+    
+    /* Estilo igual à text-box do jogo */
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png");
+    background-size: cover;
+    background-position: center;
+    border: 4px solid #b77e56;
+    border-radius: 6px;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    
+    /* Flex para alinhar ícone e texto */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* Texto principal */
+.rotate-overlay .rotate-text {
+    color: #FFF5E6 !important;
+    margin: 0;
+    font-weight: 400;
+    font-size: 1.15em;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+/* Subtítulo dentro da caixa */
+.rotate-overlay .rotate-sub {
+    color: rgba(255, 245, 230, 0.7) !important;
+    margin: 0;
+    font-size: 0.75em;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    font-style: italic;
+    text-align: center;
+    border-top: 1px solid rgba(183, 126, 86, 0.3);
+    padding-top: 0.6rem;
+    width: 80%;
+}
+
+/* Ícone dentro da caixa */
+.rotate-overlay .rotate-icon {
+    animation: rotate-hint 3.2s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    flex-shrink: 0;
+}
+
+.rotate-overlay .rotate-icon svg {
+    display: block;
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* ===== ANIMAÇÃO: de horizontal (0°) para vertical (90°) ===== */
+@keyframes rotate-hint {
+    0% { 
+        transform: rotate(0deg);
+        animation-timing-function: ease-in-out;
+    }
+    35% { 
+        transform: rotate(90deg);
+        animation-timing-function: ease-in-out;
+    }
+    65% { 
+        transform: rotate(90deg);
+        animation-timing-function: ease-in-out;
+    }
+    100% { 
+        transform: rotate(0deg);
+        animation-timing-function: ease-in-out;
+    }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+/* Tablets e telemóveis em paisagem */
+@media screen and (orientation: landscape) and (max-height: 500px),
+       screen and (orientation: landscape) and (pointer: coarse) and (max-width: 1024px) {
+    .rotate-overlay {
+        display: flex;
+    }
+}
+
+/* Telemóveis pequenos */
+@media screen and (max-width: 500px) {
+    .rotate-overlay {
+        padding: 1rem;
+    }
+    
+    .rotate-overlay .rotate-content {
+        width: 95%;
+        max-width: 340px;
+    }
+    
+    .rotate-overlay .rotate-message {
+        font-size: 0.9em;
+        padding: 1.2rem 1.2rem;
+        max-width: 100%;
+        gap: 0.5rem;
+    }
+    
+    .rotate-overlay .rotate-icon svg {
+        width: 46px;
+        height: 46px;
+    }
+    
+    .rotate-overlay .rotate-text {
+        font-size: 1em;
+    }
+    
+    .rotate-overlay .rotate-sub {
+        font-size: 0.7em;
+        width: 90%;
+        padding-top: 0.4rem;
+    }
+}
+
+/* Telemóveis muito pequenos */
+@media screen and (max-width: 380px) {
+    .rotate-overlay .rotate-message {
+        font-size: 0.8em;
+        padding: 1rem 0.8rem;
+    }
+    
+    .rotate-overlay .rotate-icon svg {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .rotate-overlay .rotate-text {
+        font-size: 0.9em;
+    }
+    
+    .rotate-overlay .rotate-sub {
+        font-size: 0.65em;
+        width: 95%;
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 501px) and (max-width: 1024px) {
+    .rotate-overlay .rotate-content {
+        max-width: 480px;
+    }
+    
+    .rotate-overlay .rotate-message {
+        font-size: 1.25em;
+        padding: 2rem 2.5rem;
+        max-width: 420px;
+        gap: 0.8rem;
+    }
+    
+    .rotate-overlay .rotate-icon svg {
+        width: 72px;
+        height: 72px;
+    }
+    
+    .rotate-overlay .rotate-sub {
+        font-size: 0.7em;
+    }
+}
+
+/* ============================================================
+   BOTÕES ⟲ / ← — TABLET + DESKTOP
+   ============================================================ */
+
+@media screen and (min-width: 601px) {
+
+    .text-box .ui-btn {
+        display: block !important;
+        width: auto !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+    }
+
+    .text-box .ui-btn a {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 78px !important;
+        height: 78px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        vertical-align: middle !important;
+        line-height: 1 !important;
+
+        font-size: 2.2em !important;
+    }
+
+    .text-box .ui-btn .macro-back {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        width: 70px !important;
+        height: 70px !important;
+
+        margin: 0 0 0 -30px !important;
+        padding: 0 !important;
+
+        vertical-align: middle !important;
+        line-height: 1 !important;
+
+        font-size: 2em !important;
+    }
+}
+
+
+/* DESKTOP — ainda maiores */
+@media screen and (min-width: 1025px) {
+
+    .text-box .ui-btn a {
+        width: 92px !important;
+        height: 92px !important;
+        font-size: 2.4em !important;
+    }
+
+    .text-box .ui-btn .macro-back {
+        width: 82px !important;
+        height: 82px !important;
+        margin-left: -40px !important;
+        font-size: 2.2em !important;
+    }
+}
+
+/* ============================================================
+   PÁGINA DE CARREGAMENTO
+   ============================================================ */
+
+/* ===== OVERRIDE DO ECRÃ NATIVO DO SUGARCUBE ===== */
+#init-screen {
+	background-color: #1a1108 !important; /* mesma cor do teu #loading-screen */
+}
+
+html[data-init="loading"] #init-loading {
+  background: none !important;
+  animation: init-spin 1s linear infinite !important;
+
+  width: 60px !important;
+  height: 60px !important;
+  border: 3px solid rgba(255, 165, 0, 0.25) !important;
+  border-top-color: rgba(255, 165, 0, 0.8) !important;
+  border-radius: 50% !important;
+}
+
+@keyframes init-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* LOADING SCREEN */
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1a1108; 
+  transition: opacity 0.6s ease;
+}
+
+#loading-screen.loading-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* BACKGROUND */
+
+.loading-background {
+    position: absolute;
+    inset: 0;
+	background-color: #1a1108;
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
+
+    background-size: cover;
+    background-position: center;
+
+    filter: blur(2px);
+    transform: scale(1.02);
+
+    z-index: -2;
+}
+
+
+.loading-background::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(20, 15, 10, 0.35);
+}
+
+
+/* CONTEÚDO CENTRAL*/
+
+.loading-content {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    font-size: 16px;
+}
+
+
+/*TÍTULO*/
+.loading-title {
+  font-family: "Winky Rough", sans-serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-optical-sizing: auto !important;
+
+  font-size: 4.5em !important;      
+  text-align: center !important;  
+  margin-bottom: -0.5em;           
+  margin-top:0.5em;    
+
+  color: orange !important;
+
+  text-shadow:
+    3px 3px 0 #7A5130,
+    6px 6px 0 #5C3921,
+    9px 9px 15px rgba(50,30,15,.35),
+    1px 1px 3px rgba(0,0,0,0.6) !important;
+}
+
+/* CHAMA */
+.loading-flame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 18.75em;   
+    height: 18.75em;
+
+    margin-bottom: -2em;
+    margin-top: -1em; 
+}
+
+.loading-flame dotlottie-wc {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* BARRA DE PROGRESSO (estilo madeira)*/
+
+.custom-loader {
+  width: 45%;
+  height: 22px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
+  background-size: cover;
+  background-position: center;
+
+  border: 4px solid #5C3A1E;
+  border-bottom: 4px solid #3E2410;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 3px 6px rgba(0,0,0,0.4);
+}
+
+.custom-loader::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  right: calc(100% - var(--progress, 0%)); 
+  border-radius: 20px;
+
+  background-color: #B77E56;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+
+  transition: right 0.25s ease; 
+}
+
+/* TEXTO "CARREGANDO..."*/
+
+.loading-text {
+    margin: 12px 0 0;
+    text-align: center;
+
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 600;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+/* FOOTER / DICAS*/
+
+.loading-footer {
+    position: relative;
+    width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    text-align: center;
+
+    font-family: "Fira Sans", sans-serif;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.tip-label {
+    font-weight: 600;
+}
+
+#tip-text {
+    font-weight: 400;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .loading-content {
+        font-size: 12px;
+    }
+
+    .loading-flame {
+        width: 300px;
+        height: 300px;
+    }
+
+    .loading-flame dotlottie-wc {
+        width: 300px;
+        height: 300px;
+    }
+
+    .progress-container {
+        width: 75%;
+    }
+
+    .loading-footer {
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Fade rápido para tudo exceto o título, quando o morph começa */
+#loading-screen.morph-out .loading-flame,
+#loading-screen.morph-out .custom-loader,
+#loading-screen.morph-out .loading-text,
+#loading-screen.morph-out .loading-tap-text,
+#loading-screen.morph-out .loading-footer {
+  transition: opacity 0.35s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* O fundo só começa a esbater depois do título já ter aterrado */
+#loading-screen.morph-out .loading-background,
+#loading-screen.morph-out .loading-background::after {
+  transition: opacity 0.4s ease 0.6s;
+  opacity: 0;
+}
+
+#loading-screen.morph-out {
+  transition: background-color 0.4s ease 0.6s;
+  background-color: transparent;
+}
+
+/* O título anima-se via transform (JS calcula o destino) */
+.loading-title {
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+  transform-origin: top left;
+}
+
+/* ============================================================
+   ANIMAÇÃO PARA BALÕES DE PENSAMENTO (passagens 15 e 31)
+   ============================================================ */
+
+/* Versão A - kit1: opacidade gradual, bounce muito suave */
+.thought-bubble-kit-a {
+    animation: kitBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: right top;
+}
+
+@keyframes kitBounceA {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateX(8px) translateY(-6px);
+    }
+    35% {
+        opacity: 0.5;
+        transform: scale(0.97) translateX(3px) translateY(-2px);
+    }
+    60% {
+        opacity: 0.85;
+        transform: scale(1.02) translateX(-1px) translateY(1px);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(0.99) translateX(0px) translateY(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateX(0) translateY(0);
+    }
+}
+
+/* Versão A - seguranca: opacidade gradual, bounce muito suave */
+.thought-fade-in-a {
+    animation: segurancaBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes segurancaBounceA {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(6px);
+    }
+    40% {
+        opacity: 0.6;
+        transform: scale(0.97) translateY(2px);
+    }
+    65% {
+        opacity: 0.9;
+        transform: scale(1.02) translateY(-2px);
+    }
+    85% {
+        opacity: 1;
+        transform: scale(0.99) translateY(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
 // de phone.png. Isto evita que o teclado varie para a esquerda/direita
@@ -1634,20 +2838,12 @@ function alinharOverlaysAoTelefone(scene, img) {
 
     if (!isTabletPortrait) return;
 
-    // Garante modo CORS antes de tentar ler os pixels da imagem.
-    // Sem isto, getImageData falha silenciosamente (SecurityError) e o
-    // teclado fica sempre no fallback de 50%, mesmo com esta função a correr.
-    if (img.crossOrigin !== 'anonymous') {
-        img.crossOrigin = 'anonymous';
-    }
-
     function aplicarCentro(cx) {
         if (!isFinite(cx)) return;
         var percent = (cx * 100) + '%';
         scene.style.setProperty('--phone-visible-center-x', percent);
     }
 
-    // Cache por imagem para não voltar a analisar a mesma PNG a cada resize.
     if (img.__phoneVisibleCenterX != null) {
         aplicarCentro(img.__phoneVisibleCenterX);
         return;
@@ -1676,8 +2872,6 @@ function alinharOverlaysAoTelefone(scene, img) {
         var minX = canvas.width, maxX = -1;
         var minY = canvas.height, maxY = -1;
 
-        // Procuramos pixels realmente visíveis. Pequenas sombras/antialiasing
-        // ficam incluídas, o que é preferível a usar um offset fixo por aparelho.
         for (var y = 0; y < canvas.height; y++) {
             for (var x = 0; x < canvas.width; x++) {
                 var alpha = data[(y * canvas.width + x) * 4 + 3];
@@ -1697,8 +2891,6 @@ function alinharOverlaysAoTelefone(scene, img) {
         img.__phoneVisibleCenterX = centerX;
         aplicarCentro(centerX);
     } catch (e) {
-        // Se o CDN não permitir leitura via canvas, mantemos o fallback 50%.
-        // Não há offsets específicos por dispositivo.
     }
 }
 
@@ -1723,9 +2915,7 @@ function ajustarPhone() {
         /*
          * 2.1 mobile/tablet:
          * O telefone é dimensionado como um único bloco. Não usamos
-         * scale() para aumentar o telefone, porque isso também escala
-         * a área de posicionamento e era uma das causas do desalinhamento.
-         */
+         * scale() para aumentar o telefone, porque isso também escala*/
         if (portrait && w <= 1024) {
             var textBox = document.querySelector('.phone-text-box');
             var rootScene = document.querySelector('.scene');
@@ -1749,14 +2939,6 @@ function ajustarPhone() {
             var safeBottom = Math.max(safeTop + 180, textTop - safeGap);
             var availableH = Math.max(180, safeBottom - safeTop);
 
-            /*
-             * Largura-alvo:
-             * smartphone = ~78% do ecrã;
-             * tablet portrait = ~48% do ecrã.
-             *
-             * Depois limitamos pela altura disponível para garantir que
-             * o telefone nunca entra na caixa de texto.
-             */
             var targetW;
             if (w <= 600) {
                 targetW = Math.min(sceneWidth * 1.00, w * 1.00, 520);
@@ -1864,13 +3046,15 @@ window.mostrarToast = function(tipo, conteudo, iconeCustom) {
 };
 
 // variáveis globais de fonte
-var fontSizes = ['1.55em', '1.85em', '2.15em'];
+var fontSizes = ['1.25em', '1.55em', '1.85em', '2.15em'];
 var fontIndex = 0;
 
 function aplicarFonte() {
-  $('.text-box').css('font-size', fontSizes[fontIndex]);
-  var labels = ['A', 'A+', 'A++'];
-  $('#font-btn').text(labels[fontIndex]);
+  document.querySelectorAll('.text-box').forEach(function (el) {
+    el.style.setProperty('font-size', fontSizes[fontIndex], 'important');
+  });
+  var labels = ['A', 'A+', 'A++', 'A+++'];
+  $('#font-btn').text(labels[fontIndex]).attr('aria-label', 'Tamanho do texto: ' + labels[fontIndex] + '. Tocar para mudar.');
 }
 
 var decisionTimer = null;
@@ -1880,25 +3064,25 @@ $(document).on('mouseenter', '.choices a, .choices button', function () {
   SimpleAudio.tracks.get('hover').volume(0.1).play();
 });
 
-$(document).on('mouseenter', '.phone-key', function () {
-  SimpleAudio.tracks.get('phone-tap').volume(0.1).play();
+$(document).on('click', '.phone-key', function () {
+  SimpleAudio.tracks.get('phone-tap').volume(0.3).play();
 });
 
 $(document).one(':passagestart', function () {
-  var $btn = $('<button id="sound-btn">🔊</button>');
+  var $btn = $('<button id="sound-btn" aria-label="Desligar som">🔊</button>');
   $('body').append($btn);
 
   $btn.on('click', function () {
   if ($btn.text() === '🔊') {
     SimpleAudio.mute(true);
-    $btn.text('🔇');
+    $btn.text('🔇').attr('aria-label', 'Ligar som');
   } else {
     SimpleAudio.mute(false);
-    $btn.text('🔊');
+    $btn.text('🔊').attr('aria-label', 'Desligar som');
   }
 });
 
-  var $fontBtn = $('<button id="font-btn">A</button>');
+  var $fontBtn = $('<button id="font-btn" aria-label="Aumentar tamanho do texto">A</button>');
   $('body').append($fontBtn);
 
   $fontBtn.on('click', function () {
@@ -1924,6 +3108,7 @@ function startDecisionTimer() {
   clearTimers();
 
   var seconds = 20;
+  var currentPassage = passage(); // Guarda a passagem atual
 
   var $timer = $('<div id="decision-timer"></div>');
   $timer.css({
@@ -1950,6 +3135,12 @@ function startDecisionTimer() {
   $('body').append($timer);
 
   countdownInterval = setInterval(function () {
+    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM
+    if (passage() !== currentPassage) {
+      clearTimers(); // Se mudou, para o timer
+      return;
+    }
+    
     seconds--;
     $timer.text(seconds);
 
@@ -1964,6 +3155,12 @@ function startDecisionTimer() {
   }, 1000);
 
   decisionTimer = setTimeout(function () {
+    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM
+    if (passage() !== currentPassage) {
+      clearTimers();
+      return;
+    }
+    
     decisionTimer = null;
     clearTimers();
     Engine.play('20');
@@ -1972,21 +3169,79 @@ function startDecisionTimer() {
 
 $(document).on(':passagestart', function (ev) {
   var name = ev.passage.title;
-
+  TocarBirds();
   clearTimers();
 
   $('.scene').hide().fadeIn(200);
 
   SimpleAudio.select(':all').stop();
 
-  var birdsPassages = ['Start', '1', '2', '2.1', '3', '4', '5', '6', '9', '10', '15'];
-  var firePassages = ['7', '8', '9', '11', '12', '13', '14', '16', '17', '19', '20', '21','24','28','34'];
+  // Lista de passagens no exterior (birds mais alto)
+  var exteriorPassages = ['Start', '6', '14','27']; //adicionar depois finais felizes ou nos parques de estacionamento
+
+  // Lista de passagens no interior (birds mais baixo)
+  var interiorPassages = ['1','2', '2.1', '3', '4', '5'];
+
+  // Ajustar volume do birds
+  if (exteriorPassages.indexOf(name) > -1) {
+      ajustarVolumeBirds('exterior');
+  } else if (interiorPassages.indexOf(name) > -1) {
+      ajustarVolumeBirds('interior');
+  }
+
+  //Fogo por proximidade
+
+  var fogoProximidade = {
+      // Nível 1: muito longe
+      'muito_longe': ['1','2', '2.1', '3', '5', '6','14','26','27'],
+      
+      // Nível 2: longe
+      'longe': ['4','8','10','11','12','13','22','23'],
+      
+      // Nível 3: perto
+      'perto': ['7', '9','15','31','24','31'],
+      
+      // Nível 4: muito perto
+      'muito_perto': ['16','19', '28','25','32','33'],
+      
+      // Nível 5: dentro de casa
+      'dentro_casa': ['34'],
+      
+      // Sem fogo (fadeout)
+      'fadeout': ['Start', '1', '20', '21','29','35']
+  };
+
+  // Aplicar volume com base no mapa
+  var nivelEncontrado = false;
+
+  for (var nivel in fogoProximidade) {
+      if (fogoProximidade[nivel].indexOf(name) > -1) {
+          if (nivel === 'fadeout') {
+              // Se for fadeout, para o fogo
+              var fire = SimpleAudio.tracks.get('fire');
+              if (fire) {
+                  fire.stop();
+              }
+          } else {
+              // Caso contrário, ajusta o volume e toca
+              ajustarVolumeFogo(nivel);
+              SimpleAudio.tracks.get('fire').loop(true).play();
+          }
+          nivelEncontrado = true;
+          break;
+      }
+  }
+
+  // Se a passagem NÃO estiver em nenhuma lista, para o fogo (segurança)
+  if (!nivelEncontrado) {
+      var fire = SimpleAudio.tracks.get('fire');
+      if (fire) {
+          fire.stop();
+      }
+  }
+  
   var heartPassages = ['7', '20', '21', '8'];
   var timerPassages = ['7', '8', '10', '16'];
-
-  if (birdsPassages.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('birds').loop(true).volume(0.6).play();
-  }
 
   if (name === '2' || name === '5') {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
@@ -2032,10 +3287,6 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
   }
 
-  if (firePassages.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('fire').loop(true).volume(0.7).play();
-  }
-
   if (heartPassages.indexOf(name) > -1) {
     SimpleAudio.tracks.get('heartbeat').loop(true).volume(0.1).play();
   }
@@ -2043,6 +3294,8 @@ $(document).on(':passagestart', function (ev) {
   if (timerPassages.indexOf(name) > -1) {
     startDecisionTimer();
   }
+
+
   
    // Ajuste do telemóvel na passagem 2.1
     if (name === '2.1') {
@@ -2060,6 +3313,54 @@ $(document).on(':passagestart', function (ev) {
       $(window).off('resize.phone');
   }
 });
+
+// ============================================================
+// AJUSTAR VOLUME DO BIRDS CONFORME LOCALIZAÇÃO
+// ============================================================
+
+function ajustarVolumeBirds(localizacao) {
+    var birds = SimpleAudio.tracks.get('birds');
+    if (!birds) return;
+
+    if (localizacao === 'fadeout') {
+        birds.volume(0.6);
+        birds.fade(0.6, 0, 1000);
+        return;
+    }
+
+    var vol = localizacao === 'exterior' ? 0.8
+             : localizacao === 'interior' ? 0.4
+             : 0.4;
+
+    birds.loop(true).volume(vol).play();
+}
+
+// ============================================================
+// AJUSTAR VOLUME DO FOGO CONFORME PROXIMIDADE
+// ============================================================
+
+function ajustarVolumeFogo(nivel) {
+    var fire = SimpleAudio.tracks.get('fire');
+    if (!fire) return;
+
+    var volumes = {
+        'muito_longe': 0.15,
+        'longe': 0.30,
+        'perto': 0.55,
+        'muito_perto': 0.75,
+        'dentro_casa': 0.85,
+        'fadeout': 0
+    };
+
+    var vol = volumes[nivel];
+    if (vol === undefined) vol = 0.30; // valor padrão
+
+    if (nivel === 'fadeout') {
+        fire.fade(fire.volume(), 0, 1500);
+    } else {
+        fire.volume(vol);
+    }
+}
 
 $(document).on(':passageend', function () {
 
@@ -2096,13 +3397,7 @@ $(document).on(':passageend', function () {
   var $children = $();
   $box.children().not('.ui-btn').each(function () {
     var $el = $(this);
-    // Passagens com um <div id="..."> a envolver o texto e as escolhas (usado
-    // para o <<replace>> conseguir substituir o conteúdo) faziam com que todo
-    // esse bloco fosse tratado como um único "filho": aparecia tudo de uma vez
-    // em vez de texto -> opções -> botões, como acontece nas outras passagens.
-    // Por isso, quando o filho direto é apenas um contentor com id, animamos
-    // antes os elementos lá dentro (parágrafo, escolhas, botões) em vez do
-    // contentor como um todo.
+    
     if ($el.is('div[id]') && $el.children().length > 0) {
       $children = $children.add($el.children());
     } else {
@@ -2145,8 +3440,9 @@ $(document).on(':passageend', function () {
       'opacity': '1'
     });
 
+    // Mantém a leitura palavra a palavra, mas já não força o scroll até ao fim automaticamente 
+    
     $box.css('overflow-y', 'auto');
-    $box.animate({ scrollTop: $box[0].scrollHeight }, 400);
   }
 
   $box.one('click touchstart', function (e) {
@@ -2286,7 +3582,274 @@ var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/fav
 
 $('<link rel="apple-touch-icon" sizes="180x180" href="' + base + 'apple-touch-icon.png">').appendTo('head');
 $('<link rel="icon" type="image/png" sizes="32x32" href="' + base + 'favicon-32x32.png">').appendTo('head');
-$('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x16.png">').appendTo('head');</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
+$('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x16.png">').appendTo('head');
+
+// PARA BLOQUEIO NATIVO DO MODO PAISAGEM
+$(document).one(':passagestart', function () {
+  if ($('.rotate-overlay').length === 0) {
+    var $rotate = $(
+      '<div class="rotate-overlay">' +
+        '<div class="rotate-content">' +
+          '<div class="rotate-message">' +
+            '<div class="rotate-icon">' +
+              '<svg viewBox="0 0 120 120" width="60" height="60">' +
+                '<circle cx="60" cy="60" r="48" fill="none" stroke="#b77e56" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>' +
+                '<path d="M60 6 C 20 6, 6 30, 6 50" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
+                '<path d="M6 50 L12 42 L4 44" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
+                '<path d="M60 114 C 100 114, 114 90, 114 70" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
+                '<path d="M114 70 L108 78 L116 76" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
+                '<rect x="25" y="42" width="70" height="36" rx="6" fill="none" stroke="#FFF5E6" stroke-width="3"/>' +
+                '<rect x="32" y="47" width="46" height="26" rx="2" fill="none" stroke="#FFF5E6" stroke-width="2" stroke-dasharray="2 2" opacity="0.5"/>' +
+                '<circle cx="88" cy="60" r="4" fill="none" stroke="#FFF5E6" stroke-width="2.5"/>' +
+                '<circle cx="88" cy="60" r="2" fill="#FFF5E6"/>' +
+                '<line x1="36" y1="52" x2="74" y2="52" stroke="#FFF5E6" stroke-width="2" opacity="0.4"/>' +
+                '<line x1="36" y1="56" x2="64" y2="56" stroke="#FFF5E6" stroke-width="2" opacity="0.25"/>' +
+                '<path d="M30 35 L36 30 L42 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
+                '<path d="M90 35 L84 30 L78 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
+              '</svg>' +
+            '</div>' +
+            '<p class="rotate-text">Rode o dispositivo para a posição vertical</p>' +
+            '<p class="rotate-sub">— Melhor experiência em modo retrato —</p>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
+    $('body').append($rotate);
+  }
+});
+
+function tentarBloquearOrientacao() {
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('portrait').catch(function () {
+    });
+  }
+}
+
+$(document).one(':passagestart', function () {
+  tentarBloquearOrientacao();
+});
+
+// ============ PÁGINA DE CARREGAMENTO ================
+
+var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/';
+var IMG = CDN + 'images/';
+
+var imagesToPreload = [
+  // Cenas principais
+  IMG + 'cenas/sino.png',
+  IMG + 'cenas/ligar.png',
+  IMG + 'cenas/repararbefore.png',
+  IMG + 'cenas/reparar.png',
+  IMG + 'cenas/reparar3.png',
+  IMG + 'cenas/112before.png',
+  IMG + 'cenas/112.png',
+  IMG + 'cenas/112-talking.png',
+  IMG + 'cenas/112-results.png',
+  IMG + 'cenas/panico2.png',
+  IMG + 'cenas/panico3.png',
+  IMG + 'cenas/seguranca.png',
+  IMG + 'cenas/seguranca2.png',
+  IMG + 'cenas/estrada-impedida.png',
+  IMG + 'cenas/car.png',
+  IMG + 'cenas/ponto-de-encontro.png',
+  IMG + 'cenas/multidao.png',
+  IMG + 'cenas/floresta.png',
+  IMG + 'cenas/rio.png',
+  IMG + 'cenas/kit1.png',
+  IMG + 'cenas/kit2.png',
+  IMG + 'cenas/bg-village.png',
+
+  // Fogo / casa
+  IMG + 'cenas/fogo-na-casa.png',
+  IMG + 'cenas/fogo-na-casa-overlay.png',
+  IMG + 'cenas/casa.png',
+  IMG + 'cenas/casa-fire.jpg',
+  IMG + 'cenas/fire-transparent.png',
+  IMG + 'cenas/fire-forest.png',
+  IMG + 'cenas/cinzas.png',
+
+  // Outros
+  IMG + 'cenas/homem-sino.png',
+  IMG + 'cenas/avisar-vizinhos.png',
+  IMG + 'cenas/mobilidade.jpg',
+  IMG + 'cenas/phone.png',
+
+  // Texturas de UI
+  IMG + 'ui/wood.png',
+  IMG + 'ui/wood-dark.png',
+  IMG + 'ui/texture.png',
+
+  // Logótipos do footer (evita reflow no ecrã inicial)
+  IMG + 'ui/isa.png',
+  IMG + 'ui/logo-ceabn.png',
+  IMG + 'ui/logo.png'
+];
+
+var tips = [
+  " Nunca faça fogueiras em dias de vento forte.", " Não atire fósforos para o chão.", " Se vir um incêndio, ligue o 112."
+];
+
+$(document).one(':storyready', function () {
+
+  // Injeta o script do Lottie
+  if (!document.querySelector('script[src*="dotlottie-wc"]')) {
+    var lottieScript = document.createElement('script');
+    lottieScript.type = 'module';
+    lottieScript.src = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
+    document.head.appendChild(lottieScript);
+  }
+
+  var overlay = document.createElement('div');
+  overlay.id = 'loading-screen';
+  overlay.innerHTML =
+    '<div class="loading-background"></div>' +
+    '<main class="loading-content">' +
+      '<h1 class="loading-title">Há fogo na aldeia.</h1>' +
+      '<div class="loading-flame">' +
+        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
+      '</div>' +
+      '<span class="custom-loader"></span>' +
+      '<p class="loading-text">Carregando...</p>' +
+    '</main>' +
+    '<footer class="loading-footer">' +
+      '<div class="prevention-tip">' +
+        '<span class="tip-label">Dica:</span>' +
+        '<span id="tip-text"></span>' +
+      '</div>' +
+    '</footer>';
+  
+    document.body.appendChild(overlay);
+  TocarBirds();
+
+  var tipEl = overlay.querySelector('#tip-text');
+  if (tips.length) {
+    tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
+  }
+
+  var loaded = 0;
+  var total = imagesToPreload.length;
+
+  function updateProgress() {
+    loaded++;
+    var pct = Math.round((loaded / total) * 100);
+    overlay.style.setProperty('--progress', pct + '%');
+    if (loaded >= total) finishLoading();
+  }
+  
+  var tempoInicio = Date.now();
+  var tempoMinimo = 2200;
+
+  function finishLoading() {
+    var passado = Date.now() - tempoInicio;
+    var faltam = Math.max(0, tempoMinimo - passado);
+
+    setTimeout(function () {
+      morphOut();
+    }, faltam + 300);
+  }
+
+    function morphOut() {
+    var titleEl = overlay.querySelector('.loading-title');
+    var targetTitle = document.querySelector('.sombrinha h1');
+
+    if (targetTitle) {
+        targetTitle.style.transition = 'none';
+        targetTitle.style.opacity = '0';
+    }
+
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            animarTitulo(titleEl, targetTitle);
+        });
+    });
+}
+
+function animarTitulo(titleEl, targetTitle) {
+    if (!titleEl || !targetTitle) {
+        overlay.style.transition = 'opacity 0.6s ease';
+        overlay.style.opacity = '0';
+        setTimeout(function() {
+            overlay.remove();
+            if (targetTitle) {
+                targetTitle.style.transition = 'opacity 0.4s ease';
+                targetTitle.style.opacity = '1';
+            }
+        }, 700);
+        return;
+    }
+
+    var fromRect = titleEl.getBoundingClientRect();
+    var toRect = targetTitle.getBoundingClientRect();
+
+    var scaleX = toRect.width / fromRect.width;
+    var scaleY = toRect.height / fromRect.height;
+    var deltaX = toRect.left - fromRect.left;
+    var deltaY = toRect.top - fromRect.top - 30;
+
+    titleEl.style.transform = 'translate(0px, 0px) scale(1)';
+    void titleEl.offsetWidth;
+
+    var terminou = false;
+
+    function aoTerminar() {
+        if (terminou) return;
+        terminou = true;
+        overlay.remove();
+    }
+
+    titleEl.style.transition = 'transform 1.0s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
+    titleEl.addEventListener('transitionend', aoTerminar, { once: true });
+    setTimeout(aoTerminar, 1400);
+
+    // Título final com opacidade 0 mas pronto para aparecer
+    targetTitle.style.transition = 'opacity 0.6s ease';
+    targetTitle.style.opacity = '0';
+    
+    requestAnimationFrame(function () {
+        titleEl.style.transform =
+            'translate(' + deltaX + 'px, ' + deltaY + 'px) scale(' + scaleX + ', ' + scaleY + ')';
+        
+        // Título clone desaparece gradualmente
+        titleEl.style.opacity = '0';
+        
+        // Título final aparece gradualmente (crossfade)
+        targetTitle.style.opacity = '1';
+        
+        // Loading screen fade
+        overlay.style.transition = 'opacity 0.6s ease';
+        overlay.style.opacity = '0';
+    });
+}
+  
+  if (total === 0) {
+    finishLoading();
+  } else {
+    imagesToPreload.forEach(function (src) {
+      var img = new Image();
+      img.onload = updateProgress;
+      img.onerror = updateProgress;
+      img.src = src;
+    });
+  }
+});
+
+// ============ ÁUDIO: desbloqueio de autoplay ============
+var birdsStarted = false;
+
+function TocarBirds() {
+  if (birdsStarted) return;
+  var birds = SimpleAudio.tracks.get('birds');
+  if (!birds) return;
+
+  birdsStarted = true; // otimista, evita chamadas duplicadas
+  var p = birds.loop(true).volume(0.6).play();
+
+  if (p && typeof p.catch === 'function') {
+    p.catch(function () {
+      birdsStarted = false; // bloqueado por autoplay — tenta de novo na próxima passagem
+    });
+  }
+}</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay call&quot;&gt;&lt;/div&gt;
@@ -2488,8 +4051,6 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
       &lt;/div&gt;
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="fim4" tags="" position="1300,650" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;
-    &lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay  fire-overlay chamas-mexer fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;
@@ -2560,18 +4121,17 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
           &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
       	  &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
       &lt;&lt;/if&gt;&gt;
-
-      &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-          &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-          &lt;&lt;if $ligou112&gt;&gt;
-              &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Como já tinha ligado para o 112, as autoridades sabem que tenho mobilidade reduzida e vêm buscar-me.&lt;/b&gt;&lt;/p&gt;
-          &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-              &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Por sorte, os meus vizinhos vêm ajudar-me a evacuar.&lt;/b&gt;&lt;/p&gt;
-          &lt;&lt;else&gt;&gt;
-              &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Não avisei ninguém. Com a minha mobilidade reduzida, não consigo sair sozinha, por isso ligo para o 112 para pedir ajuda.&lt;/b&gt;&lt;/p&gt;
-          &lt;&lt;/if&gt;&gt;
-      &lt;/div&gt;
-   &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+      &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+      &lt;&lt;if $ligou112&gt;&gt;
+          &lt;p class=&quot;animar&quot;&gt;Como já tinha ligado para o 112, as autoridades sabem que tenho mobilidade reduzida e vêm buscar-me&lt;/p&gt;
+      &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+          &lt;p class=&quot;animar&quot;&gt;Por sorte, os meus vizinhos vêm ajudar-me a evacuar.&lt;/p&gt;
+      &lt;&lt;else&gt;&gt;
+          &lt;p class=&quot;animar&quot;&gt;Não avisei ninguém. Com a minha mobilidade reduzida, não consigo sair sozinha, por isso ligo para o 112 para pedir ajuda.&lt;/p&gt;
+      &lt;&lt;/if&gt;&gt;
+  &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="15" tags="" position="1075,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 &lt;&lt;set $p1 to false&gt;&gt;
@@ -2588,7 +4148,7 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
 
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay seguranca&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
@@ -2733,13 +4293,16 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
           &lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]]&lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;&lt;/div&gt;
   		&lt;/div&gt;
  		&lt;div class=&quot;footer&quot;&gt;
- 		&lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/isa.png&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo-ceabn.png&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo.png&quot; &gt;&lt;/a&gt;
+            &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/isa.png&quot; alt=&quot;Website do Instituto Superior de Agronomia&quot;&gt;&lt;/a&gt;
+            &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo-ceabn.png&quot; alt=&quot;Website do Centro de Ecologia Aplicada&quot;&gt;&lt;/a&gt;
+            &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo.png&quot; alt=&quot;Website do Fire Explorer&quot;&gt;&lt;/a&gt;
+            &lt;/div&gt;
  		&lt;/div&gt;
   	&lt;/div&gt;
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
-</tw-passagedata><tw-passagedata pid="24" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;hover&quot; &quot;audio/hover.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
+</tw-passagedata><tw-passagedata pid="24" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;hover&quot; &quot;audio/hover.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;fire&quot;  &quot;audio/fire.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;phone&quot;  &quot;audio/phone.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;phone-tap&quot;  &quot;audio/phone-tap.mp3&quot;&gt;&gt;
@@ -2836,26 +4399,26 @@ $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x
     &lt;div class=&quot;phone-scene&quot;&gt;
         &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/phone.png&quot; crossorigin=&quot;anonymous&quot;&gt;
         &lt;div class=&quot;phone-keys&quot;&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;1&quot;&gt;1&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;2&quot;&gt;2&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;3&quot;&gt;3&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;4&quot;&gt;4&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;5&quot;&gt;5&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;6&quot;&gt;6&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;7&quot;&gt;7&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;8&quot;&gt;8&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;9&quot;&gt;9&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;*&quot;&gt;*&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;0&quot;&gt;0&lt;/button&gt;
-            &lt;button class=&quot;phone-key&quot; data-num=&quot;#&quot;&gt;#&lt;/button&gt;
-            &lt;button class=&quot;phone-call&quot; id=&quot;phone-call&quot;&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;1&quot; aria-label=&quot;1&quot;&gt;1&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;2&quot; aria-label=&quot;2&quot;&gt;2&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;3&quot; aria-label=&quot;3&quot;&gt;3&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;4&quot; aria-label=&quot;4&quot;&gt;4&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;5&quot; aria-label=&quot;5&quot;&gt;5&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;6&quot; aria-label=&quot;6&quot;&gt;6&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;7&quot; aria-label=&quot;7&quot;&gt;7&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;8&quot; aria-label=&quot;8&quot;&gt;8&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;9&quot; aria-label=&quot;9&quot;&gt;9&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;*&quot; aria-label=&quot;asterisco&quot;&gt;*&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;0&quot; aria-label=&quot;0&quot;&gt;0&lt;/button&gt;
+            &lt;button class=&quot;phone-key&quot; data-num=&quot;#&quot; aria-label=&quot;cardinal&quot;&gt;#&lt;/button&gt;
+            &lt;button class=&quot;phone-call&quot; id=&quot;phone-call&quot; aria-label=&quot;Ligar&quot;&gt;
                 &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/phone-call.png&quot;&gt;
             &lt;/button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&quot;text-box phone-text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;O fumo cinzento escuro parece aumentar cada vez mais, apesar de ainda aparentar estar longe. É melhor avisar a proteção civil, mas para qual número ligar?&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;O fumo cinzento escuro parece aumentar cada vez mais, apesar de ainda aparentar estar longe. É melhor avisar a proteção civil, &lt;b&gt;mas para qual número ligar?&lt;/b&gt;&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="21" tags="" position="1175,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
@@ -3037,7 +4600,7 @@ setTimeout(function() {
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Onde estou? Que se passou?&lt;/b&gt;
-    Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas, e os meus amigos e família à minha volta.. Os bombeiros encontraram-me mesmo a tempo de ser resgatado. Tive sorte, mas podia não ter tidop. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
+    Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas, e os meus amigos e família à minha volta.. Os bombeiros encontraram-me mesmo a tempo de ser resgatado. Tive sorte, mas podia não ter tido. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
     &lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
         [[Resultados]]
@@ -3061,7 +4624,7 @@ setTimeout(function() {
 
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay kitseguranca&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
@@ -3227,7 +4790,7 @@ setTimeout(function() {
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-          &lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Evacuo na hora, entrando no carro para me dirigir ao ponto de encontro na aldeia. Saí mesmo a tempo, o fogo está cada vez mais próximo e o trânsito já se faz sentir. Tenho pena de não ter conseguido preparar o Kit, ou pegar no cão Bobi, mas aqueles segundos podiam ter custado a minha vida e bão havia tempo para tudo.. Nem deixei a casa preparada, espero que fique tudo bem.&lt;/p&gt;
+          &lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Evacuo na hora, entrando no carro para me dirigir ao ponto de encontro na aldeia. Saí mesmo a tempo, o fogo está cada vez mais próximo e o trânsito já se faz sentir. Tenho pena de não ter conseguido preparar o Kit, ou pegar no cão Bobi, mas aqueles segundos podiam ter custado a minha vida e não havia tempo para tudo.. Nem deixei a casa preparada, espero que fique tudo bem.&lt;/p&gt;
     	&lt;div class=&quot;choices&quot;&gt;
     		[[Dirijo-me para o ponto de encontro da aldeia-&gt;26]] 
     	&lt;/div&gt;
