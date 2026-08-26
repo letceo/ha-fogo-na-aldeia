@@ -128,6 +128,25 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 .fira-sans-bold-italic { font-family: "Fira Sans", sans-serif; font-weight: 700; font-style: italic; }
 .fira-sans-extrabold-italic { font-family: "Fira Sans", sans-serif; font-weight: 800; font-style: italic; }
 
+/* GARANTE QUE NADA TEM SCROLL EXCETO A TEXTBOX */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden !important;  
+  overflow-y: hidden !important;  
+  max-width: 100%;
+}
+
+#story, #passages {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;  
+}
+
+#ui-overlay {
+  overflow: hidden !important;
+}
 
 /* ============================================================
    ALINHAMENTO CONSISTENTE: sound-btn + font-btn
@@ -180,8 +199,7 @@ html, body {
   padding: 0;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  overflow: hidden;
+  overflow: hidden !important;  
   max-width: 100%;
 }
 
@@ -238,7 +256,8 @@ p { color: white !important; }
   min-height: 15vh !important;
   max-height: 30vh !important;
   z-index: 3 !important;
-  overflow-y: auto !important;
+  overflow-y: auto !important; 
+  overflow-x: hidden !important;
   width: -webkit-fill-available !important;
   width: -moz-available !important;
   width: 100% !important;
@@ -280,11 +299,12 @@ p { color: white !important; }
   margin: 0.3em 0 !important;
   padding: 0 !important;
   color: white !important;
+  flex-shrink: 0 !important;
 }
 
 .text-box .choices {
-  margin: 0.3em 0 !important;
-  padding: 0 !important;
+  overflow: visible !important;
+  flex-shrink: 0 !important;
 }
 
 .text-box .ui-btn {
@@ -318,6 +338,36 @@ p { color: white !important; }
   z-index: 3;
   color: white;
   font-size: 1.3em;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.alarm {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
+}
+
+.alarm::-webkit-scrollbar {
+  width: 5px;
+}
+
+.alarm::-webkit-scrollbar-track {
+  background: rgba(250, 237, 205, 0.15);
+  border-radius: 999px;
+  margin: 6px 0;
+}
+
+.alarm::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 252, 224, 0.8);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  min-height: 26px;
+}
+
+.alarm::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 252, 224, 0.95);
 }
 
 .alarm p, .alarm li, .alarm b, .alarm h2 {
@@ -326,6 +376,7 @@ p { color: white !important; }
 
 .alarm .choices {
   opacity: 1 !important;
+  flex-wrap: wrap !important;
 }
 
 .alarm .choices a, .alarm .choices button {
@@ -347,7 +398,7 @@ p { color: white !important; }
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  overflow: hidden;
+  overflow: hidden !important; 
   animation: sceneFade 1s ease;
   width: 100vw;
   height: 85vh;
@@ -363,6 +414,8 @@ p { color: white !important; }
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .image-overlay {
@@ -379,6 +432,14 @@ p { color: white !important; }
   height: 100vh !important;
 }
 
+.alarm-scene .image-bg.village.fullheight {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  height: 100vh !important;
+  min-height: 100vh !important;
+}
+
 .ui-btn {
   position: absolute;
   top: -15px;
@@ -387,8 +448,8 @@ p { color: white !important; }
   gap: 0rem;
   z-index: 4;
   font-size: 16px !important;
+  contain: layout;     
 }
-
 
 /* DETAils */
 h1 {
@@ -495,6 +556,8 @@ button .choices a {
 }
 
 .choices a {
+  position: relative;
+  z-index: 0;      
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
   background-size: cover !important;
   background-position: center !important;
@@ -511,7 +574,16 @@ button .choices a {
   white-space: nowrap;
 }
 
+.choices a,
+.choices a:hover,
+.choices a:focus,
+.choices a:visited {
+  text-decoration: none !important;
+}
+
 .choices button {
+  position: relative;   
+  z-index: 0;                 
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
   background-size: cover !important;
   background-position: center !important;
@@ -526,13 +598,46 @@ button .choices a {
   width: auto !important;
   display: inline-block !important;
   white-space: nowrap;
+}
+
+.choices a::before,
+.choices button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.25s ease !important;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.btn-sobre a::before {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
+}
+
+.choices a:hover::before,
+.choices button:hover::before {
+  opacity: 1;
 }
 
 .choices a:hover,
 .choices button:hover {
-  transform: scale(1.03) !important;
-  border-bottom-width: 2px !important;
-  transition: 0.2s !important;
+  transform: none !important;
+  border-bottom-width: 4px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 
+              0 3px 6px rgba(0,0,0,0.4),
+              0 0 0 2px rgba(183, 126, 86, 0.3) !important;
+  transition: 0.15s !important;
+}
+
+.choices a:focus-visible,
+.choices button:focus-visible {
+  outline: 2px solid Highlight;
+  outline-offset: 3px;
 }
 
 .choices a,
@@ -560,14 +665,24 @@ button .choices a {
 }
 
 .ui-btn a:hover,
-.ui-btn button:hover {
-  transform: scale(1.1);
-  transition: 0.5s;
+.ui-btn button:hover,
+.ui-btn .macro-back:hover {
+  transform: none !important;
+  text-shadow: 0 2px 12px rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.6) !important;
+  transition: 0.2s !important;
   text-decoration: none;
 }
 
 .ui-btn a:first-child {
   opacity: 0.6;
+}
+
+.ui-btn .macro-back {
+  opacity: 0.6;
+}
+
+.ui-btn .macro-back:hover {
+  opacity: 1;
 }
 
 .ui-btn a:first-child:hover {
@@ -608,7 +723,8 @@ button .choices a {
 }
 
 #sound-btn button:hover {
-  transform: scale(1.2) !important;
+  transform: none !important;
+  text-shadow: 0 2px 14px rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.6) !important;
 }
 
 button {
@@ -643,8 +759,9 @@ button {
 }
 
 #font-btn:hover {
-  transform: scale(1.2);
-  transition: 0.2s;
+  transform: none !important;
+  text-shadow: 0 2px 14px rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.6) !important;
+  transition: text-shadow 0.25s ease !important;
 }
 
 
@@ -1706,18 +1823,20 @@ button {
     box-sizing: border-box !important;
   }
 
-  .text-box {
-    font-size: 1.25em !important;
-    max-height: 35vh !important;
-    padding: 2% 3% !important;
-    line-height: 1.6 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    border-radius: 0 !important;
-    border-width: 8px !important;
-  }
+.text-box {
+  font-size: 1.25em !important;
+  max-height: 35vh !important;
+  padding: 2% 3% !important;
+  line-height: 1.6 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  border-radius: 0 !important;
+  border-width: 8px !important;
+  overflow-y: auto !important;  
+  overflow-x: hidden !important; 
+}
 
   .alarm {
     width: 90% !important;
@@ -1777,6 +1896,7 @@ button {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 0.6rem !important;
+    overflow: hidden !important;
   }
 
   .choices a,
@@ -1788,6 +1908,7 @@ button {
     box-sizing: border-box !important;
     white-space: normal !important;
     word-break: break-word !important;
+    transform: none !important; 
   }
 }
 
@@ -2822,7 +2943,26 @@ html[data-init="loading"] #init-loading {
         transform: scale(1) translateY(0);
     }
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
+
+/* ============================================================
+   ESTABILIDADE DOS BOTÕES NAS PÁGINAS SOBRE/COMO JOGAR
+   ============================================================ */
+
+.alarm .choices a,
+.alarm .choices button,
+.alarm .btn-sobre a {
+  flex-shrink: 0 !important;
+  transform: none !important;
+}
+
+.alarm .choices {
+  flex-wrap: wrap !important;
+}
+
+.alarm .choices a:hover,
+.alarm .choices button:hover {
+  border-bottom-width: 2px !important;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
 // de phone.png. Isto evita que o teclado varie para a esquerda/direita
@@ -3050,7 +3190,7 @@ var fontSizes = ['1.25em', '1.55em', '1.85em', '2.15em'];
 var fontIndex = 0;
 
 function aplicarFonte() {
-  document.querySelectorAll('.text-box').forEach(function (el) {
+  document.querySelectorAll('.text-box, .alarm').forEach(function (el) {
     el.style.setProperty('font-size', fontSizes[fontIndex], 'important');
   });
   var labels = ['A', 'A+', 'A++', 'A+++'];
@@ -4081,7 +4221,7 @@ function TocarBirds() {
     &lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Dirijo-me ao ponto de encontro da aldeia, (indicar características), um local aberto e sem vegetação.&lt;/b&gt;&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;Dirijo-me ao ponto de encontro da aldeia, (indicar características), um local aberto e sem vegetação.&lt;b&gt;O que faço agora?&lt;/b&gt;&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
             [[Aguardo pelas indicações autoridades-&gt;13]]
             &lt;&lt;if not $entrouPanico&gt;&gt;
@@ -4449,15 +4589,37 @@ function TocarBirds() {
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
 </tw-passagedata><tw-passagedata pid="29" name="Como jogar" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
-    	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;scene alarm-scene&quot;&gt;
+    &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;alarm&quot;&gt;
+        &lt;p&gt;Selecione entre as opções para avançar na história e descobrir se tomou as melhores opções para lidar com um incêndio florestal. A qualquer momento pode &lt;b&gt;Voltar&lt;/b&gt; para a passagem anterior ←, ou &lt;b&gt;Recomeçar&lt;/b&gt; ⟲. 
+        &lt;br&gt;&lt;br&gt;Para uma melhor experiência, pode &lt;b&gt;ativar ou desativar o som&lt;/b&gt; no ícone 🔊 ou &lt;b&gt;mudar o tamanho de letra &lt;/b&gt; clicando em &lt;b&gt;A&lt;/b&gt;.&lt;/p&gt;
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Começar-&gt;1]]
+            &lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
-    &lt;div class=&quot;alarm&quot;&gt;Selecione entre as opções para avançar na história e descobrir se tomou as melhores opções para lidar com um incêndio florestal. A qualquer momento pode voltar para a passagem anterior (), ou Recomeçar. Para uma melhor experiência, ative o som, em ....
-    	&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]][[Sobre]]&lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Sobre" tags="" position="0,325" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene alarm-scene&quot;&gt;
+    &lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;alarm&quot;&gt;
+        &lt;h2&gt;Sobre&lt;/h2&gt;
+        &lt;p&gt;&quot;Há fogo na aldeia&quot; é uma narrativa interativa desenvolvida pelo CEABN (Centro de Ecologia Aplicada &quot;Prof. Baeta Neves&quot;) do Instituto Superior de Agronomia, para a plataforma de educação &lt;b&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;Fire-Explorer&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+        &lt;p&gt;Em colaboração com o Colab ForestWise e Proteção Civil.&lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;Créditos:&lt;/b&gt;&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Coordenação por Conceição Colaço;&lt;/li&gt;
+            &lt;li&gt;Coordenação artística e multimédia: Letícia Oliveira;&lt;/li&gt;
+            &lt;li&gt;Ilustrações: Inês Freitas.&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Começar-&gt;1]]
+            &lt;span class=&quot;btn-sobre&quot;&gt;[[Como jogar]]&lt;/span&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="Sobre" tags="" position="0,325" size="100,100">&lt;div class=&quot;scene alarm-scene&quot;&gt;&lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;&lt;div class=&quot;alarm&quot;&gt;&lt;h2&gt;Sobre&lt;/h2&gt;&lt;p&gt;&quot;Há fogo na aldeia&quot; é uma narrativa interativa desenvolvida pelo CEABN (Centro de Ecologia Aplicada &quot;Prof. Baeta Neves&quot;) do Instituto Superior de Agronomia, para a plataforma de educação &lt;b&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot;&gt;Fire-Explorer&lt;/a&gt;&lt;/b&gt;
-
-Em colaboração com o Colab ForestWise e Proteção Civil. &lt;/p&gt;&lt;b&gt;Créditos:&lt;/b&gt;&lt;ul&gt;&lt;li&gt;Coordenação por Conceição Colaço; &lt;/li&gt;&lt;li&gt;Coordenação artística e multimédia: Letícia Oliveira;&lt;/li&gt;&lt;li&gt;Ilustrações: Inês Freitas.&lt;/li&gt;&lt;/ul&gt;&lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]]&lt;span class=&quot;btn-sobre&quot;&gt;[[Como jogar]]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="31" name="22" tags="" position="1000,25" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="22" tags="" position="1000,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;bom&#39;, &#39;Boa escolha! Zona sem vegetação é mais segura.&#39;, &#39;✅&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg transito&quot;&gt;&lt;/div&gt;
