@@ -797,7 +797,7 @@ button {
 }
 
 .panico-scene .image-overlay {
-  animation: tremer-suave 0.6s infinite, em-panico 1.2s ease-in-out forwards;
+  animation: tremer-suave 0.6s infinite, em-panico 2s ease-in-out forwards;
 }
 
 @keyframes tremer-suave {
@@ -998,6 +998,15 @@ button {
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fogo-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -3241,6 +3250,8 @@ function clearTimers() {
     clearInterval(countdownInterval);
     countdownInterval = null;
   }
+  var tic = SimpleAudio.tracks.get('tic');
+  if (tic) tic.stop();
   $('#decision-timer').remove();
 }
 
@@ -3280,23 +3291,27 @@ function startDecisionTimer() {
   $('body').append($timer);
 
   countdownInterval = setInterval(function () {
-    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM E SE O PÂNICO NÃO FOI USADO
-    if (passage() !== currentPassage || State.variables.entrouPanico === true) {
-      clearTimers(); // Se mudou ou o pânico foi usado, para o timer
-      return;
-    }
-    
-    seconds--;
-    $timer.text(seconds);
+      if (passage() !== currentPassage || State.variables.entrouPanico === true) {
+        clearTimers();
+        return;
+      }
+      
+      seconds--;
+      $timer.text(seconds);
+      
+      // tic-tic suave, mais alto nos últimos 10 segundos
+      var tic = SimpleAudio.tracks.get('tic');
+      if (tic) tic.volume(seconds <= 10 ? 0.5 : 0.2).play();
 
-    if (seconds <= 10) {
-      $timer.css('border-color', '#cc2222');
-      $timer.css('color', '#ff4444');
-    }
-    if (seconds <= 0) {
-      clearInterval(countdownInterval);
-      countdownInterval = null;
-    }
+      if (seconds <= 10) {
+        $timer.css('border-color', '#cc2222');
+        $timer.css('color', '#ff4444');
+      }
+
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
   }, 1000);
 
   decisionTimer = setTimeout(function () {
@@ -3317,77 +3332,82 @@ function startDecisionTimer() {
 
 $(document).on(':passagestart', function (ev) {
   var name = ev.passage.title;
+
+  // ============================================================
+  // CORREÇÃO: Se for a passagem Start, reiniciar o estado dos pássaros
+  // ============================================================
+  if (name === 'Start') {
+      birdsStarted = false;
+      var birds = SimpleAudio.tracks.get('birds');
+      if (birds) birds.stop();
+      State.variables.entrouPanico = false;
+  }
+
   TocarBirds();
   clearTimers();
 
   $('.scene').hide().fadeIn(200);
 
-  SimpleAudio.select(':all').stop();
+  // ============================================================
+  // Parar apenas sons curtos, mantendo os contínuos (birds, fire, heartbeat)
+  // ============================================================
+  var sonsParaParar = [
+      'phone-tap', 'hover', 'phone', 'sinos',
+      'car-stopping', 'car-start', 'cough','tic',
+      'ear-ringing', 'heavy-breathing',
+      'breathing-exercise', 'hospital', 'crowd'
+  ];
+  sonsParaParar.forEach(function(id) {
+      var track = SimpleAudio.tracks.get(id);
+      if (track) track.stop();
+  });
 
-  // Lista de passagens no exterior (birds mais alto)
-  var exteriorPassages = ['Start', '6', '14','27']; //adicionar depois finais felizes ou nos parques de estacionamento
+  // ============================================================
+  // BIRDS – contínuo com fadeout quando não está nas listas
+  // ============================================================
+  var exteriorPassages = ['Start', '6', '14', '27','Resultados'];
+  var interiorPassages = ['1', '2', '2.1', 'Resultado 112', '3', '4', '5'];
 
-  // Lista de passagens no interior (birds mais baixo)
-  var interiorPassages = ['1','2', '2.1', '3', '4', '5'];
-
-  // Ajustar volume do birds
-  if (exteriorPassages.indexOf(name) > -1) {
-      ajustarVolumeBirds('exterior');
-  } else if (interiorPassages.indexOf(name) > -1) {
-      ajustarVolumeBirds('interior');
+  var temBirds = (exteriorPassages.indexOf(name) > -1) || (interiorPassages.indexOf(name) > -1);
+  if (temBirds) {
+      if (exteriorPassages.indexOf(name) > -1) {
+          ajustarVolumeBirds('exterior');
+      } else {
+          ajustarVolumeBirds('interior');
+      }
+  } else {
+      ajustarVolumeBirds('fadeout');
   }
 
-  //Fogo por proximidade
-
+  // ============================================================
+  // FOGO – contínuo (nunca para), apenas volume ajusta
+  // ============================================================
   var fogoProximidade = {
-      // Nível 1: muito longe
-      'muito_longe': ['1','2', '2.1', '3', '5', '6','14','26','27'],
-      
-      // Nível 2: longe
-      'longe': ['4','8','10','11','12','13','22','23'],
-      
-      // Nível 3: perto
-      'perto': ['7', '9','15','31','24','31'],
-      
-      // Nível 4: muito perto
-      'muito_perto': ['16','19', '28','25','32','33'],
-      
-      // Nível 5: dentro de casa
+      'muito_longe': ['14', '26', '27'],
+      'longe': ['4', '8', '10', '11', '12', '13', '22', '23'],
+      'perto': ['7', '9', '15', 'Resultado Casa', '24', '31', 'Resultado Kit'],
+      'muito_perto': ['16', '19', '28', '25', '32', '33'],
       'dentro_casa': ['34'],
-      
-      // Sem fogo (fadeout)
-      'fadeout': ['Start', '1', '20', '21','29','35']
+      'fadeout': ['Start', '1', '2', '2.1', 'Resultado 112', '3', '5', '6', '20', '21', '29', '35', 'Resultados']
   };
 
-  // Aplicar volume com base no mapa
   var nivelEncontrado = false;
-
   for (var nivel in fogoProximidade) {
       if (fogoProximidade[nivel].indexOf(name) > -1) {
-          if (nivel === 'fadeout') {
-              // Se for fadeout, para o fogo
-              var fire = SimpleAudio.tracks.get('fire');
-              if (fire) {
-                  fire.stop();
-              }
-          } else {
-              // Caso contrário, ajusta o volume e toca
-              ajustarVolumeFogo(nivel);
-              SimpleAudio.tracks.get('fire').loop(true).play();
-          }
+          // Apenas ajusta o volume, nunca para
+          ajustarVolumeFogo(nivel);
           nivelEncontrado = true;
           break;
       }
   }
-
-  // Se a passagem NÃO estiver em nenhuma lista, para o fogo (segurança)
   if (!nivelEncontrado) {
-      var fire = SimpleAudio.tracks.get('fire');
-      if (fire) {
-          fire.stop();
-      }
+      // Se não estiver em nenhuma lista, assume fadeout (volume 0)
+      ajustarVolumeFogo('fadeout');
   }
-  
+
+  // ============================================================
+  // RESTANTES SONS (curtos ou específicos)
+  // ============================================================
   var heartPassages = ['7', '20', '21', '8'];
   var timerPassages = ['7', '8', '10', '16'];
 
@@ -3399,16 +3419,36 @@ $(document).on(':passagestart', function (ev) {
     SimpleAudio.tracks.get('sinos').loop(false).volume(0.3).play();
   }
 
-  if (name === '20'|| name === '28'|| name === '34') {
+  if (name === '20') {
+    setTimeout(function () {
+      if (passage() === '20') {
+        SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
+      }
+    }, 1400);
+  } else if (name === '28' || name === '34') {
     SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
   }
-  
-    if (name === '21' || name === '29' || name === '35') {
+
+  if (name === '21') {
     SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
   }
-  
-  if (name === '20' ||  name === '28' || name === '34') {
-    SimpleAudio.tracks.get('ear-ringing').loop(false).volume(0.05).play();
+
+  if (name === '29' || name === '35') {
+    SimpleAudio.tracks.get('ear-ringing').loop(true).volume(0.05).play();
+    SimpleAudio.tracks.get('hospital').loop(false).volume(0.6).play();
+
+    var atrasoRespirar = 1500; // ms — ajusta ao gosto
+    setTimeout(function (nomePassagem) {
+      return function () {
+        if (passage() === nomePassagem) {
+          SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
+        }
+      };
+    }(name), atrasoRespirar);
+  }
+
+  if (name === '20' || name === '28' || name === '34') {
+    SimpleAudio.tracks.get('ear-ringing').loop(true).volume(0.05).play();
   }
 
   if (name === '4' || name === '10' || name === '28') {
@@ -3426,10 +3466,6 @@ $(document).on(':passagestart', function (ev) {
   if (name === '22') {
     SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
   }
-  
-    if (name === '29') {
-    SimpleAudio.tracks.get('hospital').loop(false).volume(0.6).play();
-  }
 
   if (name === '26') {
     SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
@@ -3443,70 +3479,111 @@ $(document).on(':passagestart', function (ev) {
     startDecisionTimer();
   }
 
-
-  
-   // Ajuste do telemóvel na passagem 2.1
-    if (name === '2.1') {
-      setTimeout(function() {
-          ajustarPhone();
-          var scene = document.querySelector('.phone-scene');
-          if (scene) {
-              scene.style.display = 'flex';
-              scene.style.alignItems = 'center';
-              scene.style.justifyContent = 'center';
-          }
-      }, 200);
-      $(window).on('resize.phone', ajustarPhone);
+  // Ajuste do telemóvel na passagem 2.1
+  if (name === '2.1') {
+    setTimeout(function() {
+        ajustarPhone();
+        var scene = document.querySelector('.phone-scene');
+        if (scene) {
+            scene.style.display = 'flex';
+            scene.style.alignItems = 'center';
+            scene.style.justifyContent = 'center';
+        }
+    }, 200);
+    $(window).on('resize.phone', ajustarPhone);
   } else {
-      $(window).off('resize.phone');
+    $(window).off('resize.phone');
   }
 });
 
 // ============================================================
-// AJUSTAR VOLUME DO BIRDS CONFORME LOCALIZAÇÃO
+// AJUSTAR VOLUME DO BIRDS CONFORME LOCALIZAÇÃO (com continuidade)
 // ============================================================
-
 function ajustarVolumeBirds(localizacao) {
     var birds = SimpleAudio.tracks.get('birds');
     if (!birds) return;
 
     if (localizacao === 'fadeout') {
-        birds.volume(0.6);
-        birds.fade(0.6, 0, 1000);
+        if (birds.isPlaying()) {           // <-- corrigido
+            birds.fade(birds.volume(), 0, 1000);
+            setTimeout(function() { birds.stop(); }, 1100);
+        }
         return;
     }
 
-    var vol = localizacao === 'exterior' ? 0.8
-             : localizacao === 'interior' ? 0.4
-             : 0.4;
-
-    birds.loop(true).volume(vol).play();
+    var vol = localizacao === 'exterior' ? 0.8 : 0.5;
+    birds.volume(vol);
+    if (!birds.isPlaying()) {              // <-- corrigido
+        birds.loop(true).play();
+    }
 }
 
 // ============================================================
-// AJUSTAR VOLUME DO FOGO CONFORME PROXIMIDADE
+// AJUSTAR VOLUME DO FOGO
 // ============================================================
+var fogoFadeTimer = null;
 
 function ajustarVolumeFogo(nivel) {
     var fire = SimpleAudio.tracks.get('fire');
     if (!fire) return;
 
+    // Nunca chega a 0 literal — evita que a lib trate isto como "parado"
+    // e force um restart da faixa (o clique/pop que estavas a ouvir).
     var volumes = {
-        'muito_longe': 0.15,
-        'longe': 0.30,
-        'perto': 0.55,
-        'muito_perto': 0.75,
+        'muito_longe': 0.04,
+        'longe': 0.18,
+        'perto': 0.40,
+        'muito_perto': 0.70,
         'dentro_casa': 0.85,
-        'fadeout': 0
+        'fadeout': 0.001
     };
 
-    var vol = volumes[nivel];
-    if (vol === undefined) vol = 0.30; // valor padrão
+    var vol = volumes[nivel] !== undefined ? volumes[nivel] : 0.001;
 
-    if (nivel === 'fadeout') {
-        fire.fade(fire.volume(), 0, 1500);
-    } else {
-        fire.volume(vol);
+    // cancela qualquer fade anterior ainda em curso
+    if (fogoFadeTimer) {
+        clearInterval(fogoFadeTimer);
+        fogoFadeTimer = null;
+    }
+
+    var startVol = fire.volume();
+    var duracao = 800;
+    var steps = 20;
+    var stepTime = duracao / steps;
+    var stepVal = (vol - startVol) / steps;
+    var i = 0;
+
+    fogoFadeTimer = setInterval(function () {
+        i++;
+        var novoVol = startVol + stepVal * i;
+        fire.volume(Math.max(0.001, Math.min(1, novoVol)));
+
+        if (i >= steps) {
+            clearInterval(fogoFadeTimer);
+            fogoFadeTimer = null;
+            fire.volume(vol);
+        }
+    }, stepTime);
+}
+
+// ============================================================
+// AJUSTAR VOLUME Heartbeats
+// ============================================================
+function ajustarVolumeHeartbeat(dentro) {
+    var heartbeat = SimpleAudio.tracks.get('heartbeat');
+    if (!heartbeat) return;
+
+    if (!dentro) {
+        if (heartbeat.isPlaying()) {       // <-- corrigido
+            heartbeat.fade(heartbeat.volume(), 0, 800);
+            setTimeout(function () { heartbeat.stop(); }, 900);
+        }
+        return;
+    }
+
+    heartbeat.volume(0.1);
+    if (!heartbeat.isPlaying()) {          // <-- corrigido
+        heartbeat.loop(true).play();
     }
 }
 
@@ -3866,8 +3943,15 @@ $(document).one(':storyready', function () {
       '</div>' +
     '</footer>';
   
-    document.body.appendChild(overlay);
+  document.body.appendChild(overlay);
   TocarBirds();
+  
+  var fire = SimpleAudio.tracks.get('fire');
+  if (fire) {
+    fire.loop(true);
+    fire.volume(0);
+    fire.play();
+  }
 
   var tipEl = overlay.querySelector('#tip-text');
   if (tips.length) {
@@ -3984,17 +4068,31 @@ function animarTitulo(titleEl, targetTitle) {
 // ============ ÁUDIO: desbloqueio de autoplay ============
 var birdsStarted = false;
 
+// ============================================================
+// CORREÇÃO: reiniciar variável ao recomeçar o jogo
+// ============================================================
+$(document).on(':storyrestart', function () {
+    birdsStarted = false;
+    var birds = SimpleAudio.tracks.get('birds');
+    if (birds) birds.stop();
+    var fire = SimpleAudio.tracks.get('fire');
+    if (fire) fire.stop();
+    var heartbeat = SimpleAudio.tracks.get('heartbeat');
+    if (heartbeat) heartbeat.stop();
+    State.variables.entrouPanico = false;
+});
+
 function TocarBirds() {
   if (birdsStarted) return;
   var birds = SimpleAudio.tracks.get('birds');
   if (!birds) return;
 
-  birdsStarted = true; // otimista, evita chamadas duplicadas
+  birdsStarted = true;
   var p = birds.loop(true).volume(0.6).play();
 
   if (p && typeof p.catch === 'function') {
     p.catch(function () {
-      birdsStarted = false; // bloqueado por autoplay — tenta de novo na próxima passagem
+      birdsStarted = false;
     });
   }
 }</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
@@ -4427,6 +4525,7 @@ function TocarBirds() {
 &lt;&lt;cacheaudio &quot;crowd&quot;  &quot;audio/multidao.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;breathing-exercise&quot;  &quot;audio/breathing-exercise.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;hospital&quot;  &quot;audio/hospital.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;tic&quot;  &quot;audio/tic.mp3&quot;&gt;&gt;
 
 
 &lt;&lt;set $muted to false&gt;&gt;
@@ -4634,10 +4733,38 @@ function TocarBirds() {
 &lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay fire-overlay vibrate-2 fogo-de&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay fire-overlay vibrate-2 fogo-de&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay cinzas-overlay&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;&lt;script&gt;&gt;
+(function () {
+  var duracaoFogo = 4000; 
+  var jaTratado = false;
+
+  var fire = SimpleAudio.tracks.get(&#39;fire&#39;);
+  var birds = SimpleAudio.tracks.get(&#39;birds&#39;);
+
+  // Início: fade do fogo já começa aqui, sincronizado com a animação visual
+  if (fire &amp;&amp; fire.isPlaying()) {
+    fire.fade(fire.volume(), 0, duracaoFogo);
+  }
+
+  $(&#39;.fogo-de&#39;).one(&#39;animationend&#39;, function (e) {
+    if (jaTratado) return;
+    if (e.originalEvent &amp;&amp; e.originalEvent.animationName !== &#39;fogo-fade-out&#39;) return;
+    jaTratado = true;
+    if (fire) fire.volume(0); // silencia sem parar a reprodução
+    if (birds) {
+      birds.loop(true);
+      birds.volume(0.12);
+      if (!birds.isPlaying()) {
+        birds.play();
+      }
+    }
+});
+})();
+&lt;&lt;/script&gt;&gt;
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     &lt;p class=&quot;animar&quot;&gt;As horas passam e o fogo começa a acalmar. A aldeia fica agora envolta numa onda de fumo. Daqui a umas horas, é possível voltar para casa com os devidos cuidados.
@@ -4744,7 +4871,7 @@ setTimeout(function() {
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;Onde estou? Que se passou?&lt;/b&gt;
-    Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas, e os meus amigos e família à minha volta.. Os bombeiros encontraram-me mesmo a tempo de ser resgatado. Tive sorte, mas podia não ter tido. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
+    Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas, e os meus amigos e família à minha volta. Os bombeiros encontraram-me mesmo a tempo de ser resgatado. Tive sorte, mas podia não ter tido. Entrar numa zona de floresta durante um incêndio é uma das decisões mais perigosas que se pode tomar.
     &lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
         [[Resultados]]
@@ -4772,7 +4899,7 @@ setTimeout(function() {
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
-        &lt;p class=&quot;animar&quot;&gt;Lembro-me que para evacuar em segurança é importante ter um kit, para não ser apanhado desprevenido. &lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;Lembro-me que é importante ter um kit, para não ser apanhado desprevenido. &lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
 
         &lt;div class=&quot;choices-112&quot;&gt;
             &lt;label&gt;&lt;&lt;checkbox &quot;$k1&quot; false true&gt;&gt; Documentos de identificação e papéis importantes&lt;/label&gt;
@@ -4917,7 +5044,7 @@ setTimeout(function() {
         &lt;b&gt;Onde estou? Que se passou?&lt;/b&gt;
 
         Perco a consciência entre o fumo e o calor. Quando acordo, ouço o som das máquinas,
-        e os meus amigos e família à minha volta.. Os bombeiros encontraram-me mesmo a tempo
+        e os meus amigos e família à minha volta. Os bombeiros encontraram-me mesmo a tempo
         de ser resgatada. Perdi a casa, mas tive sorte, não perdi a vida. Devia ter ouvido as
         autoridades, ou se tivesse que ficar em casa, fazer a preparação correta.
     &lt;/p&gt;
