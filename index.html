@@ -194,12 +194,12 @@ html, body {
 .scene {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;  
   top: 0 !important;
   padding: 0;
   align-items: center;
   justify-content: center;
-  overflow: hidden !important;  
+  overflow: hidden !important;
   max-width: 100%;
 }
 
@@ -243,10 +243,10 @@ p { color: white !important; }
   right: 0 !important;
   left: auto !important;
   font-size: 1.55em !important;
-  padding: 1% 4% !important;
+  padding: 1% 0 !important;            
   padding-top: clamp(2rem, 5vw, 3.2rem) !important;
   color: white !important;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png) !important;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
   background-size: cover !important;
   background-position: center !important;
   border: 8px solid #b77e56 !important;
@@ -256,20 +256,41 @@ p { color: white !important; }
   min-height: 15vh !important;
   max-height: 30vh !important;
   z-index: 3 !important;
-  overflow-y: auto !important; 
-  overflow-x: hidden !important;
-  width: -webkit-fill-available !important;
-  width: -moz-available !important;
+  overflow: hidden !important;           
   width: 100% !important;
   margin: 0 !important;
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
+}
 
-  /* Firefox: */
+.text-scroll {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  padding: 0 4% !important;
+
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
+}
+
+.text-scroll::-webkit-scrollbar { width: 5px; }
+.text-scroll::-webkit-scrollbar-track {
+  background: rgba(250, 237, 205, 0.15);
+  border-radius: 999px;
+  margin: 6px 0;
+}
+.text-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 252, 224, 0.8);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  min-height: 26px;
+}
+.text-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 252, 224, 0.95);
 }
 
 /* Chrome/Safari/Edge: */
@@ -1555,6 +1576,22 @@ button {
   }
 }
 
+:root {
+  /* Valores desktop (default) */
+  --carro-andar-mid-x: -1.9%;
+  --carro-andar-mid-y: -25%;
+  --carro-andar-mid-scale: 0.895;
+  --carro-andar-end-x: -1.6%;
+  --carro-andar-end-y: -23%;
+  --carro-andar-end-scale: 0.91;
+
+  --carro-inv-x: -1.6%;
+  --carro-inv-y: -23%;
+  --carro-inv-scale: 0.91;
+  --carro-inv-final-x: -25vw;  /* por defeito, igual à posição da rotação */
+  --carro-inv-final-y: -25vh;
+}
+
 .carro-andar {
   animation: carro-andar-anim 1.4s ease-out forwards;
   transform-origin: center bottom;
@@ -1565,68 +1602,101 @@ button {
   0% {
     transform: translate(0, 0) scale(1);
   }
-
   78% {
-    transform: translate(-1.9%, -25%) scale(0.895);
+    transform: translate(var(--carro-andar-mid-x), var(--carro-andar-mid-y)) scale(var(--carro-andar-mid-scale));
   }
-
   100% {
-    transform: translate(-1.6%, -23%) scale(0.91);
+    transform: translate(var(--carro-andar-end-x), var(--carro-andar-end-y)) scale(var(--carro-andar-end-scale));
   }
 }
 
 .carro-inversao {
   animation: carro-inversao-anim 4s forwards;
-  transform-origin: center bottom;
+  transform-origin: center var(--carro-inv-origin-y, bottom);
   background-position: center bottom;
 }
 
 @keyframes carro-inversao-anim {
   0% {
-    transform: translate(-1.6%, -23%) scale(0.91) rotate(0deg);
+    transform: translate(var(--carro-inv-x), var(--carro-inv-y)) scale(var(--carro-inv-scale)) rotate(0deg);
     animation-timing-function: ease-in;
   }
-
   38% {
-    transform: translate(-1.75%, -23.3%) scale(0.9) rotate(-10deg);
+    transform: translate(var(--carro-inv-x), var(--carro-inv-y)) scale(var(--carro-inv-scale)) rotate(-10deg);
     animation-timing-function: linear;
   }
-
   62% {
-    transform: translate(-1.75%, -23.3%) scale(0.9) rotate(-170deg);
+    transform: translate(var(--carro-inv-x), var(--carro-inv-y)) scale(var(--carro-inv-scale)) rotate(-170deg);
     animation-timing-function: ease-out;
   }
-
+  75% {
+    transform: translate(var(--carro-inv-x), var(--carro-inv-y)) scale(var(--carro-inv-scale)) rotate(-180deg);
+    animation-timing-function: ease-in;
+  }
   100% {
-    transform: translate(-1.6%, -23%) scale(0.91) rotate(-180deg);
+    transform: translate(var(--carro-inv-final-x), var(--carro-inv-final-y)) scale(var(--carro-inv-scale)) rotate(-180deg);
   }
 }
 
-.carro-floresta {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car.png);
-  background-size: 40%;
-  background-position: 15% 85%;
-  background-repeat: no-repeat;
-  animation: carro-floresta-anim 3s ease-in forwards;
+/* Tablets (iPad, etc.) — mesma animação do desktop, ligeiramente mais "zoom" */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .carro-andar,
+  .carro-inversao {
+    --carro-andar-mid-x: -2.3%;
+    --carro-andar-mid-y: -29%;
+    --carro-andar-mid-scale: 1.0;
+    --carro-andar-end-x: -2%;
+    --carro-andar-end-y: -27%;
+    --carro-andar-end-scale: 1.03;
+
+    --carro-inv-x: -2%;
+    --carro-inv-y: -27%;
+    --carro-inv-scale: 1.03;
+  }
+
+  .carro-inversao {
+    --carro-inv-final-x: 0vw;
+    --carro-inv-final-y: 70vh;
+  }
 }
 
-@keyframes carro-floresta-anim {
-  0% {
-    background-size: 40%;
-    background-position: 15% 85%;
+/* Telemóveis — carro maior para não parecer perdido no ecrã */
+@media screen and (max-width: 600px) {
+  .carro-andar {
+    --carro-andar-mid-x: -9vw;
+    --carro-andar-mid-y: -9vh;
+    --carro-andar-mid-scale: 1.18;
+    --carro-andar-end-x: -9vw;
+    --carro-andar-end-y: -8vh;
+    --carro-andar-end-scale: 1.22;
   }
 
-  100% {
-    background-size: 12%;
-    background-position: 52% 42%;
+  .carro-inversao {
+    --carro-inv-x: -25vw;
+    --carro-inv-y: -25vh;
+    --carro-inv-scale: 3.10;
+    --carro-inv-origin-y: 90%;
+    --carro-inv-final-x: 0vw;   
+    --carro-inv-final-y: 12vh;   
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
   }
+}
+
+:root {
+  --carro-floresta-img-start-w: 90%;  
+  --carro-floresta-img-end-w: 40%;  
+  --carro-floresta-img-start-bottom: -20%;
+  --carro-floresta-img-end-bottom: 20%;
+  --carro-floresta-img-start-left: -10%;  
+  --carro-floresta-img-end-left: 35%;      
 }
 
 .carro-floresta-img {
   position: absolute;
-  width: 40%;
-  bottom: 18%;
-  left: 35%;
+  width: var(--carro-floresta-img-start-w);
+  bottom: var(--carro-floresta-img-start-bottom);
+  left: var(--carro-floresta-img-start-left);
   transform: rotate(15deg);
   animation: carro-floresta-img-anim 3s ease-in forwards;
   transform-origin: center center;
@@ -1636,53 +1706,43 @@ button {
 
 @keyframes carro-floresta-img-anim {
   0% {
-    width: 40%;
-    bottom: 18%;
-    left: 30%;
+    width: var(--carro-floresta-img-start-w);
+    bottom: var(--carro-floresta-img-start-bottom);
+    left: var(--carro-floresta-img-start-left);
     transform: rotate(15deg);
   }
-
   100% {
-    width: 12%;
-    bottom: 40%;
-    left: 60%;
+    width: var(--carro-floresta-img-end-w);
+    bottom: var(--carro-floresta-img-end-bottom);
+    left: var(--carro-floresta-img-end-left);
     transform: rotate(15deg);
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .carro-andar,
-  .carro-inversao {
-    overflow: visible !important;
-    background-repeat: no-repeat !important;
-    background-position: center right !important;
-  }
-
-  .carro-andar {
-    animation: carro-andar-anim-mobile 1.4s ease-out forwards !important;
-    transform: none !important;
-  }
-
-  .carro-inversao {
-    animation: carro-inversao-anim-mobile 4s ease-in-out forwards !important;
-    transform: none !important;
+/* Tablets */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .carro-floresta-img {
+    --carro-floresta-img-start-w: 190%;
+    --carro-floresta-img-end-w: 100%;
+    --carro-floresta-img-start-bottom: -5%;
+    --carro-floresta-img-end-bottom: 20%;
+    --carro-floresta-img-start-left: -58%;
+    --carro-floresta-img-end-left: -3%;
   }
 }
 
-/* Só anima o tamanho (efeito de "aproximar/afastar") — sem mexer na posição */
-@keyframes carro-andar-anim-mobile {
-  0%   { background-size: 115% auto; } /* ajusta este valor de base primeiro */
-  78%  { background-size: 108% auto; }
-  100% { background-size: 110% auto; }
+/* Telemóveis — maior para não se perder no ecrã */
+@media screen and (max-width: 600px) {
+  .carro-floresta-img {
+      --carro-floresta-img-start-w: 220%;  
+      --carro-floresta-img-end-w: 140%;  
+      --carro-floresta-img-start-bottom: 5%;
+      --carro-floresta-img-end-bottom: 28%;
+      --carro-floresta-img-start-left: -70%;  
+      --carro-floresta-img-end-left: -5%;  
+  }
 }
 
-/* Mantém o tamanho fixo, anima só a posição (efeito de "virar-se") */
-@keyframes carro-inversao-anim-mobile {
-  0%   { background-position: center right; }
-  38%  { background-position: 65% center; }
-  62%  { background-position: 65% center; }
-  100% { background-position: center right; }
-}
 
 .overlay-rio {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/rio.png);
@@ -1863,6 +1923,11 @@ button {
 /* ============================================================
    RESPONSIVIDADE MELHORADA
    ============================================================ */
+@media screen and (max-width: 1024px) {
+  .choices {
+    margin-top: 1rem !important;
+  }
+}
 
 @media screen and (max-width: 768px) {
 
@@ -1895,7 +1960,7 @@ button {
     align-items: stretch !important;
     gap: 0.75rem !important;
     width: 90% !important;
-    margin: 1rem auto !important;
+    margin: 2rem auto 1rem !important;
   }
 
   .sombrinha .choices a,
@@ -1909,20 +1974,24 @@ button {
     box-sizing: border-box !important;
   }
 
-.text-box {
-  font-size: 1.25em !important;
-  max-height: 35vh !important;
-  padding: 2% 3% !important;
-  line-height: 1.6 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  border-radius: 0 !important;
-  border-width: 8px !important;
-  overflow-y: auto !important;  
-  overflow-x: hidden !important; 
-}
+  .text-box {
+    font-size: 1.25em !important;
+    max-height: 35vh !important;
+    padding: 0 0 0 0 !important;
+    padding-top: clamp(1.6rem, 6vw, 2.4rem) !important;   
+    line-height: 1.6 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    border-width: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .text-scroll {
+    padding: 0 3% 2% 3% !important;   
+  }
 
   .alarm {
     width: 90% !important;
@@ -1983,6 +2052,7 @@ button {
     align-items: stretch !important;
     gap: 0.6rem !important;
     overflow: hidden !important;
+    margin-top: 1.4rem !important;
   }
 
   .choices a,
@@ -2010,38 +2080,76 @@ button {
 /* Tipografia da caixa de texto vai encolhendo em ecrãs muito estreitos */
 @media screen and (max-width: 600px) {
   .text-box {
-    padding: 2.5% 4% !important;
+    padding-top: clamp(1.5rem, 6vw, 2.2rem) !important;
     font-size: 1.15em !important;
+  }
+
+  .text-scroll {
+    padding-left: 4% !important;
+    padding-right: 4% !important;
+    padding-bottom: 2.5% !important;
+
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f0f0f0;
+  }
+
+  .text-scroll::-webkit-scrollbar { 
+    width: 8px; 
+  }
+  
+  .text-scroll::-webkit-scrollbar-track { 
+    background: #f0f0f0; 
+    border-radius: 4px; 
+  }
+  
+  .text-scroll::-webkit-scrollbar-thumb { 
+    background: #888; 
+    border-radius: 4px; 
+  }
+  
+  .text-scroll::-webkit-scrollbar-thumb:hover { 
+    background: #555; 
   }
 }
 
 @media screen and (max-width: 480px) {
-  .text-box {
-    padding: 2% 4% !important;
+  .text-box   { 
+    padding-top: clamp(1.4rem, 6.5vw, 2rem) !important;
     font-size: 1.1em !important;
-    border-width: 6px !important;
+    border-width: 3.5px !important;
     max-height: 35vh !important;
+  }
+  
+  .text-scroll { 
+    padding: 0 4% 2% 4% !important; 
   }
 }
 
 @media screen and (max-width: 400px) {
-  .text-box {
-    padding: 2% 4% !important;
-    font-size: 1.05em !important;
-    border-width: 5px !important;
-    max-height: 38vh !important;
+  .text-box   { 
+    padding-top: clamp(1.3rem, 7vw, 1.8rem) !important;
+    font-size: 1.1em !important;
+    border-width: 3.5px !important;
+    max-height: 35vh !important;
+  }
+
+  .text-scroll { 
+    padding: 0 4% 2% 4% !important; 
   }
 }
 
 @media screen and (max-width: 340px) {
-  .text-box {
-    padding: 4% 5% !important;
-    font-size: 0.95em !important;
-    border-width: 4px !important;
-    max-height: 40vh !important;
+  .text-box   { 
+    padding-top: clamp(1.2rem, 7.5vw, 1.6rem) !important;
+    font-size: 1em !important;
+    border-width: 3.5px !important;
+    max-height: 35vh !important;
+  }
+
+  .text-scroll { 
+    padding: 0 5% 4% 5% !important; 
   }
 }
-
 
 /* ============================================================
    AJUSTES RESPONSIVOS (página inicial)
@@ -2288,9 +2396,11 @@ button {
 @media screen and (min-width: 1025px) {
 
   .phone-keys {
+    top: 38%;
     height: auto;              
     grid-template-rows: repeat(5, auto);
-    gap: 4%;
+    row-gap: 9%;
+    column-gap: 4%;
     align-content: start; 
   }
 
@@ -2311,7 +2421,7 @@ button {
 
 /* --- Paisagem em ecrãs intermédios --- */
 
-@media screen and (orientation: landscape) and (max-width: 1024px) {
+@media screen and (orientation: landscape) and (max-width: 1399px) {
 
   .phone-scene {
     left: 66%;
@@ -2320,7 +2430,9 @@ button {
   }
 
   .phone-keys {
-    font-size: 0.95em;
+    font-size: 1.2em;
+    column-gap: 4%;
+    row-gap:9%;
   }
 }
 
@@ -2329,24 +2441,29 @@ button {
 
 @media screen and (max-width: 600px) and (orientation: portrait) {
 
-  .phone-keys {
+.phone-keys {
     left: 26%;
-    top: 30%;
+    top: 36%;       
     width: 48%;
     height: 56%;
-    gap: 4%;
-  }
+    row-gap: 18%;    
+    column-gap: 4%;   
+}
 
   .phone-key,
   .phone-call {
+    height: auto !important;    
+    width: 100%;                
+    aspect-ratio: 1 / 1;        
+    border-radius: 50%;
     min-width: 42px;
-    min-height: 42px;
+    min-height: 42px;          
     max-width: 64px;
-    max-height: 64px;
+    max-height: 64px;                     
   }
 
   .phone-key {
-    font-size: clamp(0.9rem, 4.5vw, 1.3rem);
+    font-size: clamp(1rem, 5vw, 1.5rem); 
   }
 
   .phone-call img {
@@ -2376,10 +2493,11 @@ button {
 
   .phone-keys {
     left: var(--phone-visible-center-x, 50%);
-    top: 30%;
+    top: 36%;
     width: 46%;
     height: 56%;
-    gap: 4%;
+    column-gap: 4%;
+    row-gap: 9%;
     margin-left: 0;
     transform: translateX(-50%);
     transform-origin: center center;
@@ -2387,6 +2505,9 @@ button {
 
   .phone-key,
   .phone-call {
+    height: auto !important;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
     min-width: 48px;
     min-height: 48px;
     max-width: 76px;
@@ -3200,6 +3321,12 @@ function ajustarPhone() {
         }
 
         /* Desktop / landscape: manter o comportamento existente. */
+        scene.style.removeProperty('left');
+        scene.style.removeProperty('right');
+        scene.style.removeProperty('top');
+        scene.style.removeProperty('transform');
+        scene.style.removeProperty('transform-origin');
+        
         var maxH = Math.min(h * 0.58, 560);
         if (h <= 700) maxH = Math.min(h * 0.58, 430);
         if (h <= 600) maxH = Math.min(h * 0.56, 390);
@@ -3815,10 +3942,18 @@ $(document).on(':passageend', function () {
 
   if ($box.length === 0) return;
 
+  var $scroll = $box.children('.text-scroll');
+  if ($scroll.length === 0) {
+    $scroll = $('<div class="text-scroll"></div>');
+    $box.children().not('.ui-btn').each(function () {
+      $scroll.append(this);
+    });
+    $box.prepend($scroll);
+  }
+
   var $children = $();
-  $box.children().not('.ui-btn').each(function () {
+  $scroll.children().each(function () {          
     var $el = $(this);
-    
     if ($el.is('div[id]') && $el.children().length > 0) {
       $children = $children.add($el.children());
     } else {
@@ -3829,12 +3964,40 @@ $(document).on(':passageend', function () {
   var wordInterval = null;
   var elementIndex = 0;
 
-  $box.find('.choices a, .choices button').css({
+  $scroll.find('.choices a, .choices button').css({   
     'pointer-events': 'none',
     'opacity': '0.4'
   });
 
-  $box.css('overflow-y', 'hidden');
+  $scroll.css('overflow-y', 'hidden');   
+
+  $children.each(function () {
+    $(this).css({ opacity: 0, visibility: 'visible' });
+  });
+
+  function finishAnimation() {
+    if (!animating) return;
+    animating = false;
+
+    if (wordInterval) {
+      clearInterval(wordInterval);
+      wordInterval = null;
+    }
+
+    $children.each(function () {
+      $(this).css('opacity', 1);
+      $(this).find('.word').css('opacity', 1);
+    });
+
+    if ($box.length === 0) return;
+
+    $scroll.find('.choices a, .choices button').css({   // era $box.find
+      'pointer-events': 'auto',
+      'opacity': '1'
+    });
+
+    $scroll.css('overflow-y', 'auto');   // era $box.css
+  }
 
   $children.each(function () {
     $(this).css({ opacity: 0, visibility: 'visible' });
