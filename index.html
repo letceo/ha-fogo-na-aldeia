@@ -4575,7 +4575,7 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
             [[Agarro no carro para sair o mais rápido possível-&gt;11]]
             [[Vou para o ponto de encontro da aldeia-&gt;14]]
             [[Preparar para a evacuação em segurança-&gt;12]]
-            [[Tenho mobilidade reduzida e não consigo evacuar-&gt;9]]
+            [[Tenho mobilidade reduzida e não consigo evacuar-&gt;9][$mobilidadeReduzida = true]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
@@ -4612,7 +4612,7 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-            &lt;&lt;if $avisouVizinhos or &quot;tocouSinoGeral&gt;&gt;
+            &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
             	&lt;p class=&quot;animar&quot;&gt;Os meus vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
                 
             &lt;&lt;elseif $ligou112&gt;&gt;
@@ -4621,7 +4621,7 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
             &lt;&lt;else&gt;&gt;
             	&lt;p class=&quot;animar&quot;&gt; Dirijo-me para o ponto de encontro da aldeia, onde os meus vizinhos já esperam.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;    
-			&lt;&lt;if $kit = false or $fezKit = false&gt;&gt;
+			&lt;&lt;if not $kit or not $fezKit&gt;&gt;
             	&lt;p class=&quot;animar&quot;&gt;Apercebo-me que a maioria trouxe algumas coisas para se aguentar e arrependo-me de não ter preparado nada. Nem consigo comunicar com a minha família a avisar que estou bem... Espero que seja suficiente.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
     		&lt;div class=&quot;choices&quot;&gt;
@@ -4762,7 +4762,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
   &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
       &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
       &lt;p class=&quot;animar&quot;&gt;O fogo lá fora fica assustador, mas por muito que queira, tenho mobilidade reduzida e não consigo evacuar sozinha.&lt;/p&gt;
-      &lt;&lt;if $ligou112&gt;&gt;
+      &lt;&lt;if $ligou112 = true&gt;&gt;
           &lt;p class=&quot;animar&quot;&gt;Ainda bem que avisei o 112, as autoridades já sabem da minha situação e vêm buscar-me para evacuar. Já devem estar por perto...&lt;/p&gt;
       &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
           &lt;p class=&quot;animar&quot;&gt;Ainda bem que informei os vizinhos e combinámos que me viriam ajudar. &lt;/p&gt;
@@ -5442,12 +5442,12 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
     &lt;div class=&quot;ui-btn&quot;&gt;
         [[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;
     &lt;/div&gt;
-	&lt;&lt;if $mobilidadeReduzida&gt;&gt;
-    	&lt;p class=&quot;animar&quot;&gt;O tempo passa, mas a ajuda chega demasiado tarde. Em cerca de 20 minutos &lt;/p&gt;
+	&lt;&lt;if $mobilidadeReduzida = true&gt;&gt;
+    	&lt;p class=&quot;animar&quot;&gt;O tempo passa, mas a ajuda chega demasiado tarde. &lt;/p&gt;
     &lt;&lt;else&gt;&gt;
-    	&lt;p class=&quot;animar&quot;&gt;A decisão de ficar em casa sem cumprir com as medidas de segurança foi uma escolha arriscada. Passados 20 minutos &lt;/p&gt;
+    	&lt;p class=&quot;animar&quot;&gt;A decisão de ficar em casa sem cumprir com as medidas de segurança foi uma escolha arriscada. &lt;/p&gt;
     &lt;&lt;/if&gt;&gt;
-    &lt;p class=&quot;animar&quot;&gt;o fogo começa a circundar a casa também. Sem o terreno à volta limpo e com as janelas abertas, o fogo não tarda a entrar. O fumo e o calor é tanto que mal consigo respirar, e sinto-me a ficar cada vez mais quente. Tudo se começa a distorcer e, no fundo, apenas ouço o Bobi a ladrar desesperadamente...&lt;/p&gt;
+    &lt;p class=&quot;animar&quot;&gt;Em cerca de 20 minutos o fogo começa a circundar a casa também. Sem o terreno à volta limpo e com as janelas abertas, o fogo não tarda a entrar. O fumo e o calor é tanto que mal consigo respirar, e sinto-me a ficar cada vez mais quente. Tudo se começa a distorcer e, no fundo, apenas ouço o Bobi a ladrar desesperadamente...&lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
         [[Será o fim?-&gt;35][$foiResgatado= true]]
     &lt;/div&gt;
