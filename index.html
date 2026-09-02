@@ -104,7 +104,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Há fogo na aldeia" startnode="22" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="a4aebd25-7bd6-4982-bb5a-f5dad1f578aa" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* FONTS */
+	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="a4aebd25-7bd6-4982-bb5a-f5dad1f578aa" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -4476,9 +4476,9 @@ function TocarBirds() {
         &lt;p class=&quot;animar&quot;&gt;Na rádio ouve-se o aviso da proteção civil que avisa todos os cidadãos da aldeia para evacuar para o ponto de encontro da aldeia. Avisam também para  com todas as medidas de segurança que fomos preparando nos simulacros.&lt;b&gt;O que devo fazer primeiro?&lt;/b&gt;&lt;/p&gt;
 
         &lt;div class=&quot;choices&quot;&gt;
-            [[Ir para o ponto de encontro-&gt;26]]
             [[Verificar o kit de emergência-&gt;31]]
             [[Preparar a casa-&gt;15]]
+            [[Ainda tenho tempo, não vou fazer nada-&gt;34]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
@@ -4489,12 +4489,12 @@ function TocarBirds() {
         &lt;div class=&quot;image-overlay  carro-andar&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-            &lt;p class=&quot;animar&quot;&gt;Saio de casa imediatamente para entrar no carro e tento fugir rapidamente, sem considerar os riscos, kit de evacuação ou avaliar a segurança. Dou por mim numa zona de floresta, com o caminho para a cidade interrompido. &lt;b&gt;Para onde vou?&lt;/b&gt;&lt;/p&gt;
+            &lt;p class=&quot;animar&quot;&gt;Saio de casa imediatamente, entrando no carro para fugir o mais rapidamente possível. No meio da pressa acabei por não pensar nos riscos nem no que teria de levar comigo: o meu cão Bobi e o kit de evacuação.  
+Dou por mim numa zona de floresta, com o caminho para a cidade interrompido. &lt;b&gt;Para onde vou?&lt;/b&gt;&lt;/p&gt;
     		&lt;div class=&quot;choices&quot;&gt;
             	[[Beira-rio-&gt;23]]
-            	[[Zona sem árvores-&gt;24]]
-                [[Floresta-&gt;22][$caminhoPerigoso= true]]
-                [[Fico na estrada -&gt;25!!!!]]
+            	[[Qualquer sítio sem árvores-&gt;22]]
+                [[Floresta-&gt;24][$caminhoPerigoso= true]]
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
@@ -4527,8 +4527,8 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     &lt;p class=&quot;animar&quot;&gt;As cinzas começam-se a aproximar mais. O cheiro a fumo intensifica-se e com ele o ar fica mais difícil de respirar. Coloco um pano na boca para me proteger e evitar a inalação do fumo. O barulho das chamas fica cada vez mais forte, mas do nada ouço um bater na porta que vem de fora. É a proteção civil. Tenho de evacuar, dizem eles. Olho em volta para tomar uma decisão. Todas as minhas coisas estão aqui, a minha casa, todas as memórias e pertences. Mas o fogo aproxima-se cada vez mais.&lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
-          [[Faço o que as autoridades indicam e evacuo-&gt;19!!!]] 
-          [[Ignoro e decido manter-me em casa-&gt;18]]
+          [[Faço o que as autoridades indicam e evacuo-&gt;33]] 
+          [[Ignoro e decido manter-me em casa-&gt;28]]
     &lt;/div&gt;
    &lt;/div&gt;
  &lt;/div&gt;
@@ -4573,9 +4573,9 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
 
         &lt;div class=&quot;choices&quot;&gt;
             [[Agarro no carro para sair o mais rápido possível-&gt;11]]
-            [[Vou para o ponto de encontro da aldeia-&gt;32]]
-            [[Preparo-me para evacuar em segurança-&gt;12]]
-            [[Tenho mobilidade reduzida, preciso de ajuda-&gt;9]]
+            [[Vou para o ponto de encontro da aldeia-&gt;14]]
+            [[Preparar para a evacuação em segurança-&gt;12]]
+            [[Tenho mobilidade reduzida e não consigo evacuar-&gt;9]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
@@ -4586,11 +4586,11 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;Da janela vejo alguns dos meus vizinhos evacuar, mas o fogo parece-me ainda estar longe. Vou esperando para ver o que acontece. &lt;b&gt;O que fazer?&lt;/b&gt;&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;DDa janela vejo alguns dos meus vizinhos evacuar, mas o fogo parece-me ainda estar longe.  Ainda não sei se quero evacuar, então, &lt;b&gt;que posso fazer?&lt;/b&gt;&lt;/p&gt;
          	&lt;div class=&quot;choices&quot;&gt;
             	[[Verificar kit de emergência-&gt;31]]
                 [[Preparar a casa-&gt;15]]
-                [[Ainda tenho tempo, não vou fazer nada-&gt;34]]
+                [[Ainda tenho tempo, não vou fazer nada-&gt;16]]
     		&lt;/div&gt;
       &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="20" tags="end" position="1050,850" size="100,100">&lt;&lt;nobr&gt;&gt;    
@@ -4604,7 +4604,7 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
             		[[Respirar-&gt;21]]&lt;/div&gt;
              &lt;/div&gt;
        &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;    </tw-passagedata><tw-passagedata pid="10" name="19!!!" tags="" position="1375,850" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;    </tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1675,1325" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;
@@ -4612,14 +4612,28 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-    		&lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Será que ainda tenho tempo de procurar o kit e ver onde está o Bobi para evacuar comigo?&lt;/p&gt;
+            &lt;&lt;if $avisouVizinhos or &quot;tocouSinoGeral&gt;&gt;
+            	&lt;p class=&quot;animar&quot;&gt;Os meus vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+                
+            &lt;&lt;elseif $ligou112&gt;&gt;
+            	&lt;p class=&quot;animar&quot;&gt; Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro&lt;/p&gt;
+                
+            &lt;&lt;else&gt;&gt;
+            	&lt;p class=&quot;animar&quot;&gt; Dirijo-me para o ponto de encontro da aldeia, onde os meus vizinhos já esperam.&lt;/p&gt;
+            &lt;&lt;/if&gt;&gt;    
+			&lt;&lt;if $kit = false or $fezKit = false&gt;&gt;
+            	&lt;p class=&quot;animar&quot;&gt;Apercebo-me que a maioria trouxe algumas coisas para se aguentar e arrependo-me de não ter preparado nada. Nem consigo comunicar com a minha família a avisar que estou bem... Espero que seja suficiente.&lt;/p&gt;
+            &lt;&lt;/if&gt;&gt;
     		&lt;div class=&quot;choices&quot;&gt;
-                [[Dirijo-me para o ponto de encontro da aldeia-&gt;32]] 
-                [[Pego no kit e Bobi antes de evacuar-&gt;25!!!!]] 
+            	&lt;&lt;if $fezCasa and $casaPreparada&gt;&gt;
+                	[[Continuar-&gt;final-2]]
+                &lt;&lt;else&gt;&gt;
+                	[[Continuar-&gt;final-3]]
+                &lt;&lt;/if&gt;&gt;
     		&lt;/div&gt;
        &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="18" tags="" position="1300,1050" size="100,100">[[fim4]]</tw-passagedata><tw-passagedata pid="12" name="4" tags="" position="300,925" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="4" tags="" position="300,925" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene eletricidade-leve&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Um incêndio pode propagar-se em minutos.\nNunca ignores um alerta.&#39;, &#39;🔥&#39;)&gt;&gt;
     	&lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
@@ -4635,7 +4649,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     		&lt;div class=&quot;choices&quot;&gt;[[Vejo as chamas a aproximar-&gt;7]]&lt;/div&gt;
        &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="2" tags="" position="300,375" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="12" name="2" tags="" position="300,375" size="100,100">&lt;&lt;nobr&gt;&gt;
   &lt;&lt;set $r1 to false&gt;&gt;
   &lt;&lt;set $r2 to false&gt;&gt;
   &lt;&lt;set $r3 to false&gt;&gt;
@@ -4669,14 +4683,14 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
           &lt;/div&gt;
       &lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="fim4" tags="" position="1300,650" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay  fire-overlay chamas-mexer fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;O céu parece ficar cada vez mais escuro e o cheiro a queimado entra pelas frinchas da porta. A proteção civil avisou de que poderia ser necessário evacuar. &lt;b&gt;O que faço?&lt;/b&gt;&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;O céu parece ficar cada vez mais escuro, e o cheiro a queimado entra pelas frinchas da porta. A proteção civil avisou de que poderia ser necessário evacuar. &lt;b&gt;O que faço?&lt;/b&gt;&lt;/p&gt;
     		&lt;div class=&quot;choices&quot;&gt;
             	[[Decido evacuar-&gt;8]] 
                 &lt;&lt;if not $entrouPanico&gt;&gt;
@@ -4686,19 +4700,21 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="14!!!!" tags="" position="950,575" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="14" tags="" position="1250,275" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;Na rádio ouve-se o aviso da proteção civil que avisa todos os cidadãos da aldeia para evacuar para o ponto de encontro da aldeia com todas as medidas de segurança que fomos preparando nos simulacros.&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;Da janela vejo alguns dos meus vizinhos evacuar e decido fazer o mesmo. Lembro-me do que fazer nos exercícios de  preparação dos simulacros: manter a calma e ir para o ponto de encontro.
+
+&lt;b&gt;Isso é exatamente o que decido fazer.&lt;/b&gt;&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
-            [[Verificar o kit de emergência-&gt;31]]
+            [[Continuar-&gt;19]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="1" tags="" position="150,625" size="100,100">&lt;&lt;nobr&gt;&gt;   
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="15" name="1" tags="" position="150,625" size="100,100">&lt;&lt;nobr&gt;&gt;   
     &lt;div class=&quot;scene&quot;&gt;
       &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
       &lt;div class=&quot;image-overlay reparar-overlay turn-around&quot;&gt;&lt;/div&gt;
@@ -4708,13 +4724,13 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;p class=&quot;animar&quot;&gt;É mais um dia na aldeia. O Verão tem estado mais quente que o habitual, há uma leve brisa no ar, mas o calor intenso continua. Dentro de casa, ao respirar o ar que vem da janela, sente-se um cheiro a queimado e, à distância, vê-se fumo ao longe.&lt;/p&gt;
          &lt;b&gt;O que fazer?&lt;/b&gt;
          &lt;div class=&quot;choices&quot;&gt;
-      		[[Ligo 112-&gt;2.1][$ligou112 = true]]
-      		[[Decido avisar a população-&gt;3]]
-      		[[Ignoro porque o fogo está longe-&gt;4]]&lt;/div&gt;
+      		[[Ligar 112-&gt;2.1][$ligou112 = true]]
+      		[[Avisar a população-&gt;3]]
+      		[[Ignorar porque o fogo está longe-&gt;4]]&lt;/div&gt;
          &lt;/div&gt;
     &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="6" tags="" position="450,750" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="6" tags="" position="450,750" size="100,100">&lt;&lt;nobr&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Guardião da Aldeia\nFizeste tocar o sino de alerta.&#39;, &#39;🔔&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg sino sino-bg-abanar&quot;&gt;&lt;/div&gt;
@@ -4732,7 +4748,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
       [[Vejo as chamas a aproximar-&gt;7]]
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="9" tags="" position="750,825" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="9" tags="" position="750,825" size="100,100">&lt;&lt;nobr&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
       &lt;&lt;if  $avisouVizinhos or $tocouSinoGeral&gt;&gt;
          &lt;div class=&quot;image-bg mobilidade&quot;&gt;&lt;/div&gt;
@@ -4747,7 +4763,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
       &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
       &lt;p class=&quot;animar&quot;&gt;O fogo lá fora fica assustador, mas por muito que queira, tenho mobilidade reduzida e não consigo evacuar sozinha.&lt;/p&gt;
       &lt;&lt;if $ligou112&gt;&gt;
-          &lt;p class=&quot;animar&quot;&gt;Ainda bem que avisei o 112, as autoridades já sabem da minha situação e vêm buscar-me para evacuar. Já devem estar por perto.&lt;/p&gt;
+          &lt;p class=&quot;animar&quot;&gt;Ainda bem que avisei o 112, as autoridades já sabem da minha situação e vêm buscar-me para evacuar. Já devem estar por perto...&lt;/p&gt;
       &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
           &lt;p class=&quot;animar&quot;&gt;Ainda bem que informei os vizinhos e combinámos que me viriam ajudar. &lt;/p&gt;
       &lt;&lt;else&gt;&gt;
@@ -4761,7 +4777,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
                 [[Já está tudo pronto, só falta esperar-&gt;34]]
     		&lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="15" tags="" position="1075,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="18" name="15" tags="" position="1075,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 &lt;&lt;set $p1 to false&gt;&gt;
 &lt;&lt;set $p2 to false&gt;&gt;
@@ -4785,9 +4801,9 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         	&lt;&lt;if $mobilidadeReduzida&gt;&gt;
             	&lt;p class=&quot;animar&quot;&gt;Enquanto espero pelo Sr. Miguel e o filho, vou vendo o que falta tratar em casa antes de sairmos. &lt;b&gt;O que tenho de verificar?
 &lt;/b&gt;&lt;/p&gt;
-            &lt;&lt;else if not $naoEvacuar&gt;&gt;
+            &lt;&lt;elseif not $naoEvacuar&gt;&gt;
             	&lt;p class=&quot;animar&quot;&gt;O fogo parece estar já demasiado próximo, por isso devo certificar-me que preparei a casa com as medidas de segurança necessárias antes de evacuar.&lt;b&gt;O que tenho que verificar?&lt;/b&gt;&lt;/p&gt;
-                &lt;else&gt;
+                &lt;&lt;else&gt;&gt;
                 	&lt;p class=&quot;animar&quot;&gt;O fogo parece estar já demasiado próximo, por isso não é seguro evacuar. Terei de ficar aqui. &lt;b&gt;Mas será que preparei a casa com as medidas de segurança necessárias?&lt;/b&gt;&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
             &lt;div class=&quot;choices-112&quot;&gt;
@@ -4874,7 +4890,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="final-2" tags="" position="1950,375" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="final-2" tags="" position="1950,375" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay seguranca&quot;&gt;&lt;/div&gt;
@@ -4890,7 +4906,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Start" tags="" position="100,450" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Start" tags="" position="100,450" size="100,100">&lt;&lt;nobr&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
   	&lt;div class=&quot;image-bg village fullheight&quot;&gt;
   		&lt;div class=&quot;sombrinha centro&quot;&gt;
@@ -4907,7 +4923,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
   	&lt;/div&gt;
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
-</tw-passagedata><tw-passagedata pid="23" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
+</tw-passagedata><tw-passagedata pid="21" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;hover&quot; &quot;audio/hover.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;fire&quot;  &quot;audio/fire.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;phone&quot;  &quot;audio/phone.mp3&quot;&gt;&gt;
@@ -4948,7 +4964,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;set $casaPerfeita to false&gt;&gt;
 &lt;&lt;set $fezCasa to false&gt;&gt;
 &lt;&lt;set $caminhoPerigoso to false&gt;&gt;
-&lt;&lt;set $naoEvacuar to false&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="⟲" tags="" position="0,750" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set $naoEvacuar to false&gt;&gt;
+&lt;&lt;set $ajudarLaurinda to false&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="⟲" tags="" position="0,750" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;
         &lt;div class=&quot;alarm&quot;&gt;
@@ -4966,7 +4983,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="Resultado 112" tags="" position="475,325" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="23" name="Resultado 112" tags="" position="475,325" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 &lt;&lt;set $corretas to 0&gt;&gt;
 &lt;&lt;if $r1&gt;&gt;&lt;&lt;set $corretas to $corretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
@@ -5014,7 +5031,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="2.1" tags="" position="250,250" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="2.1" tags="" position="250,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
@@ -5040,10 +5057,10 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     &lt;/div&gt;
     &lt;div class=&quot;text-box phone-text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;O fumo cinzento escuro parece aumentar cada vez mais, apesar de ainda aparentar estar longe. É melhor avisar a proteção civil, &lt;b&gt;mas para qual número ligar?&lt;/b&gt;&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;O fumo cinzento escuro parece aumentar cada vez mais, apesar de ainda aparentar estar longe. É melhor avisar a proteção civil, mas &lt;b&gt;para qual número ligar?&lt;/b&gt;&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="21" tags="" position="1175,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="21" tags="" position="1175,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Sangue Frio\nConseguiste acalmar-te numa situação de pânico.&#39;, &#39;🧘&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
@@ -5058,7 +5075,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
      &lt;/div&gt;
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
-</tw-passagedata><tw-passagedata pid="28" name="Como jogar" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;    
+</tw-passagedata><tw-passagedata pid="26" name="Como jogar" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;    
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;alarm&quot;&gt;
@@ -5070,7 +5087,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="Sobre" tags="" position="0,325" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="Sobre" tags="" position="0,325" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;alarm&quot;&gt;
@@ -5081,6 +5098,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;ul&gt;
             &lt;li&gt;Coordenação por Conceição Colaço;&lt;/li&gt;
             &lt;li&gt;Coordenação artística e multimédia: Letícia Oliveira;&lt;/li&gt;
+            &lt;li&gt;UX/UI Design e programação: Letícia Oliveira;&lt;/li&gt;
+			&lt;li&gt;Programação: Filipa Irina Loureiro;&lt;/li&gt;
             &lt;li&gt;Ilustrações: Inês Freitas.&lt;/li&gt;
         &lt;/ul&gt;
         &lt;div class=&quot;choices&quot;&gt;
@@ -5089,20 +5108,22 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="22" tags="" position="1000,25" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="22" tags="" position="1000,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;bom&#39;, &#39;Boa escolha! Zona sem vegetação é mais segura.&#39;, &#39;✅&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg transito&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  carro-inversao&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;Como nesta estrada posso fazer inversão de marcha, aproveito para respirar e pensar onde poderia encontrar refúgio: um local sem árvores e com pouca vegetação até pode ser seguro para evitar que o fogo me pegue. Que tal o parque de estacionamento aqui perto? Vamos lá!&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;Como nesta estrada posso fazer inversão de marcha, aproveito para respirar e pensar onde poderia encontrar refúgio: um local sem árvores e com pouca vegetação até pode ser seguro para evitar que o fogo me pegue. Que tal o parque de estacionamento aqui perto? &lt;b&gt;Vamos lá!&lt;/b&gt;&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
-            [[Continuar para local sem árvores-&gt;26]]
+            [[Virar para o parque de estacionamento-&gt;26]]
+            [[Virar para a beira-rio-&gt;23]]
+            [[Avançar pela floresta-&gt;24]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="23" tags="" position="875,25" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="23" tags="" position="875,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;, &#39;🌲&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg rio&quot;&gt;&lt;/div&gt;
@@ -5111,12 +5132,12 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
     &lt;p class=&quot;animar&quot;&gt;Lembro-me de um atalho pelo meio da floresta, longe de onde o incêndio parece estar. Por ali devo conseguir ficar em segurança.
-    Vamos lá!&lt;/p&gt;
+    &lt;b&gt;Vamos lá!&lt;/b&gt;&lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
         [[Continuar-&gt;24]]
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="26" tags="" position="1225,50" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="26" tags="" position="1225,50" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  multidao&quot;&gt;&lt;/div&gt;
@@ -5128,7 +5149,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="27" tags="" position="1375,50" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="31" name="27" tags="" position="1375,50" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;audio &quot;birds&quot; fadeout&gt;&gt;
 &lt;&lt;audio &quot;fire&quot; fadein&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
@@ -5166,11 +5187,13 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;/script&gt;&gt;
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-    &lt;p class=&quot;animar&quot;&gt;As horas passam e o fogo começa a acalmar. A aldeia fica agora envolta numa onda de fumo. Daqui a umas horas, é possível voltar para casa com os devidos cuidados.
-    E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes momentos seriam mais difíceis ainda.&lt;/p&gt;
-    &lt;div class=&quot;choices&quot;&gt;[[Resultados]]&lt;/div&gt;
+    &lt;p class=&quot;animar&quot;&gt;As horas passam e o fogo começa a acalmar. A aldeia fica agora envolta numa onda de fumo. Daqui a umas horas, é possível voltar para casa com os devidos cuidados. Só espero que tudo esteja bem por lá, devia ter verificado...
+E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes momentos seriam mais difíceis ainda.&lt;/p&gt;
+    &lt;div class=&quot;choices&quot;&gt;
+    	[[Continuar-&gt;final-3]]
+    &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Resultados" tags="" position="1925,150" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Resultados" tags="" position="1925,150" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;alarm&quot;&gt;
@@ -5196,10 +5219,15 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;❌ A tua casa ficou em risco porque não fizeste a preparação adequada.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
-            &lt;&lt;if $avisouVizinhos&gt;&gt;
+            &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
                 &lt;p&gt;✅ Avisaste ou ajudaste os vizinhos.&lt;/p&gt;
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;❌ Não avisaste nem ajudaste os vizinhos.&lt;/p&gt;
+            &lt;&lt;/if&gt;&gt;
+            &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+                &lt;p&gt;✅ Ajudaste a D. Laurinda a evacuar.&lt;/p&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;p&gt;❌ Não ajudaste a D.Laurinda a evacuar.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
             &lt;&lt;if $entrouPanico&gt;&gt;
                 &lt;p&gt;⚠️ Entraste em pânico num momento crítico.&lt;/p&gt;
@@ -5226,20 +5254,19 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="24" tags="" position="750,25" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="24" tags="" position="750,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg rio-para-fogo&quot;&gt;&lt;/div&gt;
     &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car-invert.png&quot;&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;A conduzir por entre as árvores apercebo-me que o fumo se aproxima cada vez mais e tudo fica mais quente e cinzento. Acho que não deveria ter arriscado, mas e agora?
-        &lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;A conduzir por entre as árvores apercebo-me que o fumo se aproxima cada vez mais e tudo fica mais quente e cinzento. Acho que não deveria ter arriscado, &lt;b&gt;mas e agora?&lt;/b&gt;&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
             [[Continuar-&gt;28]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="28" tags="" position="600,25" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="28" tags="" position="600,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg floresta&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  fogo-floresta&quot;&gt;&lt;/div&gt;
@@ -5262,7 +5289,7 @@ setTimeout(function() {
         Engine.play(&quot;29&quot;);
     }
 }, 16000);
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="29" tags="" position="450,0" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="29" tags="" position="450,0" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa passagem-29-bg&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;piscar-overlay&quot;&gt;&lt;/div&gt;
@@ -5276,7 +5303,7 @@ setTimeout(function() {
         [[Resultados]]
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="31" tags="" position="800,1325" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="36" name="31" tags="" position="800,1325" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
 &lt;&lt;set $k1 to false&gt;&gt;
 &lt;&lt;set $k2 to false&gt;&gt;
@@ -5298,9 +5325,9 @@ setTimeout(function() {
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 		&lt;&lt;if $mobilidadereduzida&gt;&gt;
-        	&lt;p class=&quot;animar&quot;&gt;Lembro-me que é importante ter um kit, para não ser apanhado desprevenida. &lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
+        	&lt;p class=&quot;animar&quot;&gt;Enquanto isso, penso no que preciso de levar para não ser apanhada desprevenida quando chegar a hora de sair.&lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
        &lt;&lt;else&gt;&gt;
-       		&lt;p class=&quot;animar&quot;&gt;Enquanto isso, penso no que preciso de levar para não ser apanhada desprevenida quando chegar a hora de sair.&lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
+       		&lt;p class=&quot;animar&quot;&gt;Lembro-me que é importante ter um kit, para não ser apanhada desprevenida. &lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
         &lt;&lt;/if&gt;&gt;
         &lt;div class=&quot;choices-112&quot;&gt;
             &lt;label&gt;&lt;&lt;checkbox &quot;$k1&quot; false true&gt;&gt; Documentos de identificação e papéis importantes&lt;/label&gt;
@@ -5358,7 +5385,7 @@ setTimeout(function() {
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="25!!!!" tags="" position="1575,625" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="25!" tags="" position="1825,1900" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;O relógio não para. A preparação era para antes. O fogo não espera.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
@@ -5367,13 +5394,13 @@ setTimeout(function() {
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Mas antes, preciso de encontrar o meu kit de segurança que deixei guardado pela casa, e descobrir onde está o meu cão Bobi. Mal os encontro entro para o carro para evacuar. Mas o fogo está demasiado perto.&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;25-[TEXTO PARA FICAR NA ESTRADA]&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
-            [[Continuar-&gt;33][$foiResgatado= true]]
+            [[Continuar-&gt;29][$foiResgatado= true]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="32" tags="" position="1600,800" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="32" tags="" position="1600,800" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Ultima chance. 	Foste obrigado a sair de casa de imediato, deixando o kit de segurança e o Bobi para trás.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
@@ -5388,7 +5415,7 @@ setTimeout(function() {
     	&lt;/div&gt;
      &lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="33" tags="" position="1600,475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="33" tags="" position="1600,475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;
@@ -5396,13 +5423,15 @@ setTimeout(function() {
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;Decido seguir as instruções das autoridades, eles sabem melhor do que eu. Mas antes, preciso de encontrar o meu kit de segurança que deixei guardado pela casa, e descobrir onde está o meu cão Bobi. Mal os encontro entro para o carro para evacuar. Mas o fogo está demasiado perto.&lt;/p&gt;
+        &lt;p class=&quot;animar&quot;&gt;Com a assistência dos bombeiros, abandono a casa em direção ao ponto de encontro.
+No carro vejo também a minha vizinha, D.Laurinda, e ao olharmos para o horizonte que corre atrás dos vidros, vemos as nossas casas a serem dizimadas pelas chamas. 
+Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que não tive tempo de reunir, nem a família consigo contactar.&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
-            [[Continuar-&gt;28]]
+            [[Continuar-&gt;19][$cão]]
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="34" tags="" position="1250,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="34" tags="" position="1250,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg fogo-na-casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay fogo-na-casa-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;
@@ -5413,9 +5442,12 @@ setTimeout(function() {
     &lt;div class=&quot;ui-btn&quot;&gt;
         [[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;
     &lt;/div&gt;
-
-    &lt;p class=&quot;animar&quot;&gt;A decisão de ficar em casa sem cumprir com as medidas de segurança foi uma escolha arriscada. Passados 20 minutos o fogo começa a circundar a casa também.  Sem o terreno à volta limpo e com as janelas abertas, o fogo não tarda a entrar.  O fumo e o calor é tanto que mal consigo respirar, e sinto-me a ficar cada vez mais quente. Tudo se começa a distorcer e, no fundo, apenas ouço o Bobi a ladrar desesperadamente... &lt;/p&gt;
-
+	&lt;&lt;if $mobilidadeReduzida&gt;&gt;
+    	&lt;p class=&quot;animar&quot;&gt;O tempo passa, mas a ajuda chega demasiado tarde. Em cerca de 20 minutos &lt;/p&gt;
+    &lt;&lt;else&gt;&gt;
+    	&lt;p class=&quot;animar&quot;&gt;A decisão de ficar em casa sem cumprir com as medidas de segurança foi uma escolha arriscada. Passados 20 minutos &lt;/p&gt;
+    &lt;&lt;/if&gt;&gt;
+    &lt;p class=&quot;animar&quot;&gt;o fogo começa a circundar a casa também. Sem o terreno à volta limpo e com as janelas abertas, o fogo não tarda a entrar. O fumo e o calor é tanto que mal consigo respirar, e sinto-me a ficar cada vez mais quente. Tudo se começa a distorcer e, no fundo, apenas ouço o Bobi a ladrar desesperadamente...&lt;/p&gt;
     &lt;div class=&quot;choices&quot;&gt;
         [[Será o fim?-&gt;35][$foiResgatado= true]]
     &lt;/div&gt;
@@ -5430,7 +5462,7 @@ setTimeout(function() {
         }
     }, 16000);
 &lt;&lt;/script&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="35" tags="" position="1375,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="35" tags="" position="1375,1275" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg fogo-na-casa passagem-29-bg&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;piscar-overlay&quot;&gt;&lt;/div&gt;
@@ -5454,7 +5486,7 @@ setTimeout(function() {
         [[Resultados]]
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="Resultado Kit" tags="" position="800,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Resultado Kit" tags="" position="800,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
@@ -5489,18 +5521,18 @@ setTimeout(function() {
                 [[Preparar a casa-&gt;15]]
             &lt;&lt;elseif $fezKit and $kit and $fezCasa and $casaPreparada&gt;&gt;
                 &lt;&lt;set $cao to true&gt;&gt;
-                [[Continuar-&gt;13]]
+                [[Tudo pronto para evacuar!-&gt;13]]
             &lt;&lt;elseif $fezKit and not $kit and $fezCasa and $casaPreparada&gt;&gt;
-                [[Continuar-&gt;26]]
+                [[Continuar-&gt;19]]
             &lt;&lt;elseif $fezKit and $kit and $fezCasa and not $casaPreparada&gt;&gt;
-                [[Continuar-&gt;36]]
+                [[Continuar-&gt;19]]
             &lt;&lt;elseif $fezKit and not $kit and $fezCasa and not $casaPreparada&gt;&gt;
-                [[Os bombeiros chegam-&gt;34]]
+                [[Continuar-&gt;34]]
         &lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="Resultado Casa" tags="" position="1075,1450" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Resultado Casa" tags="" position="1075,1450" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
@@ -5536,39 +5568,39 @@ setTimeout(function() {
                 [[Preparar o kit-&gt;31]]
             &lt;&lt;elseif $fezCasa and $casaPreparada and $fezKit and $kit&gt;&gt;
                 &lt;&lt;set $cao to true&gt;&gt;
-                [[Continuar-&gt;13]]
+                [[Tudo pronto para evacuar!-&gt;13]]
             &lt;&lt;elseif $fezCasa and $casaPreparada and $fezKit and not $kit&gt;&gt;
-                [[Continuar-&gt;26]]
+                [[Continuar-&gt;19]]
             &lt;&lt;elseif $fezCasa and not $casaPreparada and $fezKit and $kit&gt;&gt;
-                [[Continuar-&gt;36]]
+                [[Continuar-&gt;19]]
             &lt;&lt;elseif $fezCasa and not $casaPreparada and $fezKit and not $kit&gt;&gt;
-                [[Os bombeiros chegam-&gt;34]]
+                [[Continuar-&gt;34]]
         	&lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="36" tags="" position="1175,625" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="36" tags="" position="1175,625" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;if $ligou112&gt;
+        &lt;&lt;if $ligou112&gt;&gt;
         	&lt;p class=&quot;animar&quot;&gt;Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
          &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
           	&lt;p class=&quot;animar&quot;&gt;Os vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
-        &lt;else&gt;
+        &lt;&lt;else&gt;&gt;
         	&lt;p class=&quot;animar&quot;&gt;Engulo em seco e continuo. O fogo é rápido e não quero arriscar. Há outras pessoas ainda na aldeia capazes de a ajudar. Arranco em direção ao ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia. 
 Encontro os meus vizinhos e ainda bem que ficaram bem! Mas estão aflitos - sem dinheiro, sem documentos. Saíram sem o kit e agora nem telemóvel têm para contactar os familiares.
 Eventualmente, também a D.Laurinda se junta na praça, conduzida pelos bombeiros. Fisicamente está bem, mas bastante aflita sem parar de chorar. A casa dela está a arder, pouco deve sobrar. Não tinha o terreno limpo e o fogo pegou tudo.
 Ao menos estamos vivos e seguros. Abro o kit ao lado do carro com tudo o que deixei preparado. Não faltou nada.&lt;/p&gt;
-        &lt;/if&gt;
+        &lt;&lt;/if&gt;&gt;
     		&lt;div class=&quot;choices&quot;&gt;
-            	[[Continuar-&gt;38]] 
+            	[[Continuar-&gt;final-2]] 
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="37" tags="" position="925,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="37" tags="" position="925,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
@@ -5582,7 +5614,7 @@ Encontro-a ainda dentro de casa, indecisa, sem saber o que levar. Ajuda-a a reun
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="38" tags="" position="1175,875" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="38" tags="" position="1175,875" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
@@ -5592,11 +5624,14 @@ Encontro-a ainda dentro de casa, indecisa, sem saber o que levar. Ajuda-a a reun
 A Dona Laurinda aperta-me a mão, sem palavras. Não houve tempo para tudo, mas conseguimos rapidamente reunir o essencial. 
 A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar os que choram na rua.&lt;/p&gt;
     		&lt;div class=&quot;choices&quot;&gt;
-            	[[Continuar-&gt;]] 
-            &lt;/div&gt;
+            	&lt;&lt;if $casaPreparada&gt;&gt;
+            		[[Continuar-&gt;final-2]] 
+                &lt;&lt;else&gt;&gt;
+                	[[Continuar-&gt;final-3]]
+				&lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="Continuar-&gt;" tags="" position="1300,1500" size="100,100"></tw-passagedata><tw-passagedata pid="50" name="final-3" tags="" position="1950,575" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="final-3" tags="" position="1950,575" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay seguranca&quot;&gt;&lt;/div&gt;
@@ -5612,6 +5647,31 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="17!!" tags="" position="1675,1900" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene&quot;&gt;
+    &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;p class=&quot;animar&quot;&gt;[É mais seguro ficar em casa?? Depois seguir para medidas de segurança, Bobi já está seguro em casa. Se todas as medidas corretas, casa não ardida. Se errar na preparação da casa, final resgatado. Quer tenha acertado ou errado o kit está tudo tranquilo. Talvez por uma frase no fim só caso tenha errado o kit tipo &#39;ainda bem que não tive de evacuar, porque não ia conseguir buscar as coisas).]&lt;/p&gt;
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Verificar o kit de emergência-&gt;31]]
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="30" tags="" position="1650,25" size="100,100">&lt;&lt;nobr&gt;&gt;    
+    &lt;div class=&quot;scene&quot;&gt;
+    &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;
+    	&lt;div class=&quot;image-overlay fumo-overlay&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+    		&lt;p class=&quot;animar&quot;&gt;[para texto de quando escolhe ir pela beira-rio]&lt;/p&gt;
+    		&lt;div class=&quot;choices&quot;&gt;
+    		&lt;/div&gt;
+       &lt;/div&gt;
+    &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
