@@ -242,8 +242,8 @@ p { color: white !important; }
   bottom: 0 !important;
   right: 0 !important;
   left: auto !important;
-  font-size: 1.55em !important;
-  padding: 1% 0 !important;            
+  font-size: 1.15em !important;
+  padding: 1% 0 !important;          
   padding-top: clamp(2rem, 5vw, 3.2rem) !important;
   color: white !important;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
@@ -432,6 +432,12 @@ p { color: white !important; }
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
+.alarm .alarm-subtext {
+  font-size: 1.5em !important;
+  font-weight: normal !important;
+  margin-top: 0.4em;
+}
+
 .alarm .choices {
   opacity: 1 !important;
   flex-wrap: wrap !important;
@@ -443,12 +449,100 @@ p { color: white !important; }
   color: white !important;
 }
 
-.alarm .cancel .macro-back {
-  border: 2px solid #3f2a14 !important;
+/* Recomeçar (nesta caixa) e cancelar */
+.alarm .confirm-restart a,
+.alarm .confirm-restart a:visited {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: row-reverse !important;
+  gap: 0.5em !important;
+  background-image:
+    linear-gradient(rgba(195, 27, 27, 0.85), rgba(195, 27, 27, 0.85)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  color: #FFF5E6 !important;
+  border: 2.5px solid #D52927 !important;   
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
+              0 3px 0 #6b0f0f,               
+              0 5px 8px rgba(0,0,0,0.45) !important;
 }
 
-.alarm .cancel .macro-back:hover {
-  border: 2px solid #3f2a14 !important;
+.alarm .confirm-restart a::after {
+  content: '↻';
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+.alarm .confirm-restart a:hover,
+.alarm .cancel-restart .macro-back:hover {
+  border-bottom-width: 2.5px !important;
+}
+
+.alarm .confirm-restart a::before {
+  background-image:
+    linear-gradient(rgba(129, 32, 24, 0.9), rgba(129, 32, 24, 0.9)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.alarm .cancel-restart .macro-back {
+  position: relative !important;
+  overflow: hidden !important;
+  text-align: center !important;
+  border: 2.5px solid rgba(255, 245, 230, 0.6) !important;
+}
+
+.alarm .cancel-restart .macro-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: -1;
+}
+
+/* Iguala a largura dos dois botões e alinha-os à esquerda — só em tablet/desktop;
+   em mobile mantém-se o comportamento genérico (stretch), que empilha os botões
+   com a mesma largura */
+@media screen and (min-width: 601px) {
+  .alarm .confirm-restart a,
+  .alarm .cancel-restart .macro-back {
+    min-width: 190px !important;
+  }
+
+  .alarm .choices:has(.confirm-restart) {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* Garante que a border não muda de espessura no hover (evita o "salto" da caixa) */
+.alarm.alarm .confirm-restart a:hover,
+.alarm.alarm .cancel-restart .macro-back:hover {
+  border-bottom-width: 2.5px !important;
+}
+
+/* Alinhamento à esquerda só aplica em ecrãs onde os botões ficam em linha;
+   em mobile mantém-se o comportamento genérico (stretch), que é o que dá
+   aos dois botões a mesma largura, empilhados corretamente */
+@media screen and (min-width: 601px) {
+  .alarm .choices:has(.confirm-restart) {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* Fade uniforme de 0.4 sobre o fundo desta caixa, em todos os dispositivos */
+.alarm-scene .image-bg.village::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
 .image-bg, .image-overlay {
@@ -1247,15 +1341,17 @@ button {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-fire.jpg");
 }
 
-.casa-ardida {
+.casa-ardida,
+.casa-ardida.fullheight {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-ardida.jpg");
-  background-position: center top;
-}
+  background-size: cover; /* Preenche o ecrã todo, eliminando as barras laterais */
+  background-position: center 100%; /* Empurra a imagem para cima para mostrar a personagem */
+  background-repeat: no-repeat;
+  background-color: #1a1108;
 
-@media screen and (max-width: 768px) {
-  .casa-ardida {
-    background-position: center 15%;   
-  }
+  height: 100vh !important;
+  top: 0 !important;
+  bottom: auto !important;
 }
 
 .salvar-laurinda {
@@ -1293,6 +1389,38 @@ button {
 
 .prontoparaevacuarbobi4 {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuarbobi4.png");
+}
+
+.casa-semjanela-jardim {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-semjanela-jardim.png");
+}
+
+.casa-semjanela {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-semjanela.png");
+}
+
+.casafumo1 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo1.png");
+}
+
+.casafumo2 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo2.png");
+}
+
+.casafumo3 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo3.png");
+}
+
+.casafumo4 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo4.png");
+}
+
+.casafumo5 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo5.png");
+}
+
+.casafumo6 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo6.png");
 }
 
 @keyframes fadeOut-de {
@@ -1500,38 +1628,8 @@ button {
    FUMO – círculos orgânicos com entrada suave
    ============================================================ */
 
-:root {
-  --fumo-clearance: 34vh;
-}
+:root { --fumo-clearance: 34vh; }
 
-/* Keyframes de entrada para cada camada */
-@keyframes fumo-bolha-in {
-  0% {
-    transform: scale(0.2);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Keyframes de deriva (movimento contínuo) */
-@keyframes fumo-deriva {
-  0%   { transform: translate3d(-2%, 1%, 0)   scale(1.02) rotate(-1deg); opacity: 0.65; }
-  25%  { transform: translate3d(4%, -2%, 0)    scale(1.08) rotate(1.5deg); opacity: 1;   }
-  50%  { transform: translate3d(-3%, 3%, 0)    scale(1.04) rotate(-2deg);  opacity: 0.8; }
-  75%  { transform: translate3d(3%, 2%, 0)     scale(1.1)  rotate(1deg);   opacity: 0.95;}
-  100% { transform: translate3d(-2%, -2%, 0)   scale(1.05) rotate(-1.5deg);opacity: 0.9; }
-}
-
-@keyframes fumo-deriva-2 {
-  0%   { transform: translate3d(3%, -1%, 0)  scale(1.06) rotate(2deg);   opacity: 0.5; }
-  50%  { transform: translate3d(-4%, 2%, 0)  scale(1.12) rotate(-2.5deg);opacity: 0.85;}
-  100% { transform: translate3d(2%, -3%, 0)  scale(1.02) rotate(1.5deg); opacity: 0.6; }
-}
-
-/* Container principal – sem fundo, apenas posicionamento e z-index */
 .fumo-leve,
 .fumo-medio,
 .fumo-forte {
@@ -1543,80 +1641,94 @@ button {
   z-index: 3 !important;
   pointer-events: none;
   overflow: visible !important;
-  background: none !important;          /* ← elimina o retângulo */
-  box-shadow: none !important;          /* segurança */
-  will-change: opacity, transform;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  width: auto !important;
+  height: auto !important;
 }
 
-/* Primeira camada de círculo (pai) */
+/* ---------- Camada 1 ---------- */
 .fumo-leve::before,
 .fumo-medio::before,
 .fumo-forte::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 70% 80%, rgba(210,210,210,var(--fumo-a1)) 0%, transparent 50%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: radial-gradient(circle at 100% 100%,
+              rgba(210, 210, 210, var(--fumo-a1)) 0%,
+              rgba(210, 210, 210, 0) 70%);
+  filter: blur(22px);
+  transform-origin: 100% 100%;
+  scale: 0.1;
   opacity: 0;
-  transform: scale(0.2);
-  animation: 
-    fumo-bolha-in 2.5s ease-out forwards,
-    fumo-deriva var(--fumo-dur) ease-in-out infinite alternate;
-  animation-delay: 0s, 2.5s;
-  transform-origin: right bottom;
-  -webkit-mask-image: radial-gradient(circle at 70% 80%, black 0%, black 35%, transparent 85%);
-  mask-image: radial-gradient(circle at 70% 80%, black 0%, black 35%, transparent 85%);
+  animation:
+    fumo-expandir 4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
+    fumo-drift    var(--fumo-dur) ease-in-out 4s infinite alternate;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
-/* Segunda camada de círculo (after) – com atraso diferente */
+/* ---------- Camada 2 (mais lenta, mais difusa) ---------- */
 .fumo-leve::after,
 .fumo-medio::after,
 .fumo-forte::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 40%, rgba(190,190,190,var(--fumo-a2)) 0%, transparent 45%);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: radial-gradient(circle at 90% 100%,
+              rgba(190, 190, 190, var(--fumo-a2)) 0%,
+              rgba(190, 190, 190, 0) 65%);
+  filter: blur(30px);
+  transform-origin: 100% 100%;
+  scale: 0.1;
   opacity: 0;
-  transform: scale(0.2);
-  animation: 
-    fumo-bolha-in 2.8s ease-out forwards,
-    fumo-deriva-2 calc(var(--fumo-dur) * 0.7) ease-in-out infinite alternate;
-  animation-delay: 0.6s, 3.0s;
-  transform-origin: left bottom;
-  -webkit-mask-image: radial-gradient(circle at 30% 40%, black 0%, black 35%, transparent 85%);
-  mask-image: radial-gradient(circle at 30% 40%, black 0%, black 35%, transparent 85%);
+  animation:
+    fumo-expandir 4.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s forwards,
+    fumo-drift-2  calc(var(--fumo-dur) * 0.75) ease-in-out 5s infinite alternate;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
-/* (Opcional) Terceira camada – podes adicionar mais se quiseres, usando outro pseudo ou
-   elementos adicionais, mas com dois já fica bem. */
-
-/* Intensidades */
-.fumo-leve {
-  --fumo-a1: 0.60;
-  --fumo-a2: 0.50;
-  --fumo-dur: 10s;
-}
-.fumo-medio {
-  --fumo-a1: 0.70;
-  --fumo-a2: 0.60;
-  --fumo-dur: 8s;
-}
-.fumo-forte {
-  --fumo-a1: 0.90;
-  --fumo-a2: 0.80;
-  --fumo-dur: 6s;
+/* Expansão — só mexe em scale */
+@keyframes fumo-expandir {
+  0%   { scale: 0.1; opacity: 0;   }
+  25%  {              opacity: 0.7; }
+  100% { scale: 2.2; opacity: 1;   }
 }
 
-/* Responsivo – clearance */
-@media screen and (max-width: 768px) {
-  :root { --fumo-clearance: 38vh; }
+/* Deriva 1 — translação + rotação contínuas */
+@keyframes fumo-drift {
+  0%   { translate: 0 0;           rotate: 0deg;   }
+  33%  { translate: -2vw -1vh;     rotate: -2.5deg;}
+  66%  { translate: 1.5vw 1vh;     rotate: 2deg;   }
+  100% { translate: -1vw 0.5vh;    rotate: -1deg;  }
 }
-@media screen and (max-height: 700px) {
-  :root { --fumo-clearance: 34vh; }
+
+/* Deriva 2 — mais ampla e em sentido diferente */
+@keyframes fumo-drift-2 {
+  0%   { translate: 0 0;           rotate: 0deg;   }
+  33%  { translate: 2vw -0.8vh;    rotate: 2deg;   }
+  66%  { translate: -1.5vw 1.5vh;  rotate: -2.5deg;}
+  100% { translate: 1vw -0.5vh;    rotate: 1.5deg; }
 }
+
+.fumo-leve  { --fumo-a1: 0.60; --fumo-a2: 0.50; --fumo-dur: 14s; }
+.fumo-medio { --fumo-a1: 0.70; --fumo-a2: 0.60; --fumo-dur: 10s;  }
+.fumo-forte { --fumo-a1: 0.90; --fumo-a2: 0.80; --fumo-dur: 8s;  }
+
+@media screen and (max-width: 768px) { :root { --fumo-clearance: 38vh; } }
+@media screen and (max-height: 700px){ :root { --fumo-clearance: 34vh; } }
+
+@media (max-width: 1024px), (pointer: coarse) {
+  .fumo-leve::before, .fumo-leve::after,
+  .fumo-medio::before, .fumo-medio::after,
+  .fumo-forte::before, .fumo-forte::after { filter: blur(16px); }
+}
+
+/* ============================================================
+   ELETRICIDADE – piscar de luzes
+   ============================================================ */
 
 .eletricidade-leve {
   animation: eletricidade-leve-anim 8s ease-in-out infinite !important;
@@ -1706,6 +1818,7 @@ button {
   background-size: 140% 140%;
   animation: fumo-mover 9s ease-in-out infinite alternate;
   backdrop-filter: blur(1px);
+  
 }
 
 @keyframes fumo-mover {
@@ -2129,8 +2242,8 @@ button {
   .sombrinha .choices a,
   .sombrinha .choices button,
   .sombrinha .btn-sobre a {
-    font-size: 1.25em !important;
-    padding: 16px 26px !important;
+    font-size: 1.4em !important;
+    padding: 14px 28px !important;
   }
 
   .text-box {
@@ -3487,24 +3600,6 @@ html[data-init="loading"] #init-loading {
   margin: 0 auto !important;
 }
 
-/* Cancelar / voltar atrás — ação segura, tratamento discreto */
-.alarm .cancel .macro-back {
-  background-image: none !important;
-  background-color: rgba(0,0,0,0.15) !important;
-  border: 2px solid rgba(255,255,255,0.4) !important;
-  order: 1 !important;
-}
-
-/* Confirmar restart — ação destrutiva, precisa destacar-se */
-.alarm .confirm-restart {
-  color: #f0c000 !important;
-  border: 2px solid #f0c000 !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
-              0 3px 6px rgba(0,0,0,0.4),
-              0 0 8px rgba(240,192,0,0.4) !important;
-  order: 2 !important;
-}
-
 /* Espaçamento entre botões via gap (não margin) — funciona
    tanto em linha (desktop) como em coluna (mobile), e nunca
    "empurra" um botão para fora da caixa */
@@ -3555,8 +3650,8 @@ html[data-init="loading"] #init-loading {
   .sombrinha .choices a,
   .sombrinha .choices button,
   .sombrinha .btn-sobre a {
-    font-size: 1.25em !important;
-    padding: 16px 28px !important;
+    font-size: 1.4em !important;
+    padding: 14px 32px !important;
   }
 }
 
@@ -3893,10 +3988,10 @@ window.mostrarToast = function(tipo, conteudo, iconeCustom) {
 
 // variáveis globais de fonte
 var fontSizes = [
-  'clamp(0.9rem, 3.2vw, 1.45em)',
-  'clamp(1.1rem, 3.8vw, 1.75em)',
-  'clamp(1.3rem, 4.4vw, 2.05em)',
-  'clamp(1.5rem, 5vw, 2.35em)'
+  'clamp(0.85rem, 2.8vw, 1.15em)',
+  'clamp(1rem, 3.2vw, 1.4em)',
+  'clamp(1.15rem, 3.6vw, 1.65em)',
+  'clamp(1.3rem, 4vw, 1.9em)'
 ];
 
 var readableFontSizes = [
@@ -5262,7 +5357,7 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
         &lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;image-overlay fumo-leve&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -5585,16 +5680,17 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;
         &lt;div class=&quot;alarm&quot;&gt;
-            &lt;h2&gt;
-                De certeza que queres recomeçar? Vais perder todo o progresso.
-            &lt;/h2&gt;
+            &lt;h2&gt;De certeza que queres recomeçar?&lt;/h2&gt;
+            &lt;p class=&quot;alarm-subtext&quot;&gt;Esta ação é irreversível e vai eliminar o teu progresso até ao momento.&lt;/p&gt;
 
             &lt;div class=&quot;choices&quot;&gt;
-                &lt;div class=&quot;btn-sobre&quot;&gt;
+                &lt;div class=&quot;btn-sobre cancel-restart&quot;&gt;
                     &lt;&lt;back &quot;Cancelar&quot;&gt;&gt;
                 &lt;/div&gt;
 
-                [[Recomeçar-&gt;Start]]
+                &lt;div class=&quot;confirm-restart&quot;&gt;
+                    [[Recomeçar-&gt;Start]]
+                &lt;/div&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
