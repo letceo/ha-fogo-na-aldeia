@@ -104,7 +104,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="a4aebd25-7bd6-4982-bb5a-f5dad1f578aa" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* FONTS */
+	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="781f345a-a91f-41a5-b74c-178c989b9ef5" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -267,17 +267,6 @@ p { color: white !important; }
 
 .text-box .choices a,
 .text-box .choices button {
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(120, 80, 55, 0.18), rgba(120, 80, 55, 0.18)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-  border: 2.5px solid #B08D76 !important;
-  border-radius: 6px !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 3px 6px rgba(0,0,0,0.35) !important;
   font-size: 1.1em !important;
 }
 
@@ -293,13 +282,6 @@ p { color: white !important; }
 .text-box .choices a:hover::before,
 .text-box .choices button:hover::before {
   opacity: 1 !important;
-}
-
-.text-box .choices a:hover,
-.text-box .choices button:hover {
-  border-color: #EAA476 !important;
-  border-width: 2.5px !important; 
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 4px 8px rgba(0,0,0,0.45) !important;
 }
 
 .text-scroll {
@@ -455,25 +437,20 @@ p { color: white !important; }
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  flex-direction: row-reverse !important;
+  flex-direction: row !important;
   gap: 0.5em !important;
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(195, 27, 27, 0.88), rgba(195, 27, 27, 0.88)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: color, normal !important;
+  background-color: #C31B1B !important;
+  background-image: none !important;
+  background-blend-mode: normal !important;
   color: #FFF5E6 !important;
-  border: 2px solid #E53935 !important;                               
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12),
-              0 3px 0 #7A0F0F,                                          
-              0 5px 8px rgba(0,0,0,0.45) !important;
+  border: 2px solid #D52927 !important;
+  border-radius: 6px !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
 }
 
 .alarm .confirm-restart a::after {
   content: '↻';
+  order: -1;
   font-size: 1.15em;
   line-height: 1;
 }
@@ -484,77 +461,19 @@ p { color: white !important; }
 }
 
 .alarm .confirm-restart a::before {
-  background-image:
-    linear-gradient(rgba(228, 55, 55, 0.88), rgba(228, 55, 55, 0.88)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-blend-mode: color, normal !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-}
-
-.alarm .cancel-restart .macro-back {
-  position: relative !important;
-  overflow: hidden !important;
-  text-align: center !important;
-  isolation: isolate !important;
-  background: transparent !important;
-  border: 1.5px solid rgba(255, 245, 230, 0.45) !important;               
-  border-bottom: 2.5px solid rgba(160, 145, 125, 0.55) !important;        
-  border-radius: 6px !important;
-  color: #FFF5E6 !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06),                      
-              0 3px 6px rgba(0,0,0,0.5) !important;                       
-  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
-}
-
-.alarm .cancel-restart .macro-back::after {
   content: '' !important;
   position: absolute !important;
   inset: 0 !important;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.22)),
-    linear-gradient(rgba(120, 80, 55, 0.22), rgba(120, 80, 55, 0.22)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat-x !important;
-  background-size: cover, cover, cover, auto 100% !important;
-  background-position: center, center, center, left center !important;
-  background-blend-mode: normal, multiply, normal, normal !important;
-  border-radius: 4px !important;
-  pointer-events: none !important;
-  z-index: -2 !important;
-  opacity: 0.78 !important;
-  transition: opacity 0.4s ease !important;
-  backdrop-filter: blur(1px) !important;
-  -webkit-backdrop-filter: blur(1px) !important;
-  filter: contrast(1.05) brightness(1.05) !important;
-}
-
-.alarm .cancel-restart .macro-back:hover::after {
-  opacity: 1 !important;
-}
-
-.alarm .cancel-restart .macro-back::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)),  
-    linear-gradient(rgba(120, 80, 55, 0.18), rgba(120, 80, 55, 0.18)),      
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, no-repeat, repeat-x !important;
-  background-size: cover, cover, auto 100% !important;
-  background-position: center, center, left center !important;
-  background-blend-mode: normal, multiply, normal !important;
+  background-color: #9D1412 !important;
+  background-image: none !important;
   border-radius: 4px !important;
   opacity: 0 !important;
-  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: opacity 0.3s ease !important;
   pointer-events: none !important;
   z-index: -1 !important;
 }
 
-.alarm .cancel-restart .macro-back:hover::before {
+.alarm .confirm-restart a:hover::before {
   opacity: 1 !important;
 }
 
@@ -562,28 +481,39 @@ p { color: white !important; }
    em mobile mantém-se o comportamento genérico (stretch), que empilha os botões
    com a mesma largura */
 @media screen and (min-width: 601px) {
-  .alarm .confirm-restart a,
-  .alarm .cancel-restart .macro-back {
-    min-width: 190px !important;
+  .alarm .choices:has(.confirm-restart) {
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
   }
 
-  .alarm .choices:has(.confirm-restart) {
-    justify-content: flex-start !important;
-    align-items: flex-start !important;
+  .alarm .cancel-restart .macro-back,
+  .alarm .confirm-restart a {
+    width: 225px !important;
+    min-width: 225px !important;
+    max-width: 225px !important;
+    height: 52px !important;
+    box-sizing: border-box !important;
+
+    padding: 0 12px !important;
+    font-size: 1.2em !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
   }
 }
 
 .alarm.alarm .confirm-restart a:hover {
-  border-bottom-width: 2.5px !important;
-  border-color:  #F26A6A !important;      
-  filter: contrast(1) brightness(1) !important;
+  border-color: #830908 !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+  filter: none !important;
 }
 
 .alarm .cancel-restart .macro-back:hover {
-  border-color: rgba(255, 245, 230, 0.72) !important;          
-  border-bottom-color: rgba(201, 184, 160, 0.72) !important;   
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),
-              0 3px 6px rgba(0,0,0,0.4) !important;
+  border-color: #EAA476 !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Alinhamento à esquerda só aplica em ecrãs onde os botões ficam em linha;
@@ -701,6 +631,10 @@ p { color: white !important; }
   contain: layout;     
 }
 
+.ui-btn {
+  display: none !important;
+}
+
 /* DETAils */
 h1 {
   font-family: "Winky Rough", sans-serif;
@@ -807,6 +741,10 @@ p {
   color: black;
 }
 
+:root {
+  --btn-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25);
+}
+
 button .choices a {
   background-color: darkorange !important;
   font-size: 0.8em;
@@ -822,85 +760,10 @@ button .choices a {
 }
 
 .choices a,
-.choices button {
-  position: relative;
-  z-index: 0;
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(120, 80, 55, 0.18), rgba(120, 80, 55, 0.18)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-  color: #FFF5E6 !important;
-  border: 1.5px solid #5C3A1E !important;
-  border-bottom: 2.5px solid #3E2410 !important;
-  border-radius: 6px !important;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 3px 6px rgba(0,0,0,0.4) !important;
-  padding: 10px 20px !important;
-  font-family: "Winky Rough", sans-serif !important;
-  width: auto !important;
-  display: inline-block !important;
-  white-space: nowrap;
-  filter: contrast(1.05) brightness(1.05) !important;
-  transition: filter 0.5s ease, box-shadow 0.5s ease, border-bottom-width 0.5s ease !important;
-}
-
-.choices a,
 .choices a:hover,
 .choices a:focus,
 .choices a:visited {
   text-decoration: none !important;
-}
-
-.choices a::before,
-.choices button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-color: transparent;
-  background-image:
-    linear-gradient(rgba(45, 22, 15, 0.75), rgba(45, 22, 15, 0.75)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-  border-radius: 4px;
-  opacity: 0;
-  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.sombrinha .choices > a {
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(120, 80, 55, 0.18), rgba(120, 80, 55, 0.18)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-  border: 2.5px solid #B08D76 !important;
-}
-
-.sombrinha .choices > a::before {
-  background-image:
-    linear-gradient(rgba(70, 35, 33, 0.55), rgba(70, 35, 33, 0.55)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-}
-
-.sombrinha .choices > a:hover {
-  border-color: #EAA476 !important;
-  border-width: 2.5px !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 4px 8px rgba(0,0,0,0.45) !important;
 }
 
 .sombrinha .choices {
@@ -917,93 +780,11 @@ button .choices a {
   justify-content: center !important;
 }
 
-.sombrinha .btn-sobre a {
-  position: relative !important;
-  overflow: hidden !important;
-  text-align: center !important;
-  isolation: isolate !important;
-
-  background: transparent !important;
-
-  border: 1.5px solid rgba(255, 245, 230, 0.72) !important;
-  border-bottom: 2.5px solid rgba(201, 184, 160, 0.72) !important;
-  border-radius: 6px !important;
-
-  color: #FFF5E6 !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12),
-              0 3px 6px rgba(0,0,0,0.3) !important;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease !important;
-}
-
-.sombrinha .btn-sobre a:hover {
-  border-color: #FFF5E6 !important;
-  border-bottom-color: #C9B8A0 !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),
-              0 3px 6px rgba(0,0,0,0.4) !important;
-}
-
-.sombrinha .btn-sobre a::after {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)),
-    linear-gradient(rgba(120, 80, 55, 0.18), rgba(120, 80, 55, 0.18)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png") !important;
-  background-repeat: no-repeat, no-repeat, repeat-x !important;
-  background-size: cover, cover, auto 100% !important;
-  background-position: center, center, left center !important;
-  background-blend-mode: normal, multiply, normal !important;
-  border-radius: 4px !important;
-  pointer-events: none !important;
-  z-index: -2 !important;
-  opacity: 0.72 !important;
-  transition: opacity 0.4s ease !important;
-  backdrop-filter: blur(1px) !important;
-  -webkit-backdrop-filter: blur(1px) !important;
-  filter: contrast(1.05) brightness(1.05) !important;
-}
-
-.sombrinha .btn-sobre a:hover::after {
-  opacity: 1 !important;
-}
-
-.sombrinha .btn-sobre a::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-image:
-    linear-gradient(rgba(45, 22, 15, 0.45), rgba(45, 22, 15, 0.45)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  background-repeat: no-repeat, repeat-x !important;
-  background-size: cover, auto 100% !important;
-  background-position: center, left center !important;
-  background-blend-mode: multiply !important;
-  border-radius: 4px !important;
-  opacity: 0 !important;
-  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  pointer-events: none !important;
-  z-index: -1 !important;
-}
-
-.sombrinha .btn-sobre a:hover::before {
-  opacity: 1 !important;
-}
-
-.choices a:hover::before,
-.choices button:hover::before {
-  opacity: 1;
-}
-
 .choices a:hover,
 .choices button:hover {
   transform: none !important;
-  border-bottom-width: 2.5px !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15),
-              0 3px 6px rgba(0,0,0,0.4),
-              0 0 0 2px rgba(183, 126, 86, 0.3) !important;
-  filter: contrast(1) brightness(0.95) !important;
-  transition: filter 0.5s ease, box-shadow 0.5s ease, border-bottom-width 0.5s ease !important;
+  border-color: #EAA476 !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
 }
 
 .text-box .choices a:active,
@@ -1022,49 +803,6 @@ button .choices a {
 .choices button,
 .phone-key {
   touch-action: manipulation;
-}
-
-.btn-sobre a {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-}
-
-.ui-btn a,
-.ui-btn button {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  color: white;
-  font-size: 1.55em;
-  padding: 0;
-  cursor: pointer;
-  line-height: 1;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.ui-btn a:hover,
-.ui-btn button:hover,
-.ui-btn .macro-back:hover {
-  transform: none !important;
-  text-shadow: 0 2px 12px rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.6) !important;
-  transition: 0.2s !important;
-  text-decoration: none;
-}
-
-.text-box .ui-btn a:first-child {
-  color: white !important;
-  -webkit-text-stroke: 0 !important;
-  opacity: 0.6 !important;   
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
-}
-
-.text-box .ui-btn a:first-child:hover {
-  opacity: 1 !important;
-  text-shadow: 0 2px 12px rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.6) !important;
-}
-
-.ui-btn .macro-back {
-  opacity: 0.6;
 }
 
 .ui-btn .macro-back:hover {
@@ -1121,32 +859,6 @@ button {
   height: 0;
   overflow: visible;
 }
-
-#font-btn {
-  position: fixed;
-  top: max(1%, env(safe-area-inset-top));
-  left: calc(1% + var(--icon-btn-size) + var(--icon-btn-gap));
-  height: var(--icon-btn-size);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start !important;   
-  width: auto !important;                    
-  min-width: var(--icon-btn-size);
-  padding-left: 2px;
-  z-index: 100;
-  font-size: 1.5em !important;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
-  cursor: pointer;
-}
-
-#font-btn:hover {
-  transform: none !important;
-  text-shadow: 0 2px 14px rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.6) !important;
-  transition: text-shadow 0.25s ease !important;
-}
-
 
 /* ANIMAÇÃO EFEITOS E TRANSIÇÕES */
 @keyframes sceneFade {
@@ -2465,11 +2177,34 @@ button {
     gap: 1.25rem !important;
   }
 
-  .sombrinha .choices a,
-  .sombrinha .choices button,
-  .sombrinha .btn-sobre a {
-    font-size: 1.4em !important;
-    padding: 14px 28px !important;
+  .sombrinha .choices .btn-sobre {
+    display: inline-flex !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: min(90vw, 320px) !important;
+    justify-content: center !important;
+  }
+
+  .sombrinha .choices > a,
+  .sombrinha .choices > button,
+  .sombrinha .choices .btn-sobre a {
+    width: 100% !important;
+    max-width: min(90vw, 320px) !important;
+    min-width: 0 !important;
+    height: 56px !important;
+    box-sizing: border-box !important;
+
+    font-size: 1.55em !important;
+    padding: 0 12px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
   }
 
   .text-box {
@@ -2508,41 +2243,12 @@ button {
     left: 1% !important;
   }
 
-  #font-btn {
-    font-size: 1.6em !important;
-    top: max(1%, env(safe-area-inset-top)) !important;
-    left: calc(1% + var(--icon-btn-size) + var(--icon-btn-gap)) !important;
-  }
-
   #decision-timer {
     top: 84px !important;      
     right: 8px !important;
     width: 46px !important;
     height: 46px !important;
     font-size: 1.05em !important;
-  }
-
-  .ui-btn {
-    position: fixed !important;
-    top: 8px !important;
-    right: 8px !important;
-    z-index: 200 !important;
-    background-color: #CC864E !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 6px 8px !important;
-    gap: 0.15rem !important;
-    box-shadow: none !important;
-    font-size: 16px !important;
-  }
-
-  .ui-btn .macro-back {
-    order: 1 !important;       /* voltar primeiro */
-    text-shadow: 0 0 1px currentColor, 0 2px 6px rgba(0,0,0,0.6);
-  }
-
-  .ui-btn a:first-child {
-    order: 2 !important;       /* recomeçar depois */
   }
 
   .ui-btn a,
@@ -3389,87 +3095,6 @@ button {
     }
 }
 
-/* ============================================================
-   BOTÕES ⟲ / ← — TABLET + DESKTOP
-   ============================================================ */
-
-@media screen and (min-width: 601px) {
-
-    .text-box .ui-btn {
-        display: flex !important;     
-        align-items: center !important;
-        gap: 0.20rem !important;          
-        width: auto !important;
-        height: auto !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        line-height: 1 !important;
-    }
-
-    .text-box .ui-btn a {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        width: 88px !important;
-        height: 88px !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        vertical-align: middle !important;
-        line-height: 1 !important;
-
-        font-size: 2.6em !important;
-    }
-
-    .text-box .ui-btn .macro-back {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        width: 80px !important;
-        height: 80px !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        vertical-align: middle !important;
-        line-height: 1 !important;
-        order: 1 !important; 
-
-        font-size: 2.4em !important;
-    }
-
-    .text-box .ui-btn a:first-child {
-      order: 2 !important;
-      justify-content: center !important;
-      margin-right: 0.5rem !important;  
-    }
-}
-
-
-/* DESKTOP — ainda maiores */
-@media screen and (min-width: 1025px) {
-    .text-box .ui-btn {
-        gap: 0.20rem !important;          
-    }
-
-    .text-box .ui-btn a {
-        width: 104px !important;          
-        height: 104px !important;
-        font-size: 2.8em !important;      
-    }
-
-    .text-box .ui-btn .macro-back {
-        width: 94px !important;          
-        height: 94px !important;
-        font-size: 2.6em !important;      
-        margin: 0 !important;
-        justify-content: flex-end !important;
-        padding-right: -6px !important;
-    }
-}
 
 /* ============================================================
    PÁGINA DE CARREGAMENTO
@@ -3658,7 +3283,23 @@ html[data-init="loading"] #init-loading {
 }
 
 #tip-text {
-    font-weight: 400;
+  font-weight: 400;
+  display: inline-block;
+}
+
+#tip-text.tip-fading {
+  opacity: 0;
+}
+
+.prevention-tip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  transition: opacity 0.4s ease;
+}
+
+.prevention-tip.tip-fading {
+  opacity: 0;
 }
 
 
@@ -3865,14 +3506,76 @@ html[data-init="loading"] #init-loading {
    ============================================================ */
 @media screen and (min-width: 601px) {
   .sombrinha .choices {
+    gap: 1.5rem !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .sombrinha .choices .btn-sobre {
+    display: inline-flex !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+  }
+
+  .sombrinha .choices > a,
+  .sombrinha .choices > button,
+  .sombrinha .choices .btn-sobre a {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+    height: 56px !important;
+    box-sizing: border-box !important;
+
+    font-size: 1.55em !important;
+    padding: 0 12px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+    /* Sobre / Como jogar — mesmos valores, alinhados à esquerda */
+  .alarm .choices:has(.btn-sobre) {
+    justify-content: flex-start !important;
+    align-items: center !important;
     gap: 1.25rem !important;
   }
 
-  .sombrinha .choices a,
-  .sombrinha .choices button,
-  .sombrinha .btn-sobre a {
-    font-size: 1.4em !important;
-    padding: 14px 32px !important;
+  .alarm .choices:has(.btn-sobre) .btn-sobre {
+    display: inline-flex !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  .alarm .choices:has(.btn-sobre) > a,
+  .alarm .choices:has(.btn-sobre) > button,
+  .alarm .choices:has(.btn-sobre) .btn-sobre a {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+    height: 54px !important;
+    box-sizing: border-box !important;
+
+    font-size: 1.35em !important;
+    padding: 0 14px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
   }
 }
 
@@ -3977,12 +3680,821 @@ html[data-init="loading"] #init-loading {
   .choices {
     margin-top: 0.6rem !important;
   }
+}
+
+/* ============================================================
+   BOTÕES — v4 (valores finais do Figma)
+   ============================================================ */
+
+/* ---------- Base comum ---------- */
+.choices a,
+.choices button,
+.sombrinha .btn-sobre a,
+.alarm .btn-sobre a,
+.alarm .confirm-restart a,
+.alarm .cancel-restart .macro-back {
+  position: relative !important;
+  overflow: hidden !important;
+  color: #FFF5E6 !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
+  padding: 10px 20px !important;
+  font-family: "Winky Rough", sans-serif !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  transition: background-color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease !important;
+}
+
+/* Anular pseudo-elementos antigos */
+.choices a::before,
+.choices button::before,
+.sombrinha .btn-sobre a::before,
+.alarm .btn-sobre a::before,
+.alarm .cancel-restart .macro-back::before {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* ------------------------------------------------------------
+   BOTÃO PRINCIPAL
+   ------------------------------------------------------------ */
+.choices > a,
+.choices > button,
+.sombrinha .choices > a,
+.sombrinha .choices > button,
+.alarm .choices > a,
+.alarm .choices > button,
+.alarm .cancel-restart .macro-back {
+  background-color: transparent !important;
+  background-image:
+    linear-gradient(rgba(95, 55, 42, 0.68), rgba(95, 55, 42, 0.68)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  background-size: 100% 100%, 60px 60px !important;
+  background-position: 0 0, left top !important;
+  background-repeat: no-repeat, repeat !important;
+  border: 3px solid #B08D76 !important;
+  border-radius: 10px !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.choices > a:hover,
+.choices > button:hover,
+.sombrinha .choices > a:hover,
+.sombrinha .choices > button:hover,
+.alarm .choices > a:hover,
+.alarm .choices > button:hover,
+.alarm .cancel-restart .macro-back:hover {
+  background-color: transparent !important;
+  background-image:
+      linear-gradient(rgba(70, 42, 33, 0.72), rgba(70, 42, 33, 0.72)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  border-color: #EAA476 !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ------------------------------------------------------------
+   BOTÃO RECOMEÇAR 
+   ------------------------------------------------------------ */
+.alarm .confirm-restart a {
+  display: inline-flex !important;
+  background-color: #C31B1B !important;
+  background-image: none !important;
+  border: 2px solid #D52927 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 0 0 #6B0F0F !important;
+}
+
+.alarm .confirm-restart a:hover {
+  background-color: #9D1412 !important;
+  background-image: none !important;
+  border-color: #830908 !important;
+  box-shadow: 0 4px 0 0 #6B0F0F !important;
+}
+
+/* ------------------------------------------------------------
+   BOTÃO SECUNDÁRIO 
+   ------------------------------------------------------------ */
+.sombrinha .btn-sobre a,
+.alarm .btn-sobre a,
+.sombrinha .choices .btn-sobre a,
+.alarm .choices .btn-sobre a {
+  background-color: transparent !important;
+  background-image:
+    linear-gradient(rgba(99, 77, 69, 0.62), rgba(99, 77, 69, 0.62)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  background-size: 100% 100%, auto auto !important;
+  background-position: 0 0, left top !important;
+  background-repeat: no-repeat, repeat !important;
+  border: 3px solid #B08D76 !important;
+  border-radius: 10px !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.sombrinha .btn-sobre a:hover,
+.alarm .btn-sobre a:hover,
+.sombrinha .choices .btn-sobre a:hover,
+.alarm .choices .btn-sobre a:hover {
+  background-color: transparent !important;
+  background-image:
+    linear-gradient(rgba(97, 66, 57, 0.62), rgba(97, 66, 57, 0.62)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  border-color: #EAA476 !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ============================================================
+   VARIÁVEIS DE COR — PAINEL DE DEFINIÇÕES
+   ============================================================ */
+:root {
+  --settings-accent: #EAA788;                     
+  --settings-track: rgba(255, 255, 255, 0.1255);    
+  --settings-row-bg: rgba(255, 255, 255, 0.0627);  
+  --settings-border: rgba(183, 127, 85, 0.4);
+}
+
+:root {
+  --settings-panel-width: min(90vw, 360px);
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  :root {
+    --settings-panel-width: min(65vw, 560px);
+  }
+}
+
+body:has(#settings-overlay.open) #settings-nook {
+  transform: translateX(calc(-1 * var(--settings-panel-width)));
+}
+
+@media screen and (min-width: 769px) {
+  body:has(#settings-overlay.open) #settings-nook {
+    width: 64px;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
+  }
+
+  body:has(#settings-overlay.open) #settings-nook .settings-label {
+    max-width: 0;
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   NOOK DE DEFINIÇÕES — botão (madeira + texture, texto branco)
+   ============================================================ */
+
+#settings-nook {
+  position: fixed;
+  top: max(1%, env(safe-area-inset-top));
+  right: 0;
+  z-index: 9500;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 22px;
+  min-height: 64px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  background-color: #8A5A3B !important;
+  background-image:
+    linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
+  background-size: 100% 100%, 120px 120px !important;
+  background-position: left top, left top !important;
+  background-repeat: no-repeat, repeat !important;
+
+  border: 2px solid #D1A377 !important;
+  border-radius: 12px 0 0 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  color: #FFFFFF !important;
+  font-family: "Winky Rough", sans-serif;
+  font-size: 1.05em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            gap 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            filter 0.25s ease, box-shadow 0.25s ease;
+}
+
+#settings-nook .settings-icon,
+#settings-nook .settings-label {
+  color: #FFFFFF !important;
+}
+
+#settings-nook:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.35);
+}
+
+#settings-nook .settings-icon {
+  font-size: 1.2em;
+  line-height: 1;
+  display: inline-block;
+}
+
+#settings-nook .settings-label {
+  display: inline-block;
+  line-height: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 160px;
+  transition: max-width 0.3s ease, opacity 0.2s ease;
+}
+
+/* Mobile: só ícone, 52×52 (mesmo tamanho dos outros botões) */
+@media screen and (max-width: 768px) {
+  #settings-nook {
+    width: var(--icon-btn-size);
+    height: var(--icon-btn-size);
+    min-height: 0;
+    padding: 0;
+    border-radius: 10px 0 0 10px;
+    font-size: 1.4em;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+  }
+  #settings-nook .settings-label { display: none; }
+}
+
+/* Desktop / tablet: afasta o timer */
+@media screen and (min-width: 769px) {
+  #decision-timer {
+    top: 80px !important;
+    right: 1% !important;
+  }
+}
+
+/* ============================================================
+   PAINEL DE DEFINIÇÕES — fundo castanho com madeira
+   ============================================================ */
+
+#settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#settings-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#settings-panel {
+  position: relative;
+  width: min(90vw, 360px);
+  max-width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 24px 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+
+  background-color: #4A2711;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png");
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  background-position: left top;
+  background-blend-mode: multiply;
+
+  border-left: 2px solid #B37F55;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.7);
+
+  color: #FFF5E6;
+  font-family: "Fira Sans", sans-serif;
+
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#settings-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 10, 5, 0.15);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#settings-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+#settings-overlay.open #settings-panel {
+  transform: translateX(0);
+}
+
+#settings-panel::-webkit-scrollbar { width: 6px; }
+#settings-panel::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+#settings-panel::-webkit-scrollbar-thumb {
+  background: rgba(183, 127, 85, 0.6);
+  border-radius: 999px;
+}
+
+/* ---------- Header ---------- */
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--settings-border);
+}
+
+.settings-title {
+  font-family: "Winky Rough", sans-serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  margin: 0;
+  color: #FFF5E6;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+#settings-close {
+  background: none;
+  border: none;
+  color: #FFF5E6;
+  font-size: 1.5em;
+  line-height: 1;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+#settings-close:hover {
+  background: rgba(183, 127, 85, 0.25);
+}
+
+/* ---------- Body ---------- */
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Container comum a cada elemento
+   (Som Geral / Narração / Tamanho da Letra / Ecrã Cheio) — ponto 6 */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  background: var(--settings-row-bg);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.settings-row-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Fira Sans", sans-serif;
+  color: #FFF5E6;
+}
+
+.settings-row-label .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+.settings-row-label .icon svg { display: block; }
+
+.language-select {
+  background-color: rgba(0, 0, 0, 0.25);
+  color: #FFF5E6;
+  border: 1.5px solid rgba(183, 127, 85, 0.5);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 0.9em;
+  cursor: pointer;
+  outline: none;
+  max-width: 140px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.language-select:hover,
+.language-select:focus {
+  border-color: var(--settings-accent);
+  background-color: rgba(183, 127, 85, 0.2);
+}
+
+.language-select option {
+  background-color: #4A2711;
+  color: #FFF5E6;
+}
+
+/* ---------- Som Geral: ícone clicável + slider + % ---------- */
+.settings-row-sound {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.settings-row-sound-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+.sound-icon-btn {
+  background: none;
+  border: none;
+  width: auto;
+  height: auto;
+  padding: 0;
+  gap: 0.6em;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  color: #FFF5E6;
+  transition: opacity 0.2s ease;
+}
+
+.sound-icon-btn svg { display: block; }
+
+.sound-icon-btn:hover {
+  opacity: 0.85;
+}
+
+.sound-icon-btn.muted {
+  opacity: 0.55;
+}
+
+.sound-icon-btn .sound-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.sound-icon-btn .sound-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.sound-icon-btn .sound-label {
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Fira Sans", sans-serif;
+  color: #FFF5E6;
+}
+
+.sound-slider-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.settings-row-sound .sound-slider-wrap {
+  flex: none;
+  width: 100%;
+}
+
+/* Slider — ponto 3 */
+.sound-slider-wrap input[type="range"] {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  width: 100%;
+  height: 6px;
+  border: none !important;
+  border-radius: 999px;
+  outline: none !important;
+  cursor: pointer;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    var(--settings-accent) 0%,
+    var(--settings-accent) var(--volume-pct, 100%),
+    var(--settings-track) var(--volume-pct, 100%),
+    var(--settings-track) 100%
+  ) !important;
+}
+
+.sound-slider-wrap input[type="range"]::-webkit-slider-runnable-track {
+  background: transparent !important;
+  border: none !important;
+  height: 6px;
+  border-radius: 999px;
+}
+
+.sound-slider-wrap input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-top: -5px;
+  transition: transform 0.15s ease;
+}
+
+.sound-slider-wrap input[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.sound-slider-wrap input[type="range"]::-moz-range-track {
+  height: 6px;
+  border: none !important;
+  border-radius: 999px;
+  background: var(--settings-track) !important;
+}
+
+.sound-slider-wrap input[type="range"]::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--settings-accent);
+}
+
+.sound-slider-wrap input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.sound-slider-wrap input[type="range"]::-moz-focus-outer {
+  border: 0;
+}
+
+.sound-slider-wrap input[type="range"]:focus-visible::-webkit-slider-thumb,
+.sound-slider-wrap input[type="range"]:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--settings-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Toggle switch — ponto 5 ---------- */
+.toggle-switch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  background: var(--settings-track);
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  box-sizing: border-box;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #FFF5E6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  transform: translateX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+
+.toggle-switch.on {
+  background: var(--settings-accent);
+  border-color: var(--settings-accent);
+}
+
+.toggle-switch.on::after {
+  background: #FFF5E6;
+  transform: translateX(22px); /* corrige o bug: faltava o movimento da bolinha */
+}
+
+.toggle-switch:focus-visible {
+  outline: 2px solid var(--settings-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Section label ---------- */
+.settings-section-label {
+  font-family: "Winky Rough", sans-serif;
+  font-size: 1.05em;
+  font-weight: 700;
+  color: #FFF5E6;
+  margin: 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------- Seletor de tamanho de letra — ponto 4 ---------- */
+.settings-row-font {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.font-levels {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  box-sizing: border-box;
+
+  background: var(--settings-track);
+  border-radius: 10px;
+  padding: 4px;
+  border: none;
+}
+
+.font-level {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: rgba(255, 245, 230, 0.65);
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 700;
+  padding: 10px 4px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.95em;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: color 0.2s ease, background 0.2s ease,
+              box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.font-level:hover {
+  color: #FFF5E6;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.font-level:active {
+  transform: translateY(1px);
+}
+
+.font-level.active {
+  background: var(--settings-accent) !important;
+  color: #FFF5E6;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.font-level:focus-visible {
+  outline: 2px solid var(--settings-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Botões inferiores — ponto 7 ---------- */
+.settings-actions {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--settings-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-btn {
+  width: 100%;
+  height: 48px;
+  padding: 0 18px;
+  border-radius: 10px !important;
+  box-sizing: border-box;
+  font-family: "Winky Rough", sans-serif;
+  font-size: 1.05em;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: filter 0.2s ease, transform 0.1s ease,
+              border-color 0.2s ease, background 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.settings-btn:active {
+  transform: translateY(2px);
+}
+
+.settings-btn-restart {
+  background-color: #C31B1B !important;
+  background-image: none !important;
+  color: #FFF5E6 !important;
+  border: 2px solid #D52927 !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 0 0 #6B0F0F !important;
+}
+
+.settings-btn-restart:hover {
+  background-color: #9D1412 !important;
+  border-color: #830908 !important;
+  box-shadow: 0 4px 0 0 #6B0F0F !important;
+}
+
+.settings-btn-back {
+  background-color: transparent !important;
+  background-image:
+    linear-gradient(rgba(99, 77, 69, 0.62), rgba(99, 77, 69, 0.62)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  background-size: 100% 100%, auto auto !important;
+  background-position: 0 0, left top !important;
+  background-repeat: no-repeat, repeat !important;
+  color: #FFF5E6 !important;
+  border: 3px solid #B08D76 !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.settings-btn-back:hover {
+  background-image:
+    linear-gradient(rgba(97, 66, 57, 0.62), rgba(97, 66, 57, 0.62)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
+  border-color: #EAA476 !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  #settings-panel { width: min(65vw, 560px); }
+}
+
+@media screen and (max-width: 600px) {
+  #settings-panel {
+    width: min(82vw, 320px);
+  }
+
+  :root {
+    --settings-panel-width: min(82vw, 320px);
+  }
+}
+
+/* ============================================================
+   REDUZIR/DESATIVAR ANIMAÇÕES
+   ============================================================ */
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001s !important;
+  scroll-behavior: auto !important;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
 // de phone.png. Isto evita que o teclado varie para a esquerda/direita
 // em iPad/tablets com diferentes proporções.
 // ============================================================
+
+// ============================================================
+// ANIMAÇÕES - ativar/desativar
+// ============================================================
+var animationsEnabled = true;
+try {
+  var savedAnim = localStorage.getItem('hfna-animations');
+  if (savedAnim === '0') animationsEnabled = false;
+} catch (e) {}
+
+function applyAnimationsState() {
+  document.body.classList.toggle('reduce-motion', !animationsEnabled);
+}
 
 function alinharOverlaysAoTelefone(scene, img) {
     if (!scene || !img) return;
@@ -4238,7 +4750,7 @@ function aplicarFonte() {
 var decisionTimer = null;
 var countdownInterval = null;
 
-$(document).on('mouseenter', '.choices a, .choices button', function () {
+$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
   SimpleAudio.tracks.get('hover').volume(0.1).play();
 });
 
@@ -4251,23 +4763,14 @@ $(document).one(':passagestart', function () {
   $('body').append($btn);
 
   $btn.on('click', function () {
-  if ($btn.text() === '🔊') {
-    SimpleAudio.mute(true);
-    $btn.text('🔇').attr('aria-label', 'Ligar som');
-  } else {
-    SimpleAudio.mute(false);
-    $btn.text('🔊').attr('aria-label', 'Desligar som');
-  }
-});
-
-  var $fontBtn = $('<button id="font-btn" aria-label="Aumentar tamanho do texto">A</button>');
-  $('body').append($fontBtn);
-
-  $fontBtn.on('click', function () {
-    fontIndex = (fontIndex + 1) % fontSizes.length;
-    aplicarFonte();
+    if ($btn.text() === '🔊') {
+      SimpleAudio.mute(true);
+      $btn.text('🔇').attr('aria-label', 'Ligar som');
+    } else {
+      SimpleAudio.mute(false);
+      $btn.text('🔊').attr('aria-label', 'Desligar som');
+    }
   });
-
 });
 
 function clearTimers() {
@@ -4405,6 +4908,7 @@ $timer.css(timerCSS);
 
 $(document).on(':passagestart', function (ev) {
   var name = ev.passage.title;
+  applyAnimationsState();
 
   // ============================================================
   // CORREÇÃO: Se for a passagem Start, reiniciar o estado dos pássaros
@@ -4730,8 +5234,6 @@ function ajustarVolumeHeartbeat(dentro) {
 // ============================================================
 var earRingingFadeTimer = null;
 var earRinging21FadeIniciado = false;
-var decisionTimer = null;
-var countdownInterval = null;
 
 function ajustarVolumeEarRinging(targetVol, duracaoMs) {
     var track = SimpleAudio.tracks.get('ear-ringing');
@@ -4850,34 +5352,6 @@ $(document).on(':passageend', function () {
   });
 
   $scroll.css('overflow-y', 'hidden');   
-
-  $children.each(function () {
-    $(this).css({ opacity: 0, visibility: 'visible' });
-  });
-
-  function finishAnimation() {
-    if (!animating) return;
-    animating = false;
-
-    if (wordInterval) {
-      clearInterval(wordInterval);
-      wordInterval = null;
-    }
-
-    $children.each(function () {
-      $(this).css('opacity', 1);
-      $(this).find('.word').css('opacity', 1);
-    });
-
-    if ($box.length === 0) return;
-
-    $scroll.find('.choices a, .choices button').css({   // era $box.find
-      'pointer-events': 'auto',
-      'opacity': '1'
-    });
-
-    $scroll.css('overflow-y', 'auto');   // era $box.css
-  }
 
   $children.each(function () {
     $(this).css({ opacity: 0, visibility: 'visible' });
@@ -5189,6 +5663,42 @@ var tips = [
   " Nunca faça fogueiras em dias de vento forte.", " Não atire fósforos para o chão.", " Se vir um incêndio, ligue o 112."
 ];
 
+var ICON_VOLUME_ON =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
+    '<path d="M16 9a4 4 0 0 1 0 6"/>' +
+    '<path d="M18.5 6.5a8 8 0 0 1 0 11"/>' +
+  '</svg>';
+ 
+var ICON_VOLUME_OFF =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
+    '<line x1="16" y1="9" x2="21" y2="14"/>' +
+    '<line x1="21" y1="9" x2="16" y2="14"/>' +
+  '</svg>';
+ 
+var ICON_MIC =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<rect x="9" y="2" width="6" height="12" rx="3"/>' +
+    '<path d="M5 10v1a7 7 0 0 0 14 0v-1"/>' +
+    '<line x1="12" y1="18" x2="12" y2="22"/>' +
+  '</svg>';
+
+var ICON_GLOBE =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="12" cy="12" r="9"/>' +
+    '<ellipse cx="12" cy="12" rx="4" ry="9"/>' +
+    '<line x1="3" y1="12" x2="21" y2="12"/>' +
+  '</svg>'; 
+  
+var ICON_ANIMATION =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 17h5" opacity="0.35"/>' +
+    '<path d="M4 12h4" opacity="0.5"/>' +
+    '<path d="M4 7h5" opacity="0.35"/>' +
+    '<path d="M10 6l9 6-9 6V6z"/>' +
+  '</svg>';  
+
 // ============================================================
 // BLOQUEIO DE ZOOM (pinch + double-tap) — necessário no iOS Safari
 // ============================================================
@@ -5241,7 +5751,7 @@ $(document).one(':storyready', function () {
     '</main>' +
     '<footer class="loading-footer">' +
       '<div class="prevention-tip">' +
-        '<span class="tip-label">Dica:</span>' +
+        '<span class="tip-label">Dica: </span>' +
         '<span id="tip-text"></span>' +
       '</div>' +
     '</footer>';
@@ -5257,8 +5767,25 @@ $(document).one(':storyready', function () {
   }
 
   var tipEl = overlay.querySelector('#tip-text');
+  var tipContainer = overlay.querySelector('.prevention-tip');
+  var tipIndex = 0;
+  var tipRotationInterval = null;
+
   if (tips.length) {
-    tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
+    tipIndex = Math.floor(Math.random() * tips.length);
+    tipEl.textContent = tips[tipIndex];
+
+    if (tips.length > 1) {
+      tipRotationInterval = setInterval(function () {
+        tipContainer.classList.add('tip-fading');
+
+        setTimeout(function () {
+          tipIndex = (tipIndex + 1) % tips.length;
+          tipEl.textContent = tips[tipIndex];
+          tipContainer.classList.remove('tip-fading');
+        }, 400);
+      }, 10000); // 10 segundos
+    }
   }
 
   var loaded = 0;
@@ -5284,6 +5811,11 @@ $(document).one(':storyready', function () {
   }
 
     function morphOut() {
+    if (tipRotationInterval) {
+      clearInterval(tipRotationInterval);
+      tipRotationInterval = null;
+    }
+    
     var titleEl = overlay.querySelector('.loading-title');
     var targetTitle = document.querySelector('.sombrinha h1');
 
@@ -5461,6 +5993,338 @@ $(document).on(':passageend', function () {
 $(document).on('click', '.alarm-close', function (e) {
   e.preventDefault();
   $('.alarm .cancel-restart a').first().trigger('click');
+});
+
+// ============================================================
+// NOOK DE DEFINIÇÕES — botão + painel lateral
+// ============================================================
+$(document).one(':passagestart', function () {
+
+  // Limpa qualquer versão anterior (evita duplicados)
+  $('#settings-overlay').remove();
+  $('#settings-nook').remove();
+
+  // ---------- 1. Botão "Definições" (nook) ----------
+  $('body').append(
+    '<button id="settings-nook" type="button" aria-label="Abrir definições" aria-haspopup="dialog">' +
+      '<span class="settings-icon" aria-hidden="true">⚙</span>' +
+      '<span class="settings-label">Definições</span>' +
+    '</button>'
+  );
+
+  // ---------- 2. Painel ----------
+    $('body').append(
+    '<div id="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true">' +
+      '<aside id="settings-panel">' +
+        '<header class="settings-header">' +
+          '<h2 class="settings-title" id="settings-title">' +
+            '<span class="settings-icon" aria-hidden="true">⚙</span> Definições' +
+          '</h2>' +
+          '<button id="settings-close" type="button" aria-label="Fechar definições">✕</button>' +
+        '</header>' +
+ 
+        '<div class="settings-body">' +
+ 
+          /* ---------- Som Geral: ícone clicável + slider + % ---------- */
+          '<div class="settings-row settings-row-sound">' +
+            '<div class="settings-row-sound-top">' +
+              '<button type="button" class="sound-icon-btn" id="sound-icon-btn" aria-label="Silenciar som">' +
+                '<span class="sound-icon" aria-hidden="true">' + ICON_VOLUME_ON + '</span>' +
+                '<span class="sound-label">Som Geral</span>' +
+              '</button>' +
+              '<span class="volume-value" id="volume-value">100%</span>' +
+            '</div>' +
+            '<div class="sound-slider-wrap">' +
+              '<input type="range" min="0" max="100" step="1" value="100" id="volume-slider" aria-label="Nível de volume">' +
+            '</div>' +
+          '</div>' +
+ 
+          /* ---------- Narração de Voz ---------- */
+          '<div class="settings-row">' +
+            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_MIC + '</span> Narração de Voz</span>' +
+            '<div class="toggle-switch" id="toggle-voice" role="switch" aria-checked="false" tabindex="0" aria-label="Narração de voz"></div>' +
+          '</div>' +
+
+          /* ---------- Idioma ---------- */
+          '<div class="settings-row settings-row-language">' +
+            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +
+            '<select id="language-select" class="language-select" aria-label="Idioma">' +
+              '<option value="pt" selected>Português</option>' +
+              '<option value="en">English</option>' +
+              '<option value="es">Español</option>' +
+              '<option value="fr">Français</option>' +
+              '<option value="de">Deutsch</option>' +
+              '<option value="it">Italiano</option>' +
+              '<option value="el">Ελληνικά</option>' +
+              '<option value="ru">Русский</option>' +
+            '</select>' +
+          '</div>' +
+
+          /* ---------- Tamanho da Letra (segmentado) ----------*/
+          '<div class="settings-row settings-row-font">' +
+            '<p class="settings-section-label">Tamanho da Letra</p>' +
+            '<div class="font-levels" id="font-levels" role="radiogroup" aria-label="Tamanho da letra">' +
+              '<button type="button" class="font-level" data-level="0" aria-label="Tamanho A">A</button>' +
+              '<button type="button" class="font-level" data-level="1" aria-label="Tamanho A mais">A+</button>' +
+              '<button type="button" class="font-level" data-level="2" aria-label="Tamanho A mais mais">A++</button>' +
+              '<button type="button" class="font-level" data-level="3" aria-label="Tamanho A mais mais mais">A+++</button>' +
+            '</div>' +
+          '</div>' +
+ 
+          /* ---------- Ecrã Cheio ---------- */
+          '<div class="settings-row">' +
+            '<span class="settings-row-label"><span class="icon" aria-hidden="true">⛶</span> Ecrã Cheio</span>' +
+            '<div class="toggle-switch" id="toggle-fullscreen" role="switch" aria-checked="false" tabindex="0" aria-label="Ecrã cheio"></div>' +
+          '</div>' +
+
+          /* ---------------- Animações ----------------*/
+          '<div class="settings-row">' +
+            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_ANIMATION + '</span> Animações</span>' +
+            '<div class="toggle-switch on" id="toggle-animations" role="switch" aria-checked="true" tabindex="0" aria-label="Animações">' + '</div>' +
+          '</div>' +
+ 
+        '</div>' +
+ 
+        '<div class="settings-actions">' +
+          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">↻ Recomeçar Cenário</button>' +
+          '<button type="button" class="settings-btn settings-btn-back" id="settings-back">Voltar para Trás</button>' +
+        '</div>' +
+      '</aside>' +
+    '</div>'
+  );
+
+  var $overlay     = $('#settings-overlay');
+  var $soundIcon   = $('#sound-icon-btn');
+  var $soundIconEl = $soundIcon.find('.sound-icon');
+  var $volumeSlider= $('#volume-slider');
+  var $volumeValue = $('#volume-value');
+  var $voiceToggle = $('#toggle-voice');
+  var $fullToggle  = $('#toggle-fullscreen');
+  var $fontLevels  = $('#font-levels');
+  var $fontButtons = $fontLevels.find('.font-level');
+  var $langSelect = $('#language-select');
+
+  $langSelect.off('change.settings').on('change.settings', function () {
+    var lang = $(this).val();
+    // placeholder — aqui entra a lógica de troca de idioma quando existir
+  });
+
+  var $animToggle = $('#toggle-animations');
+
+  function setAnimations(on) {
+    animationsEnabled = on;
+    $animToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
+    applyAnimationsState();
+    try { localStorage.setItem('hfna-animations', on ? '1' : '0'); } catch (e) {}
+  }
+
+  $animToggle.off('click.settings').on('click.settings', function () {
+    setAnimations(!$animToggle.hasClass('on'));
+  });
+  $animToggle.off('keydown.settings').on('keydown.settings', function (e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      $(this).trigger('click');
+    }
+  });
+
+  // ============================================================
+  // SOM — estado, volume e mute
+  // ============================================================
+
+  function getVolume() {
+    // SimpleAudio.volume() -> 0..1. Convertemos para 0..100.
+    try {
+      if (typeof SimpleAudio !== 'undefined' && SimpleAudio.volume) {
+        return Math.round(SimpleAudio.volume() * 100);
+      }
+    } catch (e) {}
+    return 100;
+  }
+
+  function isMuted() {
+    var $s = $('#sound-btn');
+    // Se o botão do canto superior esquerdo diz 🔇 → mutado
+    if ($s.length) return ($s.text() === '🔇');
+    return false;
+  }
+
+  function setMute(mute) {
+    var $s = $('#sound-btn');
+    if ($s.length) {
+      var currentlyMuted = ($s.text() === '🔇');
+      if (currentlyMuted !== mute) {
+        $s.trigger('click'); // dispara o handler existente
+      }
+    }
+    syncSoundUI();
+  }
+
+  function setVolume(v) {
+    v = Math.max(0, Math.min(100, Math.round(v)));
+    try {
+      if (typeof SimpleAudio !== 'undefined' && SimpleAudio.volume) {
+        SimpleAudio.volume(v / 100);
+      }
+    } catch (e) {}
+
+    $volumeSlider.val(v).css('--volume-pct', v + '%');
+    $volumeValue.text(v + '%');
+
+    if (v === 0 && !isMuted()) {
+      setMute(true);
+    } else if (v > 0 && isMuted()) {
+      setMute(false);
+    } else {
+      syncSoundUI();
+    }
+  }
+
+  function syncSoundUI() {
+    var muted = isMuted();
+    $soundIcon.toggleClass('muted', muted);
+    $soundIconEl.html(muted ? ICON_VOLUME_OFF : ICON_VOLUME_ON);
+    $soundIcon.attr('aria-label', muted ? 'Ligar som' : 'Silenciar som');
+
+    var vol = muted ? 0 : getVolume();
+    $volumeSlider.val(vol).css('--volume-pct', vol + '%');
+    $volumeValue.text(vol + '%');
+  }
+
+  // Clique no ícone → toggle mute
+  $soundIcon.off('click.settings').on('click.settings', function () {
+    setMute(!isMuted());
+  });
+
+  // Slider → ajusta volume
+  $volumeSlider.off('input.settings').on('input.settings', function () {
+    var v = parseInt(this.value, 10) || 0;
+    setVolume(v);
+  });
+
+  // ============================================================
+  // TAMANHO DA LETRA — botões segmentados
+  // ============================================================
+
+  function setFontLevel(level) {
+    level = Math.max(0, Math.min(3, parseInt(level, 10) || 0));
+    fontIndex = level;
+    aplicarFonte();
+
+    $fontButtons.each(function () {
+      var lv = parseInt(this.getAttribute('data-level'), 10);
+      $(this).toggleClass('active', lv === level)
+             .attr('aria-checked', lv === level ? 'true' : 'false');
+    });
+  }
+
+  $fontButtons.off('click.settings').on('click.settings', function () {
+    setFontLevel(this.getAttribute('data-level'));
+  });
+
+  // ============================================================
+  // NARRAÇÃO DE VOZ (placeholder)
+  // ============================================================
+
+  $voiceToggle.off('click.settings').on('click.settings', function () {
+    var on = !$voiceToggle.hasClass('on');
+    $voiceToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
+  });
+  $voiceToggle.off('keydown.settings').on('keydown.settings', function (e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      $(this).trigger('click');
+    }
+  });
+
+  // ============================================================
+  // ECRÃ CHEIO
+  // ============================================================
+
+  function updateFullToggle() {
+    var on = !!document.fullscreenElement;
+    $fullToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
+  }
+
+  $fullToggle.off('click.settings').on('click.settings', function () {
+    if (!document.fullscreenElement) {
+      var p = document.documentElement.requestFullscreen &&
+              document.documentElement.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  });
+  $fullToggle.off('keydown.settings').on('keydown.settings', function (e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      $(this).trigger('click');
+    }
+  });
+  $(document).off('fullscreenchange.settings').on('fullscreenchange.settings', updateFullToggle);
+
+  // ============================================================
+  // ABRIR / FECHAR
+  // ============================================================
+
+  function openSettings() {
+    syncSoundUI();
+    $volumeSlider.css('--volume-pct', (parseInt($volumeSlider.val(), 10) || 0) + '%');
+    setFontLevel(fontIndex);
+    updateFullToggle();
+    setAnimations(animationsEnabled); // sincroniza o toggle com o estado real
+    $overlay.addClass('open').attr('aria-hidden', 'false');
+  }
+
+  function closeSettings() {
+    $overlay.removeClass('open').attr('aria-hidden', 'true');
+  }
+
+  function toggleSettings() {
+    if ($overlay.hasClass('open')) {
+      closeSettings();
+    } else {
+      openSettings();
+    }
+  }
+
+  $('#settings-nook').off('click.settings').on('click.settings', toggleSettings);
+  $('#settings-close').off('click.settings').on('click.settings', closeSettings);
+
+  $overlay.off('click.settings').on('click.settings', function (e) {
+    if (e.target === $overlay[0]) closeSettings();
+  });
+
+  $(document).off('keydown.settings').on('keydown.settings', function (e) {
+    if (e.key === 'Escape' && $overlay.hasClass('open')) closeSettings();
+  });
+
+  // ============================================================
+  // BOTÕES INFERIORES
+  // ============================================================
+
+  $('#settings-restart').off('click.settings').on('click.settings', function () {
+    closeSettings();
+    var $btn = $('.text-box .ui-btn a:first-child');
+    if ($btn.length) {
+      $btn.trigger('click');
+    } else if (typeof Engine !== 'undefined' && Engine.restart) {
+      Engine.restart();
+    }
+  });
+
+  $('#settings-back').off('click.settings').on('click.settings', function () {
+    closeSettings();
+    var $back = $('.text-box .ui-btn .macro-back');
+    if ($back.length) {
+      $back.trigger('click');
+    } else if (typeof Engine !== 'undefined' && Engine.back) {
+      Engine.back();
+    }
+  });
+
+  // Estado inicial dos botões de fonte
+  setFontLevel(fontIndex);
 });</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
@@ -6071,6 +6935,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;alarm&quot;&gt;
+    	&lt;h2&gt;Como jogar?&lt;/h2&gt;
         &lt;p&gt;Selecione entre as opções para avançar na história e descobrir se tomou as melhores opções para lidar com um incêndio florestal. A qualquer momento pode &lt;b&gt;Voltar&lt;/b&gt; para a passagem anterior ←, ou &lt;b&gt;Recomeçar&lt;/b&gt; ⟲. 
         &lt;br&gt;&lt;br&gt;Para uma melhor experiência, pode &lt;b&gt;ativar ou desativar o som&lt;/b&gt; no ícone 🔊 ou &lt;b&gt;mudar o tamanho de letra &lt;/b&gt; clicando em &lt;b&gt;A&lt;/b&gt;.&lt;/p&gt;
         &lt;div class=&quot;choices&quot;&gt;
