@@ -4834,8 +4834,24 @@ function aplicarFonte() {
 
 var decisionTimer = null;
 var countdownInterval = null;
+var timerPassage = null;       
+var timerEndTime = null;       
 
-$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
+function clearTimers() {
+  if (decisionTimer) {
+    clearTimeout(decisionTimer);
+    decisionTimer = null;
+  }
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+  var tic = SimpleAudio.tracks.get('tic');
+  if (tic) tic.stop();
+  $('#decision-timer').remove();
+}
+
+$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
   SimpleAudio.tracks.get('hover').volume(0.1).play();
 });
 
@@ -4873,122 +4889,128 @@ function clearTimers() {
 }
 
 function startDecisionTimer() {
-  // Se o pânico já foi usado (entrouPanico === true), NÃO inicia o timer
+  // Se o pânico já foi usado, não inicia o timer
   if (State.variables.entrouPanico === true) {
     return;
   }
 
   clearTimers();
 
-  var seconds = 20;
-  var currentPassage = passage(); 
+  var currentPassage = passage();
+  var now = Date.now();
 
+  // Se a passagem do timer guardado não é esta, reset
+  if (timerPassage !== null && timerPassage !== currentPassage) {
+    timerPassage = null;
+    timerEndTime = null;
+  }
+
+  // Se não há timer para esta passagem, criar novo
+  if (timerPassage !== currentPassage || timerEndTime === null) {
+    timerPassage = currentPassage;
+    timerEndTime = now + 20000;
+  }
+
+  // Se já expirou (ex: durante o diálogo ⟲), ir para pânico
+  if (timerEndTime <= now) {
+    timerPassage = null;
+    timerEndTime = null;
+    State.variables.entrouPanico = true;
+    Engine.play('20');
+    return;
+  }
+
+  // --- Construção do visual ---
   var $timer = $('<div id="decision-timer"></div>');
-  
-// ============================================================
-// TAMANHO E POSIÇÃO RESPONSIVA DO TIMER
-// ============================================================
 
-var timerCSS = {
-  'position': 'fixed',
-  'top': '2%',
-  'right': '2%',
-  'z-index': '100',
+  var timerCSS = {
+    'position': 'fixed',
+    'top': '2%',
+    'right': '2%',
+    'z-index': '100',
+    'width': '50px',
+    'height': '50px',
+    'font-size': '1.3em',
+    'border-radius': '50%',
+    'background-color': 'rgba(0,0,0,0.5)',
+    'border': '3px solid darkorange',
+    'color': 'white',
+    'font-weight': 'bold',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center',
+    'font-family': 'Fira Sans, sans-serif',
+    'text-shadow': '0 1px 3px rgba(0,0,0,0.8)',
+    'transition': 'border-color 0.5s ease'
+  };
 
-  // DESKTOP — tamanho original
-  'width': '50px',
-  'height': '50px',
-  'font-size': '1.3em',
+  if (window.innerWidth <= 600) {
+    timerCSS.width = '65px';
+    timerCSS.height = '65px';
+    timerCSS['font-size'] = '1.7em';
+    timerCSS.top = '2%';
+    timerCSS.right = '8%';
+  } else if (window.innerWidth <= 1366 && window.innerHeight <= 1366) {
+    timerCSS.width = '100px';
+    timerCSS.height = '100px';
+    timerCSS['font-size'] = '2.6em';
+    timerCSS.top = '2%';
+    timerCSS.right = '2%';
+  }
 
-  'border-radius': '50%',
-  'background-color': 'rgba(0,0,0,0.5)',
-  'border': '3px solid darkorange',
-  'color': 'white',
-  'font-weight': 'bold',
-  'display': 'flex',
-  'align-items': 'center',
-  'justify-content': 'center',
-  'font-family': 'Fira Sans, sans-serif',
-  'text-shadow': '0 1px 3px rgba(0,0,0,0.8)',
-  'transition': 'border-color 0.5s ease'
-};
-
-// ============================================================
-// MOBILE
-// ============================================================
-
-if (window.innerWidth <= 600) {
-
-  timerCSS.width = '65px';
-  timerCSS.height = '65px';
-  timerCSS['font-size'] = '1.7em';
-
-  timerCSS.top = '2%';
-
-  // Mais para a esquerda
-  timerCSS.right = '8%';
-}
-
-// ============================================================
-// TABLET
-// ============================================================
-
-else if (
-  window.innerWidth <= 1366 &&
-  window.innerHeight <= 1366
-) {
-
-  timerCSS.width = '100px';
-  timerCSS.height = '100px';
-  timerCSS['font-size'] = '2.6em';
-
-  timerCSS.top = '2%';
-  timerCSS.right = '2%';
-}
-
-$timer.css(timerCSS);
-
-  $timer.text(seconds);
+  $timer.css(timerCSS);
   $('body').append($timer);
 
+  function renderTimer() {
+    var msLeft = Math.max(0, timerEndTime - Date.now());
+    var secs = Math.ceil(msLeft / 1000);
+    $timer.text(secs);
+    if (secs <= 10) {
+      $timer.css('border-color', '#cc2222');
+      $timer.css('color', '#ff4444');
+    }
+  }
+  renderTimer(); // primeira renderização imediata
+
+  // Interval — atualiza o visual enquanto estamos na passagem
   countdownInterval = setInterval(function () {
-      if (passage() !== currentPassage || State.variables.entrouPanico === true) {
-        clearTimers();
-        return;
-      }
-      
-      seconds--;
-      $timer.text(seconds);
-      
-      // tic-tic suave, mais alto nos últimos 10 segundos
-      var tic = SimpleAudio.tracks.get('tic');
-      if (tic) tic.volume(seconds <= 10 ? 0.5 : 0.2).play();
-
-      if (seconds <= 10) {
-        $timer.css('border-color', '#cc2222');
-        $timer.css('color', '#ff4444');
-      }
-
-      if (seconds <= 0) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-      }
-  }, 1000);
-
-  decisionTimer = setTimeout(function () {
-    // VERIFICA SE AINDA ESTAMOS NA MESMA PASSAGEM E SE O PÂNICO NÃO FOI USADO
-    if (passage() !== currentPassage || State.variables.entrouPanico === true) {
+    if (State.variables.entrouPanico === true) {
       clearTimers();
       return;
     }
-    
+
+    // Só mostra se ainda estamos nesta passagem
+    if (passage() !== timerPassage) return;
+
+    renderTimer();
+
+    var msLeft = timerEndTime - Date.now();
+    var secs = Math.ceil(msLeft / 1000);
+
+    var tic = SimpleAudio.tracks.get('tic');
+    if (tic) tic.volume(secs <= 10 ? 0.5 : 0.2).play();
+
+    if (msLeft <= 0) {
+      clearTimers();
+      timerPassage = null;
+      timerEndTime = null;
+      State.variables.entrouPanico = true;
+      Engine.play('20');
+    }
+  }, 1000);
+
+  // Timeout preciso — dispara mesmo com tab em background
+  var msUntilEnd = Math.max(0, timerEndTime - now);
+  decisionTimer = setTimeout(function () {
     decisionTimer = null;
+    if (State.variables.entrouPanico === true) return;
+    if (passage() !== timerPassage) return;
     clearTimers();
-    
-    // Quando o timer acaba, o jogador entra em pânico automaticamente
+    timerPassage = null;
+    timerEndTime = null;
     State.variables.entrouPanico = true;
     Engine.play('20');
-  }, 20000);
+  }, msUntilEnd);
 }
 
 $(document).on(':passagestart', function (ev) {
@@ -5004,6 +5026,8 @@ $(document).on(':passagestart', function (ev) {
       if (birds) birds.stop();
       State.variables.entrouPanico = false;
       earRinging21FadeIniciado = false;
+      timerPassage = null;
+      timerEndTime = null;
   }
 
   TocarBirds();
@@ -5204,6 +5228,9 @@ $(document).on(':passagestart', function (ev) {
 
   if (timerPassages.indexOf(name) > -1) {
     startDecisionTimer();
+  } else if (name !== '⟲') {
+    timerPassage = null;
+    timerEndTime = null;
   }
 
   // Ajuste do telemóvel na passagem 2.1
@@ -6065,6 +6092,10 @@ $(document).on(':storyrestart', function () {
     if (earRinging) earRinging.stop();
     earRinging21FadeIniciado = false;
     State.variables.entrouPanico = false;
+    earRinging21FadeIniciado = false;
+    State.variables.entrouPanico = false;
+    timerPassage = null;
+    timerEndTime = null;
 });
 
 function TocarBirds() {
