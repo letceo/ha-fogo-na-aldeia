@@ -265,23 +265,14 @@ p { color: white !important; }
   justify-content: flex-start !important;
 }
 
+/* Focus dentro da text-box — desenhado para dentro para não ser cortado */
+.text-box {
+  --btn-focus-offset: -3px;
+}
+
 .text-box .choices a,
 .text-box .choices button {
   font-size: 1.1em !important;
-}
-
-.text-box .choices a::before,
-.text-box .choices button::before {
-  content: '' !important;
-  background-image: linear-gradient(rgba(70, 35, 33, 0.55), rgba(70, 35, 33, 0.55)) !important;
-  background-blend-mode: normal !important;
-  opacity: 0 !important;
-  transition: opacity 0.25s ease !important;
-}
-
-.text-box .choices a:hover::before,
-.text-box .choices button:hover::before {
-  opacity: 1 !important;
 }
 
 .text-scroll {
@@ -431,52 +422,6 @@ p { color: white !important; }
   color: white !important;
 }
 
-/* Recomeçar (nesta caixa) e cancelar */
-.alarm .confirm-restart a,
-.alarm .confirm-restart a:visited {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-direction: row !important;
-  gap: 0.5em !important;
-  background-color: #C31B1B !important;
-  background-image: none !important;
-  background-blend-mode: normal !important;
-  color: #FFF5E6 !important;
-  border: 2px solid #D52927 !important;
-  border-radius: 6px !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
-}
-
-.alarm .confirm-restart a::after {
-  content: '↻';
-  order: -1;
-  font-size: 1.15em;
-  line-height: 1;
-}
-
-.alarm .confirm-restart a:hover,
-.alarm .cancel-restart .macro-back:hover {
-  border-bottom-width: 2.5px !important;
-}
-
-.alarm .confirm-restart a::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-color: #9D1412 !important;
-  background-image: none !important;
-  border-radius: 4px !important;
-  opacity: 0 !important;
-  transition: opacity 0.3s ease !important;
-  pointer-events: none !important;
-  z-index: -1 !important;
-}
-
-.alarm .confirm-restart a:hover::before {
-  opacity: 1 !important;
-}
-
 /* Iguala a largura dos dois botões e alinha-os à esquerda — só em tablet/desktop;
    em mobile mantém-se o comportamento genérico (stretch), que empilha os botões
    com a mesma largura */
@@ -503,17 +448,6 @@ p { color: white !important; }
     justify-content: center !important;
     text-align: center !important;
   }
-}
-
-.alarm.alarm .confirm-restart a:hover {
-  border-color: #830908 !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
-  filter: none !important;
-}
-
-.alarm .cancel-restart .macro-back:hover {
-  border-color: #EAA476 !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Alinhamento à esquerda só aplica em ecrãs onde os botões ficam em linha;
@@ -594,7 +528,7 @@ p { color: white !important; }
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
   max-width: 100%;
 }
 
@@ -745,20 +679,6 @@ p {
   --btn-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25);
 }
 
-button .choices a {
-  background-color: darkorange !important;
-  font-size: 0.8em;
-  color: white;
-  padding: 10px 10px;
-  font-weight: bold;
-  border: 2px solid darkorange;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 0.034),
-    0 6.7px 5.3px rgb(0 0 0 / 0.048),
-    0 12.5px 10px rgb(0 0 0 / 0.06);
-}
-
 .choices a,
 .choices a:hover,
 .choices a:focus,
@@ -778,25 +698,6 @@ button .choices a {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-}
-
-.choices a:hover,
-.choices button:hover {
-  transform: none !important;
-  border-color: #EAA476 !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
-}
-
-.text-box .choices a:active,
-.text-box .choices button:active {
-  transform: translateY(1px) !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.35) !important;
-}
-
-.choices a:focus-visible,
-.choices button:focus-visible {
-  outline: 2px solid Highlight;
-  outline-offset: 3px;
 }
 
 .choices a,
@@ -2289,7 +2190,7 @@ button {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 0.6rem !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     margin-top: 1.4rem !important;
   }
 
@@ -3421,34 +3322,12 @@ html[data-init="loading"] #init-loading {
     }
 }
 
-/* ============================================================
-   ESTABILIDADE DOS BOTÕES NAS PÁGINAS SOBRE/COMO JOGAR
-   ============================================================ */
-
-.alarm .choices a,
-.alarm .choices button,
-.alarm .btn-sobre a {
-  flex-shrink: 0 !important;
-  transform: none !important;
-}
-
-.alarm .choices {
-  flex-wrap: wrap !important;
-}
-
-.alarm .choices a:hover,
-.alarm .choices button:hover {
-  border-bottom-width: 2px !important;
-}
 
 /* ============================================================
    CAIXA DE CONFIRMAÇÃO — RECOMEÇAR (restart)
    Corrige o corte de margens em mobile/tablet
    ============================================================ */
 
-/* box-sizing consistente: padding e border passam a contar DENTRO
-   da largura da caixa, em vez de se somarem a ela.
-   Era isto que estava a empurrar a caixa para fora do ecrã. */
 .alarm,
 .alarm *,
 .alarm .choices a,
@@ -3462,9 +3341,7 @@ html[data-init="loading"] #init-loading {
   margin: 0 auto !important;
 }
 
-/* Espaçamento entre botões via gap (não margin) — funciona
-   tanto em linha (desktop) como em coluna (mobile), e nunca
-   "empurra" um botão para fora da caixa */
+/* Espaçamento entre botões via gap (não margin)  */
 .alarm .choices {
   gap: 1.5rem !important;
   justify-content: center !important;
@@ -3683,125 +3560,280 @@ html[data-init="loading"] #init-loading {
 }
 
 /* ============================================================
-   BOTÕES — v4 (valores finais do Figma)
+   BOTÕES — sistema unificado
+   ------------------------------------------------------------
+   Main       → começar / choices do jogo
+   Alert      → recomeçar (alert + definições) — SEM textura
+   Secondary  → sobre / como jogar / manter progresso / voltar
    ============================================================ */
 
+/* ---------- Tokens ---------- */
+:root {
+  --btn-main-bg:            #5F372A;
+  --btn-main-bg-hover:      #462A21;
+  --btn-main-bg-active:     #38221A;
+  --btn-main-border:        #B08D76;
+  --btn-main-border-hover:  #EAA476;
+
+  --btn-alert-bg:           #C31B1B;
+  --btn-alert-bg-hover:     #9D1412;
+  --btn-alert-bg-active:    #83110F;
+  --btn-alert-border:       #D52927;
+  --btn-alert-border-hover: #CD4336;
+  --btn-alert-shadow:       #6B0F0F;
+
+  --btn-sec-bg:             rgba(186, 151, 115, .62);
+  --btn-sec-bg-hover:       rgba(234, 168, 122, .62);
+  --btn-sec-bg-active:      rgba(196, 136, 92, .62);
+  --btn-sec-border:         #C9A288;
+  --btn-sec-border-hover:   #EAA476;
+
+  --btn-focus:              #FFD54A;
+  --btn-disabled-bg:        rgba(134, 130, 130, .6);
+
+  --btn-text:               #FFF5E6;
+  --btn-radius:             10px;
+  --btn-transition:         background-color .15s ease,
+                            border-color     .15s ease,
+                            box-shadow       .15s ease,
+                            transform        .15s ease;
+  --btn-texture:            url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
+}
+
 /* ---------- Base comum ---------- */
-.choices a,
-.choices button,
-.sombrinha .btn-sobre a,
-.alarm .btn-sobre a,
-.alarm .confirm-restart a,
-.alarm .cancel-restart .macro-back {
+:is(
+  .choices > a, .choices > button,
+  .alarm .confirm-restart a,
+  .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-restart, .settings-btn-back
+) {
   position: relative !important;
+  isolation: isolate;
   overflow: hidden !important;
-  color: #FFF5E6 !important;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7) !important;
+  box-sizing: border-box !important;
   padding: 10px 20px !important;
-  font-family: "Winky Rough", sans-serif !important;
-  display: inline-block !important;
-  white-space: nowrap !important;
-  transition: background-color 0.3s ease,
-              border-color 0.3s ease,
-              box-shadow 0.3s ease !important;
-}
-
-/* Anular pseudo-elementos antigos */
-.choices a::before,
-.choices button::before,
-.sombrinha .btn-sobre a::before,
-.alarm .btn-sobre a::before,
-.alarm .cancel-restart .macro-back::before {
-  content: none !important;
-  display: none !important;
-  background: none !important;
-}
-
-/* ------------------------------------------------------------
-   BOTÃO PRINCIPAL
-   ------------------------------------------------------------ */
-.choices > a,
-.choices > button,
-.sombrinha .choices > a,
-.sombrinha .choices > button,
-.alarm .choices > a,
-.alarm .choices > button,
-.alarm .cancel-restart .macro-back {
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(95, 55, 42, 0.68), rgba(95, 55, 42, 0.68)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  background-size: 100% 100%, 60px 60px !important;
-  background-position: 0 0, left top !important;
-  background-repeat: no-repeat, repeat !important;
-  border: 3px solid #B08D76 !important;
-  border-radius: 10px !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
-}
-
-.choices > a:hover,
-.choices > button:hover,
-.sombrinha .choices > a:hover,
-.sombrinha .choices > button:hover,
-.alarm .choices > a:hover,
-.alarm .choices > button:hover,
-.alarm .cancel-restart .macro-back:hover {
-  background-color: transparent !important;
-  background-image:
-      linear-gradient(rgba(70, 42, 33, 0.72), rgba(70, 42, 33, 0.72)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  border-color: #EAA476 !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
-}
-
-/* ------------------------------------------------------------
-   BOTÃO RECOMEÇAR 
-   ------------------------------------------------------------ */
-.alarm .confirm-restart a {
   display: inline-flex !important;
-  background-color: #C31B1B !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  color: var(--btn-text) !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, .7) !important;
+  font-family: "Winky Rough", sans-serif !important;
+  white-space: nowrap !important;
+
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-radius: var(--btn-radius) !important;
+
   background-image: none !important;
-  border: 2px solid #D52927 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 0 0 #6B0F0F !important;
+  background-blend-mode: normal !important;
+
+  transition: var(--btn-transition) !important;
+  transform: none !important;
 }
 
-.alarm .confirm-restart a:hover {
-  background-color: #9D1412 !important;
+/* ============================================================
+   MAIN — começar / choices
+   ============================================================ */
+:is(.choices > a, .choices > button) {
+  background-color: var(--btn-main-bg) !important;
+  border-color:    var(--btn-main-border) !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, .25) !important;
+}
+:is(.choices > a, .choices > button):hover {
+  background-color: var(--btn-main-bg-hover) !important;
+  border-color:    var(--btn-main-border-hover) !important;
+  box-shadow: 1px 5px 0 0 rgba(0, 0, 0, .25) !important;
+  transform: translateY(-1px) !important;
+}
+:is(.choices > a, .choices > button):active {
+  background-color: var(--btn-main-bg-active) !important;
+  border-color:    var(--btn-main-border-hover) !important;
+  box-shadow:
+    1px 2px 0 0 rgba(0, 0, 0, .25),
+    inset 0 2px 4px rgba(0, 0, 0, .35) !important;
+  transform: translateY(2px) !important;
+}
+
+/* ============================================================
+   ALERT — recomeçar (alert + definições) — SEM textura
+   ============================================================ */
+:is(.alarm .confirm-restart a, .alarm .confirm-restart a:visited, .settings-btn-restart) {
+  background-color: var(--btn-alert-bg) !important;
+  border-color:    var(--btn-alert-border) !important;
+  box-shadow: 0 2px 0 0 var(--btn-alert-shadow) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .5em !important;
+}
+:is(.alarm .confirm-restart a, .settings-btn-restart):hover {
+  background-color: var(--btn-alert-bg-hover) !important;
+  border-color:    var(--btn-alert-border-hover) !important;
+  box-shadow: 0 2px 0 0 var(--btn-alert-shadow) !important;
+}
+:is(.alarm .confirm-restart a, .settings-btn-restart):active {
+  background-color: var(--btn-alert-bg-active) !important;
+  border-color:    var(--btn-alert-border-hover) !important;
+  box-shadow: 0 2px 0 0 var(--btn-alert-shadow) !important;
+  transform: translateY(1px) !important;
+}
+
+/* Ícone ↻ antes do texto — só no alert da confirmação */
+.alarm .confirm-restart a::after {
+  content: '↻';
+  order: -1;
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+/* ============================================================
+   SECONDARY — sobre / como jogar / manter progresso / voltar
+   ============================================================ */
+:is(
+  .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-back
+) {
+  background-color: var(--btn-sec-bg) !important;
+  border-color:    var(--btn-sec-border) !important;
+  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, .25) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+:is(
+  .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-back
+):hover {
+  background-color: var(--btn-sec-bg-hover) !important;
+  border-color:    var(--btn-sec-border-hover) !important;
+}
+:is(
+  .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-back
+):active {
+  background-color: var(--btn-sec-bg-active) !important;
+  border-color:    var(--btn-sec-border-hover) !important;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, .25) !important;
+}
+
+/* ============================================================
+   TEXTURA (multiply) — main + secondary, NUNCA no alert
+   ============================================================ */
+:is(
+  .choices > a, .choices > button,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .alarm .cancel-restart .macro-back,
+  .settings-btn-back
+)::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-image: var(--btn-texture) !important;
+  background-size: 160px 160px !important;
+  background-position: left top !important;
+  background-repeat: repeat !important;
+  mix-blend-mode: normal !important;
+  opacity: .40 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+  border-radius: inherit !important;
+}
+
+/* ============================================================
+   FOCUS — todos
+   ============================================================ */
+:is(
+  .choices > a, .choices > button,
+  .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-restart, .settings-btn-back
+):focus-visible {
+  outline: 3px solid var(--btn-focus) !important;
+  outline-offset: var(--btn-focus-offset, 2px) !important;
+}
+
+/* ---------- Focus em elementos que não são "botões do sistema" ---------- */
+:is(
+  #settings-nook,
+  #sound-btn,            
+  .alarm .alarm-close,
+  .footer a,
+  a.link-external,
+  .phone-key,
+  .phone-call,
+  #phone-backspace
+):focus-visible {
+  outline: 3px solid var(--btn-focus, #FFD54A) !important;
+  outline-offset: 2px !important;
+}
+
+/* ============================================================
+   DISABLED — todos
+   ============================================================ */
+:is(
+  .choices > a, .choices > button,
+  .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-restart, .settings-btn-back
+):disabled,
+:is(
+  .choices > a, .choices > button,
+  .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-restart, .settings-btn-back
+)[aria-disabled="true"] {
+  background-color: var(--btn-disabled-bg) !important;
   background-image: none !important;
-  border-color: #830908 !important;
-  box-shadow: 0 4px 0 0 #6B0F0F !important;
+  border-color:    var(--btn-disabled-bg) !important;
+  box-shadow: none !important;
+  color: var(--btn-text) !important;
+  opacity: .5 !important;
+  filter: grayscale(65%) !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+:is(
+  .choices > a, .choices > button,
+  .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-restart, .settings-btn-back
+):disabled::before,
+:is(
+  .choices > a, .choices > button,
+  .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
+  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .settings-btn-restart, .settings-btn-back
+)[aria-disabled="true"]::before {
+  display: none !important;
 }
 
-/* ------------------------------------------------------------
-   BOTÃO SECUNDÁRIO 
-   ------------------------------------------------------------ */
-.sombrinha .btn-sobre a,
-.alarm .btn-sobre a,
-.sombrinha .choices .btn-sobre a,
-.alarm .choices .btn-sobre a {
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(99, 77, 69, 0.62), rgba(99, 77, 69, 0.62)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  background-size: 100% 100%, auto auto !important;
-  background-position: 0 0, left top !important;
-  background-repeat: no-repeat, repeat !important;
-  border: 3px solid #B08D76 !important;
-  border-radius: 10px !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+/* ============================================================
+   WRAPPER .btn-sobre — não é botão, é só invólucro
+   ============================================================ */
+.sombrinha .choices .btn-sobre,
+.alarm .choices .btn-sobre {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  text-shadow: none !important;
+  transform: none !important;
 }
-
-.sombrinha .btn-sobre a:hover,
-.alarm .btn-sobre a:hover,
-.sombrinha .choices .btn-sobre a:hover,
-.alarm .choices .btn-sobre a:hover {
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(97, 66, 57, 0.62), rgba(97, 66, 57, 0.62)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  border-color: #EAA476 !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
+.sombrinha .choices .btn-sobre::before,
+.alarm .choices .btn-sobre::before {
+  display: none !important;
 }
 
 /* ============================================================
@@ -4379,6 +4411,26 @@ body:has(#settings-overlay.open) #settings-nook {
   outline-offset: 2px;
 }
 
+/* ---------- Focus no painel de definições (accent em vez do amarelo) ---------- */
+
+/* Herança: os .settings-btn-restart / .settings-btn-back passam
+   automaticamente para accent via var(--btn-focus). */
+#settings-panel {
+  --btn-focus: #EAA788;
+}
+
+/* Controlos interativos do painel */
+:is(
+  #settings-close,
+  .sound-icon-btn,
+  .toggle-switch,
+  .font-level,
+  .language-select
+):focus-visible {
+  outline: 3px solid #EAA788 !important;
+  outline-offset: 2px !important;
+}
+
 /* ---------- Botões inferiores — ponto 7 ---------- */
 .settings-actions {
   margin-top: auto;
@@ -4412,43 +4464,6 @@ body:has(#settings-overlay.open) #settings-nook {
 
 .settings-btn:active {
   transform: translateY(2px);
-}
-
-.settings-btn-restart {
-  background-color: #C31B1B !important;
-  background-image: none !important;
-  color: #FFF5E6 !important;
-  border: 2px solid #D52927 !important;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-  box-shadow: 0 4px 0 0 #6B0F0F !important;
-}
-
-.settings-btn-restart:hover {
-  background-color: #9D1412 !important;
-  border-color: #830908 !important;
-  box-shadow: 0 4px 0 0 #6B0F0F !important;
-}
-
-.settings-btn-back {
-  background-color: transparent !important;
-  background-image:
-    linear-gradient(rgba(99, 77, 69, 0.62), rgba(99, 77, 69, 0.62)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  background-size: 100% 100%, auto auto !important;
-  background-position: 0 0, left top !important;
-  background-repeat: no-repeat, repeat !important;
-  color: #FFF5E6 !important;
-  border: 3px solid #B08D76 !important;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
-}
-
-.settings-btn-back:hover {
-  background-image:
-    linear-gradient(rgba(97, 66, 57, 0.62), rgba(97, 66, 57, 0.62)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png") !important;
-  border-color: #EAA476 !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, 0.25) !important;
 }
 
 @media screen and (min-width: 601px) and (max-width: 1024px) {
@@ -4561,6 +4576,76 @@ function alinharOverlaysAoTelefone(scene, img) {
     } catch (e) {
     }
 }
+
+// ============================================================
+// FOCUS MANAGEMENT — diálogos modais
+// Aplica a [role="dialog"][aria-modal="true"]
+// ============================================================
+(function () {
+  var FOCUSABLE_SEL =
+    'a[href], button:not([disabled]), input:not([disabled]), ' +
+    'select:not([disabled]), textarea:not([disabled]), ' +
+    '[tabindex]:not([tabindex="-1"])';
+
+  var lastTrigger = null;
+
+  function getFocusables(root) {
+    return $(root).find(FOCUSABLE_SEL).filter(function () {
+      return $(this).is(':visible') && $(this).css('visibility') !== 'hidden';
+    });
+  }
+
+  function focusInto(root) {
+    var $els = getFocusables(root);
+    var $target = $els.length ? $els.first() : $(root);
+    $target.focus();
+  }
+
+  function trapTab(e, root) {
+    var $els = getFocusables(root);
+    if ($els.length < 2) return;
+    var first = $els[0];
+    var last  = $els[$els.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  // ---------- Abrir: guardar trigger e focar ----------
+  function openDialog($dialog) {
+    lastTrigger = document.activeElement;
+    focusInto($dialog[0]);
+  }
+
+  // ---------- Fechar: devolver foco ----------
+  function closeDialog() {
+    if (lastTrigger && document.contains(lastTrigger)) {
+      lastTrigger.focus();
+    }
+    lastTrigger = null;
+  }
+
+  // Expor para os handlers existentes
+  window.__a11yOpenDialog  = openDialog;
+  window.__a11yCloseDialog = closeDialog;
+
+  // Trap de Tab — só quando há um modal ativo
+  $(document).on('keydown.a11y-trap', function (e) {
+    if (e.key !== 'Tab') return;
+
+    var $active = $('[role="dialog"][aria-modal="true"]').filter(function () {
+      return $(this).is(':visible') && $(this).css('visibility') !== 'hidden';
+    }).first();
+
+    if (!$active.length) return;
+    trapTab(e, $active[0]);
+  });
+})();
 
 // ============================================================
 // FUNÇÃO PARA AJUSTAR O TELEMÓVEL DINAMICAMENTE
@@ -5727,6 +5812,55 @@ document.addEventListener('touchend', function (e) {
   lastTouchEnd = now;
 }, { passive: false });
 
+// ============================================================
+// TAB LOOP — cicla entre primeiro e último elemento focável
+// ============================================================
+(function () {
+  var FOCUSABLE_SEL =
+    'a[href], button:not([disabled]), input:not([disabled]), ' +
+    'select:not([disabled]), textarea:not([disabled]), ' +
+    '[tabindex]:not([tabindex="-1"])';
+
+  function getFocusables() {
+    return $(FOCUSABLE_SEL).filter(function () {
+      var $el = $(this);
+
+      if ($el.is(':hidden')) return false;
+      if ($el.css('visibility') === 'hidden') return false;
+
+      // Escondido por ancestral com [hidden] ou aria-hidden
+      if ($el.closest('[hidden], [aria-hidden="true"]').length) return false;
+
+      // Painel de definições fechado — não deve entrar no ciclo
+      if ($el.closest('#settings-overlay').length &&
+          !$('#settings-overlay').hasClass('open')) {
+        return false;
+      }
+
+      return true;
+    });
+  }
+
+  $(document).on('keydown.focus-loop', function (e) {
+    if (e.key !== 'Tab') return;
+
+    var $focusables = getFocusables();
+    if ($focusables.length < 2) return;
+
+    var first   = $focusables[0];
+    var last    = $focusables[$focusables.length - 1];
+    var current = document.activeElement;
+
+    if (e.shiftKey && current === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && current === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+})();
+
 $(document).one(':storyready', function () {
 
   // Injeta o script do Lottie
@@ -5832,6 +5966,7 @@ $(document).one(':storyready', function () {
 }
 
 function animarTitulo(titleEl, targetTitle) {
+    // ---------- Fallback: sem título de destino ----------
     if (!titleEl || !targetTitle) {
         overlay.style.transition = 'opacity 0.6s ease';
         overlay.style.opacity = '0';
@@ -5840,6 +5975,8 @@ function animarTitulo(titleEl, targetTitle) {
             if (targetTitle) {
                 targetTitle.style.transition = 'opacity 0.4s ease';
                 targetTitle.style.opacity = '1';
+                targetTitle.setAttribute('tabindex', '-1');
+                targetTitle.focus();
             }
         }, 700);
         return;
@@ -5862,6 +5999,12 @@ function animarTitulo(titleEl, targetTitle) {
         if (terminou) return;
         terminou = true;
         overlay.remove();
+
+        // ---------- Foco vai para o conteúdo principal ----------
+        var $title = $('.sombrinha h1');
+        if ($title.length) {
+            $title.attr('tabindex', '-1').focus();
+        }
     }
 
     titleEl.style.transition = 'transform 1.0s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
@@ -5871,17 +6014,17 @@ function animarTitulo(titleEl, targetTitle) {
     // Título final com opacidade 0 mas pronto para aparecer
     targetTitle.style.transition = 'opacity 0.6s ease';
     targetTitle.style.opacity = '0';
-    
+
     requestAnimationFrame(function () {
         titleEl.style.transform =
             'translate(' + deltaX + 'px, ' + deltaY + 'px) scale(' + scaleX + ', ' + scaleY + ')';
-        
+
         // Título clone desaparece gradualmente
         titleEl.style.opacity = '0';
-        
+
         // Título final aparece gradualmente (crossfade)
         targetTitle.style.opacity = '1';
-        
+
         // Loading screen fade
         overlay.style.transition = 'opacity 0.6s ease';
         overlay.style.opacity = '0';
@@ -5993,6 +6136,36 @@ $(document).on(':passageend', function () {
 $(document).on('click', '.alarm-close', function (e) {
   e.preventDefault();
   $('.alarm .cancel-restart a').first().trigger('click');
+});
+
+// ============================================================
+// A11Y: alerta do recomeçar — abrir/fechar foco + trap + Escape
+// ============================================================
+
+// Abrir: quando o alert aparece, move o foco para dentro dele.
+$(document).on(':passageend', function () {
+  var $alarm = $('.alarm');
+  if ($alarm.length) {
+    setTimeout(function () {
+      window.__a11yOpenDialog($alarm);
+    }, 50);
+  }
+});
+
+// Fechar: qualquer passagem que não seja o próprio alert ⟲ devolve
+// o foco ao elemento que abriu o alerta.
+$(document).on(':passagestart', function (ev) {
+  if (ev.passage.title !== '⟲') {
+    window.__a11yCloseDialog();
+  }
+});
+
+// Escape: fecha o alert (mesmo efeito do botão X)
+$(document).on('keydown.alarm-escape', function (e) {
+  if (e.key !== 'Escape') return;
+  var $alarm = $('.alarm');
+  if (!$alarm.length) return;
+  $alarm.find('.alarm-close').trigger('click');
 });
 
 // ============================================================
@@ -6274,10 +6447,12 @@ $(document).one(':passagestart', function () {
     updateFullToggle();
     setAnimations(animationsEnabled); // sincroniza o toggle com o estado real
     $overlay.addClass('open').attr('aria-hidden', 'false');
+    window.__a11yOpenDialog($overlay);
   }
 
   function closeSettings() {
     $overlay.removeClass('open').attr('aria-hidden', 'true');
+    window.__a11yCloseDialog();  
   }
 
   function toggleSettings() {
