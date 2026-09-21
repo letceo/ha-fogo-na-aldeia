@@ -559,6 +559,19 @@ p { color: white !important; }
   z-index: 1;
 }
 
+.image-fumo {
+  position: absolute;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  overflow: hidden !important;
+  animation: sceneFade .5s ease;
+  width: 100vw;
+  height: 85vh;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .choices {
   padding-top: 1%;
   display: flex;
@@ -1378,6 +1391,10 @@ button {
   transform-origin: center bottom;
 }
 
+.image-overlay.call-vizinho-topo {
+  background-position: center 15%;
+}
+
 @keyframes call-viz {
   0%, 40% {
     background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png");
@@ -1494,108 +1511,6 @@ button {
   font-size: 0.85em;
   color: white;
   line-height: 1.8;
-}
-
-/* ============================================================
-   FUMO – círculos orgânicos com entrada suave
-   ============================================================ */
-
-:root { --fumo-clearance: 34vh; }
-
-.fumo-leve,
-.fumo-medio,
-.fumo-forte {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: var(--fumo-clearance) !important;
-  z-index: 3 !important;
-  pointer-events: none;
-  overflow: visible !important;
-  background: none !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  width: auto !important;
-  height: auto !important;
-}
-
-/* ---------- Camada 1 ---------- */
-.fumo-leve::before,
-.fumo-medio::before,
-.fumo-forte::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 100% 100%,
-              rgba(210, 210, 210, var(--fumo-a1)) 0%,
-              rgba(210, 210, 210, 0) 70%);
-  filter: blur(22px);
-  transform-origin: 100% 100%;
-  scale: 0.1;
-  opacity: 0;
-  animation:
-    fumo-expandir 4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
-    fumo-drift    var(--fumo-dur) ease-in-out 4s infinite alternate;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-/* ---------- Camada 2 (mais lenta, mais difusa) ---------- */
-.fumo-leve::after,
-.fumo-medio::after,
-.fumo-forte::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 90% 100%,
-              rgba(190, 190, 190, var(--fumo-a2)) 0%,
-              rgba(190, 190, 190, 0) 65%);
-  filter: blur(30px);
-  transform-origin: 100% 100%;
-  scale: 0.1;
-  opacity: 0;
-  animation:
-    fumo-expandir 4.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s forwards,
-    fumo-drift-2  calc(var(--fumo-dur) * 0.75) ease-in-out 5s infinite alternate;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-/* Expansão — só mexe em scale */
-@keyframes fumo-expandir {
-  0%   { scale: 0.1; opacity: 0;   }
-  25%  {              opacity: 0.7; }
-  100% { scale: 2.2; opacity: 1;   }
-}
-
-/* Deriva 1 — translação + rotação contínuas */
-@keyframes fumo-drift {
-  0%   { translate: 0 0;           rotate: 0deg;   }
-  33%  { translate: -2vw -1vh;     rotate: -2.5deg;}
-  66%  { translate: 1.5vw 1vh;     rotate: 2deg;   }
-  100% { translate: -1vw 0.5vh;    rotate: -1deg;  }
-}
-
-/* Deriva 2 — mais ampla e em sentido diferente */
-@keyframes fumo-drift-2 {
-  0%   { translate: 0 0;           rotate: 0deg;   }
-  33%  { translate: 2vw -0.8vh;    rotate: 2deg;   }
-  66%  { translate: -1.5vw 1.5vh;  rotate: -2.5deg;}
-  100% { translate: 1vw -0.5vh;    rotate: 1.5deg; }
-}
-
-.fumo-leve  { --fumo-a1: 0.60; --fumo-a2: 0.50; --fumo-dur: 14s; }
-.fumo-medio { --fumo-a1: 0.70; --fumo-a2: 0.60; --fumo-dur: 10s;  }
-.fumo-forte { --fumo-a1: 0.90; --fumo-a2: 0.80; --fumo-dur: 8s;  }
-
-@media screen and (max-width: 768px) { :root { --fumo-clearance: 38vh; } }
-@media screen and (max-height: 700px){ :root { --fumo-clearance: 34vh; } }
-
-@media (max-width: 1024px), (pointer: coarse) {
-  .fumo-leve::before, .fumo-leve::after,
-  .fumo-medio::before, .fumo-medio::after,
-  .fumo-forte::before, .fumo-forte::after { filter: blur(16px); }
 }
 
 /* ============================================================
@@ -1716,11 +1631,71 @@ button {
   }
 }
 
-@media (max-width: 1024px), (pointer: coarse) {
-  .fumo-leve, .fumo-medio, .fumo-forte {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
+/* ============================================================
+   FUMO IMAGEM — casafumo1…6
+   sceneFade/fade + drift + vibrate, em propriedades separadas
+   para não colidirem entre si.
+   ============================================================ */
+
+/* Vibração exclusiva do fumo */
+@keyframes fumo-vibrar {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(0.75px, -0.75px); }
+  40%  { transform: translate(0.75px, 0.75px); }
+  60%  { transform: translate(-0.75px, 0.75px); }
+  80%  { transform: translate(-0.75px, -0.75px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Fade + zoom, mas com "scale" individual (não "transform")
+   para deixar o "transform" livre para o vibrate */
+@keyframes fumoSceneFade {
+  from { opacity: 0; scale: 1.02; }
+  to   { opacity: 1; scale: 1; }
+}
+
+@keyframes fumo-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Drift sem opacity (senão sobrepõe-se ao fade) */
+@keyframes fumo-drift {
+  0%, 100% { translate: 0 0; }
+  30%      { translate: 2px -2px; }
+  60%      { translate: -1.5px -1px; }
+}
+
+@keyframes fumo-drift-forte {
+  0%, 100% { translate: 0 0; }
+  25%      { translate: 1.5px -1.5px; }
+  50%      { translate: -1px -1px; }
+  75%      { translate: 0.5px 0.5px; }
+}
+
+/* Leve — base clara, fumo suave */
+.fumo-leve {
+  opacity: 0.5;
+  animation:
+    fumo-fade-in 2.5s ease-out forwards,
+    fumo-drift   4s   ease-in-out 2.5s infinite,
+    fumo-vibrar  0.35s linear infinite;
+}
+
+/* Médio — base intermédia */
+.fumo-medio {
+  animation:
+    fumoSceneFade .5s ease,
+    fumo-drift    4s  ease-in-out infinite,
+    fumo-vibrar   0.35s linear infinite;
+}
+
+/* Forte — base escura, quase preta */
+.fumo-forte {
+  animation:
+    fumoSceneFade    .5s ease,
+    fumo-drift-forte 2.5s ease-in-out infinite,
+    fumo-vibrar      0.35s linear infinite;
 }
 
 :root {
@@ -5849,7 +5824,17 @@ var imagesToPreload = [
   // Logótipos do footer (evita reflow no ecrã inicial)
   IMG + 'ui/isa.png',
   IMG + 'ui/logo-ceabn.png',
-  IMG + 'ui/logo.png'
+  IMG + 'ui/logo.png',
+
+  // Casas + fumo (novas cenas)
+  IMG + 'cenas/casa-semjanela.png',
+  IMG + 'cenas/casa-semjanela-jardim.png',
+  IMG + 'cenas/casafumo1.png',
+  IMG + 'cenas/casafumo2.png',
+  IMG + 'cenas/casafumo3.png',
+  IMG + 'cenas/casafumo4.png',
+  IMG + 'cenas/casafumo5.png',
+  IMG + 'cenas/casafumo6.png',
 ];
 
 var tips = [
@@ -6408,7 +6393,7 @@ $(document).one(':passagestart', function () {
     setAnimations(on);
     if (!on) $('.text-box').trigger('click'); // termina a animação de texto em curso
   });
-  
+
   $animToggle.off('keydown.settings').on('keydown.settings', function (e) {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
@@ -6685,7 +6670,10 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="5" tags="" position="450,500" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;&lt;/div&gt;
+    	&lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
+		&lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;image-bg casa-semjanela&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;image-overlay call-vizinho call-vizinho-topo&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
             &lt;p class=&quot;animar&quot;&gt;Ligo à Dona Laurinda e a outros vizinhos da rua para avisar do incêndio. Ainda ficamos a debater o que fazer. Alguns dizem que não é nada, que é longe mas em breve passa... será? Outros ofereceram-me ajuda para evacuar, logo veremos.&lt;/p&gt;
@@ -6697,7 +6685,9 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="3" tags="" position="300,650" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;
+    	&lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
             &lt;div class=&quot;animar&quot;&gt;
@@ -6786,12 +6776,17 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="4" tags="" position="300,925" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene eletricidade-leve&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Um incêndio pode propagar-se em minutos.\nNunca ignores um alerta.&#39;, &#39;🔥&#39;)&gt;&gt;
-    	&lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay fumo-leve&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    
+    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
         &lt;p class=&quot;animar&quot;&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar. 
@@ -6809,8 +6804,10 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
   &lt;&lt;set $r7 to false&gt;&gt;
   &lt;&lt;set $r8 to false&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
-      &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-      &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
       &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
           &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
           &lt;p class=&quot;animar&quot;&gt;O operador atende. &lt;b&gt;O que dizer agora?&lt;/b&gt;&lt;/p&gt;
@@ -7144,7 +7141,9 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;set $perfeito112 to false&gt;&gt;
 &lt;&lt;/silently&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
+	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa-semjanela&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
