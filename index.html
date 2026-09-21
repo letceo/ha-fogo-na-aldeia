@@ -343,6 +343,12 @@ p { color: white !important; }
   padding: 0 !important;
 }
 
+/* Espaço para a sombra dos botões não ser cortada */
+.text-box .choices,
+.alarm .choices {
+  padding-bottom: 6px !important;
+}
+
 /* Evita que a 1ª linha do parágrafo fique por baixo dos botões
    [[⟲]]/voltar (o .ui-btn é absolute e sai do fluxo normal). */
 .text-box .ui-btn + p {
@@ -422,31 +428,62 @@ p { color: white !important; }
   color: white !important;
 }
 
-/* Iguala a largura dos dois botões e alinha-os à esquerda — só em tablet/desktop;
-   em mobile mantém-se o comportamento genérico (stretch), que empilha os botões
-   com a mesma largura */
+/* Recomeçar = mesmo aspeto do Sobre / Como jogar */
+.alarm .alarm-subtext {
+  font-size: 1em !important;
+}
+
 @media screen and (min-width: 601px) {
   .alarm .choices:has(.confirm-restart) {
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 1.5rem !important;
+    gap: 1.25rem !important;
   }
 
   .alarm .cancel-restart .macro-back,
   .alarm .confirm-restart a {
-    width: 225px !important;
-    min-width: 225px !important;
-    max-width: 225px !important;
-    height: 52px !important;
-    box-sizing: border-box !important;
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+    height: 54px !important;
+    font-size: 1.35em !important;
+    padding: 0 14px !important;
+  }
+}
 
-    padding: 0 12px !important;
-    font-size: 1.2em !important;
+/* ============================================================
+   RECOMEÇAR — título e botões mais pequenos
+   ============================================================ */
 
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
+/* Título */
+.alarm:has(.confirm-restart) h2 {
+  font-size: clamp(1.1em, 2.6vw, 1.5em) !important;
+  margin-top: 0 !important;
+}
+
+/* Botões (tablet/desktop) */
+@media screen and (min-width: 601px) {
+  .alarm:has(.confirm-restart) .choices .cancel-restart .macro-back,
+  .alarm:has(.confirm-restart) .choices .cancel-restart a,
+  .alarm:has(.confirm-restart) .choices .confirm-restart a {
+    width: 160px !important;
+    min-width: 160px !important;
+    max-width: 160px !important;
+    height: 40px !important;
+    font-size: 1em !important;
+    padding: 0 10px !important;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .alarm:has(.confirm-restart) h2 {
+    font-size: 1.15em !important;
+  }
+
+  .alarm:has(.confirm-restart) .choices .cancel-restart .macro-back,
+  .alarm:has(.confirm-restart) .choices .cancel-restart a,
+  .alarm:has(.confirm-restart) .choices .confirm-restart a {
+    font-size: 0.8em !important;
+    padding: 6px 10px !important;
   }
 }
 
@@ -467,11 +504,11 @@ p { color: white !important; }
 
 /* Fade uniforme de 0.4 sobre o fundo desta caixa, em todos os dispositivos */
 .alarm-scene .image-bg.village::after {
-  backdrop-filter: blur(3px) !important;
-  -webkit-backdrop-filter: blur(3px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   -webkit-mask-image: none !important;
   mask-image: none !important;
-  background-color: rgba(0, 0, 0, 0.78) !important;
+  background-color: rgba(0, 0, 0, 0.82) !important;
 }
 
 /* ---- Botão X (novo, curto) ---- */
@@ -513,7 +550,7 @@ p { color: white !important; }
   background-repeat: no-repeat;
   background-position: center center;
   overflow: hidden !important; 
-  animation: sceneFade 1s ease;
+  animation: sceneFade .5s ease;
   width: 100vw;
   height: 85vh;
 }
@@ -789,7 +826,7 @@ button {
 }
 
 .panico-scene .image-bg {
-  animation: tremer-suave 0.6s infinite, sceneFade 1s ease;
+  animation: tremer-suave 0.6s infinite, sceneFade .5s ease;
 }
 
 .panico-scene .image-overlay {
@@ -3593,10 +3630,10 @@ html[data-init="loading"] #init-loading {
 
   --btn-text:               #FFF5E6;
   --btn-radius:             10px;
-  --btn-transition:         background-color .15s ease,
-                            border-color     .15s ease,
-                            box-shadow       .15s ease,
-                            transform        .15s ease;
+  --btn-transition: background-color .25s ease-out,
+                    border-color     .25s ease-out,
+                    box-shadow       .25s ease-out,
+                    transform        .12s ease-out;
   --btn-texture:            url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
 }
 
@@ -3981,9 +4018,9 @@ body:has(#settings-overlay.open) #settings-nook {
   justify-content: flex-end;
   align-items: stretch;
 
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background-color: rgba(0,0,0,.6);
 
   opacity: 0;
   pointer-events: none;
@@ -4491,6 +4528,53 @@ body.reduce-motion *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 0.001s !important;
   scroll-behavior: auto !important;
+}
+
+/* Overlays que só servem de efeito de transição (senão ficam
+   no estado final e tapam a cena) */
+body.reduce-motion .fade-black-overlay {
+  display: none !important;
+}
+
+/* ============================================================
+   RESULTADOS
+   ============================================================ */
+
+/* Menos espaço no topo da caixa */
+.alarm:has(.resumo-112) {
+  padding-top: 0.8rem !important;
+}
+.alarm:has(.resumo-112) h2 {
+  margin-top: 0 !important;
+}
+.alarm:has(.resumo-112) .resumo-112 {
+  margin-top: 0.4rem;
+}
+
+/* Borda main (a regra .alarm .choices a estava a sobrepor-se) */
+.alarm:has(.resumo-112) .choices > a {
+  border-color: var(--btn-main-border) !important;
+}
+.alarm:has(.resumo-112) .choices > a:hover,
+.alarm:has(.resumo-112) .choices > a:active {
+  border-color: var(--btn-main-border-hover) !important;
+}
+
+/* Alinhamento e tamanho iguais ao Sobre (tablet/desktop) */
+@media screen and (min-width: 601px) {
+  .alarm:has(.resumo-112) .choices {
+    justify-content: flex-start !important;
+    align-items: center !important;
+  }
+
+  .alarm:has(.resumo-112) .choices > a {
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+    height: 54px !important;
+    font-size: 1.35em !important;
+    padding: 0 14px !important;
+  }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
@@ -4576,6 +4660,11 @@ function alinharOverlaysAoTelefone(scene, img) {
     } catch (e) {
     }
 }
+
+// Ritmo da animação de texto (ms)
+var WORD_MS     = 70;   // intervalo entre palavras (antes: 110)
+var PAUSE_END   = 220;  // pausa após . ! ? (antes: 350)
+var PAUSE_COMMA = 120;  // pausa após , ; : (antes: 180)
 
 // ============================================================
 // FOCUS MANAGEMENT — diálogos modais
@@ -4873,20 +4962,6 @@ $(document).one(':passagestart', function () {
     }
   });
 });
-
-function clearTimers() {
-  if (decisionTimer) {
-    clearTimeout(decisionTimer);
-    decisionTimer = null;
-  }
-  if (countdownInterval) {
-    clearInterval(countdownInterval);
-    countdownInterval = null;
-  }
-  var tic = SimpleAudio.tracks.get('tic');
-  if (tic) tic.stop();
-  $('#decision-timer').remove();
-}
 
 function startDecisionTimer() {
   // Se o pânico já foi usado, não inicia o timer
@@ -5527,14 +5602,14 @@ $(document).on(':passageend', function () {
       });
       $el.html(wrapped).css('opacity', 1);
 
-      var $words = $el.find('.word');
+            var $words = $el.find('.word');
       var i = 0;
 
       wordInterval = setInterval(function tickWord() {
         if (!animating) return;
 
         var wordText = $($words[i]).text().trim();
-        $($words[i]).animate({ opacity: 1 }, 150);
+        $($words[i]).animate({ opacity: 1 }, 100);
         i++;
 
         if (i >= $words.length) {
@@ -5543,9 +5618,9 @@ $(document).on(':passageend', function () {
 
           var delay = 0;
           if (/[.!?]$/.test(wordText)) {
-            delay = 350;
+            delay = PAUSE_END;
           } else if (/[,;:]$/.test(wordText)) {
-            delay = 180;
+            delay = PAUSE_COMMA;
           }
 
           setTimeout(function () {
@@ -5559,26 +5634,32 @@ $(document).on(':passageend', function () {
           wordInterval = null;
           setTimeout(function () {
             if (animating) {
-              wordInterval = setInterval(tickWord, 110);
+              wordInterval = setInterval(tickWord, WORD_MS);
             }
-          }, 350);
+          }, PAUSE_END);
         } else if (/[,;:]$/.test(wordText)) {
           clearInterval(wordInterval);
           wordInterval = null;
           setTimeout(function () {
             if (animating) {
-              wordInterval = setInterval(tickWord, 110);
+              wordInterval = setInterval(tickWord, WORD_MS);
             }
-          }, 180);
+          }, PAUSE_COMMA);
         }
 
-      }, 110);
+      }, WORD_MS);
 
     } else {
-      $el.animate({ opacity: 1 }, 300, function () {
+      $el.animate({ opacity: 1 }, 150, function () {
         if (animating) showNext();
       });
     }
+  }
+
+  if (!animationsEnabled) {
+    $(document).off('keydown.skipAnim');
+    finishAnimation();
+    return;
   }
 
   showNext();
@@ -6323,8 +6404,11 @@ $(document).one(':passagestart', function () {
   }
 
   $animToggle.off('click.settings').on('click.settings', function () {
-    setAnimations(!$animToggle.hasClass('on'));
+    var on = !$animToggle.hasClass('on');
+    setAnimations(on);
+    if (!on) $('.text-box').trigger('click'); // termina a animação de texto em curso
   });
+  
   $animToggle.off('keydown.settings').on('keydown.settings', function (e) {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
@@ -7035,7 +7119,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 
             &lt;div class=&quot;choices&quot;&gt;
                 &lt;div class=&quot;btn-sobre cancel-restart&quot;&gt;
-                    &lt;&lt;back &quot;Manter progresso&quot;&gt;&gt;
+                    &lt;&lt;back &quot;Cancelar&quot;&gt;&gt;
                 &lt;/div&gt;
 
                 &lt;div class=&quot;confirm-restart&quot;&gt;
@@ -7295,14 +7379,15 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
             &lt;&lt;if $entrouPanico&gt;&gt;
                 &lt;p&gt;⚠️ Entraste em pânico num momento crítico.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
-            &lt;&lt;if $foiResgatado&gt;&gt;&lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
+
         &lt;&lt;set $erros to 0&gt;&gt;
         &lt;&lt;if !$kit&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
         &lt;&lt;if !$cao&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
         &lt;&lt;if !$casaPreparada&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
         &lt;&lt;if !$avisouVizinhos&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
         &lt;&lt;if $entrouPanico&gt;&gt;&lt;&lt;set $erros to $erros + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+
         &lt;&lt;if $foiResgatado&gt;&gt;
             &lt;h3&gt;Ficaste em perigo e tiveste de ser resgatado. Colocaste a tua vida em risco e a dos outros.&lt;/h3&gt;
         &lt;&lt;elseif $erros eq 0&gt;&gt;
@@ -7312,6 +7397,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
         &lt;&lt;else&gt;&gt;
             &lt;h3&gt;Sobreviveste, mas cometeste vários erros graves.&lt;/h3&gt;
         &lt;&lt;/if&gt;&gt;
+
         &lt;div class=&quot;choices&quot;&gt;
             [[Recomeçar-&gt;Start]]
         &lt;/div&gt;
