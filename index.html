@@ -424,7 +424,6 @@ p { color: white !important; }
 
 .alarm .choices a, .alarm .choices button {
   opacity: 1 !important;
-  border: 2px solid #5C3A1E !important;
   color: white !important;
 }
 
@@ -511,6 +510,16 @@ p { color: white !important; }
   background-color: rgba(0, 0, 0, 0.82) !important;
 }
 
+/* Fundo escurecido para a passagem "Guia de jogo" (fundo .casa) */
+.alarm-scene .image-bg.casa::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.82) !important;
+}
+
 /* ---- Botão X (novo, curto) ---- */
 .alarm .alarm-close {
   position: absolute;
@@ -535,6 +544,13 @@ p { color: white !important; }
 
   text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
   transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.alarm .alarm-close a,
+.alarm .alarm-close .macro-back {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: pointer;
 }
 
 .alarm .alarm-close:hover { opacity: 0.7; transform: scale(1.1); }
@@ -664,7 +680,7 @@ h1 {
 
 @media screen and (max-width: 768px) {
   .sombrinha p.readable {
-    font-size: 1.3rem !important;
+    font-size: 1.4rem !important;
   }
 }
 
@@ -759,6 +775,7 @@ p {
 .ui-btn .macro-back:hover {
   opacity: 1;
 }
+
 
 /* ============================================================
    SOUND + FONT BUTTONS
@@ -1059,21 +1076,28 @@ button {
 .fogo-floresta {
   z-index: 2;
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fire-forest.png);
-  background-size: 100%;
-  animation: vibrate-2 0.35s linear infinite both, fogo-expandir 3s ease-in forwards;
+  background-size: cover;
+  animation:
+    vibrate-2 0.35s linear infinite both,
+    fogo-expandir 3s ease-in forwards,
+    fogo-floresta-flicker 2.5s ease-in-out infinite 3s;
   opacity: 0;
 }
 
 @keyframes fogo-expandir {
   0% {
-    background-size: 100%;
+    background-size: 140%;
     opacity: 0.8;
   }
-
   100% {
-    background-size: 110%;
+    background-size: 160%;
     opacity: 1;
   }
+}
+
+@keyframes fogo-floresta-flicker {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.18); }
 }
 
 @keyframes vibrate-3 {
@@ -1107,7 +1131,13 @@ button {
   opacity: 0;
   animation:
     vibrate-3 0.35s linear 2s infinite both,
-    fogo-aparecer 4s ease-in 2s forwards;
+    fogo-aparecer 4s ease-in 2s forwards,
+    fogo-aparece-flicker 2.8s ease-in-out infinite 6s;
+}
+
+@keyframes fogo-aparece-flicker {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.15); }
 }
 
 @keyframes fogo-aparecer {
@@ -2090,34 +2120,33 @@ button {
     gap: 1.25rem !important;
   }
 
+  .sombrinha .choices > a,
+  .sombrinha .choices > button,
+  .sombrinha .choices .btn-sobre a {
+    width: 100% !important;
+    max-width: min(90vw, 320px) !important;
+    margin-inline: auto !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    height: 46px !important;
+    font-size: 1.2em !important;
+    padding: 0 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
   .sombrinha .choices .btn-sobre {
     display: inline-flex !important;
     background: none !important;
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     width: 100% !important;
     max-width: min(90vw, 320px) !important;
     justify-content: center !important;
-  }
-
-  .sombrinha .choices > a,
-  .sombrinha .choices > button,
-  .sombrinha .choices .btn-sobre a {
-    width: 100% !important;
-    max-width: min(90vw, 320px) !important;
-    min-width: 0 !important;
-    height: 56px !important;
-    box-sizing: border-box !important;
-
-    font-size: 1.55em !important;
-    padding: 0 12px !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
   }
 
   .text-box {
@@ -2355,14 +2384,14 @@ button {
   }
 
   .image-bg.village.fullheight > .centro h1 {
-    font-size: clamp(2.35rem, 10vw, 4rem) !important;
+    font-size: clamp(3.3rem, 14vw, 5.4rem) !important;
     line-height: 1.05;
     padding-top: 0 !important;
   }
 
   .image-bg.village.fullheight > .centro p {
     max-width: 34rem;
-    margin: 0.75rem auto 1.25rem;
+    margin: 0.75rem auto 0.6rem;
   }
 
   .image-bg.village.fullheight > .centro .choices {
@@ -3468,6 +3497,22 @@ html[data-init="loading"] #init-loading {
   }
 }
 
+.alarm .choices.choices-left {
+  justify-content: flex-start !important;
+}
+
+.alarm .choices.choices-left {
+  justify-content: flex-start !important;
+}
+
+.alarm .choices-comecar-grande > a {
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 180px !important;
+  height: 54px !important;
+  font-size: 1.2em !important;
+}
+
 /* ============================================================
    AJUSTE: reduzir margens da text-box e compactar botões
    em tablet/desktop, para minimizar o scroll interno
@@ -3618,7 +3663,7 @@ html[data-init="loading"] #init-loading {
   .alarm .confirm-restart a,
   .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back
+  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
 ) {
   position: relative !important;
   isolation: isolate;
@@ -3648,18 +3693,18 @@ html[data-init="loading"] #init-loading {
 /* ============================================================
    MAIN — começar / choices
    ============================================================ */
-:is(.choices > a, .choices > button) {
+:is(.choices > a, .choices > button, .settings-btn-guide) {
   background-color: var(--btn-main-bg) !important;
   border-color:    var(--btn-main-border) !important;
   box-shadow: 1px 4px 0 0 rgba(0, 0, 0, .25) !important;
 }
-:is(.choices > a, .choices > button):hover {
+:is(.choices > a, .choices > button, .settings-btn-guide):hover {
   background-color: var(--btn-main-bg-hover) !important;
   border-color:    var(--btn-main-border-hover) !important;
   box-shadow: 1px 5px 0 0 rgba(0, 0, 0, .25) !important;
   transform: translateY(-1px) !important;
 }
-:is(.choices > a, .choices > button):active {
+:is(.choices > a, .choices > button, .settings-btn-guide):active {
   background-color: var(--btn-main-bg-active) !important;
   border-color:    var(--btn-main-border-hover) !important;
   box-shadow:
@@ -3673,8 +3718,8 @@ html[data-init="loading"] #init-loading {
    ============================================================ */
 :is(.alarm .confirm-restart a, .alarm .confirm-restart a:visited, .settings-btn-restart) {
   background-color: var(--btn-alert-bg) !important;
-  border-color:    var(--btn-alert-border) !important;
-  box-shadow: 0 2px 0 0 var(--btn-alert-shadow) !important;
+  border: 2px solid var(--btn-alert-border) !important;
+  box-shadow: 0 4px 0 0 var(--btn-alert-shadow) !important;
 
   display: inline-flex !important;
   align-items: center !important;
@@ -3684,12 +3729,14 @@ html[data-init="loading"] #init-loading {
 :is(.alarm .confirm-restart a, .settings-btn-restart):hover {
   background-color: var(--btn-alert-bg-hover) !important;
   border-color:    var(--btn-alert-border-hover) !important;
-  box-shadow: 0 2px 0 0 var(--btn-alert-shadow) !important;
+  box-shadow: 0 5px 0 0 var(--btn-alert-shadow) !important;
 }
 :is(.alarm .confirm-restart a, .settings-btn-restart):active {
   background-color: var(--btn-alert-bg-active) !important;
   border-color:    var(--btn-alert-border-hover) !important;
-  box-shadow: 0 2px 0 0 var(--btn-alert-shadow) !important;
+  box-shadow:
+    0 2px 0 0 var(--btn-alert-shadow),
+    inset 0 4px 4px 0 rgba(0, 0, 0, .25) !important;
   transform: translateY(1px) !important;
 }
 
@@ -3706,7 +3753,8 @@ html[data-init="loading"] #init-loading {
    ============================================================ */
 :is(
   .alarm .cancel-restart .macro-back,
-  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .sombrinha .btn-sobre a,
+  .alarm .btn-sobre a,
   .settings-btn-back
 ) {
   background-color: var(--btn-sec-bg) !important;
@@ -3721,7 +3769,7 @@ html[data-init="loading"] #init-loading {
 }
 :is(
   .alarm .cancel-restart .macro-back,
-  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .sombrinha .btn-sobre a,
   .settings-btn-back
 ):hover {
   background-color: var(--btn-sec-bg-hover) !important;
@@ -3729,7 +3777,7 @@ html[data-init="loading"] #init-loading {
 }
 :is(
   .alarm .cancel-restart .macro-back,
-  .sombrinha .btn-sobre a, .alarm .btn-sobre a,
+  .sombrinha .btn-sobre a,
   .settings-btn-back
 ):active {
   background-color: var(--btn-sec-bg-active) !important;
@@ -3744,7 +3792,7 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
   .alarm .cancel-restart .macro-back,
-  .settings-btn-back
+  .settings-btn-back, .settings-btn-guide
 )::before {
   content: "" !important;
   display: block !important;
@@ -3768,7 +3816,7 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back
+  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
 ):focus-visible {
   outline: 3px solid var(--btn-focus) !important;
   outline-offset: var(--btn-focus-offset, 2px) !important;
@@ -3796,13 +3844,13 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back
+  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
 ):disabled,
 :is(
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back
+  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
 )[aria-disabled="true"] {
   background-color: var(--btn-disabled-bg) !important;
   background-image: none !important;
@@ -3825,7 +3873,7 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back
+  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
 )[aria-disabled="true"]::before {
   display: none !important;
 }
@@ -4443,6 +4491,11 @@ body:has(#settings-overlay.open) #settings-nook {
   outline-offset: 2px !important;
 }
 
+#settings-close:focus:not(:focus-visible),
+#settings-nook:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
 /* ---------- Botões inferiores — ponto 7 ---------- */
 .settings-actions {
   margin-top: auto;
@@ -4877,10 +4930,10 @@ var fontSizes = [
 ];
 
 var readableFontSizes = [
-  'clamp(0.9rem, 2.6vw, 1.3rem)',
-  'clamp(1rem, 2.9vw, 1.5rem)',
-  'clamp(1.1rem, 3.2vw, 1.7rem)',
-  'clamp(1.2rem, 3.5vw, 1.9rem)'
+  'clamp(1.05rem, 3.2vw, 1.5rem)',
+  'clamp(1.15rem, 3.4vw, 1.65rem)',
+  'clamp(1.25rem, 3.7vw, 1.85rem)',
+  'clamp(1.35rem, 4vw, 2.05rem)'
 ];
 
 var fontIndex = 0;
@@ -5103,7 +5156,7 @@ $(document).on(':passagestart', function (ev) {
   // ============================================================
   // BIRDS – contínuo com fadeout quando não está nas listas
   // ============================================================
-  var exteriorPassages = ['Start', '6', '14', '27','Resultados','Sobre','Como jogar'];
+  var exteriorPassages = ['Start', '6', '14', '27','Resultados','Sobre','Guia de Jogo'];
   var interiorPassages = ['1', '2', '2.1', 'Resultado 112', '3', '4', '5'];
 
   var temBirds = (exteriorPassages.indexOf(name) > -1) || (interiorPassages.indexOf(name) > -1);
@@ -5877,6 +5930,12 @@ var ICON_ANIMATION =
     '<path d="M10 6l9 6-9 6V6z"/>' +
   '</svg>';  
 
+var ICON_GUIDE =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>' +
+    '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' +
+  '</svg>';  
+
 // ============================================================
 // BLOQUEIO DE ZOOM (pinch + double-tap) — necessário no iOS Safari
 // ============================================================
@@ -6232,7 +6291,13 @@ $(document).on(':passageend', function () {
 // Botão X — dispara o mesmo que o "Manter progresso"
 $(document).on('click', '.alarm-close', function (e) {
   e.preventDefault();
-  $('.alarm .cancel-restart a').first().trigger('click');
+  var $innerLink = $(this).find('a').first();
+  if ($innerLink.length) {
+    $innerLink.trigger('click');
+  } else {
+    // Comportamento legado: caixa de "Recomeçar"
+    $('.alarm .cancel-restart a').first().trigger('click');
+  }
 });
 
 // ============================================================
@@ -6356,6 +6421,7 @@ $(document).one(':passagestart', function () {
         '</div>' +
  
         '<div class="settings-actions">' +
+          '<button type="button" class="settings-btn settings-btn-guide" id="settings-guide">' + ICON_GUIDE + ' Guia de Jogo</button>' +
           '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">↻ Recomeçar Cenário</button>' +
           '<button type="button" class="settings-btn settings-btn-back" id="settings-back">Voltar para Trás</button>' +
         '</div>' +
@@ -6596,6 +6662,11 @@ $(document).one(':passagestart', function () {
     } else if (typeof Engine !== 'undefined' && Engine.back) {
       Engine.back();
     }
+  });
+
+  $('#settings-guide').off('click.settings').on('click.settings', function () {
+    closeSettings();
+    Engine.play('Guia de Jogo'); 
   });
 
   // Estado inicial dos botões de fonte
@@ -7220,16 +7291,16 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
      &lt;/div&gt;
   &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
-</tw-passagedata><tw-passagedata pid="26" name="Como jogar" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;    
+</tw-passagedata><tw-passagedata pid="26" name="Guia de Jogo" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;alarm&quot;&gt;
-    	&lt;h2&gt;Como jogar?&lt;/h2&gt;
-        &lt;p&gt;Selecione entre as opções para avançar na história e descobrir se tomou as melhores opções para lidar com um incêndio florestal. A qualquer momento pode &lt;b&gt;Voltar&lt;/b&gt; para a passagem anterior ←, ou &lt;b&gt;Recomeçar&lt;/b&gt; ⟲. 
-        &lt;br&gt;&lt;br&gt;Para uma melhor experiência, pode &lt;b&gt;ativar ou desativar o som&lt;/b&gt; no ícone 🔊 ou &lt;b&gt;mudar o tamanho de letra &lt;/b&gt; clicando em &lt;b&gt;A&lt;/b&gt;.&lt;/p&gt;
-        &lt;div class=&quot;choices&quot;&gt;
-            [[Começar-&gt;1]]
-            &lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;
+        &lt;span class=&quot;alarm-close&quot; tabindex=&quot;0&quot; aria-label=&quot;Fechar&quot;&gt;&lt;&lt;back &quot;✕&quot;&gt;&gt;&lt;/span&gt;
+        &lt;h2&gt;Guia de jogo&lt;/h2&gt;
+        &lt;p&gt;Selecione entre as opções para avançar na história e descobrir se tomou as melhores opções para lidar com um incêndio florestal. A qualquer momento pode &lt;b&gt;Recomeçar&lt;/b&gt; ⟲.
+        &lt;br&gt;&lt;br&gt;Para uma melhor experiência, pode &lt;b&gt;ativar ou desativar o som&lt;/b&gt; no ícone 🔊 ou &lt;b&gt;mudar o tamanho de letra&lt;/b&gt; clicando em &lt;b&gt;A&lt;/b&gt;.&lt;/p&gt;
+        &lt;div class=&quot;choices choices-left&quot;&gt;
+            &lt;&lt;back &quot;Fechar&quot;&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
@@ -7248,9 +7319,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 			&lt;li&gt;Programação: Filipa Irina Loureiro;&lt;/li&gt;
             &lt;li&gt;Ilustrações: Inês Freitas.&lt;/li&gt;
         &lt;/ul&gt;
-        &lt;div class=&quot;choices&quot;&gt;
+        &lt;div class=&quot;choices choices-left choices-comecar-grande&quot;&gt;
             [[Começar-&gt;1]]
-            &lt;span class=&quot;btn-sobre&quot;&gt;[[Como jogar]]&lt;/span&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
