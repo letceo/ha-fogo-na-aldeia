@@ -104,7 +104,12 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="31c8fced-3998-4c9b-8d1a-dbe731f7b188" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* FONTS */
+	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="31c8fced-3998-4c9b-8d1a-dbe731f7b188" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* Para mobile*/
+:root {
+  --app-height: 100dvh;
+}
+
+/* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
@@ -194,7 +199,7 @@ html, body {
 .scene {
   position: relative;
   width: 100vw;
-  height: 100dvh;  
+  height: var(--app-height) !important;   
   top: 0 !important;
   padding: 0;
   align-items: center;
@@ -1505,7 +1510,7 @@ button {
   justify-content: center;
   position: relative;
   width: 100vw;
-  height: 100dvh;
+  height: var(--app-height) !important;
   overflow: hidden;
   box-sizing: border-box;
   background-color: #FFF5E6;
@@ -4896,6 +4901,24 @@ body.reduce-motion .fade-black-overlay {
     padding: 0 14px !important;
   }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
+// ALTURA REAL DO ECRÃ — corrige bugs de 100vh/100dvh em Android
+// (barra de navegação do sistema não é sempre bem calculada por dvh)
+// ============================================================
+function setAppHeight() {
+  var vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  document.documentElement.style.setProperty('--app-height', vh + 'px');
+}
+
+setAppHeight();
+window.addEventListener('resize', setAppHeight);
+window.addEventListener('orientationchange', function () {
+  setTimeout(setAppHeight, 300); // dá tempo à UI do browser estabilizar após rodar
+});
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', setAppHeight);
+}
+
+// ============================================================
 // 2.1.3 — CENTRO REAL DO TELEFONE
 // Calcula o centro horizontal da área visível (não transparente)
 // de phone.png. Isto evita que o teclado varie para a esquerda/direita
