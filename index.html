@@ -803,27 +803,27 @@ p {
   align-items: center;
   justify-content: center;
   z-index: 100;
-  font-size: 2em !important;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
+  color: #FFF5E6;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+  transition: filter 0.25s ease !important;
 }
 
-#sound-btn button {
-  background: none !important;
-  border: none !important;
-  width: 100%;
-  height: 100%;
+#sound-btn .sound-btn-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2em !important;
-  cursor: pointer;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
-  transition: transform 0.25s ease !important;
+  line-height: 0;
 }
 
-#sound-btn button:hover {
-  transform: none !important;
-  text-shadow: 0 2px 14px rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.6) !important;
+#sound-btn .sound-btn-icon svg {
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+#sound-btn:hover {
+  filter: drop-shadow(0 2px 14px rgba(255,255,255,0.5)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
 }
 
 button {
@@ -2478,9 +2478,13 @@ button {
   /* --- SOUND + FONT BUTTONS MOBILE --- */
 
   #sound-btn {
-    font-size: 1.9em !important;
     top: max(1%, env(safe-area-inset-top)) !important;
     left: 1% !important;
+  }
+
+  #sound-btn .sound-btn-icon svg {
+    width: 42px;
+    height: 42px;
   }
 
   #decision-timer {
@@ -2546,7 +2550,6 @@ button {
   }
 }
 
-
 /* Ecrãs baixos em geral */
 @media screen and (max-height: 700px) {
   .text-box {
@@ -2554,6 +2557,29 @@ button {
   }
 }
 
+/* TABLET — portrait */
+@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: portrait) {
+  #sound-btn {
+    width: 85px;
+    height: 85px;
+  }
+  #sound-btn .sound-btn-icon svg {
+    width: 85px;
+    height: 85px;
+  }
+}
+
+/* TABLET — landscape */
+@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: landscape) and (max-width: 1399px) {
+  #sound-btn {
+    width: 85px;
+    height: 85px;
+  }
+  #sound-btn .sound-btn-icon svg {
+    width: 85px;
+    height: 85px;
+  }
+}
 
 /* Tipografia da caixa de texto vai encolhendo em ecrãs muito estreitos */
 @media screen and (max-width: 600px) {
@@ -5292,16 +5318,25 @@ $(document).on('click', '.phone-key', function () {
 });
 
 $(document).one(':passagestart', function () {
-  var $btn = $('<button id="sound-btn" aria-label="Desligar som">🔊</button>');
+  var $btn = $(
+    '<button id="sound-btn" aria-label="Desligar som">' +
+      '<span class="sound-btn-icon">' + ICON_VOLUME_ON + '</span>' +
+    '</button>'
+  );
   $('body').append($btn);
 
   $btn.on('click', function () {
-    if ($btn.text() === '🔊') {
+    var muted = $btn.hasClass('muted');
+    if (!muted) {
       SimpleAudio.mute(true);
-      $btn.text('🔇').attr('aria-label', 'Ligar som');
+      $btn.addClass('muted')
+          .html('<span class="sound-btn-icon">' + ICON_VOLUME_OFF + '</span>')
+          .attr('aria-label', 'Ligar som');
     } else {
       SimpleAudio.mute(false);
-      $btn.text('🔊').attr('aria-label', 'Desligar som');
+      $btn.removeClass('muted')
+          .html('<span class="sound-btn-icon">' + ICON_VOLUME_ON + '</span>')
+          .attr('aria-label', 'Desligar som');
     }
   });
 });
@@ -6805,17 +6840,16 @@ $(document).one(':passagestart', function () {
 
   function isMuted() {
     var $s = $('#sound-btn');
-    // Se o botão do canto superior esquerdo diz 🔇 → mutado
-    if ($s.length) return ($s.text() === '🔇');
+    if ($s.length) return ($s.hasClass('muted'));
     return false;
   }
 
   function setMute(mute) {
     var $s = $('#sound-btn');
     if ($s.length) {
-      var currentlyMuted = ($s.text() === '🔇');
+      var currentlyMuted = ($s.hasClass('muted'));
       if (currentlyMuted !== mute) {
-        $s.trigger('click'); // dispara o handler existente
+        $s.trigger('click'); 
       }
     }
     syncSoundUI();
