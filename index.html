@@ -109,10 +109,6 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --app-height: 100dvh;
 }
 
-body {
-  --sat-test-b: env(safe-area-inset-bottom, 0px);
-}
-
 /* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -7107,53 +7103,6 @@ $(document).on(':passageend', function () {
   $(window).on('resize', function () {
     instances.forEach(update);
   });
-})();
-
-// ============================================================
-// DEBUG TEMPORÁRIO — remover depois de diagnosticar - remover later
-// ============================================================
-(function () {
-  var $debug = $('<div id="debug-viewport"></div>').css({
-    position: 'fixed',
-    top: '90px',
-    left: '4px',
-    zIndex: 999999,
-    background: 'rgba(0,0,0,0.85)',
-    color: '#0f0',
-    fontSize: '11px',
-    fontFamily: 'monospace',
-    padding: '6px 8px',
-    borderRadius: '4px',
-    lineHeight: '1.4',
-    maxWidth: '90vw',
-    whiteSpace: 'pre'
-  });
-  $('body').append($debug);
-
-  function updateDebug() {
-    var vv = window.visualViewport;
-    var scene = document.querySelector('.scene');
-    var sceneRect = scene ? scene.getBoundingClientRect() : null;
-    var textBox = document.querySelector('.text-box');
-    var textBoxRect = textBox ? textBox.getBoundingClientRect() : null;
-    var cssAppHeight = getComputedStyle(document.documentElement).getPropertyValue('--app-height');
-
-    var info =
-      'innerHeight: ' + window.innerHeight + '\n' +
-      'vv.height: ' + (vv ? Math.round(vv.height) : 'n/a') + '\n' +
-      'vv.offsetTop: ' + (vv ? Math.round(vv.offsetTop) : 'n/a') + '\n' +
-      'screen.height: ' + window.screen.height + '\n' +
-      '--app-height (css): ' + cssAppHeight + '\n' +
-      '.scene bottom: ' + (sceneRect ? Math.round(sceneRect.bottom) : 'n/a') + '\n' +
-      '.text-box bottom: ' + (textBoxRect ? Math.round(textBoxRect.bottom) : 'n/a') + '\n' +
-      'safe-bottom: ' + getComputedStyle(document.body).getPropertyValue('--sat-test-b');
-
-    $debug.text(info);
-  }
-
-  updateDebug();
-  window.addEventListener('resize', updateDebug);
-  setInterval(updateDebug, 1000);
 })();</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
