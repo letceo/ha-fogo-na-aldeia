@@ -281,7 +281,9 @@ p { color: white !important; }
   flex: 1 1 auto !important;
   min-height: 0 !important;
   padding: 0 4% !important;
-
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
 }
@@ -378,6 +380,9 @@ p { color: white !important; }
   max-height: 80vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .alarm {
@@ -2322,6 +2327,45 @@ button {
   font-size: clamp(1.5em, 4vw, 2.2em) !important;
 }
 
+/* ============================================================
+   SCROLLBAR CUSTOM — MOBILE/TABLET (touch)
+   Esconde a scrollbar nativa em dispositivos touch e substitui
+   por uma barra fake com o mesmo estilo do desktop.
+   ============================================================ */
+@media (pointer: coarse) {
+  .text-scroll,
+  .alarm {
+    scrollbar-width: none !important;
+  }
+  .text-scroll::-webkit-scrollbar,
+  .alarm::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+.fake-scrollbar-track {
+  position: fixed;
+  width: 5px;
+  border-radius: 999px;
+  background: rgba(250, 237, 205, 0.15);
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.fake-scrollbar-track.visible {
+  opacity: 1;
+}
+
+.fake-scrollbar-thumb {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: 999px;
+  background-color: rgba(255, 252, 224, 0.8);
+  min-height: 26px;
+}
 
 /* ============================================================
    RESPONSIVIDADE MELHORADA
@@ -5848,7 +5892,7 @@ $(document).on(':passageend', function () {
 
     // Mantém a leitura palavra a palavra, mas já não força o scroll até ao fim automaticamente 
     
-    $box.css('overflow-y', 'auto');
+    $scroll.css('overflow-y', 'auto');
   }
 
   $box.one('click touchstart', function (e) {
@@ -6807,8 +6851,12 @@ $(document).one(':passagestart', function () {
     $fontButtons.each(function () {
       var lv = parseInt(this.getAttribute('data-level'), 10);
       $(this).toggleClass('active', lv === level)
-             .attr('aria-checked', lv === level ? 'true' : 'false');
+            .attr('aria-checked', lv === level ? 'true' : 'false');
     });
+
+    setTimeout(function () {
+      if (window.refreshFakeScrollbars) window.refreshFakeScrollbars();
+    }, 60);
   }
 
   $fontButtons.off('click.settings').on('click.settings', function () {
@@ -6946,7 +6994,92 @@ $(document).on(':passageend', function () {
     $(window).off('resize.pe');
     $(document).off('click.pefont');
   }
-});</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
+});
+
+// ============================================================
+// FAKE SCROLLBAR — mobile/tablet (touch)
+// Substitui a scrollbar nativa pelo estilo custom do desktop.
+// ============================================================
+(function () {
+  if (!window.matchMedia('(pointer: coarse)').matches) return;
+
+  var instances = [];
+
+  function makeBar() {
+    var track = document.createElement('div');
+    track.className = 'fake-scrollbar-track';
+    var thumb = document.createElement('div');
+    thumb.className = 'fake-scrollbar-thumb';
+    track.appendChild(thumb);
+    document.body.appendChild(track);
+    return { track: track, thumb: thumb };
+  }
+
+  function update(inst) {
+    var el = inst.scrollEl;
+    var rect = el.getBoundingClientRect();
+    var scrollable = el.scrollHeight > el.clientHeight + 1;
+
+    if (!scrollable || rect.height === 0) {
+      inst.track.classList.remove('visible');
+      return;
+    }
+
+    var trackH = rect.height - 12;
+    var thumbH = Math.max(26, (el.clientHeight / el.scrollHeight) * trackH);
+    var maxThumbTop = trackH - thumbH;
+    var maxScroll = el.scrollHeight - el.clientHeight;
+    var ratio = maxScroll > 0 ? el.scrollTop / maxScroll : 0;
+    var thumbTop = maxThumbTop * ratio;
+
+    inst.track.style.top = (rect.top + 6) + 'px';
+    inst.track.style.height = trackH + 'px';
+    inst.track.style.left = (rect.right - 8) + 'px';
+    inst.thumb.style.height = thumbH + 'px';
+    inst.thumb.style.transform = 'translateY(' + thumbTop + 'px)';
+
+    inst.track.classList.add('visible');
+    clearTimeout(inst.hideTimer);
+    inst.hideTimer = setTimeout(function () {
+      inst.track.classList.remove('visible');
+    }, 900);
+  }
+
+  function attach(el) {
+    if (!el || el.__fakeScrollbar) return;
+    el.__fakeScrollbar = true;
+    var bar = makeBar();
+    var inst = { scrollEl: el, track: bar.track, thumb: bar.thumb, hideTimer: null };
+    instances.push(inst);
+    el.addEventListener('scroll', function () { update(inst); }, { passive: true });
+    update(inst);
+  }
+
+  function detachAll() {
+    instances.forEach(function (inst) {
+      inst.track.remove();
+      inst.scrollEl.__fakeScrollbar = false;
+    });
+    instances = [];
+  }
+
+  function scanAndAttach() {
+    detachAll();
+    document.querySelectorAll('.text-scroll, .alarm').forEach(attach);
+  }
+
+  window.refreshFakeScrollbars = function () {
+    instances.forEach(update);
+  };
+
+  $(document).on(':passageend', function () {
+    setTimeout(scanAndAttach, 80);
+  });
+
+  $(window).on('resize', function () {
+    instances.forEach(update);
+  });
+})();</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay call&quot;&gt;&lt;/div&gt;
