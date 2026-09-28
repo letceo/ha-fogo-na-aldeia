@@ -792,21 +792,44 @@ p {
 /* ============================================================
    SOUND + FONT BUTTONS
    ============================================================ */
-
 #sound-btn {
   position: fixed;
   top: max(1%, env(safe-area-inset-top));
   left: 1%;
-  width: var(--icon-btn-size);
-  height: var(--icon-btn-size);
-  display: flex;
+  z-index: 9500;
+
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
-  color: #FFF5E6;
+
+  width: 76px;                     /* ← largura fixa */
+  height: 64px;                    /* ← altura fixa, igual ao nook */
+  padding: 0;
+  box-sizing: border-box;
+
   cursor: pointer;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
-  transition: filter 0.25s ease !important;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  background-color: #8A5A3B !important;
+  background-image:
+    linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
+  background-size: 100% 100%, 120px 120px !important;
+  background-position: left top, left top !important;
+  background-repeat: no-repeat, repeat !important;
+
+  border: 2px solid #D1A377 !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  color: #FFFFFF !important;
+  transition: background-color 0.25s ease,
+              border-color 0.25s ease,
+              filter 0.25s ease,
+              box-shadow 0.25s ease,
+              opacity 0.25s ease;
 }
 
 #sound-btn .sound-btn-icon {
@@ -817,13 +840,96 @@ p {
 }
 
 #sound-btn .sound-btn-icon svg {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   display: block;
+  color: #FFFFFF;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  transition: filter 0.25s ease;
 }
 
-#sound-btn:hover {
-  filter: drop-shadow(0 2px 14px rgba(255,255,255,0.5)) drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+/* Hover — só muda aspeto, NUNCA o tamanho */
+@media screen and (hover: hover) {
+  #sound-btn:hover {
+    background-color: #A56D47 !important;
+    border-color: #EDBF93 !important;
+    filter: brightness(1.1);
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  #sound-btn:hover .sound-btn-icon svg {
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65))
+            drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+  }
+}
+
+/* Mudo */
+#sound-btn.muted {
+  background-color: #8A5A3B !important;
+  background-image:
+    linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
+  background-size: 100% 100%, 120px 120px !important;
+  background-position: left top, left top !important;
+  background-repeat: no-repeat, repeat !important;
+
+  border-color: #D1A377 !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Contentor do ícone passa a ser a referência para o risco */
+#sound-btn.muted .sound-btn-icon {
+  position: relative;
+}
+
+/* Risco vermelho diagonal por cima do ícone */
+#sound-btn.muted .sound-btn-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 130%;                          /* ligeiramente maior que o ícone */
+  height: 3px;
+  background-color: #D52927;            /* vermelho do botão "Recomeçar" */
+  border-radius: 2px;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transform-origin: center center;
+  box-shadow:
+    0 0 2px rgba(0, 0, 0, 0.85),
+    0 0 4px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hover do mudo — comportamento igual ao normal */
+@media screen and (hover: hover) {
+  #sound-btn.muted:hover {
+    background-color: #B07A50 !important;
+    border-color: #FFD9A8 !important;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  #sound-btn.muted:hover .sound-btn-icon svg {
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65))
+            drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+  }
+}
+
+/* Mobile: botão quadrado, só ícone — igual ao nook */
+@media screen and (max-width: 768px) {
+  #sound-btn {
+    width: 60px;
+    height: 52px;
+    border-radius: 10px;
+  }
+
+  #sound-btn .sound-btn-icon svg {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 button {
@@ -2477,16 +2583,6 @@ button {
 
   /* --- SOUND + FONT BUTTONS MOBILE --- */
 
-  #sound-btn {
-    top: max(1%, env(safe-area-inset-top)) !important;
-    left: 1% !important;
-  }
-
-  #sound-btn .sound-btn-icon svg {
-    width: 42px;
-    height: 42px;
-  }
-
   #decision-timer {
     top: calc(max(1%, env(safe-area-inset-top, 0px)) + var(--icon-btn-size) + 10px) !important;
     right: max(1%, env(safe-area-inset-right, 0px)) !important;
@@ -2554,30 +2650,6 @@ button {
 @media screen and (max-height: 700px) {
   .text-box {
     max-height: 30vh !important;
-  }
-}
-
-/* TABLET — portrait */
-@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: portrait) {
-  #sound-btn {
-    width: 85px;
-    height: 85px;
-  }
-  #sound-btn .sound-btn-icon svg {
-    width: 85px;
-    height: 85px;
-  }
-}
-
-/* TABLET — landscape */
-@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: landscape) and (max-width: 1399px) {
-  #sound-btn {
-    width: 85px;
-    height: 85px;
-  }
-  #sound-btn .sound-btn-icon svg {
-    width: 85px;
-    height: 85px;
   }
 }
 
@@ -3974,10 +4046,14 @@ html[data-init="loading"] #init-loading {
 
   --btn-text:               #FFF5E6;
   --btn-radius:             10px;
-  --btn-transition: background-color .25s ease-out,
-                    border-color     .25s ease-out,
-                    box-shadow       .25s ease-out,
-                    transform        .12s ease-out;
+  --btn-transition: background-color .15s ease,
+                    border-color     .15s ease,
+                    box-shadow       .15s ease,
+                    transform        .15s ease;
+
+  --btn-shadow-rest:  0 4px 0 rgba(0, 0, 0, .35);
+  --btn-shadow-lift:  0 6px 0 rgba(0, 0, 0, .35);
+  --btn-shadow-press: 0 2px 0 rgba(0, 0, 0, .35), inset 0 2px 4px rgba(0, 0, 0, .45);
   --btn-texture:            url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
 }
 
@@ -4019,20 +4095,18 @@ html[data-init="loading"] #init-loading {
 :is(.choices > a, .choices > button, .settings-btn-guide) {
   background-color: var(--btn-main-bg) !important;
   border-color:    var(--btn-main-border) !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, .25) !important;
+  box-shadow: var(--btn-shadow-rest) !important;
 }
 :is(.choices > a, .choices > button, .settings-btn-guide):hover {
   background-color: var(--btn-main-bg-hover) !important;
   border-color:    var(--btn-main-border-hover) !important;
-  box-shadow: 1px 5px 0 0 rgba(0, 0, 0, .25) !important;
+  box-shadow: var(--btn-shadow-lift) !important;
   transform: translateY(-1px) !important;
 }
 :is(.choices > a, .choices > button, .settings-btn-guide):active {
   background-color: var(--btn-main-bg-active) !important;
   border-color:    var(--btn-main-border-hover) !important;
-  box-shadow:
-    1px 2px 0 0 rgba(0, 0, 0, .25),
-    inset 0 2px 4px rgba(0, 0, 0, .35) !important;
+  box-shadow: var(--btn-shadow-press) !important;
   transform: translateY(2px) !important;
 }
 
@@ -4082,7 +4156,7 @@ html[data-init="loading"] #init-loading {
 ) {
   background-color: var(--btn-sec-bg) !important;
   border-color:    var(--btn-sec-border) !important;
-  box-shadow: 1px 4px 0 0 rgba(0, 0, 0, .25) !important;
+  box-shadow: var(--btn-shadow-rest) !important;
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
 
@@ -4093,19 +4167,24 @@ html[data-init="loading"] #init-loading {
 :is(
   .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a,
+  .alarm .btn-sobre a,
   .settings-btn-back
 ):hover {
   background-color: var(--btn-sec-bg-hover) !important;
   border-color:    var(--btn-sec-border-hover) !important;
+  box-shadow: var(--btn-shadow-lift) !important;
+  transform: translateY(-1px) !important;
 }
 :is(
   .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a,
+  .alarm .btn-sobre a,
   .settings-btn-back
 ):active {
   background-color: var(--btn-sec-bg-active) !important;
   border-color:    var(--btn-sec-border-hover) !important;
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, .25) !important;
+  box-shadow: var(--btn-shadow-press) !important;
+  transform: translateY(2px) !important;
 }
 
 /* ============================================================
@@ -4258,6 +4337,15 @@ body:has(#settings-overlay.open) #settings-nook {
 }
 
 /* ============================================================
+   QUANDO O PAINEL DE DEFINIÇÕES ESTÁ ABERTO
+   ============================================================ */
+body:has(#settings-overlay.open) #sound-btn {
+  z-index: 100 !important;       
+  pointer-events: none !important;
+  transition: opacity 0.3s ease;
+}
+
+/* ============================================================
    NOOK DE DEFINIÇÕES — botão (madeira + texture, texto branco)
    ============================================================ */
 
@@ -4297,12 +4385,16 @@ body:has(#settings-overlay.open) #settings-nook {
   font-size: 1.05em;
   font-weight: 700;
   letter-spacing: 0.02em;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 1px 2px 4px rgba(0, 0, 0, 0.35);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            gap 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-            filter 0.25s ease, box-shadow 0.25s ease;
+              width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              gap 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease,
+              filter 0.25s ease,
+              box-shadow 0.25s ease,
+              text-shadow 0.25s ease;
 }
 
 #settings-nook .settings-icon,
@@ -4310,9 +4402,28 @@ body:has(#settings-overlay.open) #settings-nook {
   color: #FFFFFF !important;
 }
 
-#settings-nook:hover {
-  filter: brightness(1.12);
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.35);
+/* Desktop/tablet: o botão está ancorado à direita, por isso crescer o
+   padding-left "puxa-o" para a esquerda sem mexer no texto */
+@media screen and (min-width: 769px) and (hover: hover) {
+  body:not(:has(#settings-overlay.open)) #settings-nook:hover {
+    padding-left: 34px;
+    background-color: #A56D47 !important;
+    border-color: #EDBF93 !important;
+    filter: brightness(1.1);
+    box-shadow: -3px 5px 8px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.65), 1px 3px 6px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Mobile: só ícone, cresce um pouco em largura */
+@media screen and (max-width: 768px) and (hover: hover) {
+  body:not(:has(#settings-overlay.open)) #settings-nook:hover {
+    width: calc(var(--icon-btn-size) + 10px);
+    background-color: #A56D47 !important;
+    border-color: #EDBF93 !important;
+    filter: brightness(1.1);
+    box-shadow: -3px 4px 6px rgba(0, 0, 0, 0.4);
+  }
 }
 
 #settings-nook .settings-icon {
@@ -5309,6 +5420,23 @@ function clearTimers() {
   $('#decision-timer').remove();
 }
 
+function handleTimerExpired() {
+  var expiredPassage = timerPassage;
+  clearTimers();
+  timerPassage = null;
+  timerEndTime = null;
+
+  if (expiredPassage === '13') {
+    // Passagem 13: demorou a decidir → evacua sem ajudar a D. Laurinda
+    State.variables.demorouLaurinda = true;
+    Engine.play('36');
+  } else {
+    // Comportamento padrão: pânico
+    State.variables.entrouPanico = true;
+    Engine.play('20');
+  }
+}
+
 $(document).on('mouseenter', '.choices a, .choices button, #settings-nook, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
   SimpleAudio.tracks.get('hover').volume(0.1).play();
 });
@@ -5330,7 +5458,7 @@ $(document).one(':passagestart', function () {
     if (!muted) {
       SimpleAudio.mute(true);
       $btn.addClass('muted')
-          .html('<span class="sound-btn-icon">' + ICON_VOLUME_OFF + '</span>')
+          .html('<span class="sound-btn-icon">' + ICON_VOLUME_ON + '</span>')
           .attr('aria-label', 'Ligar som');
     } else {
       SimpleAudio.mute(false);
@@ -5444,11 +5572,7 @@ function startDecisionTimer() {
     if (tic) tic.volume(secs <= 10 ? 0.5 : 0.2).play();
 
     if (msLeft <= 0) {
-      clearTimers();
-      timerPassage = null;
-      timerEndTime = null;
-      State.variables.entrouPanico = true;
-      Engine.play('20');
+      handleTimerExpired();
     }
   }, 1000);
 
@@ -5458,11 +5582,7 @@ function startDecisionTimer() {
     decisionTimer = null;
     if (State.variables.entrouPanico === true) return;
     if (passage() !== timerPassage) return;
-    clearTimers();
-    timerPassage = null;
-    timerEndTime = null;
-    State.variables.entrouPanico = true;
-    Engine.play('20');
+    handleTimerExpired();
   }, msUntilEnd);
 }
 
@@ -5550,7 +5670,7 @@ $(document).on(':passagestart', function (ev) {
   // RESTANTES SONS (curtos ou específicos)
   // ============================================================
   var heartPassages = ['7', '20', '21', '8'];
-  var timerPassages = ['7', '8', '10', '16'];
+  var timerPassages = ['7', '8', '13', '16'];
 
   if (name === '2' || name === '5') {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
@@ -6779,8 +6899,8 @@ $(document).one(':passagestart', function () {
  
         '<div class="settings-actions">' +
           '<button type="button" class="settings-btn settings-btn-guide" id="settings-guide">' + ICON_GUIDE + ' Guia de Jogo</button>' +
-          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">↻ Recomeçar Cenário</button>' +
           '<button type="button" class="settings-btn settings-btn-back" id="settings-back">Voltar para Trás</button>' +
+          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">↻ Recomeçar Cenário</button>' +
         '</div>' +
       '</aside>' +
     '</div>'
@@ -7649,7 +7769,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;set $fezCasa to false&gt;&gt;
 &lt;&lt;set $caminhoPerigoso to false&gt;&gt;
 &lt;&lt;set $naoEvacuar to false&gt;&gt;
-&lt;&lt;set $ajudarLaurinda to false&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="⟲" tags="" position="0,750" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set $ajudarLaurinda to false&gt;&gt;
+&lt;&lt;set $demorouLaurinda to false&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="⟲" tags="" position="0,750" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;
         &lt;div class=&quot;alarm&quot;&gt;
@@ -8269,10 +8390,15 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
     &lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;&lt;if $ligou112&gt;&gt;
-        	&lt;p class=&quot;animar&quot;&gt;Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
-         &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-          	&lt;p class=&quot;animar&quot;&gt;Os vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+      &lt;&lt;if $demorouLaurinda&gt;&gt;
+          &lt;p class=&quot;animar&quot;&gt;Demorei demasiado tempo a decidir, por isso tive que evacuar sem ajudar a Dona Laurinda. Arranco sozinha para o ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia.
+      Encontro os meus vizinhos e ainda bem que ficaram bem! Mas estão aflitos - sem dinheiro, sem documentos. Saíram sem o kit e agora nem telemóvel têm para contactar os familiares.
+      Eventualmente, também a D.Laurinda se junta na praça, conduzida pelos bombeiros. Fisicamente está bem, mas bastante aflita sem parar de chorar. A casa dela está a arder, pouco deve sobrar. Não tinha o terreno limpo e o fogo pegou tudo.
+      Ao menos estamos vivos e seguros. Abro o kit ao lado do carro com tudo o que deixei preparado. Não faltou nada.&lt;/p&gt;
+      &lt;&lt;elseif $ligou112&gt;&gt;
+          &lt;p class=&quot;animar&quot;&gt;Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+      &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+          &lt;p class=&quot;animar&quot;&gt;Os vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
         &lt;&lt;else&gt;&gt;
         	&lt;p class=&quot;animar&quot;&gt;Engulo em seco e continuo. O fogo é rápido e não quero arriscar. Há outras pessoas ainda na aldeia capazes de a ajudar. Arranco em direção ao ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia. 
 Encontro os meus vizinhos e ainda bem que ficaram bem! Mas estão aflitos - sem dinheiro, sem documentos. Saíram sem o kit e agora nem telemóvel têm para contactar os familiares.
