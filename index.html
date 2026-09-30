@@ -974,7 +974,7 @@ button {
 }
 
 .panico-scene .image-bg {
-  animation: tremer-suave 0.6s infinite, sceneFade .5s ease;
+  animation: sceneFade .5s ease;
 }
 
 .panico-scene .image-overlay {
@@ -2090,6 +2090,39 @@ button {
   animation:
     fumoSceneFade    .5s ease,
     fumo-drift-forte 2.5s ease-in-out infinite,
+    fumo-vibrar      0.35s linear infinite;
+}
+
+/* Fumo 3 e 4 — entram por camadas depois da casa-fire */
+.fumo-entra-3 {
+  opacity: 0;
+  animation:
+    fumo-fade-in 3s ease-out 1s forwards,
+    fumo-drift   4s ease-in-out 4s infinite,
+    fumo-vibrar  0.35s linear infinite;
+}
+
+.fumo-entra-4 {
+  opacity: 0;
+  animation:
+    fumo-fade-in     3s ease-out 3.5s forwards,
+    fumo-drift-forte 2.5s ease-in-out 6.5s infinite,
+    fumo-vibrar      0.35s linear infinite;
+}
+
+.fumo-entra-5 {
+  opacity: 0;
+  animation:
+    fumo-fade-in 3s ease-out 6s forwards,
+    fumo-drift   4s ease-in-out 9s infinite,
+    fumo-vibrar  0.35s linear infinite;
+}
+
+.fumo-entra-6 {
+  opacity: 0;
+  animation:
+    fumo-fade-in     3s ease-out 8.5s forwards,
+    fumo-drift-forte 2.5s ease-in-out 11.5s infinite,
     fumo-vibrar      0.35s linear infinite;
 }
 
@@ -7257,10 +7290,19 @@ $(document).on(':passageend', function () {
   $(window).on('resize', function () {
     instances.forEach(update);
   });
-})();</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;  
-&lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay call&quot;&gt;&lt;/div&gt;
+})();</script><tw-tag name="end" color="red"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene eletricidade-leve&quot;&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
 
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -7274,7 +7316,7 @@ $(document).on(':passageend', function () {
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="11" tags="" position="800,200" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="11" tags="" position="900,175" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Saíste sem o kit e sem o Bobi.&#39;)&gt;&gt;
         &lt;div class=&quot;image-bg transito&quot;&gt;&lt;/div&gt;
@@ -7315,21 +7357,32 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1025" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
-    	&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;
-        &lt;div class=&quot;image-overlay fumo-overlay&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="16" tags="" position="1100,1025" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene eletricidade-leve&quot;&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo6 fumo-entra-6 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay call-vizinho overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-    &lt;p class=&quot;animar&quot;&gt;As cinzas começam-se a aproximar mais. O cheiro a fumo intensifica-se e com ele o ar fica mais difícil de respirar. Coloco um pano na boca para me proteger e evitar a inalação do fumo. O barulho das chamas fica cada vez mais forte, mas do nada ouço um bater na porta que vem de fora. É a proteção civil. Tenho de evacuar, dizem eles. Olho em volta para tomar uma decisão. Todas as minhas coisas estão aqui, a minha casa, todas as memórias e pertences. Mas o fogo aproxima-se cada vez mais.&lt;/p&gt;
-    &lt;div class=&quot;choices&quot;&gt;
-          [[Faço o que as autoridades indicam e evacuo-&gt;33]] 
-          [[Ignoro e decido manter-me em casa-&gt;28]]
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
+        &lt;p class=&quot;animar&quot;&gt;As cinzas começam-se a aproximar mais. O cheiro a fumo intensifica-se e com ele o ar fica mais difícil de respirar. Coloco um pano na boca para me proteger e evitar a inalação do fumo. O barulho das chamas fica cada vez mais forte, mas do nada ouço um bater na porta que vem de fora. É a proteção civil. Tenho de evacuar, dizem eles. Olho em volta para tomar uma decisão. Todas as minhas coisas estão aqui, a minha casa, todas as memórias e pertences. Mas o fogo aproxima-se cada vez mais.&lt;/p&gt;
+
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Faço o que as autoridades indicam e evacuo-&gt;33]]
+            [[Ignoro e decido manter-me em casa-&gt;28]]
+        &lt;/div&gt;
     &lt;/div&gt;
-   &lt;/div&gt;
- &lt;/div&gt;
+&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="5" tags="" position="450,500" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
@@ -7364,10 +7417,17 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
          &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="8" tags="" position="825,400" size="100,100">&lt;&lt;nobr&gt;&gt;  
-&lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay call&quot;&gt;&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="8" tags="" position="825,400" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene eletricidade-leve&quot;&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
 
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -7382,32 +7442,54 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="10" tags="" position="700,1100" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
-    	&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay reparar-overlay turn-around&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="10" tags="" position="700,1100" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene eletricidade-leve&quot;&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay reparar-overlay turn-around overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
         &lt;p class=&quot;animar&quot;&gt;Da janela vejo alguns dos meus vizinhos evacuar, mas o fogo parece-me ainda estar longe.  Ainda não sei se quero evacuar, então, &lt;b&gt;que posso fazer?&lt;/b&gt;&lt;/p&gt;
-         	&lt;div class=&quot;choices&quot;&gt;
-            	[[Verificar kit de emergência-&gt;31]]
-                [[Preparar a casa-&gt;15]]
-                [[Ainda tenho tempo, não vou fazer nada-&gt;16]]
-    		&lt;/div&gt;
-      &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="20" tags="end" position="1050,850" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene panico-scene&quot;&gt;&lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Entraste em pânico.&#39;)&gt;&gt;
-    	&lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;image-overlay  panico&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-        	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Verificar kit de emergência-&gt;31]]
+            [[Preparar a casa-&gt;15]]
+            [[Ainda tenho tempo, não vou fazer nada-&gt;16]]
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="20" tags="end" position="1050,850" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene panico-scene eletricidade-leve&quot;&gt;&lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Entraste em pânico.&#39;)&gt;&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    
+    &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay panico overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
         &lt;p class=&quot;animar&quot;&gt;Não sei o que fazer. Respirar é difícil e sinto tudo a andar à roda. Tenho as mãos a tremer. Estou em pânico, não sei o que fazer.&lt;/p&gt;
-    		&lt;div class=&quot;choices&quot;&gt;
-            		[[Respirar-&gt;21]]&lt;/div&gt;
-             &lt;/div&gt;
-       &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;    </tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1675,1325" size="100,100">&lt;&lt;nobr&gt;&gt;    
+
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Respirar-&gt;21]]
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1675,1325" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  call-vizinho&quot;&gt;
@@ -7770,7 +7852,10 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;set $caminhoPerigoso to false&gt;&gt;
 &lt;&lt;set $naoEvacuar to false&gt;&gt;
 &lt;&lt;set $ajudarLaurinda to false&gt;&gt;
-&lt;&lt;set $demorouLaurinda to false&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="⟲" tags="" position="0,750" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;set $demorouLaurinda to false&gt;&gt;
+&lt;&lt;set $fezSeguranca to false&gt;&gt;
+&lt;&lt;set $casaSeguraFinal to false&gt;&gt;
+&lt;&lt;set $segurancaPerfeita to false&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="⟲" tags="" position="0,750" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;
         &lt;div class=&quot;alarm&quot;&gt;
@@ -7869,22 +7954,31 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;p class=&quot;animar&quot;&gt;O fumo cinzento escuro parece aumentar cada vez mais, apesar de ainda aparentar estar longe. É melhor avisar a proteção civil, mas &lt;b&gt;para qual número ligar?&lt;/b&gt;&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="21" tags="" position="1175,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="21" tags="" position="1175,750" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene eletricidade-leve&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Sangue Frio\nConseguiste acalmar-te numa situação de pânico.&#39;, &#39;🧘&#39;)&gt;&gt;
-    &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay  acalmar-panico&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay acalmar-panico overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-    &lt;p class=&quot;animar&quot;&gt;&quot;Tenho de me acalmar para agir com cuidado, entrar em pânico pode-me colocar em perigo&quot;. Tento acalmar a respiração, lembrando-me de inspirar e expirar, e conto até 10. Na minha mente, foco-me em recordar os passos das campanhas de prevenção. Agora sim sei o que fazer.&lt;/p&gt;
-    	&lt;div class=&quot;choices&quot;&gt;
-        	[[Decido evacuar-&gt;8]]
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
+        &lt;p class=&quot;animar&quot;&gt;&quot;Tenho de me acalmar para agir com cuidado, entrar em pânico pode-me colocar em perigo&quot;. Tento acalmar a respiração, lembrando-me de inspirar e expirar, e conto até 10. Na minha mente, foco-me em recordar os passos das campanhas de prevenção. Agora sim sei o que fazer.&lt;/p&gt;
+
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Decido evacuar-&gt;8]]
             [[Decido ficar em casa-&gt;10]]
         &lt;/div&gt;
-     &lt;/div&gt;
-  &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;
-</tw-passagedata><tw-passagedata pid="26" name="Guia de Jogo" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="26" name="Guia de Jogo" tags="" position="75,200" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;alarm&quot;&gt;
@@ -8291,7 +8385,7 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
         [[Resultados]]
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Resultado Kit" tags="" position="800,1475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Resultado Kit" tags="" position="800,1450" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
@@ -8321,21 +8415,25 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
             &lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
 
-        &lt;div class=&quot;choices&quot;&gt;
-            &lt;&lt;if $fezKit and not $fezCasa&gt;&gt;
-                [[Preparar a casa-&gt;15]]
-            &lt;&lt;elseif $fezKit and $kit and $fezCasa and $casaPreparada&gt;&gt;
-                &lt;&lt;set $cao to true&gt;&gt;
-                [[Tudo pronto para evacuar!-&gt;13]]
-            &lt;&lt;elseif $fezKit and not $kit and $fezCasa and $casaPreparada&gt;&gt;
-                [[Continuar-&gt;19]]
-            &lt;&lt;elseif $fezKit and $kit and $fezCasa and not $casaPreparada&gt;&gt;
-                [[Continuar-&gt;19]]
-            &lt;&lt;elseif $fezKit and not $kit and $fezCasa and not $casaPreparada&gt;&gt;
-                [[Continuar-&gt;34]]
-        &lt;&lt;/if&gt;&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
+      &lt;div class=&quot;choices&quot;&gt;
+          &lt;&lt;if $fezKit and not $fezCasa&gt;&gt;
+              [[Preparar a casa-&gt;15]]
+          &lt;&lt;elseif $fezKit and $kit and $fezCasa and $casaPreparada&gt;&gt;
+              &lt;&lt;set $cao to true&gt;&gt;
+              &lt;&lt;if $naoEvacuar&gt;&gt;
+                  [[Aguentar em casa até o fogo passar-&gt;39]]
+              &lt;&lt;else&gt;&gt;
+                  [[Tudo pronto para evacuar!-&gt;13]]
+              &lt;&lt;/if&gt;&gt;
+          &lt;&lt;elseif $fezKit and not $kit and $fezCasa and $casaPreparada&gt;&gt;
+              [[Continuar-&gt;19]]
+          &lt;&lt;elseif $fezKit and $kit and $fezCasa and not $casaPreparada&gt;&gt;
+              [[Continuar-&gt;19]]
+          &lt;&lt;elseif $fezKit and not $kit and $fezCasa and not $casaPreparada&gt;&gt;
+              [[Continuar-&gt;34]]
+          &lt;&lt;/if&gt;&gt;
+      &lt;/div&gt;
+      &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="Resultado Casa" tags="" position="1075,1450" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
@@ -8369,19 +8467,23 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
         &lt;/div&gt;
 
        &lt;div class=&quot;choices&quot;&gt;
-            &lt;&lt;if $fezCasa and not $fezKit&gt;&gt;
-                [[Preparar o kit-&gt;31]]
-            &lt;&lt;elseif $fezCasa and $casaPreparada and $fezKit and $kit&gt;&gt;
-                &lt;&lt;set $cao to true&gt;&gt;
-                [[Tudo pronto para evacuar!-&gt;13]]
-            &lt;&lt;elseif $fezCasa and $casaPreparada and $fezKit and not $kit&gt;&gt;
-                [[Continuar-&gt;19]]
-            &lt;&lt;elseif $fezCasa and not $casaPreparada and $fezKit and $kit&gt;&gt;
-                [[Continuar-&gt;19]]
-            &lt;&lt;elseif $fezCasa and not $casaPreparada and $fezKit and not $kit&gt;&gt;
-                [[Continuar-&gt;34]]
-        	&lt;&lt;/if&gt;&gt;
-        &lt;/div&gt;
+          &lt;&lt;if $fezCasa and not $fezKit&gt;&gt;
+              [[Preparar o kit-&gt;31]]
+          &lt;&lt;elseif $fezCasa and $casaPreparada and $fezKit and $kit&gt;&gt;
+              &lt;&lt;set $cao to true&gt;&gt;
+              &lt;&lt;if $naoEvacuar&gt;&gt;
+                  [[Aguentar em casa até o fogo passar-&gt;39]]
+              &lt;&lt;else&gt;&gt;
+                  [[Tudo pronto para evacuar!-&gt;13]]
+              &lt;&lt;/if&gt;&gt;
+          &lt;&lt;elseif $fezCasa and $casaPreparada and $fezKit and not $kit&gt;&gt;
+              [[Continuar-&gt;19]]
+          &lt;&lt;elseif $fezCasa and not $casaPreparada and $fezKit and $kit&gt;&gt;
+              [[Continuar-&gt;19]]
+          &lt;&lt;elseif $fezCasa and not $casaPreparada and $fezKit and not $kit&gt;&gt;
+              [[Continuar-&gt;34]]
+          &lt;&lt;/if&gt;&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="36" tags="" position="1175,625" size="100,100">&lt;&lt;nobr&gt;&gt;    
@@ -8481,6 +8583,121 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
     		&lt;/div&gt;
        &lt;/div&gt;
     &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="39" tags="" position="700,350" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;silently&gt;&gt;
+&lt;&lt;set $s1 to false&gt;&gt;
+&lt;&lt;set $s2 to false&gt;&gt;
+&lt;&lt;set $s3 to false&gt;&gt;
+&lt;&lt;set $s4 to false&gt;&gt;
+&lt;&lt;set $e1 to false&gt;&gt;
+&lt;&lt;set $e2 to false&gt;&gt;
+&lt;&lt;set $e3 to false&gt;&gt;
+&lt;&lt;set $e4 to false&gt;&gt;
+&lt;&lt;/silently&gt;&gt;
+
+&lt;div class=&quot;scene&quot;&gt;
+    &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Materialista\nFicar em casa em caso de incêndio é extremamente perigoso. Só se o fogo já estiver tão próximo que a fuga é impossível.&#39;)&gt;&gt;
+    &lt;div class=&quot;image-bg fogo-na-casa&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay fogo-na-casa-overlay fire-overlay vibrate-2&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
+        &lt;p class=&quot;animar&quot;&gt;Após preparar tudo, vejo a paisagem pela janela. O fogo está tão perto... se quisesse evacuar teria de ser agora, se esperar mais ainda me arriscava a ser apanhada pelo fogo pelo caminho.&lt;/p&gt;
+
+        &lt;p class=&quot;animar&quot;&gt;Mas olhando para tudo o que tenho em casa, todas as minhas memórias e pertences, toda a minha vida entre estas 4 paredes. Não conseguiria abandonar.&lt;/p&gt;
+
+        &lt;p class=&quot;animar&quot;&gt;Posso ter a casa mais segura, mas a luta pela segurança ainda não acabou.&lt;/p&gt;
+
+        &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que devo fazer para me manter em segurança?&lt;/b&gt;&lt;/p&gt;
+
+        &lt;div class=&quot;choices-112&quot;&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s1&quot; false true&gt;&gt; Ficar longe das paredes.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s2&quot; false true&gt;&gt; Procurar abrigo nas divisões do extremo oposto da habitação em relação ao lado por onde o incêndio se está a aproximar.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s3&quot; false true&gt;&gt; Esperar que o fogo passe e, posteriormente, verificar a existência de focos de incêndio na envolvente da habitação e no seu telhado.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s4&quot; false true&gt;&gt; Usar máscara ou proteger as vias respiratórias do fumo.&lt;/label&gt;
+
+            &lt;label&gt;&lt;&lt;checkbox &quot;$e1&quot; false true&gt;&gt; Refugiar-me numa divisão com janelas viradas para o lado do incêndio.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$e2&quot; false true&gt;&gt; Sair para o telhado para vigiar a aproximação das chamas.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$e3&quot; false true&gt;&gt; Ir para a cave, no ponto mais baixo da casa.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$e4&quot; false true&gt;&gt; Permanecer junto às janelas a observar o fogo.&lt;/label&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;choices&quot;&gt;
+            &lt;&lt;button &quot;Confirmar&quot; &quot;Resultado Segurança&quot;&gt;&gt;
+                &lt;&lt;set $fezSeguranca to true&gt;&gt;
+                &lt;&lt;set $casaSeguraFinal to false&gt;&gt;
+                &lt;&lt;set $segurancaPerfeita to false&gt;&gt;
+
+                &lt;&lt;set $respostasCorretas to 0&gt;&gt;
+                &lt;&lt;set $respostasErradas to 0&gt;&gt;
+
+                &lt;&lt;if $s1&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                &lt;&lt;if $s2&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                &lt;&lt;if $s3&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                &lt;&lt;if $s4&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+
+                &lt;&lt;if $e1&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                &lt;&lt;if $e2&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                &lt;&lt;if $e3&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                &lt;&lt;if $e4&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+
+                &lt;&lt;if $respostasCorretas eq 4 and $respostasErradas eq 0&gt;&gt;
+                    &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
+                    &lt;&lt;set $segurancaPerfeita to true&gt;&gt;
+                &lt;&lt;elseif $respostasCorretas gte 3 and $respostasErradas eq 0&gt;&gt;
+                    &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
+                &lt;&lt;elseif $respostasCorretas eq 4 and $respostasErradas eq 1&gt;&gt;
+                    &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
+                &lt;&lt;/if&gt;&gt;
+            &lt;&lt;/button&gt;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="Resultado Segurança" tags="" position="700,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene&quot;&gt;
+    &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+
+        &lt;&lt;if $segurancaPerfeita&gt;&gt;
+            &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Refúgio Correto\nSeguiste todas as medidas de segurança enquanto esperavas que o fogo passasse.&#39;, &#39;🏠&#39;)&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;✅ Perfeito! Apesar de ser sempre preferível evacuar a tempo, seguiste todas as medidas de segurança para te protegeres em casa.&lt;/p&gt;
+        &lt;&lt;elseif $casaSeguraFinal&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;🟡 Boa, mas faltou alguma medida importante. As que tomaste ajudaram-te a manter em segurança.&lt;/p&gt;
+        &lt;&lt;else&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;❌ Não seguiste as medidas essenciais. Ficar em casa em caso de incêndio é extremamente perigoso — só o deves fazer se a fuga já for impossível.&lt;/p&gt;
+        &lt;&lt;/if&gt;&gt;
+
+        &lt;div class=&quot;resumo-112&quot;&gt;
+            &lt;b&gt;As medidas corretas eram:&lt;/b&gt;
+            &lt;ul&gt;
+                &lt;li&gt;✅ Ficar longe das paredes.&lt;/li&gt;
+                &lt;li&gt;✅ Procurar abrigo nas divisões do extremo oposto à aproximação do incêndio.&lt;/li&gt;
+                &lt;li&gt;✅ Esperar que o fogo passe e depois verificar focos de incêndio na envolvente e no telhado.&lt;/li&gt;
+                &lt;li&gt;✅ Usar máscara ou proteger as vias respiratórias do fumo.&lt;/li&gt;
+            &lt;/ul&gt;
+
+            &lt;&lt;if $respostasErradas gt 0&gt;&gt;
+                &lt;b&gt;Escolhas erradas que fizeste:&lt;/b&gt;
+                &lt;ul&gt;
+                    &lt;&lt;if $e1&gt;&gt;&lt;li&gt;❌ Refugiar-me numa divisão com janelas viradas para o lado do incêndio&lt;/li&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e2&gt;&gt;&lt;li&gt;❌ Sair para o telhado para vigiar a aproximação das chamas&lt;/li&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e3&gt;&gt;&lt;li&gt;❌ Ir para a cave, no ponto mais baixo da casa&lt;/li&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e4&gt;&gt;&lt;li&gt;❌ Permanecer junto às janelas a observar o fogo&lt;/li&gt;&lt;&lt;/if&gt;&gt;
+                &lt;/ul&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;choices&quot;&gt;
+            &lt;&lt;if $casaSeguraFinal&gt;&gt;
+                [[Continuar-&gt;final-2]]
+            &lt;&lt;else&gt;&gt;
+                [[Continuar-&gt;35][$foiResgatado to true]]
+            &lt;&lt;/if&gt;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */
