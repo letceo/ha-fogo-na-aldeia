@@ -332,7 +332,9 @@ p { color: white !important;
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 50%;
+  width: auto !important;
+  min-width: 50% !important;
+  max-width: calc(100vw - 2rem) !important;
   transform: translate(-50%, -50%);
   padding: 1% 2%;
   padding-bottom: calc(1% + env(safe-area-inset-bottom, 0px));
@@ -344,7 +346,7 @@ p { color: white !important;
   z-index: 3;
   color: white;
   font-size: 1.3em;
-  max-height: 80vh !important;
+  max-height: min(calc(80vh + var(--ui-extra-height, 0vh)), calc(100dvh - 40px)) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch;
@@ -429,14 +431,15 @@ p { color: white !important;
 
 @media screen and (min-width: 601px) {
   .alarm:has(.confirm-restart) .choices .cancel-restart .macro-back,
-.alarm:has(.confirm-restart) .choices .cancel-restart a,
-.alarm:has(.confirm-restart) .choices .confirm-restart a {
-    width: 160px !important;
+  .alarm:has(.confirm-restart) .choices .cancel-restart a,
+  .alarm:has(.confirm-restart) .choices .confirm-restart a {
+    width: auto !important;
     min-width: 160px !important;
-    max-width: 160px !important;
-    height: 40px !important;
+    max-width: none !important;
+    min-height: 40px !important;
+    height: auto !important;
     font-size: 1em !important;
-    padding: 0 10px !important;
+    padding: 0.5em 1em !important;
   }
 }
 
@@ -448,10 +451,11 @@ p { color: white !important;
   }
 
   .alarm:has(.confirm-restart) .choices .cancel-restart .macro-back,
-.alarm:has(.confirm-restart) .choices .cancel-restart a,
-.alarm:has(.confirm-restart) .choices .confirm-restart a {
+  .alarm:has(.confirm-restart) .choices .cancel-restart a,
+  .alarm:has(.confirm-restart) .choices .confirm-restart a {
     font-size: 0.8em !important;
-    padding: 6px 10px !important;
+    padding: 8px 10px !important;
+    height: auto !important;
   }
 }
 
@@ -492,48 +496,87 @@ p { color: white !important;
   background-color: rgba(0, 0, 0, 0.82) !important;
 }
 
-/* ---- Botão X (novo, curto) ---- */
+/* ---- Botão fechar (X) — partilhado por .alarm e Definições ---- */
 
-.alarm .alarm-close {
-  position: absolute;
-  top: 2px;
-  right: 6px;
-  width: 44px;
-  height: 44px;
+.alarm .alarm-close,
+#settings-close {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  line-height: 1;
 
-  background: transparent !important;
-  border: none !important;
+  background-color: #8A5A3B !important;
+  background-image:
+    linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
+  background-size: 100% 100%, 120px 120px !important;
+  background-position: left top, left top !important;
+  background-repeat: no-repeat, repeat !important;
+
+  border: 3px solid #D1A377 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
   color: #FFF5E6 !important;
 
-  font-family: "Fira Sans", sans-serif;
-  font-size: 2em;
-  line-height: 1;
-  padding: 0;
-  cursor: pointer;
-  z-index: 10;
+  transition: filter 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
 
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+/* Nas caixas .alarm o X fica no canto */
+
+.alarm .alarm-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
 }
 
 .alarm .alarm-close a,
 .alarm .alarm-close .macro-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   color: inherit !important;
   text-decoration: none !important;
   cursor: pointer;
 }
 
-.alarm .alarm-close:hover { opacity: 0.7; transform: scale(1.1);
+.alarm .alarm-close svg,
+#settings-close svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 
-.alarm .alarm-close:active { transform: scale(0.9);
+.alarm .alarm-close:hover,
+#settings-close:hover {
+  filter: brightness(1.12);
+  border-color: #EDBF93 !important;
+}
+
+.alarm .alarm-close:active,
+#settings-close:active {
+  transform: scale(0.95);
 }
 
 @media screen and (max-width: 768px) {
-  .alarm .alarm-close { top: 0; right: 2px; width: 40px; height: 40px; font-size: 1.75em;
+  .alarm .alarm-close,
+  #settings-close {
+    width: 40px;
+    height: 40px;
+  }
+
+  .alarm .alarm-close {
+    top: 8px;
+    right: 8px;
   }
 }
 
@@ -700,6 +743,10 @@ h1 {
 }
 
 :root {
+  --home-btn-w:   calc(200px * var(--ui-scale, 1));
+  --home-btn-h:   calc(56px * var(--ui-scale, 1));
+  --home-btn-fs:  calc(1.55em * var(--ui-scale, 1));
+  --home-btn-pad: 10px 20px;
 }
 
 .choices a,
@@ -714,13 +761,21 @@ h1 {
   align-items: stretch !important;
 }
 
-.sombrinha .choices > a,
-.sombrinha .btn-sobre a {
-  min-width: 200px !important;
-  text-align: center !important;
+:is(.sombrinha .choices > a,
+    .sombrinha .choices > button,
+    .sombrinha .choices .btn-sobre a) {
+  width: var(--home-btn-w) !important;
+  min-width: var(--home-btn-w) !important;
+  max-width: var(--home-btn-w) !important;
+  min-height: var(--home-btn-h) !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  font-size: var(--home-btn-fs) !important;
+  padding: var(--home-btn-pad) !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  text-align: center !important;
 }
 
 .choices a,
@@ -2370,6 +2425,10 @@ button {
 @media screen and (max-width: 768px) {
   :root {
     --icon-btn-size: 52px;
+    --home-btn-w:   min(90vw, calc(320px * var(--ui-scale, 1)));
+    --home-btn-h:   calc(46px * var(--ui-scale, 1));
+    --home-btn-fs:  calc(1.2em * var(--ui-scale, 1));
+    --home-btn-pad: 8px 12px;
   }
 
   h1 {
@@ -2398,23 +2457,6 @@ button {
     width: 90% !important;
     margin: 2rem auto 1rem !important;
     gap: 1.25rem !important;
-  }
-
-  .sombrinha .choices > a,
-.sombrinha .choices > button,
-.sombrinha .choices .btn-sobre a {
-    width: 100% !important;
-    max-width: min(90vw, 320px) !important;
-    margin-inline: auto !important;
-    min-width: 0 !important;
-    box-sizing: border-box !important;
-    height: 46px !important;
-    font-size: 1.2em !important;
-    padding: 0 12px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
   }
 
   .sombrinha .choices .btn-sobre {
@@ -3647,37 +3689,6 @@ html[data-init="loading"] #init-loading {
     align-items: center !important;
   }
 
-  .sombrinha .choices .btn-sobre {
-    display: inline-flex !important;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: auto !important;
-    min-width: 0 !important;
-    height: auto !important;
-  }
-
-  .sombrinha .choices > a,
-.sombrinha .choices > button,
-.sombrinha .choices .btn-sobre a {
-    width: 200px !important;
-    min-width: 200px !important;
-    max-width: 200px !important;
-    height: 56px !important;
-    box-sizing: border-box !important;
-
-    font-size: 1.55em !important;
-    padding: 0 12px !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-  }
-
   /* Sobre / Como jogar — mesmos valores, alinhados à esquerda */
 
   .alarm .choices:has(.btn-sobre) {
@@ -3698,17 +3709,16 @@ html[data-init="loading"] #init-loading {
   }
 
   .alarm .choices:has(.btn-sobre) > a,
-.alarm .choices:has(.btn-sobre) > button,
-.alarm .choices:has(.btn-sobre) .btn-sobre a {
-    width: 200px !important;
+  .alarm .choices:has(.btn-sobre) > button,
+  .alarm .choices:has(.btn-sobre) .btn-sobre a {
+    width: auto !important;
     min-width: 200px !important;
-    max-width: 200px !important;
-    height: 54px !important;
+    max-width: none !important;
+    min-height: 54px !important;
+    height: auto !important;
     box-sizing: border-box !important;
-
     font-size: 1.35em !important;
-    padding: 0 14px !important;
-
+    padding: 0.6em 1.2em !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -4055,6 +4065,12 @@ html[data-init="loading"] #init-loading {
   overflow: visible !important;
   text-shadow: none !important;
   transform: none !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
 }
 
 .sombrinha .choices .btn-sobre::before,
@@ -4342,21 +4358,6 @@ body:has(#settings-overlay.open) #sound-btn {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-#settings-close {
-  background: none;
-  border: none;
-  color: #FFF5E6;
-  font-size: 1.5em;
-  line-height: 1;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.2s ease;
-}
-
-#settings-close:hover {
-  background: rgba(183, 127, 85, 0.25);
-}
 
 /* ---------- Body ---------- */
 
@@ -4736,8 +4737,9 @@ body:has(#settings-overlay.open) #sound-btn {
 
 .settings-btn {
   width: 100%;
-  height: 48px;
-  padding: 0 18px;
+  min-height: 48px;
+  height: auto;
+  padding: 0.6em 1.2em;
   border-radius: 10px !important;
   box-sizing: border-box;
   font-family: "Winky Rough", sans-serif;
@@ -4833,12 +4835,13 @@ body.reduce-motion .fade-black-overlay {
   }
 
   .alarm:has(.resumo-112) .choices > a {
-    width: 200px !important;
+    width: auto !important;
     min-width: 200px !important;
-    max-width: 200px !important;
-    height: 54px !important;
+    max-width: none !important;
+    min-height: 54px !important;
+    height: auto !important;
     font-size: 1.35em !important;
-    padding: 0 14px !important;
+    padding: 0.6em 1.2em !important;
   }
 }
 
@@ -5113,40 +5116,86 @@ body.reduce-motion .fade-black-overlay {
 }
 
 /* ============================================================
-   GUIA DE JOGO / SOBRE 
+   GUIA DE JOGO / SOBRE
    ============================================================ */
 
 .alarm.guide-modal {
-  --guide-top-gap: 26px;                 
-  width: min(88vw, 880px) !important;
+  --guide-top-gap: 26px;
+  width: min(92vw, 1000px) !important;
   max-width: none !important;
-  height: min(80vh, calc(460px * var(--guide-scale, 1)));
+  height: min(80vh, calc(460px * var(--guide-scale, 1))) !important;
   max-height: 88vh !important;
   padding: 0 !important;
   overflow: hidden !important;
-  font-size: calc(1rem * var(--guide-scale, 1)) !important;
-  border-width: 6px !important;
+  font-size: calc(1.05rem * var(--guide-scale, 1)) !important;
+  border: 4px solid #E4A172 !important;
+  border-radius: 12px !important;
   line-height: 1.4 !important;
+  text-align: left;
 }
 
-/* ---- X: mais pequeno e encostado ao canto ---- */
+/* ---- Botão fechar: X numa caixa de madeira ---- */
 
 .alarm.guide-modal .alarm-close {
-  top: 0;
-  right: 0;
-  width: 32px;
-  height: 32px;
-  font-size: 1.1rem;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  background-color: #8A5A3B !important;
+  background-image:
+    linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
+  background-size: 100% 100%, 120px 120px !important;
+  background-position: left top, left top !important;
+  background-repeat: no-repeat, repeat !important;
+
+  border: 3px solid #D1A377 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  color: #FFF5E6 !important;
+}
+
+.alarm.guide-modal .alarm-close a,
+.alarm.guide-modal .alarm-close .macro-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  color: inherit !important;
+}
+
+.alarm.guide-modal .alarm-close svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+.alarm.guide-modal .alarm-close:hover {
+  opacity: 1;
+  transform: none;
+  filter: brightness(1.12);
+  border-color: #EDBF93 !important;
+}
+
+.alarm.guide-modal .alarm-close:active {
+  transform: scale(0.95);
 }
 
 .guide-layout {
   position: relative;
   display: grid;
   grid-template-columns: minmax(160px, 32%) 1fr;
-  grid-template-rows: 1fr auto;
-  grid-template-areas:
-    "menu   content"
-    "footer content";
+  grid-template-rows: 1fr;
+  grid-template-areas: "menu content";
   height: 100%;
   box-sizing: border-box;
 }
@@ -5167,51 +5216,67 @@ body.reduce-motion .fade-black-overlay {
   grid-area: menu;
   display: flex;
   flex-direction: column;
-  gap: 0.35em;
-  padding: calc(var(--guide-top-gap) + 0.9em) 0.9em 0.5em;
+  align-items: stretch;
+  gap: 0.4em;
+  padding: 2.6em 0.9em 0.6em;
   min-height: 0;
   overflow-y: auto;
 }
 
 .alarm .guide-menu-title {
-  margin: 0 0 0.9em !important;
+  margin: 0 0 1.5em !important;
   font-family: "Fira Sans", sans-serif;
-  font-size: 1.25em !important;
+  font-size: 1.65em !important; 
   font-weight: 600;
-  text-align: center;
+  text-align: left; 
+  padding-left: 0.55em; 
   color: #FFF5E6;
 }
 
 .guide-tab {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.6em;
-  padding: 0.6em 0.8em;
-  border: 1.5px solid transparent;
-  border-radius: 8px;
+  padding: 0.7em 0.9em;
+  border: 1px solid transparent;
+  border-radius: 10px;
   color: #FFF5E6;
-  font-size: 0.95em;
+  font-size: 1.15em; 
   font-weight: 500;
+  text-align: left;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  transition: background-color .15s ease, border-color .15s ease;
+  transition: background-color .15s ease, border-color .15s ease, font-weight .15s ease;
 }
 
-.guide-tab svg { width: 1.2em; height: 1.2em; flex: 0 0 auto;
+.guide-tab svg { 
+  width: 1.2em; 
+  height: 1.2em; 
+  flex: 0 0 auto;
 }
 
 @media (hover: hover) {
-  .guide-tab:hover { background: rgba(255, 255, 255, 0.1);
+  .guide-tab:hover { 
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
+/* Aba selecionada: fundo #00000040 + borda #EFA97966 + ícone amarelo + texto a negrito */
+
 #gt-sobre:checked ~ .guide-menu label[for="gt-sobre"],
 #gt-como:checked  ~ .guide-menu label[for="gt-como"] {
-  background: rgba(234, 168, 122, 0.3);
-  border-color: #EAA476;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  background: #00000040;
+  border-color: #EFA97966;
+  font-weight: 700; 
+}
+
+#gt-sobre:checked ~ .guide-menu label[for="gt-sobre"] .guide-tab-ico,
+#gt-como:checked  ~ .guide-menu label[for="gt-como"]  .guide-tab-ico {
+  color: #FFD54A;
 }
 
 #gt-sobre:focus-visible ~ .guide-menu label[for="gt-sobre"],
@@ -5220,143 +5285,70 @@ body.reduce-motion .fade-black-overlay {
   outline-offset: 1px;
 }
 
-/* ---- Rodapé (canto inferior esquerdo) ---- */
-
-.guide-footer {
-  grid-area: footer;
-  padding: 0.5em 0.9em 0.9em;
-}
-
-/* Fechar */
-
-.alarm .guide-close-btn .macro-back {
-  position: relative !important;
-  isolation: isolate;
-  overflow: hidden !important;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  min-width: 7.5em;
-  padding: 0.55em 1.2em !important;
-  box-sizing: border-box;
-  color: var(--btn-text, #FFF5E6) !important;
-  font-family: "Winky Rough", sans-serif !important;
-  font-size: 1.1em;
-  text-decoration: none !important;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, .7);
-  background-color: var(--btn-main-bg) !important;
-  background-image: none !important;
-  border: 2px solid var(--btn-main-border) !important;
-  border-radius: var(--btn-radius, 10px) !important;
-  box-shadow: var(--btn-shadow-rest) !important;
-  transition: var(--btn-transition) !important;
-  transform: none !important;
-}
-
-/* Textura (madeira) — igual à dos botões principais */
-
-.alarm .guide-close-btn .macro-back::before {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-image: var(--btn-texture) !important;
-  background-size: 160px 160px !important;
-  background-position: left top !important;
-  background-repeat: repeat !important;
-  opacity: .40 !important;
-  pointer-events: none !important;
-  z-index: -1 !important;
-  border-radius: inherit !important;
-}
-
-.alarm .guide-close-btn .macro-back:hover {
-  background-color: var(--btn-main-bg-hover) !important;
-  border-color: var(--btn-main-border-hover) !important;
-  box-shadow: var(--btn-shadow-lift) !important;
-  transform: translateY(-1px) !important;
-}
-
-.alarm .guide-close-btn .macro-back:active {
-  background-color: var(--btn-main-bg-active) !important;
-  border-color: var(--btn-main-border-hover) !important;
-  box-shadow: var(--btn-shadow-press) !important;
-  transform: translateY(2px) !important;
-}
-
-.alarm .guide-close-btn .macro-back:focus-visible {
-  outline: 3px solid var(--btn-focus, #FFD54A) !important;
-  outline-offset: 2px !important;
-}
-
-/* Começar (principal) — só tamanho; cores, textura e hover vêm do
-   sistema de botões principais (.choices > a) */
-
-.alarm.guide-modal .guide-footer .choices {
-  margin: 0 !important;
-  padding: 0 !important;
-  gap: 0 !important;
-  justify-content: flex-start !important;
-}
-
-.alarm.guide-modal .guide-footer .choices > a {
-  width: auto !important;
-  min-width: 7.5em !important;
-  max-width: none !important;
-  height: auto !important;
-  padding: 0.55em 1.2em !important;
-  font-size: 1.1em !important;
-}
-
-/* ---- Painel de conteúdo ---- */
+/* ---- Painel de conteúdo: preenche a área toda ---- */
 
 .guide-content {
+  --guide-pad-x: 1.4em;
   grid-area: content;
   min-height: 0;
-  margin: var(--guide-top-gap) 12px 12px 0;
-  padding: 1em 1.3em;
+  margin: 0;
+  padding: 1.1em var(--guide-pad-x);
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  background: rgba(60, 30, 12, 0.4);
-  border: 1px solid rgba(255, 230, 200, 0.3);
-  border-radius: 6px;
+  background: #5D392287;
+  backdrop-filter: blur(2.7px);
+  -webkit-backdrop-filter: blur(2.7px);
+  border: none;
+  border-left: 3px solid #E4A172; 
+  border-radius: 0;
+  box-shadow: 0 8px 20px -8px #00000026;
   font-size: 0.92em;
   line-height: 1.5;
+  text-align: left;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
 }
 
-.guide-content::-webkit-scrollbar { width: 5px;
+.guide-content::-webkit-scrollbar { 
+  width: 5px;
 }
 
-.guide-content::-webkit-scrollbar-track { background: rgba(250, 237, 205, 0.15); border-radius: 999px;
+.guide-content::-webkit-scrollbar-track { 
+  background: rgba(250, 237, 205, 0.15); 
+  border-radius: 999px;
 }
 
-.guide-content::-webkit-scrollbar-thumb { background: rgba(255, 252, 224, 0.8); border-radius: 999px;
+.guide-content::-webkit-scrollbar-thumb { 
+  background: rgba(255, 252, 224, 0.8); 
+  border-radius: 999px;
 }
 
-.guide-pane { display: none;
+.guide-pane { 
+  display: none; 
+  text-align: left;
 }
 
 #gt-sobre:checked ~ .guide-content #guide-sobre,
-#gt-como:checked  ~ .guide-content #guide-como { display: block;
+#gt-como:checked  ~ .guide-content #guide-como { 
+  display: block;
 }
 
 .guide-pane-title {
-  margin: 0 0 0.6em;
-  padding-bottom: 0.35em;
+  margin: 0 0 0.8em;
+  padding: 0 2.8em 0.55em 0;   
   font-family: "Fira Sans", sans-serif;
-  font-size: 1.4em;
+  font-size: 1.7em; 
   font-weight: 600;
+  text-align: left;
   color: #FFF5E6;
-  border-bottom: 1px solid rgba(255, 230, 200, 0.35);
+  border-bottom: 1px solid #E4A172;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, .6);
 }
 
-.guide-pane p { margin: 0 0 0.8em; font-size: inherit;
+.guide-pane p { margin: 0 0 0.8em; font-size: inherit; text-align: left;
 }
 
 .guide-pane .guide-subtitle { margin-bottom: 0.3em;
@@ -5365,7 +5357,7 @@ body.reduce-motion .fade-black-overlay {
 .guide-pane ul { margin: 0; padding-left: 1.2em;
 }
 
-.guide-pane li { margin: 0.1em 0; color: #FFF5E6;
+.guide-pane li { margin: 0.1em 0; color: #FFF5E6; text-align: left;
 }
 
 .guide-pane a { color: #FFD9A8; text-decoration: underline;
@@ -5416,7 +5408,7 @@ body.reduce-motion .fade-black-overlay {
   margin: 0 !important;
 }
 
-/* ---- Mobile: menu em cima, conteúdo no meio, fechar em baixo ---- */
+/* ---- Mobile: menu em cima, conteúdo por baixo ---- */
 
 @media screen and (max-width: 600px) {
   .alarm.guide-modal {
@@ -5427,36 +5419,36 @@ body.reduce-motion .fade-black-overlay {
 
   .guide-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas: "menu" "content" "footer";
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "menu" "content";
   }
 
   .guide-menu {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.3em;
-    padding: 0.7em 40px 0.4em 0.7em;
+    padding: 0.7em 54px 0.5em 0.8em;
     overflow-y: visible;
   }
 
   .alarm .guide-menu-title {
     flex: 1 1 100%;
     margin: 0 0 0.3em !important;
-    font-size: 1.05em !important;
+    font-size: 1.35em !important; 
+    padding-left: 0; 
   }
 
-  .guide-tab { padding: 0.45em 0.7em; font-size: 0.85em;
+  .guide-tab { 
+    padding: 0.45em 0.7em; 
+    font-size: 1em; 
   }
 
-  .guide-content { margin: 0 10px; padding: 0.8em 1em;
-  }
-
-  .guide-footer { padding: 0.6em 0.7em 0.7em;
-  }
-
-  .alarm.guide-modal .guide-footer .choices > a {
-    width: 100% !important;
+  .guide-content {
+    --guide-pad-x: 1em;
+    padding: 0.8em var(--guide-pad-x);
+    border-left: none;
+    border-top: 3px solid #E4A172; 
   }
 }
 
@@ -5525,8 +5517,10 @@ body.reduce-motion .fade-black-overlay {
 }
 
 .exit-box {
-  width: min(92vw, 420px);
-  max-height: 90vh;
+  width: fit-content;
+  min-width: min(92vw, 420px);
+  max-width: 92vw;
+  max-height: min(calc(90vh + var(--ui-extra-height, 0vh)), calc(100dvh - 40px));
   overflow-y: auto;
   box-sizing: border-box;
   padding: 1.4rem 1.4rem 1.2rem;
@@ -5572,10 +5566,349 @@ body.reduce-motion .fade-black-overlay {
 #story {
   margin: 0 !important;
   left: 0 !important;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
-// ALTURA REAL DO ECRÃ — corrige bugs de 100vh/100dvh em Android
-// (barra de navegação do sistema não é sempre bem calculada por dvh)
-// ============================================================
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* ==========================================================================
+   HÁ FOGO NA ALDEIA — Story JavaScript (SugarCube 2)
+   ==========================================================================
+
+   COMO ESTE FICHEIRO ESTÁ ORGANIZADO
+   --------------------------------------------------------------------------
+   O SugarCube só aceita UM ficheiro de JavaScript, por isso está dividido em
+   secções numeradas. Para navegar, pesquise pelo número ou título (ex.: "[4]").
+
+   [1]  CONFIGURAÇÃO ........ constantes que se ajustam sem mexer na lógica
+   [2]  ÍCONES .............. SVGs usados nas definições e no guia
+   [3]  VIEWPORT E ECRÃ ..... altura real, meta viewport, bloqueio de zoom/rotação
+   [4]  ACESSIBILIDADE ...... gestão de foco em diálogos, ciclo de Tab
+   [5]  ÁUDIO ............... pássaros, fogo, zumbido, mute em segundo plano
+   [6]  TEMPORIZADORES ...... decisão (passagens 7, 8, 13, 16) e fim automático
+   [7]  TOASTS .............. notificações no canto do ecrã
+   [8]  TEXTO ANIMADO ....... palavra a palavra + tamanho da letra
+   [9]  TELEMÓVEL (2.1) ..... teclado de marcação do 112
+   [10] RECOMEÇAR / GUIA .... caixas de alerta e botão X
+   [11] DEFINIÇÕES .......... botão + painel lateral + sair do jogo
+   [12] ECRÃ DE CARREGAMENTO  loading + pré-carregamento de imagens
+   [13] PASSAGEM 13 ......... altura da text-box
+   [14] SCROLLBAR (touch) ... barra de scroll falsa em telemóveis/tablets
+   [15] EVENTOS PRINCIPAIS .. :passagestart / :passageend / :storyready
+
+   CONVENÇÕES
+   --------------------------------------------------------------------------
+   - Nomes globais (var/function) NÃO devem ser renomeados: as passagens
+     (Twine) podem chamá-los, por ex. mostrarToast(), Engine.play(), etc.
+   - Código em ES5 (var, function) por compatibilidade com browsers antigos.
+   - Texto visível ao jogador está em português (pt-PT).
+   - Variáveis de estado do jogo (State.variables) usadas aqui:
+       entrouPanico, jaEntrouPanico, panicOrigin, demorouLaurinda, foiResgatado
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [1] CONFIGURAÇÃO
+   ========================================================================== */
+
+/* ---- Texto animado: ritmo (ms) ---- */
+var WORD_MS     = 70;   // intervalo entre palavras
+var PAUSE_END   = 220;  // pausa após . ! ?
+var PAUSE_COMMA = 120;  // pausa após , ; :
+
+/* ---- Tamanho da letra (4 níveis: A, A+, A++, A+++) ---- */
+var fontSizes = [
+  'clamp(0.85rem, 2.8vw, 1.15em)',
+  'clamp(1rem, 3.2vw, 1.4em)',
+  'clamp(1.15rem, 3.6vw, 1.65em)',
+  'clamp(1.3rem, 4vw, 1.9em)'
+];
+
+/* Texto da página inicial (.sombrinha p.readable) */
+var readableFontSizes = [
+  'clamp(1.05rem, 3.2vw, 1.5rem)',
+  'clamp(1.15rem, 3.4vw, 1.65rem)',
+  'clamp(1.25rem, 3.7vw, 1.85rem)',
+  'clamp(1.35rem, 4vw, 2.05rem)'
+];
+
+/* Multiplicadores do Guia de Jogo, por nível */
+var guideScales = [1, 1.12, 1.25, 1.4];
+
+var fontIndex = 0; // nível atual (0 a 3)
+
+/* ---- Temporizador de decisão ---- */
+var TIMER_MODES    = { normal: 30000, extended: 60000, off: 0 }; // ms
+var TIMER_PASSAGES = ['7', '8', '13', '16'];                     // passagens com contador
+
+/* ---- Fim automático ("Será o fim?") ----
+   espera = ms depois de o texto terminar (duplica no modo "extended") */
+var AUTO_FIM = {
+  '28': { destino: '29', espera: 8000 },
+  '34': { destino: '35', espera: 8000 }
+};
+
+/* ---- Som: onde se ouvem os pássaros ---- */
+var BIRDS_EXTERIOR = ['Start', '6', '14', '27', 'Resultados', 'Sobre', 'Guia de Jogo'];
+var BIRDS_INTERIOR = ['1', '2', '2.1', 'Resultado 112', '3', '4', '5'];
+/* Fora destas listas, os pássaros desaparecem com fade. */
+
+/* ---- Som: volume do fogo consoante a proximidade ---- */
+var FOGO_PROXIMIDADE = {
+  'muito_longe': ['14', '26', '27'],
+  'longe':       ['4', '8', '10', '11', '12', '13', '22', '23'],
+  'perto':       ['7', '9', '15', 'Resultado Casa', '24', '31', 'Resultado Kit'],
+  'muito_perto': ['16', '19', '28', '25', '32', '33'],
+  'dentro_casa': ['34'],
+  'fadeout':     ['Start', '1', '2', '2.1', 'Resultado 112', '3', '5', '6', '20', '21', '29', '35', 'Resultados']
+};
+/* Passagem que não esteja em nenhuma lista → 'fadeout'. */
+
+/* ---- Som: faixas curtas que param a cada mudança de passagem ----
+   (birds, fire, heartbeat e ear-ringing são contínuos e geridos à parte) */
+var SONS_CURTOS = [
+  'phone-tap', 'hover', 'phone', 'sinos',
+  'car-stopping', 'car-start', 'cough', 'tic',
+  'heavy-breathing', 'breathing-exercise', 'hospital', 'crowd'
+];
+
+/* ---- Som: passagens com batimento cardíaco e zumbido ---- */
+var HEART_PASSAGES        = ['7', '20', '21', '8'];
+var EAR_RINGING_PASSAGES  = ['20', '21', '28', '34', '29', '35'];
+
+/* ---- Imagens (carregamento) ---- */
+var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/';
+var IMG = CDN + 'images/';
+
+/* Passagem 13: telemóvel (≤600px) só usa o painel 2; tablet/desktop os 3.
+   (ver CSS .prontoevacuar-stage). Calculado uma vez no arranque. */
+var IS_PHONE = window.matchMedia('(max-width: 600px)').matches;
+var PRONTO_EVACUAR_IMGS = IS_PHONE
+  ? [IMG + 'cenas/prontoparaevacuarbobi3.png']
+  : [
+      IMG + 'cenas/prontoparaevacuar1.png',
+      IMG + 'cenas/prontoparaevacuarbobi.png',
+      IMG + 'cenas/prontoparaevacuar3.png',
+      IMG + 'cenas/prontoparaevacuar3-fogo.png',
+      IMG + 'cenas/prontoparaevacuar-3semfundo.png',
+      IMG + 'cenas/prontoparaevacuar3-fuminhp.png'
+    ];
+
+/* Prioridade 1 — bloqueia a barra de progresso: ecrã inicial + 1.ª cena. */
+var imagesCritical = [
+  IMG + 'cenas/bg-village.png',
+  IMG + 'ui/wood.png',
+  IMG + 'ui/wood-dark.png',
+  IMG + 'ui/texture.png',
+  IMG + 'ui/isa.png',
+  IMG + 'ui/logo-ceabn.png',
+  IMG + 'ui/logo.png',
+  IMG + 'cenas/casa.png',
+  IMG + 'cenas/repararbefore.png',
+  IMG + 'cenas/reparar.png'   // a animação .turn-around da passagem 1 troca para esta
+];
+
+/* Prioridade 2 — carrega em segundo plano depois de o jogo abrir,
+   pela ordem em que as cenas aparecem. */
+var imagesBackground = [
+  // passagens 1–3
+  IMG + 'cenas/reparar3.png',
+  IMG + 'cenas/panico2.png',
+  IMG + 'cenas/112before.png',
+  IMG + 'cenas/112.png',
+  IMG + 'cenas/casa-semjanela-jardim.png',
+  IMG + 'cenas/casafumo1.png',
+  IMG + 'cenas/phone.png',
+  IMG + 'cenas/phone-call.png',
+  // passagens 4–8
+  IMG + 'cenas/ligar.png',
+  IMG + 'cenas/casa-semjanela.png',
+  IMG + 'cenas/casafumo2.png',
+  IMG + 'cenas/casa-fire.jpg',
+  IMG + 'cenas/casa-ardida.jpg',
+  IMG + 'cenas/avisar-vizinhos.png',
+  IMG + 'cenas/sino.png',
+  IMG + 'cenas/homem-sino.png',
+  IMG + 'cenas/fire-transparent.png',
+  IMG + 'cenas/casafumo3.png',
+  IMG + 'cenas/casafumo4.png',
+  // passagens 11–16
+  IMG + 'cenas/car.png',
+  IMG + 'cenas/estrada-impedida.png',
+  IMG + 'cenas/floresta.png',
+  IMG + 'cenas/rio.png',
+  IMG + 'cenas/casafumo5.png',
+  PRONTO_EVACUAR_IMGS,            // passagem 13 (array; é achatado no preload)
+  IMG + 'cenas/kit2.png',
+  IMG + 'cenas/seguranca2.png',
+  IMG + 'cenas/casafumo6.png',
+  // passagens 19–39
+  IMG + 'cenas/ponto-da-mulher.png',
+  IMG + 'cenas/ponto-de-encontrosemfundo.png',
+  IMG + 'cenas/panico3.png',
+  IMG + 'cenas/car-invert.png',
+  IMG + 'cenas/ponto-de-encontro.png',
+  IMG + 'cenas/multidao.png',
+  IMG + 'cenas/cinzas.png',
+  IMG + 'cenas/fire-forest.png',
+  IMG + 'cenas/kit1.png',
+  IMG + 'cenas/salva-pelo-bombeiro.jpg',
+  IMG + 'cenas/fogo-na-casa.png',
+  IMG + 'cenas/fogo-na-casa-overlay.png',
+  IMG + 'cenas/salvar-laurinda.jpg'
+];
+
+/* Imagens futuras (já existem regras CSS, ainda sem passagem):
+     cenas/seguranca.png, cenas/mobilidade.jpg, cenas/fumo-sino-bg.png,
+     cenas/multidao-laurindabem.png, cenas/multidao-semlaurinda.png,
+     cenas/ponto-de-encontro-fogo.png, cenas/pontodeencontro-*.png,
+     cenas/prontoparaevacuar-sembobi*.png
+   Quando passarem a ser usadas, acrescentar a imagesBackground. */
+
+/* Dicas rotativas do ecrã de carregamento (10 s cada) */
+var tips = [
+  " Nunca faça fogueiras em dias de vento forte.",
+  " Não atire fósforos para o chão.",
+  " Se vir um incêndio, ligue o 112."
+];
+
+/* URL base dos ícones da app (favicon / apple-touch-icon) */
+var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/favicon/';
+
+/* ---- Preferências guardadas no browser (localStorage) ----
+   hfna-animations: '1' | '0'      hfna-timer-mode: normal | extended | off */
+var animationsEnabled = true;
+try {
+  if (localStorage.getItem('hfna-animations') === '0') animationsEnabled = false;
+} catch (e) {}
+
+var timerMode = 'normal';
+try {
+  var savedTimerMode = localStorage.getItem('hfna-timer-mode');
+  if (savedTimerMode && TIMER_MODES.hasOwnProperty(savedTimerMode)) timerMode = savedTimerMode;
+} catch (e) {}
+
+/* Duração ativa. Em modo "off" o valor é 0, por isso usa-se o "normal"
+   (não é usado enquanto estiver desligado). */
+var TIMER_MS = TIMER_MODES[timerMode] || TIMER_MODES.normal;
+
+
+/* ==========================================================================
+   [2] ÍCONES (SVG inline)
+   Todos usam currentColor, por isso herdam a cor do elemento pai.
+   ========================================================================== */
+
+var ICON_VOLUME_ON =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
+    '<path d="M16 9a4 4 0 0 1 0 6"/>' +
+    '<path d="M18.5 6.5a8 8 0 0 1 0 11"/>' +
+  '</svg>';
+
+var ICON_VOLUME_OFF =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
+    '<line x1="16" y1="9" x2="21" y2="14"/>' +
+    '<line x1="21" y1="9" x2="16" y2="14"/>' +
+  '</svg>';
+
+var ICON_MIC =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<rect x="9" y="2" width="6" height="12" rx="3"/>' +
+    '<path d="M5 10v1a7 7 0 0 0 14 0v-1"/>' +
+    '<line x1="12" y1="18" x2="12" y2="22"/>' +
+  '</svg>';
+
+var ICON_GLOBE =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="12" cy="12" r="9"/>' +
+    '<ellipse cx="12" cy="12" rx="4" ry="9"/>' +
+    '<line x1="3" y1="12" x2="21" y2="12"/>' +
+  '</svg>';
+
+var ICON_ANIMATION =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 17h5" opacity="0.35"/>' +
+    '<path d="M4 12h4" opacity="0.5"/>' +
+    '<path d="M4 7h5" opacity="0.35"/>' +
+    '<path d="M10 6l9 6-9 6V6z"/>' +
+  '</svg>';
+
+var ICON_GUIDE =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>' +
+  '</svg>';
+
+var ICON_FONT =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M2 19 L6 9 L10 19 M3.5 15.5 L8.5 15.5"/>' +
+    '<path d="M11 19 L16.5 5 L22 19 M13.1 14 L19.9 14"/>' +
+  '</svg>';
+
+var ICON_BACK =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<line x1="19" y1="12" x2="5" y2="12"/>' +
+    '<polyline points="12 19 5 12 12 5"/>' +
+  '</svg>';
+
+var ICON_EXIT =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
+    '<polyline points="16 17 21 12 16 7"/>' +
+    '<line x1="21" y1="12" x2="9" y2="12"/>' +
+  '</svg>';
+
+var ICON_RESTART =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<polyline points="1 4 1 10 7 10"/>' +
+    '<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>' +
+  '</svg>';
+
+var ICON_TIMER =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="12" cy="13" r="8"/>' +
+    '<path d="M12 9v4l2.5 2M9.5 2.5h5"/>' +
+  '</svg>';
+
+var ICON_FAST_FORWARD =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M3 6l8 6-8 6V6z"/>' +
+    '<path d="M12 6l8 6-8 6V6z"/>' +
+  '</svg>';
+
+var ICON_SETTINGS =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="12" cy="12" r="3"/>' +
+    '<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>' +
+  '</svg>';
+
+var ICON_INFO =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<circle cx="12" cy="12" r="10"/>' +
+    '<path d="M12 16v-4"/>' +
+    '<path d="M12 8h.01"/>' +
+  '</svg>';
+
+  var ICON_CLOSE =
+  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<line x1="6" y1="6" x2="18" y2="18"/>' +
+    '<line x1="18" y1="6" x2="6" y2="18"/>' +
+  '</svg>';
+
+/* Ícones do Guia de Jogo: nas passagens basta usar data-icon="nome".
+   São preenchidos em preencherIconesDoGuia() (secção [10]). */
+var GUIDE_ICONS = {
+  info:     ICON_INFO,
+  guide:    ICON_GUIDE,
+  timer:    ICON_TIMER,
+  fast:     ICON_FAST_FORWARD,
+  sound:    ICON_VOLUME_ON,
+  settings: ICON_SETTINGS
+};
+
+
+/* ==========================================================================
+   [3] VIEWPORT E ECRÃ
+   ========================================================================== */
+
+/* ---- 3.1 Altura real do ecrã ----
+   Corrige bugs de 100vh/100dvh em Android (a barra de navegação do sistema
+   nem sempre é bem calculada). O valor fica em --app-height (usado no CSS). */
 function setAppHeight() {
   var vh = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
   document.documentElement.style.setProperty('--app-height', vh + 'px');
@@ -5584,102 +5917,116 @@ function setAppHeight() {
 setAppHeight();
 window.addEventListener('resize', setAppHeight);
 window.addEventListener('orientationchange', function () {
-  setTimeout(setAppHeight, 300); // dá tempo à UI do browser estabilizar após rodar
+  setTimeout(setAppHeight, 300); // dá tempo à UI do browser para estabilizar
 });
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', setAppHeight);
 }
 
-// ============================================================
-// ANIMAÇÕES - ativar/desativar
-// ============================================================
-var animationsEnabled = true;
-try {
-  var savedAnim = localStorage.getItem('hfna-animations');
-  if (savedAnim === '0') animationsEnabled = false;
-} catch (e) {}
+/* ---- 3.2 Meta viewport ----
+   Bloqueia zoom; viewport-fit=cover permite usar as safe-areas no CSS. */
+(function () {
+  var VIEWPORT_CONTENT =
+    'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, ' +
+    'user-scalable=no, viewport-fit=cover';
 
-function applyAnimationsState() {
-  document.body.classList.toggle('reduce-motion', !animationsEnabled);
+  if (!document.querySelector('meta[name="viewport"]')) {
+    $('<meta name="viewport" content="' + VIEWPORT_CONTENT + '">').appendTo('head');
+  } else {
+    $('meta[name="viewport"]').attr('content', VIEWPORT_CONTENT);
+  }
+})();
+
+/* ---- 3.3 Favicons e fontes externas ---- */
+$('<link rel="apple-touch-icon" sizes="180x180" href="' + base + 'apple-touch-icon.png">').appendTo('head');
+$('<link rel="icon" type="image/png" sizes="32x32" href="' + base + 'favicon-32x32.png">').appendTo('head');
+$('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x16.png">').appendTo('head');
+
+/* Material Symbols: só o ícone "backspace" do telemóvel (passagem 2.1) */
+if (!document.querySelector('link[href*="Material+Symbols+Outlined"]')) {
+  $('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=backspace">').appendTo('head');
 }
 
-// Centro real do telefone (tablet retrato): calcula o centro horizontal da área
-// não transparente de phone.png, para o teclado não variar entre proporções.
-function alinharOverlaysAoTelefone(scene, img) {
-    if (!scene || !img) return;
+/* ---- 3.4 Bloqueio de zoom (necessário no iOS Safari) ---- */
 
-    var isTabletPortrait =
-        window.matchMedia('(orientation: portrait)').matches &&
-        window.innerWidth > 600 &&
-        window.innerWidth <= 1024;
+// Pinch-zoom (2+ dedos)
+document.addEventListener('touchmove', function (e) {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
 
-    if (!isTabletPortrait) return;
+// Gestos nativos do Safari
+['gesturestart', 'gesturechange', 'gestureend'].forEach(function (evt) {
+  document.addEventListener(evt, function (e) { e.preventDefault(); }, { passive: false });
+});
 
-    function aplicarCentro(cx) {
-        if (!isFinite(cx)) return;
-        var percent = (cx * 100) + '%';
-        scene.style.setProperty('--phone-visible-center-x', percent);
-    }
+// Double-tap zoom
+var lastTouchEnd = 0;
+document.addEventListener('touchend', function (e) {
+  var now = Date.now();
+  if (now - lastTouchEnd <= 300) e.preventDefault();
+  lastTouchEnd = now;
+}, { passive: false });
 
-    if (img.__phoneVisibleCenterX != null) {
-        aplicarCentro(img.__phoneVisibleCenterX);
-        return;
-    }
+// Pinch do touchpad / Ctrl + roda do rato (desktop)
+window.addEventListener('wheel', function (e) {
+  if (e.ctrlKey) e.preventDefault();
+}, { passive: false });
 
-    try {
-        if (!img.complete || !img.naturalWidth || !img.naturalHeight) {
-            img.addEventListener('load', function onPhoneLoad() {
-                img.removeEventListener('load', onPhoneLoad);
-                alinharOverlaysAoTelefone(scene, img);
-            });
-            return;
-        }
-
-        var canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-
-        var ctx = canvas.getContext('2d', { willReadFrequently: true });
-        if (!ctx) return;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
-
-        var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        var minX = canvas.width, maxX = -1;
-        var minY = canvas.height, maxY = -1;
-
-        for (var y = 0; y < canvas.height; y++) {
-            for (var x = 0; x < canvas.width; x++) {
-                var alpha = data[(y * canvas.width + x) * 4 + 3];
-                if (alpha > 20) {
-                    if (x < minX) minX = x;
-                    if (x > maxX) maxX = x;
-                    if (y < minY) minY = y;
-                    if (y > maxY) maxY = y;
-                }
-            }
-        }
-
-        if (maxX < minX) return;
-
-        var centerX = ((minX + maxX) / 2) / canvas.width;
-
-        img.__phoneVisibleCenterX = centerX;
-        aplicarCentro(centerX);
-    } catch (e) {
-    }
+/* ---- 3.5 Bloqueio do modo paisagem ----
+   Tenta bloquear a orientação via API; se não for possível, o CSS mostra
+   .rotate-overlay quando o ecrã está em paisagem. */
+function tentarBloquearOrientacao() {
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('portrait').catch(function () { /* não suportado: ignora */ });
+  }
 }
 
-// Ritmo da animação de texto (ms)
-var WORD_MS     = 70;   // intervalo entre palavras (antes: 110)
-var PAUSE_END   = 220;  // pausa após . ! ? (antes: 350)
-var PAUSE_COMMA = 120;  // pausa após , ; : (antes: 180)
+/* Cria o aviso "Rode o dispositivo" (visibilidade controlada pelo CSS). */
+function criarAvisoDeRotacao() {
+  if ($('.rotate-overlay').length) return;
 
-// ============================================================
-// FOCUS MANAGEMENT — diálogos modais
-// Aplica a [role="dialog"][aria-modal="true"]
-// ============================================================
+  var $rotate = $(
+    '<div class="rotate-overlay">' +
+      '<div class="rotate-content">' +
+        '<div class="rotate-message">' +
+          '<div class="rotate-icon">' +
+            '<svg viewBox="0 0 120 120" width="60" height="60">' +
+              '<circle cx="60" cy="60" r="48" fill="none" stroke="#b77e56" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>' +
+              '<path d="M60 6 C 20 6, 6 30, 6 50" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
+              '<path d="M6 50 L12 42 L4 44" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
+              '<path d="M60 114 C 100 114, 114 90, 114 70" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
+              '<path d="M114 70 L108 78 L116 76" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
+              '<rect x="25" y="42" width="70" height="36" rx="6" fill="none" stroke="#FFF5E6" stroke-width="3"/>' +
+              '<rect x="32" y="47" width="46" height="26" rx="2" fill="none" stroke="#FFF5E6" stroke-width="2" stroke-dasharray="2 2" opacity="0.5"/>' +
+              '<circle cx="88" cy="60" r="4" fill="none" stroke="#FFF5E6" stroke-width="2.5"/>' +
+              '<circle cx="88" cy="60" r="2" fill="#FFF5E6"/>' +
+              '<line x1="36" y1="52" x2="74" y2="52" stroke="#FFF5E6" stroke-width="2" opacity="0.4"/>' +
+              '<line x1="36" y1="56" x2="64" y2="56" stroke="#FFF5E6" stroke-width="2" opacity="0.25"/>' +
+              '<path d="M30 35 L36 30 L42 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
+              '<path d="M90 35 L84 30 L78 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
+            '</svg>' +
+          '</div>' +
+          '<p class="rotate-text">Rode o dispositivo para a posição vertical</p>' +
+          '<p class="rotate-sub">— Melhor experiência em modo retrato —</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+  $('body').append($rotate);
+}
+
+
+/* ==========================================================================
+   [4] ACESSIBILIDADE
+   ========================================================================== */
+
+/* ---- 4.1 Gestão de foco em diálogos modais ----
+   Aplica-se a [role="dialog"][aria-modal="true"]:
+   - ao abrir: guarda o elemento que abriu e foca o 1.º elemento focável;
+   - Tab fica "preso" dentro do diálogo ativo;
+   - ao fechar: devolve o foco ao elemento que abriu.
+   Exposto em window.__a11yOpenDialog / __a11yCloseDialog para os restantes
+   módulos (definições, sair do jogo, alertas). */
 (function () {
   var FOCUSABLE_SEL =
     'a[href], button:not([disabled]), input:not([disabled]), ' +
@@ -5715,25 +6062,20 @@ var PAUSE_COMMA = 120;  // pausa após , ; : (antes: 180)
     }
   }
 
-  // ---------- Abrir: guardar trigger e focar ----------
   function openDialog($dialog) {
     lastTrigger = document.activeElement;
     focusInto($dialog[0]);
   }
 
-  // ---------- Fechar: devolver foco ----------
   function closeDialog() {
-    if (lastTrigger && document.contains(lastTrigger)) {
-      lastTrigger.focus();
-    }
+    if (lastTrigger && document.contains(lastTrigger)) lastTrigger.focus();
     lastTrigger = null;
   }
 
-  // Expor para os handlers existentes
   window.__a11yOpenDialog  = openDialog;
   window.__a11yCloseDialog = closeDialog;
 
-  // Trap de Tab — só quando há um modal ativo
+  // Trap de Tab: só quando há um modal visível
   $(document).on('keydown.a11y-trap', function (e) {
     if (e.key !== 'Tab') return;
 
@@ -5748,230 +6090,445 @@ var PAUSE_COMMA = 120;  // pausa após , ; : (antes: 180)
   });
 })();
 
-// ============================================================
-// FUNÇÃO PARA AJUSTAR O TELEMÓVEL DINAMICAMENTE
-// ============================================================
-function ajustarPhone() {
-    var scene = document.querySelector('.phone-scene');
-    if (!scene) return;
+/* ---- 4.2 Ciclo de Tab na página ----
+   Do último elemento focável volta ao primeiro (e vice-versa com Shift). */
+(function () {
+  var FOCUSABLE_SEL =
+    'a[href], button:not([disabled]), input:not([disabled]), ' +
+    'select:not([disabled]), textarea:not([disabled]), ' +
+    '[tabindex]:not([tabindex="-1"])';
 
-    var img = scene.querySelector('img');
-    if (!img) return;
+  function getFocusables() {
+    return $(FOCUSABLE_SEL).filter(function () {
+      var $el = $(this);
 
-    function aplicarProporcao() {
-        if (!img.naturalWidth || !img.naturalHeight) return;
+      if ($el.is(':hidden')) return false;
+      if ($el.css('visibility') === 'hidden') return false;
 
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var ratio = img.naturalWidth / img.naturalHeight;
-        var portrait = window.matchMedia('(orientation: portrait)').matches;
+      // Escondido por ancestral com [hidden] ou aria-hidden
+      if ($el.closest('[hidden], [aria-hidden="true"]').length) return false;
 
-        /*
-         * 2.1 mobile/tablet:
-         * O telefone é dimensionado como um único bloco. Não usamos
-         * scale() para aumentar o telefone, porque isso também escala*/
-        if (portrait && w <= 1024) {
-            var textBox = document.querySelector('.phone-text-box');
-            var rootScene = document.querySelector('.scene');
+      // Painel de definições fechado: não entra no ciclo
+      if ($el.closest('#settings-overlay').length &&
+          !$('#settings-overlay').hasClass('open')) {
+        return false;
+      }
+      return true;
+    });
+  }
 
-            var sceneRect = rootScene ? rootScene.getBoundingClientRect() : null;
-            var textRect = textBox ? textBox.getBoundingClientRect() : null;
+  $(document).on('keydown.focus-loop', function (e) {
+    if (e.key !== 'Tab') return;
 
-            var sceneTop = sceneRect ? sceneRect.top : 0;
-            var sceneWidth = sceneRect ? sceneRect.width : w;
+    var $focusables = getFocusables();
+    if ($focusables.length < 2) return;
 
-            /* A caixa de texto é a fronteira inferior real. */
-            var textTop = textRect
-                ? (textRect.top - sceneTop)
-                : h * (w <= 600 ? 0.70 : 0.72);
+    var first   = $focusables[0];
+    var last    = $focusables[$focusables.length - 1];
+    var current = document.activeElement;
 
-            var safeTop = Math.max(12, Math.min(24, h * 0.02));
-            var safeGap = w <= 375
-                ? Math.max(14, Math.min(22, h * 0.022))
-                : Math.max(12, Math.min(20, h * 0.018));
-
-            var safeBottom = Math.max(safeTop + 180, textTop - safeGap);
-            var availableH = Math.max(180, safeBottom - safeTop);
-
-            var targetW;
-            if (w <= 600) {
-                targetW = Math.min(sceneWidth * 1.00, w * 1.00, 520);
-            } else {
-                targetW = Math.min(sceneWidth * 0.68, w * 0.68, 600);
-            }
-
-            var targetH = targetW / ratio;
-            var heightLimit = availableH * (w <= 375 ? 1.00 : 1.01);
-            var phoneH = Math.min(targetH, heightLimit);
-            var phoneW = phoneH * ratio;
-
-            /* Centro geométrico da área acima da caixa de texto. */
-            var freeH = Math.max(0, availableH - phoneH);
-            var phoneTop = safeTop + freeH / 2;
-
-            scene.style.setProperty('width', phoneW + 'px', 'important');
-            scene.style.setProperty('height', phoneH + 'px', 'important');
-            /* Smartphones ficam centrados; tablets/iPad portrait passam para o lado direito da ilustração. */
-            var tabletPortrait = portrait && w > 600 && w <= 1024;
-            scene.style.setProperty('left', tabletPortrait ? '73%' : '50%', 'important');
-            scene.style.setProperty('right', 'auto', 'important');
-            scene.style.setProperty('top', phoneTop + 'px', 'important');
-            scene.style.setProperty('transform', 'translateX(-50%)', 'important');
-            scene.style.setProperty('transform-origin', 'center center', 'important');
-
-            // Tablet/iPad: center the overlays against the actual visible
-            // phone body rather than against the scene canvas.
-            alinharOverlaysAoTelefone(scene, img);
-
-            return;
-        }
-
-        /* Desktop / landscape: manter o comportamento existente. */
-        scene.style.removeProperty('left');
-        scene.style.removeProperty('right');
-        scene.style.removeProperty('top');
-        scene.style.removeProperty('transform');
-        scene.style.removeProperty('transform-origin');
-        
-        var maxH = Math.min(h * 0.58, 560);
-        if (h <= 700) maxH = Math.min(h * 0.58, 430);
-        if (h <= 600) maxH = Math.min(h * 0.56, 390);
-
-        var maxW = Math.min(w * 0.42, 420);
-        if (w <= 900) maxW = Math.min(w * 0.58, 360);
-
-        var phoneHDesktop = maxH;
-        var phoneWDesktop = phoneHDesktop * ratio;
-
-        if (phoneWDesktop > maxW) {
-            phoneWDesktop = maxW;
-            phoneHDesktop = phoneWDesktop / ratio;
-        }
-
-        scene.style.setProperty('width', phoneWDesktop + 'px', 'important');
-        scene.style.setProperty('height', phoneHDesktop + 'px', 'important');
+    if (e.shiftKey && current === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && current === last) {
+      e.preventDefault();
+      first.focus();
     }
+  });
+})();
 
-    if (img.complete && img.naturalWidth) {
-        aplicarProporcao();
-    } else {
-        img.addEventListener('load', aplicarProporcao, { once: true });
+
+/* ==========================================================================
+   [5] ÁUDIO
+   Faixas definidas no StoryInit/ficheiros de áudio (SimpleAudio):
+     contínuas: birds, fire, heartbeat, ear-ringing
+     curtas:    ver SONS_CURTOS
+   ========================================================================== */
+
+/* ---- Estado do áudio ---- */
+var birdsStarted = false;                 // evita iniciar os pássaros duas vezes
+var fogoFadeTimer = null;                 // intervalo do fade do fogo
+var earRingingFadeTimer = null;           // intervalo do fade do zumbido
+var earRinging21FadeIniciado = false;     // o fade longo da passagem 21 só corre uma vez
+var silenciadoAutomaticamente = false;    // mute por jogo em segundo plano
+var saidaAtiva = false;                   // ecrã "Jogo terminado" aberto (ver [11])
+
+/* ---- 5.1 Pássaros ----
+   Contínuo, com continuidade entre passagens. Volume: exterior 0.8,
+   interior 0.5. 'fadeout' faz fade de 1 s e pára. */
+function ajustarVolumeBirds(localizacao) {
+  var birds = SimpleAudio.tracks.get('birds');
+  if (!birds) return;
+
+  if (localizacao === 'fadeout') {
+    if (birds.isPlaying()) {
+      birds.fade(birds.volume(), 0, 1000);
+      setTimeout(function () { birds.stop(); }, 1100);
     }
+    return;
+  }
+
+  birds.volume(localizacao === 'exterior' ? 0.8 : 0.5);
+  if (!birds.isPlaying()) birds.loop(true).play();
 }
 
-//sistema de notificações
+/* Arranca os pássaros (1.ª vez). Se o browser bloquear o autoplay,
+   volta a permitir nova tentativa. */
+function TocarBirds() {
+  if (birdsStarted) return;
+  var birds = SimpleAudio.tracks.get('birds');
+  if (!birds) return;
 
-window.mostrarToast = function(tipo, conteudo, iconeCustom) {
-  setTimeout(function() {
-    $('.toast-notif').remove();
+  birdsStarted = true;
+  var p = birds.loop(true).volume(0.6).play();
 
-    var icone;
-    if (tipo === 'perigoso') {
-      icone = '⚠️';
-    } else if (tipo === 'achievement') {
-      icone = iconeCustom || '🏅';
-    } else {
-      icone = iconeCustom || '✅';
+  if (p && typeof p.catch === 'function') {
+    p.catch(function () { birdsStarted = false; });
+  }
+}
+
+/* ---- 5.2 Fogo ----
+   Contínuo (nunca pára); só o volume muda, com fade de 0.8 s. */
+function ajustarVolumeFogo(nivel) {
+  var fire = SimpleAudio.tracks.get('fire');
+  if (!fire) return;
+
+  // Nunca chega a 0 literal: a lib trataria como "parado" e reiniciaria a
+  // faixa (o clique/"pop" que se ouvia).
+  var volumes = {
+    'muito_longe': 0.04,
+    'longe':       0.18,
+    'perto':       0.40,
+    'muito_perto': 0.70,
+    'dentro_casa': 0.85,
+    'fadeout':     0.001
+  };
+  var vol = volumes[nivel] !== undefined ? volumes[nivel] : 0.001;
+
+  // cancela fade anterior ainda em curso
+  if (fogoFadeTimer) {
+    clearInterval(fogoFadeTimer);
+    fogoFadeTimer = null;
+  }
+
+  var startVol = fire.volume();
+  var duracao  = 800;
+  var steps    = 20;
+  var stepTime = duracao / steps;
+  var stepVal  = (vol - startVol) / steps;
+  var i = 0;
+
+  fogoFadeTimer = setInterval(function () {
+    i++;
+    fire.volume(Math.max(0.001, Math.min(1, startVol + stepVal * i)));
+
+    if (i >= steps) {
+      clearInterval(fogoFadeTimer);
+      fogoFadeTimer = null;
+      fire.volume(vol);
     }
+  }, stepTime);
+}
 
-    var partes = conteudo.split('\n');
-    var titulo = partes[0];
-    var texto = partes[1] || '';
+/* ---- 5.3 Zumbido nos ouvidos (ear-ringing) ----
+   Fade personalizado. Se targetVol <= 0, pára a faixa no fim. */
+function ajustarVolumeEarRinging(targetVol, duracaoMs) {
+  var track = SimpleAudio.tracks.get('ear-ringing');
+  if (!track) return;
 
-    var $toast = $('<div class="toast-notif toast-' + tipo + '"></div>');
+  if (earRingingFadeTimer) {
+    clearInterval(earRingingFadeTimer);
+    earRingingFadeTimer = null;
+  }
 
-    var html = '<span class="toast-icone">' + icone + '</span>';
-    html += '<span class="toast-corpo">';
-    html += '<span class="toast-titulo">' + titulo + '</span>';
-    if (texto) {
-      html += '<span class="toast-texto">' + texto + '</span>';
+  var startVol = track.volume();
+  var steps    = Math.max(20, Math.round(duracaoMs / 250));
+  var stepTime = duracaoMs / steps;
+  var stepVal  = (targetVol - startVol) / steps;
+  var i = 0;
+
+  earRingingFadeTimer = setInterval(function () {
+    i++;
+    track.volume(Math.max(0, Math.min(1, startVol + stepVal * i)));
+
+    if (i >= steps) {
+      clearInterval(earRingingFadeTimer);
+      earRingingFadeTimer = null;
+      track.volume(targetVol);
+      if (targetVol <= 0) track.stop();
     }
-    html += '</span>';
+  }, stepTime);
+}
 
-    $toast.html(html);
-    $('body').append($toast);
+/* play() devolve uma Promise; ignora o AbortError (play interrompido por
+   um stop/pause logo a seguir) e regista os restantes erros. */
+function tocarEarRingingSeguro(track) {
+  var p = track.play();
+  if (p && typeof p.catch === 'function') {
+    p.catch(function (err) {
+      if (err && err.name === 'AbortError') {
+        console.log('[ear-ringing] play() interrompido (AbortError) — ignorado.');
+      } else {
+        console.warn('[ear-ringing] erro inesperado ao dar play:', err);
+      }
+    });
+  }
+}
 
-    setTimeout(function() {
-      $toast.addClass('toast-visivel');
-    }, 50);
+/* ---- 5.4 Regras de áudio por passagem (chamadas em :passagestart) ---- */
 
-    setTimeout(function() {
-      $toast.removeClass('toast-visivel');
-      setTimeout(function() {
-        $toast.remove();
-      }, 500);
-    }, 3500);
-
-  }, 300);
-};
-
-// variáveis globais de fonte
-var fontSizes = [
-  'clamp(0.85rem, 2.8vw, 1.15em)',
-  'clamp(1rem, 3.2vw, 1.4em)',
-  'clamp(1.15rem, 3.6vw, 1.65em)',
-  'clamp(1.3rem, 4vw, 1.9em)'
-];
-
-var readableFontSizes = [
-  'clamp(1.05rem, 3.2vw, 1.5rem)',
-  'clamp(1.15rem, 3.4vw, 1.65rem)',
-  'clamp(1.25rem, 3.7vw, 1.85rem)',
-  'clamp(1.35rem, 4vw, 2.05rem)'
-];
-
-var fontIndex = 0;
-
-// multiplicadores do guia, por nível (A, A+, A++, A+++)
-var guideScales = [1, 1.12, 1.25, 1.4];
-
-function aplicarFonte() {
-  document.querySelectorAll('.text-box, .alarm:not(.guide-modal)').forEach(function (el) {
-    el.style.setProperty('font-size', fontSizes[fontIndex], 'important');
-  });
-  document.querySelectorAll('.guide-modal').forEach(function (el) {
-    el.style.setProperty('--guide-scale', guideScales[fontIndex]);
-  });
-  document.querySelectorAll('.sombrinha p.readable').forEach(function (el) {
-    el.style.setProperty('font-size', readableFontSizes[fontIndex], 'important');
+/* Pára os sons curtos ao mudar de passagem. */
+function pararSonsCurtos() {
+  SONS_CURTOS.forEach(function (id) {
+    var track = SimpleAudio.tracks.get(id);
+    if (track) track.stop();
   });
 }
 
-// ============================================================
-// TEMPORIZADOR DE DECISÃO (passagens 7, 8, 13 e 16)
-//  - só começa a contar quando o texto e os botões já apareceram
-//  - pára quando o jogo fica em segundo plano, com as definições abertas,
-//    ou nas passagens recomeçar e "Guia de Jogo"
-//  - retoma com o tempo que restava (não recomeça)
-// ============================================================
-var TIMER_MODES = { normal: 30000, extended: 60000, off: 0 };
-var TIMER_PASSAGES = ['7', '8', '13', '16'];
+/* Pássaros: exterior / interior / fadeout conforme as listas de [1]. */
+function aplicarSomBirds(name) {
+  if (BIRDS_EXTERIOR.indexOf(name) > -1) {
+    ajustarVolumeBirds('exterior');
+  } else if (BIRDS_INTERIOR.indexOf(name) > -1) {
+    ajustarVolumeBirds('interior');
+  } else {
+    ajustarVolumeBirds('fadeout');
+  }
+}
 
-var timerMode = 'normal';
-try {
-  var savedTimerMode = localStorage.getItem('hfna-timer-mode');
-  if (savedTimerMode && TIMER_MODES.hasOwnProperty(savedTimerMode)) timerMode = savedTimerMode;
-} catch (e) {}
+/* Fogo: nível de proximidade conforme FOGO_PROXIMIDADE. */
+function aplicarSomFogo(name) {
+  for (var nivel in FOGO_PROXIMIDADE) {
+    if (FOGO_PROXIMIDADE[nivel].indexOf(name) > -1) {
+      ajustarVolumeFogo(nivel);
+      return;
+    }
+  }
+  ajustarVolumeFogo('fadeout'); // não listada: volume mínimo
+}
 
-// Duração ativa (quando "off", fica com o valor normal, mas não é usada)
-var TIMER_MS = TIMER_MODES[timerMode] || TIMER_MODES.normal;
+/* Sons pontuais de cada passagem (respiração, tosse, carro, etc.). */
+function aplicarSonsPontuais(name) {
+  // Telefone a tocar
+  if (name === '2' || name === '5') {
+    SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
+  }
 
-var passageTextDone = false; 
+  // Sinos
+  if (name === '6') {
+    SimpleAudio.tracks.get('sinos').loop(false).volume(0.3).play();
+  }
+
+  // Respiração pesada (pânico / fim)
+  if (name === '20') {
+    earRinging21FadeIniciado = false;
+    setTimeout(function () {
+      if (passage() === '20') {
+        SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
+      }
+    }, 1400);
+  } else if (name === '28' || name === '34') {
+    SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
+  }
+
+  // Exercício de respiração (acalmar)
+  if (name === '21') {
+    SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
+  }
+
+  // Hospital + respiração (finais)
+  if (name === '29' || name === '35') {
+    SimpleAudio.tracks.get('hospital').loop(false).volume(0.6).play();
+
+    var atrasoRespirar = 1500; // ms
+    setTimeout(function () {
+      if (passage() === name) {
+        SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
+      }
+    }, atrasoRespirar);
+  }
+
+  // Tosse (fumo): mais forte perto do fogo
+  if (name === '4' || name === '10' || name === '28') {
+    SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
+  }
+  if (name === '16' || name === '18') {
+    SimpleAudio.tracks.get('cough').loop(true).volume(0.6).play();
+  }
+
+  // Carro
+  if (name === '11') SimpleAudio.tracks.get('car-stopping').loop(false).volume(0.6).play();
+  if (name === '22') SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
+
+  // Multidão
+  if (name === '26') SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
+
+  // Batimento cardíaco
+  if (HEART_PASSAGES.indexOf(name) > -1) {
+    SimpleAudio.tracks.get('heartbeat').loop(true).volume(0.1).play();
+  }
+}
+
+/* Zumbido: gerido à parte para dar continuidade entre passagens
+   (ex.: 20 → 21 não reinicia o som). */
+function aplicarSomEarRinging(name) {
+  var track = SimpleAudio.tracks.get('ear-ringing');
+
+  if (name === '21') {
+    // Passagem 21: volume baixo e fade-out lento até desaparecer
+    if (!track.isPlaying()) {
+      track.loop(true).volume(0.05);
+      tocarEarRingingSeguro(track);
+    } else {
+      // Já tocava (continuidade da 20): cancela fade em curso e fixa o volume
+      if (earRingingFadeTimer) {
+        clearInterval(earRingingFadeTimer);
+        earRingingFadeTimer = null;
+      }
+      track.volume(0.05);
+    }
+
+    if (!earRinging21FadeIniciado) {
+      earRinging21FadeIniciado = true;
+      setTimeout(function () {
+        if (passage() !== '21') return;
+        ajustarVolumeEarRinging(0, 15000);
+      }, 1500);
+    }
+
+  } else if (EAR_RINGING_PASSAGES.indexOf(name) > -1) {
+    // 20 / 28 / 34 / 29 / 35: entrada suave
+    if (!track.isPlaying()) {
+      track.loop(true).volume(0);
+      tocarEarRingingSeguro(track);
+      ajustarVolumeEarRinging(0.10, 1500);
+    } else {
+      ajustarVolumeEarRinging(0.10, 500);
+    }
+
+  } else {
+    // Qualquer outra passagem: pára
+    if (earRingingFadeTimer) {
+      clearInterval(earRingingFadeTimer);
+      earRingingFadeTimer = null;
+    }
+    if (track.isPlaying()) track.stop();
+  }
+}
+
+/* ---- 5.5 Silenciar em segundo plano ----
+   Silencia quando o jogo deixa de estar visível (separador, minimizar,
+   trocar de app, ecrã bloqueado) e volta a ligar ao regressar.
+   Não mexe no botão de som: se a pessoa tinha silenciado, continua assim. */
+function atualizarSomPorVisibilidade() {
+  var escondido = document.hidden;
+  var silenciadoPeloUtilizador = $('#sound-btn').hasClass('muted');
+
+  if (escondido && !silenciadoPeloUtilizador && !silenciadoAutomaticamente) {
+    silenciadoAutomaticamente = true;
+    SimpleAudio.mute(true);
+  } else if (!escondido && silenciadoAutomaticamente) {
+    silenciadoAutomaticamente = false;
+    if (!$('#sound-btn').hasClass('muted') && !saidaAtiva) SimpleAudio.mute(false);
+  }
+}
+
+document.addEventListener('visibilitychange', atualizarSomPorVisibilidade);
+window.addEventListener('pagehide', function () {   // iOS/Safari: ao sair da página
+  if (!silenciadoAutomaticamente && !$('#sound-btn').hasClass('muted')) {
+    silenciadoAutomaticamente = true;
+    SimpleAudio.mute(true);
+  }
+});
+window.addEventListener('pageshow', function () {
+  if (!document.hidden) atualizarSomPorVisibilidade();
+});
+// Se o jogo abrir já em segundo plano (ex.: link aberto num novo separador)
+$(document).one(':storyready', atualizarSomPorVisibilidade);
+
+/* ---- 5.6 Sons de interface ---- */
+
+// Hover em botões
+$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
+  SimpleAudio.tracks.get('hover').volume(0.1).play();
+});
+
+// Teclas do telemóvel (2.1)
+$(document).on('click', '.phone-key', function () {
+  SimpleAudio.tracks.get('phone-tap').volume(0.3).play();
+});
+
+/* ---- 5.7 Botão de som (canto superior esquerdo) ----
+   Criado na 1.ª passagem. O painel de definições comanda este botão
+   via .trigger('click') (ver setMute em [11]). */
+$(document).one(':passagestart', function () {
+  var $btn = $(
+    '<button id="sound-btn" aria-label="Desligar som">' +
+      '<span class="sound-btn-icon">' + ICON_VOLUME_ON + '</span>' +
+    '</button>'
+  );
+  $('body').append($btn);
+
+  $btn.on('click', function () {
+    var mute = !$btn.hasClass('muted');
+    SimpleAudio.mute(mute);
+    $btn.toggleClass('muted', mute)
+        .attr('aria-label', mute ? 'Ligar som' : 'Desligar som');
+  });
+});
+
+/* ---- 5.8 Reiniciar o jogo: repõe o estado do áudio ---- */
+$(document).on(':storyrestart', function () {
+  birdsStarted = false;
+
+  ['birds', 'fire', 'heartbeat', 'ear-ringing'].forEach(function (id) {
+    var track = SimpleAudio.tracks.get(id);
+    if (track) track.stop();
+  });
+
+  if (earRingingFadeTimer) {
+    clearInterval(earRingingFadeTimer);
+    earRingingFadeTimer = null;
+  }
+  earRinging21FadeIniciado = false;
+
+  State.variables.entrouPanico = false;
+  resetTimer();
+});
+
+
+/* ==========================================================================
+   [6] TEMPORIZADORES
+   --------------------------------------------------------------------------
+   6A. Temporizador de decisão (passagens 7, 8, 13 e 16)
+       - só começa a contar quando o texto e os botões já apareceram;
+       - pára com o jogo em segundo plano, definições/sair abertos;
+       - retoma com o tempo que restava (não recomeça);
+       - ao esgotar → pânico (passagem 20), exceto na 13 (→ passagem 36);
+       - depois do 1.º pânico deixa de ser usado (exceto na 13).
+   6B. Fim automático ("Será o fim?", passagens 28 e 34)
+   ========================================================================== */
+
+/* ---- Estado do temporizador de decisão ---- */
+var passageTextDone = false;   // texto da passagem atual já terminou de aparecer
 var decisionTimer = null;      // setTimeout do fim do tempo
 var countdownInterval = null;  // setInterval que atualiza o visual
 var timerPassage = null;       // passagem a que o temporizador pertence
 var timerRemaining = TIMER_MS; // ms que faltam (guardado enquanto está parado)
 var timerEndTime = null;       // instante de fim (só enquanto está a correr)
 var timerRunning = false;
-var timerTextReady = false;    // true quando texto + botões da passagem já apareceram
-var timerLastSecs = null;
+var timerTextReady = false;    // true quando texto + botões já apareceram
+var timerLastSecs = null;      // último segundo mostrado (para o "tic")
 
+/* ms que faltam, esteja o relógio a correr ou parado */
 function timerMsLeft() {
   return timerRunning ? Math.max(0, timerEndTime - Date.now()) : timerRemaining;
 }
 
-function timerWarnSecs() { return Math.ceil(TIMER_MS / 2000); } // metade do tempo
+/* Metade do tempo: a partir daqui o contador fica vermelho e o "tic" mais forte */
+function timerWarnSecs() { return Math.ceil(TIMER_MS / 2000); }
 
+/* Atualiza o número e a cor do contador */
 function renderTimer() {
   var $t = $('#decision-timer');
   if (!$t.length) return;
@@ -5984,6 +6541,8 @@ function renderTimer() {
   }
 }
 
+/* Cria o círculo do contador. Tamanho/posição por largura do ecrã
+   (em ≤768px o CSS sobrepõe com !important; ver #decision-timer). */
 function criarTimerUI() {
   $('#decision-timer').remove();
   var $timer = $('<div id="decision-timer"></div>');
@@ -6009,13 +6568,13 @@ function criarTimerUI() {
     'transition': 'border-color 0.5s ease'
   };
 
-  if (window.innerWidth <= 600) {
+  if (window.innerWidth <= 600) {              // telemóvel
     timerCSS.width = '65px';
     timerCSS.height = '65px';
     timerCSS['font-size'] = '1.7em';
     timerCSS.top = '2%';
     timerCSS.right = '8%';
-  } else if (window.innerWidth <= 1366 && window.innerHeight <= 1366) {
+  } else if (window.innerWidth <= 1366 && window.innerHeight <= 1366) {  // tablet
     timerCSS.width = '100px';
     timerCSS.height = '100px';
     timerCSS['font-size'] = '2.6em';
@@ -6028,21 +6587,21 @@ function criarTimerUI() {
   renderTimer();
 }
 
-// Pára o relógio mas guarda o tempo que restava (o visual fica parado).
+/* Pára o relógio mas guarda o tempo que restava (o visual fica parado). */
 function pauseTimer() {
   if (timerRunning) {
     timerRemaining = Math.max(0, timerEndTime - Date.now());
     timerRunning = false;
   }
   timerEndTime = null;
-  if (decisionTimer) { clearTimeout(decisionTimer); decisionTimer = null; }
+  if (decisionTimer)     { clearTimeout(decisionTimer);      decisionTimer = null; }
   if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
   var tic = SimpleAudio.tracks.get('tic');
   if (tic) tic.stop();
   renderTimer();
 }
 
-// Apaga tudo: usado ao sair das passagens com temporizador ou ao recomeçar.
+/* Apaga tudo: usado ao sair das passagens com temporizador ou ao recomeçar. */
 function resetTimer() {
   pauseTimer();
   timerPassage = null;
@@ -6051,6 +6610,7 @@ function resetTimer() {
   $('#decision-timer').remove();
 }
 
+/* O relógio deve estar a correr agora? */
 function timerShouldRun() {
   return timerPassage !== null
     && timerTextReady
@@ -6061,14 +6621,16 @@ function timerShouldRun() {
     && passage() === timerPassage;
 }
 
-// Depois do 1.º pânico, o temporizador deixa de ser usado (exceto na 13, que não leva a pânico)
+/* Depois do 1.º pânico o temporizador deixa de ser usado
+   (exceto na 13, que não leva a pânico). */
 function temporizadorPermitido(p) {
   if (State.variables.entrouPanico === true) return false;
   if (State.variables.jaEntrouPanico === true && p !== '13') return false;
   return true;
 }
 
-// Liga/desliga o relógio conforme as condições atuais.
+/* Liga/desliga o relógio conforme as condições atuais.
+   Chamar sempre que algo relevante muda (definições, visibilidade, texto pronto). */
 function syncTimer() {
   syncAutoFim();
   if (timerPassage === null) return;
@@ -6093,6 +6655,7 @@ function runTimer() {
   decisionTimer = setTimeout(handleTimerExpired, timerRemaining);
 }
 
+/* Corre a cada 250 ms: atualiza o visual e toca o "tic" a cada segundo. */
 function timerTick() {
   if (!timerRunning) return;
   if (State.variables.entrouPanico === true) { resetTimer(); return; }
@@ -6109,6 +6672,7 @@ function timerTick() {
   if (msLeft <= 0) handleTimerExpired();
 }
 
+/* Tempo esgotado → consequência no jogo */
 function handleTimerExpired() {
   if (!timerRunning) return;
   var expiredPassage = timerPassage;
@@ -6121,12 +6685,13 @@ function handleTimerExpired() {
   } else {
     // Comportamento padrão: pânico
     State.variables.entrouPanico = true;
-    State.variables.panicOrigin = expiredPassage;   // ← novo
+    State.variables.panicOrigin = expiredPassage;   // passagem de onde veio o pânico
     Engine.play('20');
   }
 }
 
-// Prepara o temporizador da passagem atual. Fica parado em 20 até o texto
+/* Prepara o temporizador da passagem atual. Fica parado até o texto
+   terminar (timerTextReady passa a true em finishAnimation / sem texto). */
 function startDecisionTimer() {
   if (timerMode === 'off') return;
   if (!temporizadorPermitido(passage())) return;
@@ -6140,7 +6705,8 @@ function startDecisionTimer() {
   criarTimerUI();
 }
 
-// Muda o modo do temporizador (também a meio de uma passagem)
+/* Muda o modo do temporizador (também a meio de uma passagem).
+   O tempo restante é reescalado proporcionalmente ao novo modo. */
 function setTimerMode(mode) {
   if (!TIMER_MODES.hasOwnProperty(mode)) mode = 'normal';
   var oldMs = TIMER_MS;
@@ -6157,15 +6723,16 @@ function setTimerMode(mode) {
   var current = passage();
 
   if (timerPassage !== null) {
+    // Já há temporizador: reescala o tempo restante
     pauseTimer();
     timerRemaining = Math.round(timerRemaining * TIMER_MS / oldMs);
     renderTimer();
     syncTimer();
-    } else if (TIMER_PASSAGES.indexOf(current) > -1 &&
-              temporizadorPermitido(current)) {
+  } else if (TIMER_PASSAGES.indexOf(current) > -1 && temporizadorPermitido(current)) {
+    // Estava desligado e a passagem atual tem temporizador: liga-o
     timerPassage = current;
     timerRemaining = TIMER_MS;
-    timerTextReady = passageTextDone;   // ← recupera o estado real
+    timerTextReady = passageTextDone;   // recupera o estado real do texto
     criarTimerUI();
     syncTimer();
   }
@@ -6176,38 +6743,7 @@ document.addEventListener('visibilitychange', syncTimer);
 window.addEventListener('pagehide', pauseTimer);
 window.addEventListener('pageshow', syncTimer);
 
-$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
-  SimpleAudio.tracks.get('hover').volume(0.1).play();
-});
-
-$(document).on('click', '.phone-key', function () {
-  SimpleAudio.tracks.get('phone-tap').volume(0.3).play();
-});
-
-$(document).one(':passagestart', function () {
-  var $btn = $(
-    '<button id="sound-btn" aria-label="Desligar som">' +
-      '<span class="sound-btn-icon">' + ICON_VOLUME_ON + '</span>' +
-    '</button>'
-  );
-  $('body').append($btn);
-
-  $btn.on('click', function () {
-    var mute = !$btn.hasClass('muted');
-    SimpleAudio.mute(mute);
-    $btn.toggleClass('muted', mute)
-        .attr('aria-label', mute ? 'Ligar som' : 'Desligar som');
-  });
-});
-
-// ============================================================
-// FIM AUTOMÁTICO ("Será o fim?" — passagens 28 e 34)
-// Só começa a contar quando o texto e o botão já apareceram.
-// ============================================================
-var AUTO_FIM = {
-  '28': { destino: '29', espera: 8000 },   // ms depois de o texto acabar
-  '34': { destino: '35', espera: 8000 }
-};
+/* ---- 6B. Fim automático ("Será o fim?") ---- */
 var autoFimPassage = null;
 var autoFimTimeout = null;
 var autoFimEnd = null;
@@ -6220,6 +6756,7 @@ function cancelarAutoFim() {
   autoFimRemaining = 0;
 }
 
+/* Chamado quando o texto termina (finishAnimation). */
 function iniciarAutoFim() {
   var cfg = AUTO_FIM[passage()];
   if (!cfg || timerMode === 'off') return;   // "Desligado" = só avança com o botão
@@ -6236,7 +6773,7 @@ function iniciarAutoFim() {
   syncAutoFim();
 }
 
-// Pára com as definições abertas, o jogo em segundo plano, etc.
+/* Pára com as definições abertas, o jogo em segundo plano, etc. */
 function syncAutoFim() {
   if (autoFimPassage === null) return;
   var deveCorrer = !document.hidden
@@ -6264,408 +6801,99 @@ function avancarAutoFim() {
   Engine.play(cfg.destino);
 }
 
-$(document).on(':passagestart', function (ev) {
-  var name = ev.passage.title;
-  applyAnimationsState();
 
-  // ============================================================
-  // CORREÇÃO: Se for a passagem Start, reiniciar o estado dos pássaros
-  // ============================================================
-  if (name === 'Start') {
-      birdsStarted = false;
-      var birds = SimpleAudio.tracks.get('birds');
-      if (birds) birds.stop();
-      State.variables.entrouPanico = false;
-      earRinging21FadeIniciado = false;
-      resetTimer();
-      State.variables.jaEntrouPanico = false;
-      State.variables.panicOrigin = null;
-  }
+/* ==========================================================================
+   [7] TOASTS (notificações)
+   Uso nas passagens: mostrarToast('bom' | 'perigoso' | 'achievement',
+                                   'Título\nTexto opcional', 'ícone opcional')
+   ========================================================================== */
+window.mostrarToast = function (tipo, conteudo, iconeCustom) {
+  setTimeout(function () {
+    $('.toast-notif').remove();   // só um toast de cada vez
 
-  cancelarAutoFim();
-  TocarBirds();
-  pauseTimer();
-  timerTextReady = false;
-  passageTextDone = false;
-  $('#decision-timer').remove();
-
-  $('.scene').hide().fadeIn(200);
-
-  // ============================================================
-  // Parar apenas sons curtos, mantendo os contínuos (birds, fire, heartbeat)
-  // ============================================================
-    var sonsParaParar = [
-      'phone-tap', 'hover', 'phone', 'sinos',
-      'car-stopping', 'car-start', 'cough','tic',
-      'heavy-breathing',
-      'breathing-exercise', 'hospital', 'crowd'
-    ];
-    sonsParaParar.forEach(function(id) {
-        var track = SimpleAudio.tracks.get(id);
-        if (track) track.stop();
-    });
-  
-
-  // ============================================================
-  // BIRDS – contínuo com fadeout quando não está nas listas
-  // ============================================================
-  var exteriorPassages = ['Start', '6', '14', '27','Resultados','Sobre','Guia de Jogo'];
-  var interiorPassages = ['1', '2', '2.1', 'Resultado 112', '3', '4', '5'];
-
-  var temBirds = (exteriorPassages.indexOf(name) > -1) || (interiorPassages.indexOf(name) > -1);
-  if (temBirds) {
-      if (exteriorPassages.indexOf(name) > -1) {
-          ajustarVolumeBirds('exterior');
-      } else {
-          ajustarVolumeBirds('interior');
-      }
-  } else {
-      ajustarVolumeBirds('fadeout');
-  }
-
-  // ============================================================
-  // FOGO – contínuo (nunca para), apenas volume ajusta
-  // ============================================================
-  var fogoProximidade = {
-      'muito_longe': ['14', '26', '27'],
-      'longe': ['4', '8', '10', '11', '12', '13', '22', '23'],
-      'perto': ['7', '9', '15', 'Resultado Casa', '24', '31', 'Resultado Kit'],
-      'muito_perto': ['16', '19', '28', '25', '32', '33'],
-      'dentro_casa': ['34'],
-      'fadeout': ['Start', '1', '2', '2.1', 'Resultado 112', '3', '5', '6', '20', '21', '29', '35', 'Resultados']
-  };
-
-  var nivelEncontrado = false;
-  for (var nivel in fogoProximidade) {
-      if (fogoProximidade[nivel].indexOf(name) > -1) {
-          // Apenas ajusta o volume, nunca para
-          ajustarVolumeFogo(nivel);
-          nivelEncontrado = true;
-          break;
-      }
-  }
-  if (!nivelEncontrado) {
-      // Se não estiver em nenhuma lista, assume fadeout (volume 0)
-      ajustarVolumeFogo('fadeout');
-  }
-
-  // ============================================================
-  // CRONÓMETRO
-  // ============================================================
-  if (TIMER_PASSAGES.indexOf(name) > -1) {
-    startDecisionTimer();
-  } else if (name !== '⟲' && name !== 'Guia de Jogo') {
-    resetTimer();
-  }
-
-  // ============================================================
-  // RESTANTES SONS (curtos ou específicos)
-  // ============================================================
-  
-  var heartPassages = ['7', '20', '21', '8'];
-
-  if (name === '2' || name === '5') {
-    SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
-  }
-
-  if (name === '6') {
-    SimpleAudio.tracks.get('sinos').loop(false).volume(0.3).play();
-  }
-
-  if (name === '20') {
-    earRinging21FadeIniciado = false;
-    setTimeout(function () {
-      if (passage() === '20') {
-        SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
-      }
-    }, 1400);
-  } else if (name === '28' || name === '34') {
-    SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
-  }
-
-  if (name === '21') {
-    SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
-  }
-
-  if (name === '29' || name === '35') {
-    SimpleAudio.tracks.get('hospital').loop(false).volume(0.6).play();
-
-    var atrasoRespirar = 1500; // ms — ajusta ao gosto
-    setTimeout(function (nomePassagem) {
-      return function () {
-        if (passage() === nomePassagem) {
-          SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
-        }
-      };
-    }(name), atrasoRespirar);
-  }
-
-  // ============================================================
-  // EAR-RINGING — gerido à parte para permitir continuidade
-  // entre passagens (ex: 20 -> 21, som não reinicia).
-  // ============================================================
-  var earRingingPassages = ['20', '21', '28', '34', '29', '35'];
-  var earRingingTrack = SimpleAudio.tracks.get('ear-ringing');
-
-  if (name === '21') {
-    if (!earRingingTrack.isPlaying()) {
-      earRingingTrack.loop(true).volume(0.05);
-      var earPlayPromise21 = earRingingTrack.play();
-      if (earPlayPromise21 && typeof earPlayPromise21.catch === 'function') {
-        earPlayPromise21.catch(function (err) {
-          if (err && err.name === 'AbortError') {
-            console.log('[ear-ringing] play() interrompido (AbortError) — ignorado.');
-          } else {
-            console.warn('[ear-ringing] erro inesperado ao dar play:', err);
-          }
-        });
-      }
+    var icone;
+    if (tipo === 'perigoso') {
+      icone = '⚠️';
+    } else if (tipo === 'achievement') {
+      icone = iconeCustom || '🏅';
     } else {
-      // Já estava a tocar (continuidade da 20) — cancela qualquer
-      // fade em curso e garante o volume normal antes de começar a descer.
-      if (earRingingFadeTimer) {
-        clearInterval(earRingingFadeTimer);
-        earRingingFadeTimer = null;
-      }
-      earRingingTrack.volume(0.05);
+      icone = iconeCustom || '✅';
     }
 
-    if (!earRinging21FadeIniciado) {
-      earRinging21FadeIniciado = true;
-      setTimeout(function () {
-        if (passage() !== '21') return;
-        ajustarVolumeEarRinging(0, 15000);
-      }, 1500);
-    }
+    // 1.ª linha = título; 2.ª linha (opcional) = texto
+    var partes = conteudo.split('\n');
+    var titulo = partes[0];
+    var texto  = partes[1] || '';
 
-  } else if (earRingingPassages.indexOf(name) > -1) {
-    // Passagens 20 / 28 / 34 / 29 / 35: entrada suave normal
-    if (!earRingingTrack.isPlaying()) {
-      earRingingTrack.loop(true).volume(0);
-      var earPlayPromise = earRingingTrack.play();
-      if (earPlayPromise && typeof earPlayPromise.catch === 'function') {
-        earPlayPromise.catch(function (err) {
-          if (err && err.name === 'AbortError') {
-            console.log('[ear-ringing] play() interrompido (AbortError) — ignorado.');
-          } else {
-            console.warn('[ear-ringing] erro inesperado ao dar play:', err);
-          }
-        });
-      }
-      ajustarVolumeEarRinging(0.10, 1500);
-    } else {
-      ajustarVolumeEarRinging(0.10, 500);
-    }
+    var $toast = $('<div class="toast-notif toast-' + tipo + '"></div>');
 
-  } else {
-    if (earRingingFadeTimer) {
-      clearInterval(earRingingFadeTimer);
-      earRingingFadeTimer = null;
-    }
-    if (earRingingTrack.isPlaying()) {
-      earRingingTrack.stop();
-    }
-  }
+    var html = '<span class="toast-icone">' + icone + '</span>';
+    html += '<span class="toast-corpo">';
+    html += '<span class="toast-titulo">' + titulo + '</span>';
+    if (texto) html += '<span class="toast-texto">' + texto + '</span>';
+    html += '</span>';
 
-  if (name === '4' || name === '10' || name === '28') {
-    SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
-  }
+    $toast.html(html);
+    $('body').append($toast);
 
-  if (name === '16' || name === '18') {
-    SimpleAudio.tracks.get('cough').loop(true).volume(0.6).play();
-  }
+    setTimeout(function () { $toast.addClass('toast-visivel'); }, 50);   // entra
 
-  if (name === '11') {
-    SimpleAudio.tracks.get('car-stopping').loop(false).volume(0.6).play();
-  }
+    setTimeout(function () {                                              // sai
+      $toast.removeClass('toast-visivel');
+      setTimeout(function () { $toast.remove(); }, 500);
+    }, 3500);
 
-  if (name === '22') {
-    SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
-  }
+  }, 300);
+};
 
-  if (name === '26') {
-    SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
-  }
 
-  if (heartPassages.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('heartbeat').loop(true).volume(0.1).play();
-  }
+/* ==========================================================================
+   [8] TEXTO ANIMADO E TAMANHO DA LETRA
+   ========================================================================== */
 
-  if (name === '13') {
-    setTimeout(function () {
-      $('.prontoevacuar-stage').addClass('play');
-    }, 100);
-  }
-
-  // Ajuste do telemóvel na passagem 2.1
-  if (name === '2.1') {
-    setTimeout(function() {
-        ajustarPhone();
-        var scene = document.querySelector('.phone-scene');
-        if (scene) {
-            scene.style.display = 'flex';
-            scene.style.alignItems = 'center';
-            scene.style.justifyContent = 'center';
-        }
-    }, 200);
-    $(window).on('resize.phone', ajustarPhone);
-  } else {
-    $(window).off('resize.phone');
-  }
-});
-
-// ============================================================
-// AJUSTAR VOLUME DO BIRDS CONFORME LOCALIZAÇÃO (com continuidade)
-// ============================================================
-function ajustarVolumeBirds(localizacao) {
-    var birds = SimpleAudio.tracks.get('birds');
-    if (!birds) return;
-
-    if (localizacao === 'fadeout') {
-        if (birds.isPlaying()) {           // <-- corrigido
-            birds.fade(birds.volume(), 0, 1000);
-            setTimeout(function() { birds.stop(); }, 1100);
-        }
-        return;
-    }
-
-    var vol = localizacao === 'exterior' ? 0.8 : 0.5;
-    birds.volume(vol);
-    if (!birds.isPlaying()) {              // <-- corrigido
-        birds.loop(true).play();
-    }
+/* ---- 8.1 Animações ligadas/desligadas ---- */
+function applyAnimationsState() {
+  document.body.classList.toggle('reduce-motion', !animationsEnabled);
 }
 
-// ============================================================
-// AJUSTAR VOLUME DO FOGO
-// ============================================================
-var fogoFadeTimer = null;
-
-function ajustarVolumeFogo(nivel) {
-    var fire = SimpleAudio.tracks.get('fire');
-    if (!fire) return;
-
-    // Nunca chega a 0 literal — evita que a lib trate isto como "parado"
-    // e force um restart da faixa (o clique/pop que estavas a ouvir).
-    var volumes = {
-        'muito_longe': 0.04,
-        'longe': 0.18,
-        'perto': 0.40,
-        'muito_perto': 0.70,
-        'dentro_casa': 0.85,
-        'fadeout': 0.001
-    };
-
-    var vol = volumes[nivel] !== undefined ? volumes[nivel] : 0.001;
-
-    // cancela qualquer fade anterior ainda em curso
-    if (fogoFadeTimer) {
-        clearInterval(fogoFadeTimer);
-        fogoFadeTimer = null;
-    }
-
-    var startVol = fire.volume();
-    var duracao = 800;
-    var steps = 20;
-    var stepTime = duracao / steps;
-    var stepVal = (vol - startVol) / steps;
-    var i = 0;
-
-    fogoFadeTimer = setInterval(function () {
-        i++;
-        var novoVol = startVol + stepVal * i;
-        fire.volume(Math.max(0.001, Math.min(1, novoVol)));
-
-        if (i >= steps) {
-            clearInterval(fogoFadeTimer);
-            fogoFadeTimer = null;
-            fire.volume(vol);
-        }
-    }, stepTime);
-}
-
-// ============================================================
-// FADE PERSONALIZADO DO EAR-RINGING
-// ============================================================
-var earRingingFadeTimer = null;
-var earRinging21FadeIniciado = false;
-
-function ajustarVolumeEarRinging(targetVol, duracaoMs) {
-    var track = SimpleAudio.tracks.get('ear-ringing');
-    if (!track) return;
-
-    if (earRingingFadeTimer) {
-        clearInterval(earRingingFadeTimer);
-        earRingingFadeTimer = null;
-    }
-
-    var startVol = track.volume();
-    var steps = Math.max(20, Math.round(duracaoMs / 250));
-    var stepTime = duracaoMs / steps;
-    var stepVal = (targetVol - startVol) / steps;
-    var i = 0;
-
-    earRingingFadeTimer = setInterval(function () {
-        i++;
-        var novoVol = startVol + stepVal * i;
-        var volAplicado = Math.max(0, Math.min(1, novoVol));
-        track.volume(volAplicado);
-
-        if (i >= steps) {
-            clearInterval(earRingingFadeTimer);
-            earRingingFadeTimer = null;
-            track.volume(targetVol);
-            if (targetVol <= 0) {
-                track.stop();
-            }
-        }
-    }, stepTime);
-}
-
-
-
-$(document).on(':passageend', function () {
-
-  // reaplicar fonte a cada passagem
-  aplicarFonte();
-
+/* ---- 8.2 Tamanho da letra ----
+   Reaplicado a cada passagem (aoTerminarPassagem) e ao mudar nas definições. */
+function aplicarFonte() {
+  // Calcula a altura extra para os modais (Guia, Alertas, etc.) consoante a fonte
+  // Nível 0: +0vh | Nível 1: +2vh | Nível 2: +4vh | Nível 3: +6vh
+  var extraHeights = ['0vh', '2vh', '4vh', '6vh'];
+  var extraHeight = extraHeights[fontIndex] || '0vh';
   
+  // Guarda o valor numa variável CSS global
+  document.documentElement.style.setProperty('--ui-extra-height', extraHeight);
+  document.documentElement.style.setProperty('--ui-extra-height', extraHeight);
+  document.documentElement.style.setProperty('--ui-scale', guideScales[fontIndex]);
 
-  var $restart = $('.ui-btn a:first-child');
-  if ($restart.length) $restart.text('↻');
+  document.querySelectorAll('.text-box, .alarm:not(.guide-modal)').forEach(function (el) {
+    el.style.setProperty('font-size', fontSizes[fontIndex], 'important');
+  });
+  document.querySelectorAll('.guide-modal').forEach(function (el) {
+    el.style.setProperty('--guide-scale', guideScales[fontIndex]);
+  });
+  document.querySelectorAll('.sombrinha p.readable').forEach(function (el) {
+    el.style.setProperty('font-size', readableFontSizes[fontIndex], 'important');
+  });
+}
 
-  if (passage() === '2.1') {
-    if ($('#phone-screen').length === 0) {
-      var $screen = $('<div id="phone-screen"></div>');
-      $screen.css({
-        'position': 'absolute',
-        'top': '21%',
-        'left': '50%',
-        'transform': 'translateX(-50%)',
-        'width': '45%',
-        'text-align': 'center',
-        'font-size': '1.3em',
-        'font-weight': 'bold',
-        'color': 'white',
-        'letter-spacing': '0.3em',
-        'z-index': '5',
-        'pointer-events': 'none',
-        'display': 'flex',
-        'align-items': 'center',
-        'justify-content': 'center'
-      });
-      $screen.html(
-        '<span id="phone-digits">___</span>' +
-        '<span id="phone-backspace" class="material-symbols-outlined" role="button" tabindex="0" aria-label="Apagar número">backspace</span>'
-      );
-      $('.phone-scene').append($screen);
-    }
-  }
-
-  if (passage() === '⟲') return;
-
+/* ---- 8.3 Animação palavra a palavra ----
+   Corre no fim de cada passagem. Passos:
+   1. Garante que o conteúdo da .text-box está dentro de .text-scroll.
+   2. Esconde os filhos e desativa as escolhas.
+   3. Mostra elemento a elemento; os que têm a classe .animar aparecem
+      palavra a palavra (com pausas em pontuação).
+   4. Quando acaba (ou o jogador clica/prime Espaço) → finishAnimation():
+      mostra tudo, ativa as escolhas, liberta o scroll e arranca os
+      temporizadores.
+   Sem .text-box, ou com animações desligadas, termina de imediato. */
+function iniciarTextoAnimado() {
   var $box = $('.text-box');
 
+  // Passagens sem caixa de texto: os temporizadores podem arrancar já
   if ($box.length === 0) {
     timerTextReady = true;
     passageTextDone = true;
@@ -6673,6 +6901,7 @@ $(document).on(':passageend', function () {
     return;
   }
 
+  // 1. Envolve o conteúdo em .text-scroll (menos os botões .ui-btn)
   var $scroll = $box.children('.text-scroll');
   if ($scroll.length === 0) {
     $scroll = $('<div class="text-scroll"></div>');
@@ -6682,8 +6911,9 @@ $(document).on(':passageend', function () {
     $box.prepend($scroll);
   }
 
+  // Elementos a revelar. Um <div id=...> com filhos conta pelos filhos.
   var $children = $();
-  $scroll.children().each(function () {          
+  $scroll.children().each(function () {
     var $el = $(this);
     if ($el.is('div[id]') && $el.children().length > 0) {
       $children = $children.add($el.children());
@@ -6691,16 +6921,18 @@ $(document).on(':passageend', function () {
       $children = $children.add($el);
     }
   });
+
   var animating = true;
   var wordInterval = null;
   var elementIndex = 0;
 
-  $scroll.find('.choices a, .choices button').css({   
+  // 2. Escolhas desativadas até o texto terminar
+  $scroll.find('.choices a, .choices button').css({
     'pointer-events': 'none',
     'opacity': '0.4'
   });
 
-  $scroll.css('overflow-y', 'hidden');   
+  $scroll.css('overflow-y', 'hidden');
 
   $children.each(function () {
     $(this).css({ opacity: 0, visibility: 'visible' });
@@ -6727,8 +6959,7 @@ $(document).on(':passageend', function () {
       'opacity': '1'
     });
 
-    // Mantém a leitura palavra a palavra, mas já não força o scroll até ao fim automaticamente 
-    
+    // Mantém a leitura palavra a palavra, mas não força scroll até ao fim
     $scroll.css('overflow-y', 'auto');
 
     iniciarAutoFim();
@@ -6738,6 +6969,7 @@ $(document).on(':passageend', function () {
     syncTimer();
   }
 
+  // Saltar a animação: clique/toque na caixa ou tecla Espaço
   $box.one('click touchstart', function (e) {
     if (animating) {
       e.stopPropagation();
@@ -6763,6 +6995,7 @@ $(document).on(':passageend', function () {
     elementIndex++;
 
     if ($el.hasClass('animar')) {
+      // Envolve cada palavra num <span class="word"> (sem tocar nas tags HTML)
       var original = $el.html();
       var wrapped = original.replace(/(<[^>]+>)|([^\s<]+)/g, function (match, tag, word) {
         if (tag) return tag;
@@ -6770,7 +7003,7 @@ $(document).on(':passageend', function () {
       });
       $el.html(wrapped).css('opacity', 1);
 
-            var $words = $el.find('.word');
+      var $words = $el.find('.word');
       var i = 0;
 
       wordInterval = setInterval(function tickWord() {
@@ -6780,16 +7013,14 @@ $(document).on(':passageend', function () {
         $($words[i]).animate({ opacity: 1 }, 100);
         i++;
 
+        // Última palavra deste elemento → pausa e passa ao seguinte
         if (i >= $words.length) {
           clearInterval(wordInterval);
           wordInterval = null;
 
           var delay = 0;
-          if (/[.!?]$/.test(wordText)) {
-            delay = PAUSE_END;
-          } else if (/[,;:]$/.test(wordText)) {
-            delay = PAUSE_COMMA;
-          }
+          if (/[.!?]$/.test(wordText))      delay = PAUSE_END;
+          else if (/[,;:]$/.test(wordText)) delay = PAUSE_COMMA;
 
           setTimeout(function () {
             if (animating) showNext();
@@ -6797,33 +7028,32 @@ $(document).on(':passageend', function () {
           return;
         }
 
+        // Pausa extra em pontuação
         if (/[.!?]$/.test(wordText)) {
           clearInterval(wordInterval);
           wordInterval = null;
           setTimeout(function () {
-            if (animating) {
-              wordInterval = setInterval(tickWord, WORD_MS);
-            }
+            if (animating) wordInterval = setInterval(tickWord, WORD_MS);
           }, PAUSE_END);
         } else if (/[,;:]$/.test(wordText)) {
           clearInterval(wordInterval);
           wordInterval = null;
           setTimeout(function () {
-            if (animating) {
-              wordInterval = setInterval(tickWord, WORD_MS);
-            }
+            if (animating) wordInterval = setInterval(tickWord, WORD_MS);
           }, PAUSE_COMMA);
         }
 
       }, WORD_MS);
 
     } else {
+      // Elemento sem .animar: aparece com um fade curto
       $el.animate({ opacity: 1 }, 150, function () {
         if (animating) showNext();
       });
     }
   }
 
+  // Animações desligadas: mostra tudo de imediato
   if (!animationsEnabled) {
     $(document).off('keydown.skipAnim');
     finishAnimation();
@@ -6831,36 +7061,252 @@ $(document).on(':passageend', function () {
   }
 
   showNext();
-});
+}
 
+
+/* ==========================================================================
+   [9] TELEMÓVEL (passagem 2.1 — marcar o 112)
+   ========================================================================== */
+
+/* ---- 9.1 Dimensionar o telemóvel ----
+   Smartphones/tablets em retrato: o telefone é um único bloco que cabe na área
+   acima da caixa de texto. Desktop/paisagem: usa limites de altura/largura. */
+function ajustarPhone() {
+  var scene = document.querySelector('.phone-scene');
+  if (!scene) return;
+
+  var img = scene.querySelector('img');
+  if (!img) return;
+
+  function aplicarProporcao() {
+    if (!img.naturalWidth || !img.naturalHeight) return;
+
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var ratio = img.naturalWidth / img.naturalHeight;
+    var portrait = window.matchMedia('(orientation: portrait)').matches;
+
+    /* ----- Mobile/tablet em retrato ----- */
+    if (portrait && w <= 1024) {
+      var textBox   = document.querySelector('.phone-text-box');
+      var rootScene = document.querySelector('.scene');
+
+      var sceneRect = rootScene ? rootScene.getBoundingClientRect() : null;
+      var textRect  = textBox ? textBox.getBoundingClientRect() : null;
+
+      var sceneTop   = sceneRect ? sceneRect.top : 0;
+      var sceneWidth = sceneRect ? sceneRect.width : w;
+
+      // A caixa de texto é a fronteira inferior real
+      var textTop = textRect
+        ? (textRect.top - sceneTop)
+        : h * (w <= 600 ? 0.70 : 0.72);
+
+      var safeTop = Math.max(12, Math.min(24, h * 0.02));
+      var safeGap = w <= 375
+        ? Math.max(14, Math.min(22, h * 0.022))
+        : Math.max(12, Math.min(20, h * 0.018));
+
+      var safeBottom = Math.max(safeTop + 180, textTop - safeGap);
+      var availableH = Math.max(180, safeBottom - safeTop);
+
+      var targetW = (w <= 600)
+        ? Math.min(sceneWidth * 1.00, w * 1.00, 520)
+        : Math.min(sceneWidth * 0.68, w * 0.68, 600);
+
+      var targetH = targetW / ratio;
+      var heightLimit = availableH * (w <= 375 ? 1.00 : 1.01);
+      var phoneH = Math.min(targetH, heightLimit);
+      var phoneW = phoneH * ratio;
+
+      // Centra verticalmente na área acima da caixa de texto
+      var freeH = Math.max(0, availableH - phoneH);
+      var phoneTop = safeTop + freeH / 2;
+
+      scene.style.setProperty('width',  phoneW + 'px', 'important');
+      scene.style.setProperty('height', phoneH + 'px', 'important');
+      // Smartphones: centrado. Tablets em retrato: lado direito da ilustração.
+      var tabletPortrait = portrait && w > 600 && w <= 1024;
+      scene.style.setProperty('left', tabletPortrait ? '73%' : '50%', 'important');
+      scene.style.setProperty('right', 'auto', 'important');
+      scene.style.setProperty('top', phoneTop + 'px', 'important');
+      scene.style.setProperty('transform', 'translateX(-50%)', 'important');
+      scene.style.setProperty('transform-origin', 'center center', 'important');
+
+      // Tablet: centra os overlays no corpo visível do telefone
+      alinharOverlaysAoTelefone(scene, img);
+      return;
+    }
+
+    /* ----- Desktop / paisagem ----- */
+    scene.style.removeProperty('left');
+    scene.style.removeProperty('right');
+    scene.style.removeProperty('top');
+    scene.style.removeProperty('transform');
+    scene.style.removeProperty('transform-origin');
+
+    var maxH = Math.min(h * 0.58, 560);
+    if (h <= 700) maxH = Math.min(h * 0.58, 430);
+    if (h <= 600) maxH = Math.min(h * 0.56, 390);
+
+    var maxW = Math.min(w * 0.42, 420);
+    if (w <= 900) maxW = Math.min(w * 0.58, 360);
+
+    var phoneHDesktop = maxH;
+    var phoneWDesktop = phoneHDesktop * ratio;
+
+    if (phoneWDesktop > maxW) {
+      phoneWDesktop = maxW;
+      phoneHDesktop = phoneWDesktop / ratio;
+    }
+
+    scene.style.setProperty('width',  phoneWDesktop + 'px', 'important');
+    scene.style.setProperty('height', phoneHDesktop + 'px', 'important');
+  }
+
+  if (img.complete && img.naturalWidth) {
+    aplicarProporcao();
+  } else {
+    img.addEventListener('load', aplicarProporcao, { once: true });
+  }
+}
+
+/* ---- 9.2 Centro real do telefone (tablet em retrato) ----
+   Calcula o centro horizontal da área não transparente de phone.png e guarda-o
+   em --phone-visible-center-x, para o teclado não variar entre proporções.
+   O resultado fica em cache em img.__phoneVisibleCenterX. */
+function alinharOverlaysAoTelefone(scene, img) {
+  if (!scene || !img) return;
+
+  var isTabletPortrait =
+    window.matchMedia('(orientation: portrait)').matches &&
+    window.innerWidth > 600 &&
+    window.innerWidth <= 1024;
+
+  if (!isTabletPortrait) return;
+
+  function aplicarCentro(cx) {
+    if (!isFinite(cx)) return;
+    scene.style.setProperty('--phone-visible-center-x', (cx * 100) + '%');
+  }
+
+  if (img.__phoneVisibleCenterX != null) {
+    aplicarCentro(img.__phoneVisibleCenterX);
+    return;
+  }
+
+  try {
+    // Imagem ainda não carregou: tenta de novo quando carregar
+    if (!img.complete || !img.naturalWidth || !img.naturalHeight) {
+      img.addEventListener('load', function onPhoneLoad() {
+        img.removeEventListener('load', onPhoneLoad);
+        alinharOverlaysAoTelefone(scene, img);
+      });
+      return;
+    }
+
+    var canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    var ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+
+    var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    var minX = canvas.width, maxX = -1;
+
+    for (var y = 0; y < canvas.height; y++) {
+      for (var x = 0; x < canvas.width; x++) {
+        var alpha = data[(y * canvas.width + x) * 4 + 3];
+        if (alpha > 20) {                // pixel visível
+          if (x < minX) minX = x;
+          if (x > maxX) maxX = x;
+        }
+      }
+    }
+
+    if (maxX < minX) return;             // imagem totalmente transparente
+
+    var centerX = ((minX + maxX) / 2) / canvas.width;
+    img.__phoneVisibleCenterX = centerX;
+    aplicarCentro(centerX);
+  } catch (e) {
+    // getImageData pode falhar (CORS); nesse caso mantém o centro por defeito
+  }
+}
+
+/* ---- 9.3 Ecrã do telemóvel (dígitos + apagar) ----
+   Criado no fim da passagem 2.1. */
+function criarEcraTelemovel() {
+  if ($('#phone-screen').length !== 0) return;
+
+  var $screen = $('<div id="phone-screen"></div>');
+  $screen.css({
+    'position': 'absolute',
+    'top': '21%',
+    'left': '50%',
+    'transform': 'translateX(-50%)',
+    'width': '45%',
+    'text-align': 'center',
+    'font-size': '1.3em',
+    'font-weight': 'bold',
+    'color': 'white',
+    'letter-spacing': '0.3em',
+    'z-index': '5',
+    'pointer-events': 'none',
+    'display': 'flex',
+    'align-items': 'center',
+    'justify-content': 'center'
+  });
+  $screen.html(
+    '<span id="phone-digits">___</span>' +
+    '<span id="phone-backspace" class="material-symbols-outlined" role="button" tabindex="0" aria-label="Apagar número">backspace</span>'
+  );
+  $('.phone-scene').append($screen);
+}
+
+/* Lê os dígitos já marcados (ignora os "_" de preenchimento) */
+function lerDigitosMarcados() {
+  return $('#phone-digits').text().replace(/_/g, '').replace(/[^0-9*#]/g, '');
+}
+
+/* Mostra uma mensagem de erro durante 1,5 s e repõe "___" */
+function mostrarErroTelemovel(mensagem) {
+  var $digits = $('#phone-digits');
+  $digits.addClass('error-message');
+  $digits.css('color', '#cc2222').text(mensagem);
+  setTimeout(function () {
+    $digits.removeClass('error-message');
+    $digits.text('___').css('color', 'white');
+  }, 1500);
+}
+
+/* ---- 9.4 Teclado: dígitos, apagar e ligar ---- */
+
+// Tecla numérica (máx. 3 dígitos; só "112" é válido)
 $(document).on('click', '.phone-key', function () {
   var $digits = $('#phone-digits');
   var num = $(this).data('num');
-  var current = $digits.text().replace(/_/g, '').replace(/[^0-9*#]/g, '');
+  var current = lerDigitosMarcados();
 
   if (current.length < 3) {
     var next = current + num;
     var display = next + '___'.slice(next.length);
     $digits.text(display).css('color', 'white');
 
-    if (next.length === 3) {
-      if (next === '112') {
-        // número correcto – não faz nada
-      } else {
-        $digits.addClass('error-message');
-        $digits.css('color', '#cc2222').text('Nº inválido');
-        setTimeout(function () {
-          $digits.removeClass('error-message');
-          $digits.text('___').css('color', 'white');
-        }, 1500);
-      }
+    if (next.length === 3 && next !== '112') {
+      mostrarErroTelemovel('Nº inválido');
     }
   }
 });
 
+// Apagar o último dígito
 $(document).on('click', '#phone-backspace', function () {
   var $digits = $('#phone-digits');
-  var current = $digits.text().replace(/_/g, '').replace(/[^0-9*#]/g, '');
+  var current = lerDigitosMarcados();
 
   if (current.length > 0) {
     var next = current.slice(0, -1);
@@ -6870,7 +7316,7 @@ $(document).on('click', '#phone-backspace', function () {
   SimpleAudio.tracks.get('phone-tap').volume(0.3).play();
 });
 
-// acessibilidade: também funciona com Enter/Espaço
+// Acessibilidade: o botão apagar também funciona com Enter/Espaço
 $(document).on('keydown', '#phone-backspace', function (e) {
   if (e.key === 'Enter' || e.key === ' ') {
     e.preventDefault();
@@ -6878,672 +7324,30 @@ $(document).on('keydown', '#phone-backspace', function (e) {
   }
 });
 
+// Botão verde de ligar
 $(document).on('click', '.phone-call', function () {
-  var $digits = $('#phone-digits');
-  var current = $digits.text().replace(/_/g, '').replace(/[^0-9*#]/g, '');
+  var current = lerDigitosMarcados();
 
   if (current === '112') {
     Engine.play('2');
-  } else if (current.length === 0 || current === '') {
-    $digits.addClass('error-message');
-    $digits.css('color', '#cc2222').text('Marca um nº');
-    setTimeout(function () {
-      $digits.removeClass('error-message');
-      $digits.text('___').css('color', 'white');
-    }, 1500);
+  } else if (current.length === 0) {
+    mostrarErroTelemovel('Marca um nº');
   } else {
-    $digits.addClass('error-message');          
-    $digits.css('color', '#cc2222').text('Nº errado');
-    setTimeout(function () {
-      $digits.removeClass('error-message');     
-      $digits.text('___').css('color', 'white');
-    }, 1500);
+    mostrarErroTelemovel('Nº errado');
   }
 });
 
-// Google Fonts: Material Symbols (ícone de apagar no telemóvel)
-if (!document.querySelector('link[href*="Material+Symbols+Outlined"]')) {
-  $('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=backspace">').appendTo('head');
-}
 
-if (!document.querySelector('meta[name="viewport"]')) {
-  $('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">').appendTo('head');
-} else {
-  $('meta[name="viewport"]').attr('content', 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
-}
-
-// favicon
-var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/favicon/';
-
-$('<link rel="apple-touch-icon" sizes="180x180" href="' + base + 'apple-touch-icon.png">').appendTo('head');
-$('<link rel="icon" type="image/png" sizes="32x32" href="' + base + 'favicon-32x32.png">').appendTo('head');
-$('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x16.png">').appendTo('head');
-
-// PARA BLOQUEIO NATIVO DO MODO PAISAGEM
-$(document).one(':passagestart', function () {
-  if ($('.rotate-overlay').length === 0) {
-    var $rotate = $(
-      '<div class="rotate-overlay">' +
-        '<div class="rotate-content">' +
-          '<div class="rotate-message">' +
-            '<div class="rotate-icon">' +
-              '<svg viewBox="0 0 120 120" width="60" height="60">' +
-                '<circle cx="60" cy="60" r="48" fill="none" stroke="#b77e56" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>' +
-                '<path d="M60 6 C 20 6, 6 30, 6 50" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
-                '<path d="M6 50 L12 42 L4 44" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
-                '<path d="M60 114 C 100 114, 114 90, 114 70" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
-                '<path d="M114 70 L108 78 L116 76" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
-                '<rect x="25" y="42" width="70" height="36" rx="6" fill="none" stroke="#FFF5E6" stroke-width="3"/>' +
-                '<rect x="32" y="47" width="46" height="26" rx="2" fill="none" stroke="#FFF5E6" stroke-width="2" stroke-dasharray="2 2" opacity="0.5"/>' +
-                '<circle cx="88" cy="60" r="4" fill="none" stroke="#FFF5E6" stroke-width="2.5"/>' +
-                '<circle cx="88" cy="60" r="2" fill="#FFF5E6"/>' +
-                '<line x1="36" y1="52" x2="74" y2="52" stroke="#FFF5E6" stroke-width="2" opacity="0.4"/>' +
-                '<line x1="36" y1="56" x2="64" y2="56" stroke="#FFF5E6" stroke-width="2" opacity="0.25"/>' +
-                '<path d="M30 35 L36 30 L42 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
-                '<path d="M90 35 L84 30 L78 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
-              '</svg>' +
-            '</div>' +
-            '<p class="rotate-text">Rode o dispositivo para a posição vertical</p>' +
-            '<p class="rotate-sub">— Melhor experiência em modo retrato —</p>' +
-          '</div>' +
-        '</div>' +
-      '</div>'
-    );
-    $('body').append($rotate);
-  }
-});
-
-function tentarBloquearOrientacao() {
-  if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock('portrait').catch(function () {
-    });
-  }
-}
-
-$(document).one(':passagestart', function () {
-  tentarBloquearOrientacao();
-});
-
-// ============ PÁGINA DE CARREGAMENTO ================
-
-var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/';
-var IMG = CDN + 'images/';
-
-// A passagem 13 usa imagens diferentes consoante o ecrã (ver CSS .prontoevacuar-stage):
-// telemóvel (≤600px) só vê o painel 2 completo; tablet/desktop vê os 3 painéis.
-var IS_PHONE = window.matchMedia('(max-width: 600px)').matches;
-var PRONTO_EVACUAR_IMGS = IS_PHONE
-  ? [IMG + 'cenas/prontoparaevacuarbobi3.png']
-  : [
-      IMG + 'cenas/prontoparaevacuar1.png',
-      IMG + 'cenas/prontoparaevacuarbobi.png',
-      IMG + 'cenas/prontoparaevacuar3.png',
-      IMG + 'cenas/prontoparaevacuar3-fogo.png',
-      IMG + 'cenas/prontoparaevacuar-3semfundo.png',
-      IMG + 'cenas/prontoparaevacuar3-fuminhp.png'
-    ];
-
-// Prioridade 1 — bloqueia a barra de progresso: ecrã inicial + primeira cena.
-// (UI/texturas, logótipos do footer e as imagens da passagem 1)
-var imagesCritical = [
-  IMG + 'cenas/bg-village.png',
-  IMG + 'ui/wood.png',
-  IMG + 'ui/wood-dark.png',
-  IMG + 'ui/texture.png',
-  IMG + 'ui/isa.png',
-  IMG + 'ui/logo-ceabn.png',
-  IMG + 'ui/logo.png',
-  IMG + 'cenas/casa.png',
-  IMG + 'cenas/repararbefore.png',
-  IMG + 'cenas/reparar.png'   // a animação .turn-around da passagem 1 troca para esta
-];
-
-// Prioridade 2 — carrega em segundo plano depois de o jogo abrir,
-// pela ordem em que as cenas aparecem.
-var imagesBackground = [
-  // passagens 1–3
-  IMG + 'cenas/reparar3.png',
-  IMG + 'cenas/panico2.png',
-  IMG + 'cenas/112before.png',
-  IMG + 'cenas/112.png',
-  IMG + 'cenas/casa-semjanela-jardim.png',
-  IMG + 'cenas/casafumo1.png',
-  IMG + 'cenas/phone.png',
-  IMG + 'cenas/phone-call.png',
-  // passagens 4–8
-  IMG + 'cenas/ligar.png',
-  IMG + 'cenas/casa-semjanela.png',
-  IMG + 'cenas/casafumo2.png',
-  IMG + 'cenas/casa-fire.jpg',
-  IMG + 'cenas/casa-ardida.jpg',
-  IMG + 'cenas/avisar-vizinhos.png',
-  IMG + 'cenas/sino.png',
-  IMG + 'cenas/homem-sino.png',
-  IMG + 'cenas/fire-transparent.png',
-  IMG + 'cenas/casafumo3.png',
-  IMG + 'cenas/casafumo4.png',
-  // passagens 11–16
-  IMG + 'cenas/car.png',
-  IMG + 'cenas/estrada-impedida.png',
-  IMG + 'cenas/floresta.png',
-  IMG + 'cenas/rio.png',
-  IMG + 'cenas/casafumo5.png',
-  // passagem 13 (pronto para evacuar) — só as imagens do ecrã atual
-  PRONTO_EVACUAR_IMGS,
-  IMG + 'cenas/kit2.png',
-  IMG + 'cenas/seguranca2.png',
-  IMG + 'cenas/casafumo6.png',
-  // passagens 19–39
-  IMG + 'cenas/ponto-da-mulher.png',
-  IMG + 'cenas/ponto-de-encontrosemfundo.png',
-  IMG + 'cenas/panico3.png',
-  IMG + 'cenas/car-invert.png',
-  IMG + 'cenas/ponto-de-encontro.png',
-  IMG + 'cenas/multidao.png',
-  IMG + 'cenas/cinzas.png',
-  IMG + 'cenas/fire-forest.png',
-  IMG + 'cenas/kit1.png',
-  IMG + 'cenas/salva-pelo-bombeiro.jpg',
-  IMG + 'cenas/fogo-na-casa.png',
-  IMG + 'cenas/fogo-na-casa-overlay.png',
-  IMG + 'cenas/salvar-laurinda.jpg'
-];
-
-// Imagens futuras (já tens as regras CSS, ainda sem passagem):
-//   cenas/seguranca.png, cenas/mobilidade.jpg, cenas/fumo-sino-bg.png,
-//   cenas/multidao-laurindabem.png, cenas/multidao-semlaurinda.png,
-//   cenas/ponto-de-encontro-fogo.png, cenas/pontodeencontro-*.png,
-//   cenas/prontoparaevacuar-sembobi*.png
-// Quando as passagens passarem a usá-las, acrescenta-as a imagesBackground.
-
-
-// Carrega o resto das imagens em segundo plano, 1–2 de cada vez, só quando o
-// browser está livre e com prioridade baixa (para não competir com o jogo).
-function startBackgroundPreload() {
-  if (startBackgroundPreload.started) return;
-  startBackgroundPreload.started = true;
-
-  var conn = navigator.connection || {};
-  if (conn.saveData) return; // modo "poupança de dados": só carrega o que for preciso
-
-  var queue = [].concat.apply([], imagesBackground); // achata PRONTO_EVACUAR_IMGS
-  var maxParallel = /(^|-)2g$/.test(conn.effectiveType || '') ? 1 : 2;
-  var active = 0;
-  var idle = window.requestIdleCallback
-    ? function (fn) { window.requestIdleCallback(fn, { timeout: 1500 }); }
-    : function (fn) { setTimeout(fn, 200); };
-
-  function done() { active--; idle(next); }
-
-  function next() {
-    while (active < maxParallel && queue.length) {
-      var img = new Image();
-      img.decoding = 'async';
-      if ('fetchPriority' in img) img.fetchPriority = 'low';
-      img.onload = done;
-      img.onerror = done;
-      active++;
-      img.src = queue.shift();
-    }
-  }
-
-  idle(next);
-}
-
-var tips = [
-  " Nunca faça fogueiras em dias de vento forte.", " Não atire fósforos para o chão.", " Se vir um incêndio, ligue o 112."
-];
-
-var ICON_VOLUME_ON =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
-    '<path d="M16 9a4 4 0 0 1 0 6"/>' +
-    '<path d="M18.5 6.5a8 8 0 0 1 0 11"/>' +
-  '</svg>';
- 
-var ICON_VOLUME_OFF =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
-    '<line x1="16" y1="9" x2="21" y2="14"/>' +
-    '<line x1="21" y1="9" x2="16" y2="14"/>' +
-  '</svg>';
- 
-var ICON_MIC =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<rect x="9" y="2" width="6" height="12" rx="3"/>' +
-    '<path d="M5 10v1a7 7 0 0 0 14 0v-1"/>' +
-    '<line x1="12" y1="18" x2="12" y2="22"/>' +
-  '</svg>';
-
-var ICON_GLOBE =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="12" r="9"/>' +
-    '<ellipse cx="12" cy="12" rx="4" ry="9"/>' +
-    '<line x1="3" y1="12" x2="21" y2="12"/>' +
-  '</svg>'; 
-  
-var ICON_ANIMATION =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 17h5" opacity="0.35"/>' +
-    '<path d="M4 12h4" opacity="0.5"/>' +
-    '<path d="M4 7h5" opacity="0.35"/>' +
-    '<path d="M10 6l9 6-9 6V6z"/>' +
-  '</svg>';  
-
-var ICON_GUIDE =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>' +
-    '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' +
-  '</svg>';  
-
-var ICON_FONT =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M2 19 L6 9 L10 19 M3.5 15.5 L8.5 15.5"/>' +
-    '<path d="M11 19 L16.5 5 L22 19 M13.1 14 L19.9 14"/>' +
-  '</svg>';
-
-var ICON_BACK =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<line x1="19" y1="12" x2="5" y2="12"/>' +
-    '<polyline points="12 19 5 12 12 5"/>' +
-  '</svg>';
-
-var ICON_EXIT =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
-    '<polyline points="16 17 21 12 16 7"/>' +
-    '<line x1="21" y1="12" x2="9" y2="12"/>' +
-  '</svg>';
-
-var ICON_RESTART =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<polyline points="1 4 1 10 7 10"/>' +
-    '<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>' +
-  '</svg>';  
-
-  var ICON_TIMER =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="13" r="8"/>' +
-    '<path d="M12 9v4l2.5 2M9.5 2.5h5"/>' +
-  '</svg>';
-
-var ICON_FAST_FORWARD =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M3 6l8 6-8 6V6z"/>' +
-    '<path d="M12 6l8 6-8 6V6z"/>' +
-  '</svg>';
-
-var ICON_SETTINGS =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="12" r="3"/>' +
-    '<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>' +
-  '</svg>';
-
-var ICON_INFO =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="12" r="9"/>' +
-    '<path d="M12 11v5M12 8h.01"/>' +
-  '</svg>';
-
-// Ícones do Guia de Jogo — a passagem só usa data-icon="nome"
-var GUIDE_ICONS = {
-  info:     ICON_INFO,
-  guide:    ICON_GUIDE,        
-  timer:    ICON_TIMER,
-  fast:     ICON_FAST_FORWARD,
-  sound:    ICON_VOLUME_ON,    
-  settings: ICON_SETTINGS
-};
-
-// ============================================================
-// BLOQUEIO DE ZOOM (pinch + double-tap) — necessário no iOS Safari
-// ============================================================
-
-// Bloqueia pinch-zoom (gestos com 2+ dedos)
-document.addEventListener('touchmove', function (e) {
-  if (e.touches.length > 1) {
-    e.preventDefault();
-  }
-}, { passive: false });
-
-// Bloqueia gestos nativos do Safari (gesturestart/change/end)
-['gesturestart', 'gesturechange', 'gestureend'].forEach(function (evt) {
-  document.addEventListener(evt, function (e) {
-    e.preventDefault();
-  }, { passive: false });
-});
-
-// Bloqueia double-tap zoom
-var lastTouchEnd = 0;
-document.addEventListener('touchend', function (e) {
-  var now = Date.now();
-  if (now - lastTouchEnd <= 300) {
-    e.preventDefault();
-  }
-  lastTouchEnd = now;
-}, { passive: false });
-
-// Bloqueia pinch-zoom do touchpad (e Ctrl + roda do rato) no desktop
-window.addEventListener('wheel', function (e) {
-  if (e.ctrlKey) e.preventDefault();
-}, { passive: false });
-
-// ============================================================
-// TAB LOOP — cicla entre primeiro e último elemento focável
-// ============================================================
-(function () {
-  var FOCUSABLE_SEL =
-    'a[href], button:not([disabled]), input:not([disabled]), ' +
-    'select:not([disabled]), textarea:not([disabled]), ' +
-    '[tabindex]:not([tabindex="-1"])';
-
-  function getFocusables() {
-    return $(FOCUSABLE_SEL).filter(function () {
-      var $el = $(this);
-
-      if ($el.is(':hidden')) return false;
-      if ($el.css('visibility') === 'hidden') return false;
-
-      // Escondido por ancestral com [hidden] ou aria-hidden
-      if ($el.closest('[hidden], [aria-hidden="true"]').length) return false;
-
-      // Painel de definições fechado — não deve entrar no ciclo
-      if ($el.closest('#settings-overlay').length &&
-          !$('#settings-overlay').hasClass('open')) {
-        return false;
-      }
-
-      return true;
-    });
-  }
-
-  $(document).on('keydown.focus-loop', function (e) {
-    if (e.key !== 'Tab') return;
-
-    var $focusables = getFocusables();
-    if ($focusables.length < 2) return;
-
-    var first   = $focusables[0];
-    var last    = $focusables[$focusables.length - 1];
-    var current = document.activeElement;
-
-    if (e.shiftKey && current === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && current === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
-})();
-
-$(document).one(':storyready', function () {
-
-  // Injeta o script do Lottie
-  if (!document.querySelector('script[src*="dotlottie-wc"]')) {
-    var lottieScript = document.createElement('script');
-    lottieScript.type = 'module';
-    lottieScript.src = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
-    document.head.appendChild(lottieScript);
-  }
-
-  var overlay = document.createElement('div');
-  overlay.id = 'loading-screen';
-  overlay.innerHTML =
-    '<div class="loading-background"></div>' +
-    '<main class="loading-content">' +
-      '<h1 class="loading-title">Há fogo na aldeia.</h1>' +
-      '<div class="loading-flame">' +
-        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
-      '</div>' +
-      '<span class="custom-loader"></span>' +
-      '<p class="loading-text">Carregando...</p>' +
-    '</main>' +
-    '<footer class="loading-footer">' +
-      '<div class="prevention-tip">' +
-        '<span class="tip-label">Dica: </span>' +
-        '<span id="tip-text"></span>' +
-      '</div>' +
-    '</footer>';
-  
-  document.body.appendChild(overlay);
-  TocarBirds();
-  
-  var fire = SimpleAudio.tracks.get('fire');
-  if (fire) {
-    fire.loop(true);
-    fire.volume(0);
-    fire.play();
-  }
-
-  var tipEl = overlay.querySelector('#tip-text');
-  var tipContainer = overlay.querySelector('.prevention-tip');
-  var tipIndex = 0;
-  var tipRotationInterval = null;
-
-  if (tips.length) {
-    tipIndex = Math.floor(Math.random() * tips.length);
-    tipEl.textContent = tips[tipIndex];
-
-    if (tips.length > 1) {
-      tipRotationInterval = setInterval(function () {
-        tipContainer.classList.add('tip-fading');
-
-        setTimeout(function () {
-          tipIndex = (tipIndex + 1) % tips.length;
-          tipEl.textContent = tips[tipIndex];
-          tipContainer.classList.remove('tip-fading');
-        }, 400);
-      }, 10000); // 10 segundos
-    }
-  }
-
-  var loaded = 0;
-  var total = imagesCritical.length;
-
-  function updateProgress() {
-    loaded++;
-    var pct = Math.round((loaded / total) * 100);
-    overlay.style.setProperty('--progress', pct + '%');
-    if (loaded >= total) finishLoading();
-  }
-  
-  var tempoInicio = Date.now();
-  var tempoMinimo = 2200;
-
-  function finishLoading() {
-    var passado = Date.now() - tempoInicio;
-    var faltam = Math.max(0, tempoMinimo - passado);
-
-    setTimeout(function () {
-      morphOut();
-    }, faltam + 300);
-  }
-
-    function morphOut() {
-    if (tipRotationInterval) {
-      clearInterval(tipRotationInterval);
-      tipRotationInterval = null;
-    }
-    
-    var titleEl = overlay.querySelector('.loading-title');
-    var targetTitle = document.querySelector('.sombrinha h1');
-
-    if (targetTitle) {
-        targetTitle.style.transition = 'none';
-        targetTitle.style.opacity = '0';
-    }
-
-    requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-            animarTitulo(titleEl, targetTitle);
-        });
-    });
-}
-
-function animarTitulo(titleEl, targetTitle) {
-    // ---------- Fallback: sem título de destino ----------
-    if (!titleEl || !targetTitle) {
-        overlay.style.transition = 'opacity 0.6s ease';
-        overlay.style.opacity = '0';
-        setTimeout(function() {
-            overlay.remove();
-            startBackgroundPreload();
-            if (targetTitle) {
-                targetTitle.style.transition = 'opacity 0.4s ease';
-                targetTitle.style.opacity = '1';
-                targetTitle.setAttribute('tabindex', '-1');
-                targetTitle.focus();
-            }
-        }, 700);
-        return;
-    }
-
-    var fromRect = titleEl.getBoundingClientRect();
-    var toRect = targetTitle.getBoundingClientRect();
-
-    var scaleX = toRect.width / fromRect.width;
-    var scaleY = toRect.height / fromRect.height;
-    var deltaX = toRect.left - fromRect.left;
-    var deltaY = toRect.top - fromRect.top - 30;
-
-    titleEl.style.transform = 'translate(0px, 0px) scale(1)';
-    void titleEl.offsetWidth;
-
-    var terminou = false;
-
-    function aoTerminar() {
-        if (terminou) return;
-        terminou = true;
-        overlay.remove();
-        startBackgroundPreload();
-
-        // ---------- Foco vai para o conteúdo principal ----------
-        var $title = $('.sombrinha h1');
-        if ($title.length) {
-            $title.attr('tabindex', '-1').focus();
-        }
-    }
-
-    titleEl.style.transition = 'transform 1.0s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
-    titleEl.addEventListener('transitionend', aoTerminar, { once: true });
-    setTimeout(aoTerminar, 1400);
-
-    // Título final com opacidade 0 mas pronto para aparecer
-    targetTitle.style.transition = 'opacity 0.6s ease';
-    targetTitle.style.opacity = '0';
-
-    requestAnimationFrame(function () {
-        titleEl.style.transform =
-            'translate(' + deltaX + 'px, ' + deltaY + 'px) scale(' + scaleX + ', ' + scaleY + ')';
-
-        // Título clone desaparece gradualmente
-        titleEl.style.opacity = '0';
-
-        // Título final aparece gradualmente (crossfade)
-        targetTitle.style.opacity = '1';
-
-        // Loading screen fade
-        overlay.style.transition = 'opacity 0.6s ease';
-        overlay.style.opacity = '0';
-    });
-}
-  
-  if (total === 0) {
-    finishLoading();
-  } else {
-    imagesCritical.forEach(function (src) {
-      var img = new Image();
-      img.onload = updateProgress;
-      img.onerror = updateProgress;
-      img.src = src;
-    });
-  }
-});
-
-// ============================================================
-// ÁUDIO EM SEGUNDO PLANO — silencia quando o jogo deixa de estar visível
-// (mudar de separador, minimizar o browser, trocar de app no PWA/telemóvel,
-// bloquear o ecrã) e volta a ligar ao regressar.
-// Não mexe no botão de som: se a pessoa tinha silenciado manualmente,
-// continua silenciada ao voltar.
-// ============================================================
-var silenciadoAutomaticamente = false;
-var saidaAtiva = false;   // ecrã "Jogo terminado" aberto (ver SAIR DO JOGO)
-
-function atualizarSomPorVisibilidade() {
-  var escondido = document.hidden;
-  var silenciadoPeloUtilizador = $('#sound-btn').hasClass('muted');
-
-  if (escondido && !silenciadoPeloUtilizador && !silenciadoAutomaticamente) {
-    silenciadoAutomaticamente = true;
-    SimpleAudio.mute(true);
-  } else if (!escondido && silenciadoAutomaticamente) {
-    silenciadoAutomaticamente = false;
-    if (!$('#sound-btn').hasClass('muted') && !saidaAtiva) SimpleAudio.mute(false);
-  }
-}
-
-document.addEventListener('visibilitychange', atualizarSomPorVisibilidade);
-window.addEventListener('pagehide', function () {   // iOS/Safari: ao sair da página
-  if (!silenciadoAutomaticamente && !$('#sound-btn').hasClass('muted')) {
-    silenciadoAutomaticamente = true;
-    SimpleAudio.mute(true);
-  }
-});
-window.addEventListener('pageshow', function () {
-  if (!document.hidden) atualizarSomPorVisibilidade();
-});
-// Se o jogo abrir já em segundo plano (ex.: link aberto num novo separador)
-$(document).one(':storyready', atualizarSomPorVisibilidade);
-
-// ============ ÁUDIO: desbloqueio de autoplay ============
-var birdsStarted = false;
-
-// ============================================================
-// CORREÇÃO: reiniciar variável ao recomeçar o jogo
-// ============================================================
-$(document).on(':storyrestart', function () {
-    birdsStarted = false;
-    var birds = SimpleAudio.tracks.get('birds');
-    if (birds) birds.stop();
-    var fire = SimpleAudio.tracks.get('fire');
-    if (fire) fire.stop();
-    var heartbeat = SimpleAudio.tracks.get('heartbeat');
-    if (heartbeat) heartbeat.stop();
-    if (earRingingFadeTimer) {
-        clearInterval(earRingingFadeTimer);
-        earRingingFadeTimer = null;
-    }
-    var earRinging = SimpleAudio.tracks.get('ear-ringing'); 
-    if (earRinging) earRinging.stop();
-    earRinging21FadeIniciado = false;
-    State.variables.entrouPanico = false;
-    resetTimer();
-});
-
-function TocarBirds() {
-  if (birdsStarted) return;
-  var birds = SimpleAudio.tracks.get('birds');
-  if (!birds) return;
-
-  birdsStarted = true;
-  var p = birds.loop(true).volume(0.6).play();
-
-  if (p && typeof p.catch === 'function') {
-    p.catch(function () {
-      birdsStarted = false;
-    });
-  }
-}
-
-// ============================================================
-// RECOMEÇAR — guardar / restaurar a cena anterior + botão X
-// ============================================================
-
-// Guardar a cena atual sempre que uma passagem termina
-// (não é no clique — é aqui, que é fiável)
-$(document).on(':passageend', function () {
+/* ==========================================================================
+   [10] RECOMEÇAR E GUIA DE JOGO (caixas .alarm)
+   Passagens especiais: '⟲' (confirmar recomeçar), 'Guia de Jogo', 'Sobre'.
+   ========================================================================== */
+
+/* ---- 10.1 Guardar a cena anterior ----
+   Em cada passagem normal, guarda o fundo/overlay (imagem, tamanho, posição)
+   para a passagem '⟲' os mostrar por trás da caixa de confirmação.
+   Corre em :passageend porque é aí que o DOM já existe (mais fiável que no clique). */
+function guardarCenaParaRecomecar() {
   if (passage() === '⟲') return;
 
   var $s  = $('.scene').not('.alarm-scene').first();
@@ -7563,10 +7367,10 @@ $(document).on(':passageend', function () {
     pos:  getComputedStyle($ov[0]).backgroundPosition,
     rep:  getComputedStyle($ov[0]).backgroundRepeat
   } : null;
-});
+}
 
-// Aplicar na passagem ⟲ — também em :passageend, que é depois do DOM existir
-$(document).on(':passageend', function () {
+/* ---- 10.2 Aplicar a cena guardada na passagem '⟲' ---- */
+function aplicarCenaNoRecomecar() {
   if (passage() !== '⟲') return;
 
   var $bg = $('.alarm-scene .image-bg').first();
@@ -7585,60 +7389,97 @@ $(document).on(':passageend', function () {
     $ov[0].style.setProperty('background-position', window.__restartOv.pos,  'important');
     $ov[0].style.setProperty('background-repeat',   window.__restartOv.rep,  'important');
   }
-});
+}
 
-// Botão X — dispara o mesmo que o "Manter progresso"
+/* ---- 10.3 Botão X (e tecla Escape) ----
+   Dispara o link interno do X (o <<back>> da passagem). Se não houver,
+   usa o "Manter progresso" da caixa de recomeçar. */
 $(document).on('click', '.alarm-close', function (e) {
   e.preventDefault();
   var $innerLink = $(this).find('a').first();
   if ($innerLink.length) {
     $innerLink.trigger('click');
   } else {
-    // Comportamento legado: caixa de "Recomeçar"
-    $('.alarm .cancel-restart a').first().trigger('click');
+    $('.alarm .cancel-restart a').first().trigger('click');   // comportamento legado
   }
 });
 
-// ============================================================
-// A11Y: alerta do recomeçar — abrir/fechar foco + trap + Escape
-// ============================================================
-
-// Abrir: quando o alert aparece, move o foco para dentro dele.
-$(document).on(':passageend', function () {
-  var $alarm = $('.alarm');
-  if ($alarm.length) {
-    setTimeout(function () {
-      window.__a11yOpenDialog($alarm);
-    }, 50);
-  }
-});
-
-// Fechar: qualquer passagem que não seja o próprio alert ⟲ devolve
-// o foco ao elemento que abriu o alerta.
-$(document).on(':passagestart', function (ev) {
-  if (ev.passage.title !== '⟲') {
-    window.__a11yCloseDialog();
-  }
-});
-
-// Escape: fecha o alert (mesmo efeito do botão X)
 $(document).on('keydown.alarm-escape', function (e) {
   if (e.key !== 'Escape') return;
-  var $alarm = $('.alarm');
-  if (!$alarm.length) return;
-  $alarm.find('.alarm-close').trigger('click');
+
+  if ($('#exit-overlay').hasClass('open')) {            // 1. Sair do jogo
+    $('#exit-cancel').trigger('click');
+  } else if ($('#settings-overlay').hasClass('open')) { // 2. Definições
+    $('#settings-close').trigger('click');
+  } else {                                              // 3. Caixas .alarm
+    var $close = $('.alarm .alarm-close').first();
+    if ($close.length) {
+      $close.trigger('click');
+    } else {
+      $('.alarm .cancel-restart a, .alarm .cancel-restart .macro-back').first().trigger('click');
+    }
+  }
 });
 
-// ============================================================
-// NOOK DE DEFINIÇÕES — botão + painel lateral
-// ============================================================
+/* ---- 10.4 Foco ao abrir/fechar o alerta ---- */
+
+// Abrir: quando aparece uma .alarm, move o foco para dentro dela
+function abrirFocoDoAlerta() {
+  var $alarm = $('.alarm');
+  if ($alarm.length) {
+    setTimeout(function () { window.__a11yOpenDialog($alarm); }, 50);
+  }
+}
+
+// Fechar: qualquer passagem que não seja '⟲' devolve o foco a quem abriu
+$(document).on(':passagestart', function (ev) {
+  if (ev.passage.title !== '⟲') window.__a11yCloseDialog();
+});
+
+/* ---- 10.5 Ícones do Guia de Jogo ----
+   Preenche todos os [data-icon="nome"] com o SVG de GUIDE_ICONS. */
+function preencherIconesDoGuia() {
+  $('[data-icon]').each(function () {
+    var svg = GUIDE_ICONS[this.getAttribute('data-icon')];
+    if (svg) this.innerHTML = svg;
+  });
+}
+
+/* X de fechar em todas as caixas .alarm (Recomeçar, Sobre, Guia de Jogo):
+   troca o "✕" de texto do <<back>> pelo SVG. O X das Definições já é
+   criado com ICON_CLOSE em [11.1]. */
+function aplicarIconeFechar() {
+  $('.alarm .alarm-close').each(function () {
+    var $inner = $(this).find('a, .macro-back').first();
+    var $target = $inner.length ? $inner : $(this);
+    $target.html(ICON_CLOSE).attr('aria-label', 'Fechar');
+  });
+}
+  // X do Guia: troca o "✕" de texto por um SVG limpo
+  $('.guide-modal .alarm-close').each(function () {
+    var $inner = $(this).find('a, .macro-back').first();
+    var $target = $inner.length ? $inner : $(this);
+    $target.html(ICON_CLOSE);
+  });
+
+/* ==========================================================================
+   [11] DEFINIÇÕES (botão + painel lateral) E SAIR DO JOGO
+   Tudo é criado na 1.ª passagem, dentro de uma única função (partilha de
+   variáveis jQuery e funções internas). Sub-blocos:
+     11.1 criar HTML        11.5 tamanho da letra    11.9 abrir/fechar
+     11.2 animações         11.6 temporizador        11.10 botões inferiores
+     11.3 som               11.7 narração (placeholder)
+     11.4 idioma (placeholder)  11.8 ecrã cheio + sair do jogo
+   ========================================================================== */
 $(document).one(':passagestart', function () {
 
   // Limpa qualquer versão anterior (evita duplicados)
   $('#settings-overlay').remove();
   $('#settings-nook').remove();
 
-  // ---------- 1. Botão "Definições" (nook) ----------
+  /* ---------- 11.1 HTML ---------- */
+
+  // Botão "Definições" (nook, canto superior direito)
   $('body').append(
     '<button id="settings-nook" type="button" aria-label="Abrir definições" aria-haspopup="dialog">' +
       '<span class="settings-icon" aria-hidden="true">⚙</span>' +
@@ -7646,20 +7487,20 @@ $(document).one(':passagestart', function () {
     '</button>'
   );
 
-  // ---------- 2. Painel ----------
-    $('body').append(
+  // Painel lateral
+  $('body').append(
     '<div id="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true">' +
       '<aside id="settings-panel">' +
         '<header class="settings-header">' +
           '<h2 class="settings-title" id="settings-title">' +
             '<span class="settings-icon" aria-hidden="true">⚙</span> Definições' +
           '</h2>' +
-          '<button id="settings-close" type="button" aria-label="Fechar definições">✕</button>' +
+          '<button id="settings-close" type="button" aria-label="Fechar definições">' + ICON_CLOSE + '</button>' +
         '</header>' +
- 
+
         '<div class="settings-body">' +
- 
-          /* ---------- Som Geral: ícone clicável + slider + % ---------- */
+
+          /* Som Geral: ícone clicável + slider + % */
           '<div class="settings-row settings-row-sound">' +
             '<div class="settings-row-sound-top">' +
               '<button type="button" class="sound-icon-btn" id="sound-icon-btn" aria-label="Silenciar som">' +
@@ -7672,14 +7513,14 @@ $(document).one(':passagestart', function () {
               '<input type="range" min="0" max="100" step="1" value="100" id="volume-slider" aria-label="Nível de volume">' +
             '</div>' +
           '</div>' +
- 
-          /* ---------- Narração de Voz ---------- */
+
+          /* Narração de Voz (placeholder) */
           '<div class="settings-row">' +
             '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_MIC + '</span> Narração de Voz</span>' +
             '<div class="toggle-switch" id="toggle-voice" role="switch" aria-checked="false" tabindex="0" aria-label="Narração de voz"></div>' +
           '</div>' +
 
-          /* ---------- Idioma ---------- */
+          /* Idioma (placeholder) */
           '<div class="settings-row settings-row-language">' +
             '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +
             '<select id="language-select" class="language-select" aria-label="Idioma">' +
@@ -7694,7 +7535,7 @@ $(document).one(':passagestart', function () {
             '</select>' +
           '</div>' +
 
-          /* ---------- Tamanho da Letra (segmentado) ----------*/
+          /* Tamanho da Letra (segmentado) */
           '<div class="settings-row settings-row-font">' +
             '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_FONT + '</span> Tamanho da Letra</span>' +
             '<div class="font-levels" id="font-levels" role="radiogroup" aria-label="Tamanho da letra">' +
@@ -7704,20 +7545,20 @@ $(document).one(':passagestart', function () {
               '<button type="button" class="font-level" data-level="3" aria-label="Tamanho A mais mais mais">A+++</button>' +
             '</div>' +
           '</div>' +
- 
-          /* ---------- Ecrã Cheio ---------- */
+
+          /* Ecrã Cheio */
           '<div class="settings-row">' +
             '<span class="settings-row-label"><span class="icon" aria-hidden="true">⛶</span> Ecrã Cheio</span>' +
             '<div class="toggle-switch" id="toggle-fullscreen" role="switch" aria-checked="false" tabindex="0" aria-label="Ecrã cheio"></div>' +
           '</div>' +
 
-          /* ---------------- Animações ----------------*/
+          /* Animações */
           '<div class="settings-row">' +
             '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_ANIMATION + '</span> Animações</span>' +
-            '<div class="toggle-switch on" id="toggle-animations" role="switch" aria-checked="true" tabindex="0" aria-label="Animações">' + '</div>' +
+            '<div class="toggle-switch on" id="toggle-animations" role="switch" aria-checked="true" tabindex="0" aria-label="Animações"></div>' +
           '</div>' +
 
-          /* ---------- Temporizador ---------- */
+          /* Temporizador */
           '<div class="settings-row settings-row-font">' +
             '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_TIMER + '</span> Temporizador</span>' +
             '<div class="font-levels" id="timer-levels" role="radiogroup" aria-label="Temporizador de decisão">' +
@@ -7728,14 +7569,15 @@ $(document).one(':passagestart', function () {
             '<span class="settings-hint" id="timer-hint" aria-live="polite"></span>' +
           '</div>' +
 
-          /* ---------------- Guia de Jogo (movido para dentro do body) ----------------*/
+          /* Guia de Jogo */
           '<button type="button" class="settings-btn settings-btn-guide" id="settings-guide">' + ICON_GUIDE + ' Guia de Jogo</button>' +
- 
+
         '</div>' +
- 
+
         '<div class="settings-actions">' +
           '<button type="button" class="settings-btn settings-btn-back" id="settings-back">' + ICON_BACK + ' Voltar para Trás</button>' +
           '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">' + ICON_RESTART + ' Recomeçar Cenário</button>' +
+          /* "Sair do Jogo" só aparece em PWA ou ecrã cheio (ver updateExitButton) */
           '<div class="settings-exit-group" style="display:none">' +
             '<button type="button" class="settings-btn settings-btn-exit" id="settings-exit">' + ICON_EXIT + ' Sair do Jogo</button>' +
           '</div>' +
@@ -7744,7 +7586,7 @@ $(document).one(':passagestart', function () {
     '</div>'
   );
 
-  // ---------- Diálogo "Sair do jogo" ----------
+  // Diálogo "Sair do jogo?"
   $('#exit-overlay').remove();
   $('body').append(
     '<div id="exit-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-hidden="true">' +
@@ -7759,23 +7601,30 @@ $(document).one(':passagestart', function () {
     '</div>'
   );
 
-  var $overlay     = $('#settings-overlay');
-  var $soundIcon   = $('#sound-icon-btn');
-  var $soundIconEl = $soundIcon.find('.sound-icon');
-  var $volumeSlider= $('#volume-slider');
-  var $volumeValue = $('#volume-value');
-  var $voiceToggle = $('#toggle-voice');
-  var $fullToggle  = $('#toggle-fullscreen');
-  var $fontLevels  = $('#font-levels');
-  var $fontButtons = $fontLevels.find('.font-level');
-  var $langSelect = $('#language-select');
+  /* ---------- Referências aos elementos ---------- */
+  var $overlay      = $('#settings-overlay');
+  var $soundIcon    = $('#sound-icon-btn');
+  var $soundIconEl  = $soundIcon.find('.sound-icon');
+  var $volumeSlider = $('#volume-slider');
+  var $volumeValue  = $('#volume-value');
+  var $voiceToggle  = $('#toggle-voice');
+  var $fullToggle   = $('#toggle-fullscreen');
+  var $fontLevels   = $('#font-levels');
+  var $fontButtons  = $fontLevels.find('.font-level');
+  var $langSelect   = $('#language-select');
+  var $animToggle   = $('#toggle-animations');
 
-  $langSelect.off('change.settings').on('change.settings', function () {
-    // placeholder — aqui entra a lógica de troca de idioma quando existir
-  });
+  // Interruptores: também funcionam com Espaço/Enter (acessibilidade)
+  function ativarTeclado($toggle) {
+    $toggle.off('keydown.settings').on('keydown.settings', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        $(this).trigger('click');
+      }
+    });
+  }
 
-  var $animToggle = $('#toggle-animations');
-
+  /* ---------- 11.2 Animações ---------- */
   function setAnimations(on) {
     animationsEnabled = on;
     $animToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
@@ -7788,28 +7637,12 @@ $(document).one(':passagestart', function () {
     setAnimations(on);
     if (!on) $('.text-box').trigger('click'); // termina a animação de texto em curso
   });
+  ativarTeclado($animToggle);
 
-  $animToggle.off('keydown.settings').on('keydown.settings', function (e) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      $(this).trigger('click');
-    }
-  });
-
-  // Preenche os ícones do Guia de Jogo (data-icon="...")
-  $(document).on(':passageend', function () {
-    $('[data-icon]').each(function () {
-      var svg = GUIDE_ICONS[this.getAttribute('data-icon')];
-      if (svg) this.innerHTML = svg;
-    });
-  });
-
-  // ============================================================
-  // SOM — estado, volume e mute
-  // ============================================================
-
+  /* ---------- 11.3 Som: estado, volume e mute ----------
+     O mute real vive no #sound-btn ([5.7]); aqui só o comandamos/espelhamos. */
   function getVolume() {
-    // SimpleAudio.volume() -> 0..1. Convertemos para 0..100.
+    // SimpleAudio.volume() devolve 0..1 → convertemos para 0..100
     try {
       if (typeof SimpleAudio !== 'undefined' && SimpleAudio.volume) {
         return Math.round(SimpleAudio.volume() * 100);
@@ -7820,17 +7653,13 @@ $(document).one(':passagestart', function () {
 
   function isMuted() {
     var $s = $('#sound-btn');
-    if ($s.length) return ($s.hasClass('muted'));
-    return false;
+    return $s.length ? $s.hasClass('muted') : false;
   }
 
   function setMute(mute) {
     var $s = $('#sound-btn');
-    if ($s.length) {
-      var currentlyMuted = ($s.hasClass('muted'));
-      if (currentlyMuted !== mute) {
-        $s.trigger('click'); 
-      }
+    if ($s.length && $s.hasClass('muted') !== mute) {
+      $s.trigger('click');
     }
     syncSoundUI();
   }
@@ -7846,6 +7675,7 @@ $(document).one(':passagestart', function () {
     $volumeSlider.val(v).css('--volume-pct', v + '%');
     $volumeValue.text(v + '%');
 
+    // Volume 0 = mudo; sair do 0 = volta a ligar
     if (v === 0 && !isMuted()) {
       setMute(true);
     } else if (v > 0 && isMuted()) {
@@ -7866,21 +7696,20 @@ $(document).one(':passagestart', function () {
     $volumeValue.text(vol + '%');
   }
 
-  // Clique no ícone → toggle mute
   $soundIcon.off('click.settings').on('click.settings', function () {
     setMute(!isMuted());
   });
 
-  // Slider → ajusta volume
   $volumeSlider.off('input.settings').on('input.settings', function () {
-    var v = parseInt(this.value, 10) || 0;
-    setVolume(v);
+    setVolume(parseInt(this.value, 10) || 0);
   });
 
-  // ============================================================
-  // TAMANHO DA LETRA — botões segmentados
-  // ============================================================
+  /* ---------- 11.4 Idioma (placeholder) ---------- */
+  $langSelect.off('change.settings').on('change.settings', function () {
+    // aqui entra a lógica de troca de idioma quando existir
+  });
 
+  /* ---------- 11.5 Tamanho da letra ---------- */
   function setFontLevel(level) {
     level = Math.max(0, Math.min(3, parseInt(level, 10) || 0));
     fontIndex = level;
@@ -7889,9 +7718,10 @@ $(document).one(':passagestart', function () {
     $fontButtons.each(function () {
       var lv = parseInt(this.getAttribute('data-level'), 10);
       $(this).toggleClass('active', lv === level)
-            .attr('aria-checked', lv === level ? 'true' : 'false');
+             .attr('aria-checked', lv === level ? 'true' : 'false');
     });
 
+    // A fake scrollbar precisa de recalcular depois de o texto mudar de tamanho
     setTimeout(function () {
       if (window.refreshFakeScrollbars) window.refreshFakeScrollbars();
     }, 60);
@@ -7901,9 +7731,7 @@ $(document).one(':passagestart', function () {
     setFontLevel(this.getAttribute('data-level'));
   });
 
-  // ============================================================
-// TEMPORIZADOR — seletor
-// ============================================================
+  /* ---------- 11.6 Temporizador (seletor) ---------- */
   var $timerButtons = $('#timer-levels .font-level');
   var $timerHint    = $('#timer-hint');
 
@@ -7924,37 +7752,24 @@ $(document).one(':passagestart', function () {
 
   syncTimerUI();
 
-  // ============================================================
-  // NARRAÇÃO DE VOZ (placeholder)
-  // ============================================================
-
+  /* ---------- 11.7 Narração de voz (placeholder) ---------- */
   $voiceToggle.off('click.settings').on('click.settings', function () {
     var on = !$voiceToggle.hasClass('on');
     $voiceToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
   });
-  $voiceToggle.off('keydown.settings').on('keydown.settings', function (e) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      $(this).trigger('click');
-    }
-  });
+  ativarTeclado($voiceToggle);
 
-  // ============================================================
-  // ECRÃ CHEIO
-  // ============================================================
-
+  /* ---------- 11.8 Ecrã cheio e Sair do jogo ---------- */
   function updateFullToggle() {
     var on = !!document.fullscreenElement;
     $fullToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
     updateExitButton();
   }
 
-  // ============================================================
-  // SAIR DO JOGO — só em PWA (sempre) ou em ecrã cheio.
-  // Os browsers só deixam window.close() fechar janelas abertas por script
-  // (ou algumas janelas de PWA no desktop). Se não fechar, mostramos
-  // "Jogo terminado" com o som e o temporizador parados.
-  // ============================================================
+  /* "Sair do jogo" só aparece em PWA (sempre) ou em ecrã cheio.
+     Os browsers só deixam window.close() fechar janelas abertas por script
+     (ou algumas janelas de PWA no desktop). Se não fechar, mostramos
+     "Jogo terminado" com o som e o temporizador parados. */
   function isPWA() {
     return window.matchMedia('(display-mode: standalone)').matches ||
            window.matchMedia('(display-mode: fullscreen)').matches ||
@@ -8016,7 +7831,7 @@ $(document).one(':passagestart', function () {
   $exitConfirm.off('click.exit').on('click.exit', confirmarSaida);
   $exitCancel.off('click.exit').on('click.exit', fecharSaida);
   $exit.off('click.exit').on('click.exit', function (e) {
-    if (e.target === $exit[0]) fecharSaida();
+    if (e.target === $exit[0]) fecharSaida();     // clique no fundo escuro
   });
   $(document).off('keydown.exit').on('keydown.exit', function (e) {
     if (e.key === 'Escape' && $exit.hasClass('open')) fecharSaida();
@@ -8033,24 +7848,17 @@ $(document).one(':passagestart', function () {
       document.exitFullscreen();
     }
   });
-  $fullToggle.off('keydown.settings').on('keydown.settings', function (e) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      $(this).trigger('click');
-    }
-  });
+  ativarTeclado($fullToggle);
   $(document).off('fullscreenchange.settings').on('fullscreenchange.settings', updateFullToggle);
 
-  // ============================================================
-  // ABRIR / FECHAR
-  // ============================================================
-
+  /* ---------- 11.9 Abrir / fechar o painel ---------- */
   function openSettings() {
+    // Sincroniza todos os controlos com o estado real antes de mostrar
     syncSoundUI();
     $volumeSlider.css('--volume-pct', (parseInt($volumeSlider.val(), 10) || 0) + '%');
     setFontLevel(fontIndex);
     updateFullToggle();
-    setAnimations(animationsEnabled); // sincroniza o toggle com o estado real
+    setAnimations(animationsEnabled);
     $overlay.addClass('open').attr('aria-hidden', 'false');
     syncTimer();   // pausa o temporizador
     syncTimerUI();
@@ -8060,32 +7868,28 @@ $(document).one(':passagestart', function () {
   function closeSettings() {
     $overlay.removeClass('open').attr('aria-hidden', 'true');
     syncTimer();   // retoma o temporizador onde ficou
-    window.__a11yCloseDialog();  
+    window.__a11yCloseDialog();
   }
 
   function toggleSettings() {
-    if ($overlay.hasClass('open')) {
-      closeSettings();
-    } else {
-      openSettings();
-    }
+    if ($overlay.hasClass('open')) closeSettings();
+    else openSettings();
   }
 
   $('#settings-nook').off('click.settings').on('click.settings', toggleSettings);
   $('#settings-close').off('click.settings').on('click.settings', closeSettings);
 
   $overlay.off('click.settings').on('click.settings', function (e) {
-    if (e.target === $overlay[0]) closeSettings();
+    if (e.target === $overlay[0]) closeSettings();   // clique no fundo escuro
   });
 
   $(document).off('keydown.settings').on('keydown.settings', function (e) {
     if (e.key === 'Escape' && $overlay.hasClass('open')) closeSettings();
   });
 
-  // ============================================================
-  // BOTÕES INFERIORES
-  // ============================================================
+  /* ---------- 11.10 Botões inferiores ---------- */
 
+  // Recomeçar: reutiliza o botão ↻ da text-box (abre a passagem '⟲')
   $('#settings-restart').off('click.settings').on('click.settings', function () {
     closeSettings();
     var $btn = $('.text-box .ui-btn a:first-child');
@@ -8096,6 +7900,7 @@ $(document).one(':passagestart', function () {
     }
   });
 
+  // Voltar atrás: reutiliza o <<back>> da text-box
   $('#settings-back').off('click.settings').on('click.settings', function () {
     closeSettings();
     var $back = $('.text-box .ui-btn .macro-back');
@@ -8108,14 +7913,243 @@ $(document).one(':passagestart', function () {
 
   $('#settings-guide').off('click.settings').on('click.settings', function () {
     closeSettings();
-    Engine.play('Guia de Jogo'); 
+    Engine.play('Guia de Jogo');
   });
 
   // Estado inicial dos botões de fonte
   setFontLevel(fontIndex);
 });
 
-// PRONTO PARA EVACUAR — reservar a altura real da text-box
+
+/* ==========================================================================
+   [12] ECRÃ DE CARREGAMENTO E PRÉ-CARREGAMENTO DE IMAGENS
+   --------------------------------------------------------------------------
+   Em :storyready mostra #loading-screen (título + chama Lottie + barra).
+   A barra avança com imagesCritical. Quando acaba (mín. 2,2 s), o título
+   "viaja" até à posição do título real (.sombrinha h1) e o overlay desaparece.
+   Depois arranca o pré-carregamento de imagesBackground.
+   ========================================================================== */
+
+/* Carrega o resto das imagens em segundo plano, 1–2 de cada vez, só quando o
+   browser está livre e com prioridade baixa (para não competir com o jogo). */
+function startBackgroundPreload() {
+  if (startBackgroundPreload.started) return;
+  startBackgroundPreload.started = true;
+
+  var conn = navigator.connection || {};
+  if (conn.saveData) return; // modo "poupança de dados": só carrega o que for preciso
+
+  var queue = [].concat.apply([], imagesBackground);   // achata PRONTO_EVACUAR_IMGS
+  var maxParallel = /(^|-)2g$/.test(conn.effectiveType || '') ? 1 : 2;
+  var active = 0;
+  var idle = window.requestIdleCallback
+    ? function (fn) { window.requestIdleCallback(fn, { timeout: 1500 }); }
+    : function (fn) { setTimeout(fn, 200); };
+
+  function done() { active--; idle(next); }
+
+  function next() {
+    while (active < maxParallel && queue.length) {
+      var img = new Image();
+      img.decoding = 'async';
+      if ('fetchPriority' in img) img.fetchPriority = 'low';
+      img.onload = done;
+      img.onerror = done;     // uma imagem em falta não bloqueia a fila
+      active++;
+      img.src = queue.shift();
+    }
+  }
+
+  idle(next);
+}
+
+$(document).one(':storyready', function () {
+
+  // Injeta o script do Lottie (animação da chama)
+  if (!document.querySelector('script[src*="dotlottie-wc"]')) {
+    var lottieScript = document.createElement('script');
+    lottieScript.type = 'module';
+    lottieScript.src = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
+    document.head.appendChild(lottieScript);
+  }
+
+  var overlay = document.createElement('div');
+  overlay.id = 'loading-screen';
+  overlay.innerHTML =
+    '<div class="loading-background"></div>' +
+    '<main class="loading-content">' +
+      '<h1 class="loading-title">Há fogo na aldeia.</h1>' +
+      '<div class="loading-flame">' +
+        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
+      '</div>' +
+      '<span class="custom-loader"></span>' +
+      '<p class="loading-text">Carregando...</p>' +
+    '</main>' +
+    '<footer class="loading-footer">' +
+      '<div class="prevention-tip">' +
+        '<span class="tip-label">Dica: </span>' +
+        '<span id="tip-text"></span>' +
+      '</div>' +
+    '</footer>';
+
+  document.body.appendChild(overlay);
+  TocarBirds();
+
+  // Fogo: arranca mudo; o volume sobe conforme a passagem (aplicarSomFogo)
+  var fire = SimpleAudio.tracks.get('fire');
+  if (fire) {
+    fire.loop(true);
+    fire.volume(0);
+    fire.play();
+  }
+
+  /* ---- Dicas rotativas (a cada 10 s, com fade) ---- */
+  var tipEl = overlay.querySelector('#tip-text');
+  var tipContainer = overlay.querySelector('.prevention-tip');
+  var tipIndex = 0;
+  var tipRotationInterval = null;
+
+  if (tips.length) {
+    tipIndex = Math.floor(Math.random() * tips.length);
+    tipEl.textContent = tips[tipIndex];
+
+    if (tips.length > 1) {
+      tipRotationInterval = setInterval(function () {
+        tipContainer.classList.add('tip-fading');
+
+        setTimeout(function () {
+          tipIndex = (tipIndex + 1) % tips.length;
+          tipEl.textContent = tips[tipIndex];
+          tipContainer.classList.remove('tip-fading');
+        }, 400);
+      }, 10000);
+    }
+  }
+
+  /* ---- Barra de progresso ---- */
+  var loaded = 0;
+  var total = imagesCritical.length;
+  var tempoInicio = Date.now();
+  var tempoMinimo = 2200;   // o ecrã fica pelo menos este tempo (ms)
+
+  function updateProgress() {
+    loaded++;
+    var pct = Math.round((loaded / total) * 100);
+    overlay.style.setProperty('--progress', pct + '%');
+    if (loaded >= total) finishLoading();
+  }
+
+  function finishLoading() {
+    var passado = Date.now() - tempoInicio;
+    var faltam = Math.max(0, tempoMinimo - passado);
+    setTimeout(morphOut, faltam + 300);
+  }
+
+  /* ---- Saída: o título do loading "voa" até ao título real ---- */
+  function morphOut() {
+    if (tipRotationInterval) {
+      clearInterval(tipRotationInterval);
+      tipRotationInterval = null;
+    }
+
+    var titleEl = overlay.querySelector('.loading-title');
+    var targetTitle = document.querySelector('.sombrinha h1');
+
+    if (targetTitle) {
+      targetTitle.style.transition = 'none';
+      targetTitle.style.opacity = '0';
+    }
+
+    // Dois rAF: garante que o browser já pintou o estado inicial
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        animarTitulo(titleEl, targetTitle);
+      });
+    });
+  }
+
+  function animarTitulo(titleEl, targetTitle) {
+    // Fallback: sem título de destino → só faz fade do overlay
+    if (!titleEl || !targetTitle) {
+      overlay.style.transition = 'opacity 0.6s ease';
+      overlay.style.opacity = '0';
+      setTimeout(function () {
+        overlay.remove();
+        startBackgroundPreload();
+        if (targetTitle) {
+          targetTitle.style.transition = 'opacity 0.4s ease';
+          targetTitle.style.opacity = '1';
+          targetTitle.setAttribute('tabindex', '-1');
+          targetTitle.focus();
+        }
+      }, 700);
+      return;
+    }
+
+    // Calcula a translação/escala que leva o título do loading ao título real
+    var fromRect = titleEl.getBoundingClientRect();
+    var toRect   = targetTitle.getBoundingClientRect();
+
+    var scaleX = toRect.width / fromRect.width;
+    var scaleY = toRect.height / fromRect.height;
+    var deltaX = toRect.left - fromRect.left;
+    var deltaY = toRect.top - fromRect.top - 30;   // -30: ajuste fino visual
+
+    titleEl.style.transform = 'translate(0px, 0px) scale(1)';
+    void titleEl.offsetWidth;                      // força reflow
+
+    var terminou = false;
+
+    function aoTerminar() {
+      if (terminou) return;
+      terminou = true;
+      overlay.remove();
+      startBackgroundPreload();
+
+      // Foco vai para o conteúdo principal
+      var $title = $('.sombrinha h1');
+      if ($title.length) $title.attr('tabindex', '-1').focus();
+    }
+
+    titleEl.style.transition = 'transform 1.0s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease';
+    titleEl.addEventListener('transitionend', aoTerminar, { once: true });
+    setTimeout(aoTerminar, 1400);                  // salvaguarda se transitionend não disparar
+
+    // Título final: pronto para aparecer
+    targetTitle.style.transition = 'opacity 0.6s ease';
+    targetTitle.style.opacity = '0';
+
+    requestAnimationFrame(function () {
+      titleEl.style.transform =
+        'translate(' + deltaX + 'px, ' + deltaY + 'px) scale(' + scaleX + ', ' + scaleY + ')';
+
+      titleEl.style.opacity = '0';                 // clone desaparece
+      targetTitle.style.opacity = '1';             // título real aparece (crossfade)
+
+      overlay.style.transition = 'opacity 0.6s ease';
+      overlay.style.opacity = '0';
+    });
+  }
+
+  /* ---- Arranque do pré-carregamento crítico ---- */
+  if (total === 0) {
+    finishLoading();
+  } else {
+    imagesCritical.forEach(function (src) {
+      var img = new Image();
+      img.onload = updateProgress;
+      img.onerror = updateProgress;   // erro também conta, para a barra não encravar
+      img.src = src;
+    });
+  }
+});
+
+
+/* ==========================================================================
+   [13] PASSAGEM 13 — "PRONTO PARA EVACUAR"
+   Mede a altura real da text-box e passa-a ao CSS (--pe-textbox-px) para a
+   imagem não ficar tapada em tablets.
+   ========================================================================== */
 function ajustarProntoEvacuar() {
   var stage = document.querySelector('.prontoevacuar-stage');
   var box = document.querySelector('#prontoevacuarScene .text-box');
@@ -8123,10 +8157,12 @@ function ajustarProntoEvacuar() {
   stage.style.setProperty('--pe-textbox-px', box.getBoundingClientRect().height + 'px');
 }
 
-$(document).on(':passageend', function () {
+/* Liga/desliga os ouvintes conforme se está ou não na passagem 13 */
+function configurarProntoEvacuar() {
   if (passage() === '13') {
     setTimeout(ajustarProntoEvacuar, 60);
     $(window).off('resize.pe').on('resize.pe', ajustarProntoEvacuar);
+    // Mudar o tamanho da letra altera a altura da caixa
     $(document).off('click.pefont').on('click.pefont', '.font-level', function () {
       setTimeout(ajustarProntoEvacuar, 60);
     });
@@ -8134,12 +8170,15 @@ $(document).on(':passageend', function () {
     $(window).off('resize.pe');
     $(document).off('click.pefont');
   }
-});
+}
 
-// ============================================================
-// FAKE SCROLLBAR — mobile/tablet (touch)
-// Substitui a scrollbar nativa pelo estilo custom do desktop.
-// ============================================================
+
+/* ==========================================================================
+   [14] SCROLLBAR FALSA (telemóvel/tablet — ecrãs touch)
+   Esconde a scrollbar nativa (CSS) e desenha uma barra com o mesmo estilo do
+   desktop sobre .text-scroll e .alarm. Só ativa com (pointer: coarse).
+   window.refreshFakeScrollbars() recalcula (usado ao mudar o tamanho da letra).
+   ========================================================================== */
 (function () {
   if (!window.matchMedia('(pointer: coarse)').matches) return;
 
@@ -8155,6 +8194,7 @@ $(document).on(':passageend', function () {
     return { track: track, thumb: thumb };
   }
 
+  // Posiciona a barra sobre o elemento e mostra-a durante 0,9 s
   function update(inst) {
     var el = inst.scrollEl;
     var rect = el.getBoundingClientRect();
@@ -8212,6 +8252,7 @@ $(document).on(':passageend', function () {
     instances.forEach(update);
   };
 
+  // A cada passagem recria as barras (o DOM mudou)
   $(document).on(':passageend', function () {
     setTimeout(scanAndAttach, 80);
   });
@@ -8219,7 +8260,113 @@ $(document).on(':passageend', function () {
   $(window).on('resize', function () {
     instances.forEach(update);
   });
-})();</script><tw-tag name="end" color="red"></tw-tag><tw-tag name="widget" color="purple"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;
+})();
+
+
+/* ==========================================================================
+   [15] EVENTOS PRINCIPAIS DO SUGARCUBE
+   --------------------------------------------------------------------------
+   :passagestart → antes de a passagem aparecer (reset de estado, áudio)
+   :passageend   → depois de o DOM existir (texto, UI, cenas)
+   ========================================================================== */
+
+/* ---- 15.1 :passagestart ---- */
+$(document).on(':passagestart', function (ev) {
+  var name = ev.passage.title;
+  applyAnimationsState();
+
+  // Passagem inicial: repõe o estado dos pássaros, do pânico e do temporizador
+  if (name === 'Start') {
+    birdsStarted = false;
+    var birds = SimpleAudio.tracks.get('birds');
+    if (birds) birds.stop();
+    State.variables.entrouPanico = false;
+    earRinging21FadeIniciado = false;
+    resetTimer();
+    State.variables.jaEntrouPanico = false;
+    State.variables.panicOrigin = null;
+  }
+
+  // Limpa o que pertencia à passagem anterior
+  cancelarAutoFim();
+  TocarBirds();
+  pauseTimer();
+  timerTextReady = false;
+  passageTextDone = false;
+  $('#decision-timer').remove();
+
+  $('.scene').hide().fadeIn(200);
+
+  // Áudio
+  pararSonsCurtos();
+  aplicarSomBirds(name);
+  aplicarSomFogo(name);
+
+  // Cronómetro: passagens com contador criam-no; as restantes limpam-no
+  // ('⟲' e 'Guia de Jogo' mantêm-no, para o jogo continuar de onde estava)
+  if (TIMER_PASSAGES.indexOf(name) > -1) {
+    startDecisionTimer();
+  } else if (name !== '⟲' && name !== 'Guia de Jogo') {
+    resetTimer();
+  }
+
+  aplicarSonsPontuais(name);
+  aplicarSomEarRinging(name);
+
+  // Passagem 13: dispara a sequência de imagens (.play ativa as animações CSS)
+  if (name === '13') {
+    setTimeout(function () {
+      $('.prontoevacuar-stage').addClass('play');
+    }, 100);
+  }
+
+  // Passagem 2.1 (telemóvel): dimensiona o telefone e reajusta ao rodar/redimensionar
+  if (name === '2.1') {
+    setTimeout(function () {
+      ajustarPhone();
+      var scene = document.querySelector('.phone-scene');
+      if (scene) {
+        scene.style.display = 'flex';
+        scene.style.alignItems = 'center';
+        scene.style.justifyContent = 'center';
+      }
+    }, 200);
+    $(window).off('resize.phone').on('resize.phone', ajustarPhone);
+  } else {
+    $(window).off('resize.phone');
+  }
+});
+
+/* ---- 15.2 :passageend ---- */
+$(document).on(':passageend', function () {
+
+  aplicarFonte();   // reaplica o tamanho da letra a cada passagem
+
+  // O botão de recomeçar nativo (.ui-btn) mostra só o símbolo ↻
+  var $restart = $('.ui-btn a:first-child');
+  if ($restart.length) $restart.text('↻');
+
+  if (passage() === '2.1') criarEcraTelemovel();
+
+  // A passagem '⟲' (confirmar recomeçar) não tem texto animado
+  if (passage() !== '⟲') iniciarTextoAnimado();
+
+  // Recomeçar: guardar cena / aplicar cena guardada
+  guardarCenaParaRecomecar();
+  aplicarCenaNoRecomecar();
+
+  abrirFocoDoAlerta();
+  preencherIconesDoGuia();
+  aplicarIconeFechar();
+  configurarProntoEvacuar();
+});
+
+/* ---- 15.3 :passagestart (uma vez) — elementos fixos da interface ----
+   O botão de som e o painel de definições registam-se à parte ([5.7] e [11]) */
+$(document).one(':passagestart', function () {
+  criarAvisoDeRotacao();
+  tentarBloquearOrientacao();
+});</script><tw-tag name="end" color="red"></tw-tag><tw-tag name="widget" color="purple"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene eletricidade-leve&quot;&gt;
     &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
 
@@ -8946,10 +9093,6 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/label&gt;
       &lt;/nav&gt;
 
-      &lt;div class=&quot;guide-footer&quot;&gt;
-        &lt;span class=&quot;guide-close-btn&quot;&gt;&lt;&lt;back &quot;Fechar&quot;&gt;&gt;&lt;/span&gt;
-      &lt;/div&gt;
-
       &lt;section class=&quot;guide-content fira-sans-regular&quot;&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-sobre&quot;&gt;
@@ -8976,7 +9119,6 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
             &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito pode ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Aqui também pode &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
-
       &lt;/section&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -9007,10 +9149,6 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/label&gt;
       &lt;/nav&gt;
 
-      &lt;div class=&quot;guide-footer&quot;&gt;
-        &lt;div class=&quot;choices guide-choices&quot;&gt;[[Começar-&gt;1]]&lt;/div&gt;
-      &lt;/div&gt;
-
       &lt;section class=&quot;guide-content fira-sans-regular&quot;&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-sobre&quot;&gt;
@@ -9037,7 +9175,6 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
             &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito pode ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Aqui também pode &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
-
       &lt;/section&gt;
     &lt;/div&gt;
   &lt;/div&gt;
