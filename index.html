@@ -5569,7 +5569,10 @@ body.reduce-motion .fade-black-overlay {
   margin-top: 0.3rem;
 }
 
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
+#story {
+  margin: 0 !important;
+  left: 0 !important;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// ============================================================
 // ALTURA REAL DO ECRÃ — corrige bugs de 100vh/100dvh em Android
 // (barra de navegação do sistema não é sempre bem calculada por dvh)
 // ============================================================
@@ -6906,7 +6909,7 @@ if (!document.querySelector('link[href*="Material+Symbols+Outlined"]')) {
 if (!document.querySelector('meta[name="viewport"]')) {
   $('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">').appendTo('head');
 } else {
-  $('meta[name="viewport"]').attr('content', 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no');
+  $('meta[name="viewport"]').attr('content', 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
 }
 
 // favicon
