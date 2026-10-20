@@ -142,6 +142,16 @@ body {
   overflow: hidden !important;
 }
 
+/* ÍCONES (Phosphor) — sprite SVG; a cor vem de currentColor nos <path> */
+.ph-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
 /* ============================================================
    ALINHAMENTO CONSISTENTE: sound-btn + font-btn
    ============================================================ */
@@ -498,33 +508,10 @@ p { color: white !important;
 
 /* ---- Botão fechar (X) — partilhado por .alarm e Definições ---- */
 
-.alarm .alarm-close,
-#settings-close {
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  cursor: pointer;
-  line-height: 1;
-
-  background-color: #8A5A3B !important;
-  background-image:
-    linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
-  background-size: 100% 100%, 120px 120px !important;
-  background-position: left top, left top !important;
-  background-repeat: no-repeat, repeat !important;
-
-  border: 3px solid #D1A377 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
-  color: #FFF5E6 !important;
-
-  transition: filter 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+.alarm .alarm-close .ph-icon,
+#settings-close .ph-icon {
+  width: 18px;
+  height: 18px;
 }
 
 /* Nas caixas .alarm o X fica no canto */
@@ -831,19 +818,13 @@ h1 {
 }
 
 #sound-btn .sound-btn-icon {
+  font-size: 30px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  transition: filter 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
-}
-
-#sound-btn .sound-btn-icon svg {
-  width: 30px;
-  height: 30px;
-  display: block;
-  color: #FFFFFF;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
-  transition: filter 0.25s ease;
 }
 
 /* Hover */
@@ -857,7 +838,7 @@ h1 {
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4);
   }
 
-  #sound-btn:hover .sound-btn-icon svg {
+  #sound-btn:hover .sound-btn-icon {
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65))
             drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
   }
@@ -916,7 +897,7 @@ h1 {
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4);
   }
 
-  #sound-btn.muted:hover .sound-btn-icon svg {
+  #sound-btn.muted:hover .sound-btn-icon {
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65))
             drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
   }
@@ -931,7 +912,7 @@ h1 {
     border-radius: 10px;
   }
 
-  #sound-btn .sound-btn-icon svg {
+  #sound-btn .sound-btn-icon {
     width: 26px;
     height: 26px;
   }
@@ -2697,14 +2678,6 @@ button {
    ÍCONE DE APAGAR (BACKSPACE) — TELEMÓVEL 2.1
    ============================================================ */
 
-.material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
-}
-
 #phone-digits {
   flex: 1 1 auto;
   text-align: center;
@@ -2727,6 +2700,10 @@ button {
   font-size: 1.1em;
   line-height: 1;
   transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+#phone-backspace .ph-icon { 
+  vertical-align: middle; 
 }
 
 #phone-backspace:active {
@@ -3191,6 +3168,8 @@ button {
 /* Ícone dentro da caixa */
 
 .rotate-overlay .rotate-icon {
+    font-size: var(--rotate-icon); 
+    color: #FFF5E6;
     animation: rotate-hint 3.2s ease-in-out infinite;
     display: flex;
     align-items: center;
@@ -3199,32 +3178,13 @@ button {
     flex-shrink: 0;
 }
 
-.rotate-overlay .rotate-icon svg {
-    display: block;
-    width: var(--rotate-icon);
-    height: var(--rotate-icon);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
 /* ===== ANIMAÇÃO: de horizontal (0°) para vertical (90°) ===== */
 
+/* ===== ANIMAÇÃO: o telemóvel começa deitado e endireita-se ===== */
 @keyframes rotate-hint {
-    0% { 
-        transform: rotate(0deg);
-        animation-timing-function: ease-in-out;
-    }
-    35% { 
-        transform: rotate(90deg);
-        animation-timing-function: ease-in-out;
-    }
-    65% { 
-        transform: rotate(90deg);
-        animation-timing-function: ease-in-out;
-    }
-    100% { 
-        transform: rotate(0deg);
-        animation-timing-function: ease-in-out;
-    }
+    0%, 15% { transform: rotate(90deg); }
+    50%, 75% { transform: rotate(0deg); }
+    100% { transform: rotate(90deg); }
 }
 
 /* ===== RESPONSIVIDADE ===== */
@@ -3902,11 +3862,8 @@ html[data-init="loading"] #init-loading {
 
 /* Ícone ↻ antes do texto — só no alert da confirmação */
 
-.alarm .confirm-restart a::after {
-  content: '↻';
-  order: -1;
-  font-size: 1.15em;
-  line-height: 1;
+.alarm .confirm-restart a::before {
+  content: none !important;
 }
 
 /* ============================================================
@@ -4083,13 +4040,13 @@ html[data-init="loading"] #init-loading {
    ============================================================ */
 
 :root {
-  --settings-accent: #EAA788;                     
-  --settings-track: rgba(255, 255, 255, 0.1255);    
-  --settings-row-bg: rgba(255, 255, 255, 0.0627);  
+  --settings-accent: #EAA788;
+  --settings-track: rgba(255, 255, 255, 0.1255);
   --settings-border: rgba(183, 127, 85, 0.4);
-}
-
-:root {
+  --settings-group-bg: rgba(0, 0, 0, 0.22);
+  --settings-group-border: rgba(183, 127, 85, 0.35);
+  --settings-divider: rgba(255, 245, 230, 0.08);
+  --settings-gold: #FFD54A;
   --settings-panel-width: min(90vw, 360px);
 }
 
@@ -4211,7 +4168,7 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 #settings-nook .settings-icon {
-  font-size: 1.2em;
+  font-size: 1.35em;
   line-height: 1;
   display: inline-block;
 }
@@ -4358,32 +4315,52 @@ body:has(#settings-overlay.open) #sound-btn {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+.settings-title .settings-icon { font-size: 1.1em; }
 
 /* ---------- Body ---------- */
 
 .settings-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-.settings-body .settings-btn-guide {
-  margin-top: 8px;
-}
+   .settings-group {
+     display: flex;
+     flex-direction: column;
+     padding: 4px 14px 6px;
+     background: var(--settings-group-bg);
+     border: 1px solid var(--settings-group-border);
+     border-radius: 12px;
+     box-sizing: border-box;
+   }
+
+   .settings-group-title {
+     margin: 10px 0 0;
+     font-family: "Fira Sans", sans-serif;
+     font-size: 0.72em;
+     font-weight: 600;
+     letter-spacing: 0.08em;
+     text-transform: uppercase;
+     color: var(--settings-accent);
+     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+   }
 
 /* Container comum a cada elemento
    (Som Geral / Narração / Tamanho da Letra / Ecrã Cheio) — ponto 6 */
 
-.settings-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 12px 14px;
-  background: var(--settings-row-bg);
-  border-radius: 12px;
-  box-sizing: border-box;
-}
+   .settings-row {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     gap: 14px;
+     padding: 12px 0;
+     box-sizing: border-box;
+   }
+
+   .settings-row + .settings-row {
+     border-top: 1px solid var(--settings-divider);
+   }
 
 .settings-row-label {
   display: flex;
@@ -4396,14 +4373,12 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .settings-row-label .icon {
+  font-size: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
-}
-
-.settings-row-label .icon svg { display: block;
 }
 
 .language-select {
@@ -4434,18 +4409,11 @@ body:has(#settings-overlay.open) #sound-btn {
 /* ---------- Som Geral: ícone clicável + slider + % ---------- */
 
 .settings-row-sound {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px 12px;
 }
 
-.settings-row-sound-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 10px;
-}
 
 .sound-icon-btn {
   background: none;
@@ -4461,9 +4429,6 @@ body:has(#settings-overlay.open) #sound-btn {
   transition: opacity 0.2s ease;
 }
 
-.sound-icon-btn svg { display: block;
-}
-
 .sound-icon-btn:hover {
   opacity: 0.85;
 }
@@ -4473,13 +4438,9 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .sound-icon-btn .sound-icon {
+  font-size: 20px;
   display: inline-flex;
   align-items: center;
-}
-
-.sound-icon-btn .sound-icon svg {
-  width: 24px;
-  height: 24px;
 }
 
 .sound-icon-btn .sound-label {
@@ -4490,15 +4451,18 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .sound-slider-wrap {
-  flex: 1;
+  flex: 1 1 90px; 
+  min-width: 90px;
   display: flex;
   align-items: center;
-  min-width: 0;
 }
 
-.settings-row-sound .sound-slider-wrap {
-  flex: none;
-  width: 100%;
+.volume-value {
+  min-width: 3.2ch;
+  text-align: right;
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 245, 230, 0.85);
 }
 
 /* Slider — ponto 3 */
@@ -4630,7 +4594,7 @@ body:has(#settings-overlay.open) #sound-btn {
 .settings-row-font {
   flex-direction: column;
   align-items: stretch;
-  gap: 12px;
+  gap: 10px;
 }
 
 .font-levels {
@@ -4724,6 +4688,119 @@ body:has(#settings-overlay.open) #sound-btn {
   outline: none !important;
 }
 
+/* ==========================================================================
+   3. GUIA DE JOGO — ligação de navegação (não é um botão de ação)
+   Regras de UI aplicadas:
+   - sem "caixa" = não altera o jogo (botões de madeira = ações; aqui só se vai ler);
+   - chevron ">" = "abre outra página" (convenção universal de navegação);
+   - dourado reservado a "informação" (ícone + linha), nunca usado nos botões;
+   - feedback ao hover/foco: linha dourada cresce da esquerda + chevron desliza.
+   NOTA: o "button" global tem background/border none !important, por isso as
+   linhas são desenhadas com ::before / ::after.
+   ========================================================================== */
+.settings-guide-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  width: 100%;
+  margin-top: 2px;
+  padding: 12px 6px 12px 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
+  color: #FFF5E6;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-guide-link .sgl-icon {
+  display: inline-flex;
+  font-size: 22px;
+  color: var(--settings-gold);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+.settings-guide-link .sgl-label { flex: 1; }
+
+.settings-guide-link .sgl-chevron {
+  display: inline-flex;
+  font-size: 18px;
+  opacity: 0.8;
+  transition: transform 0.25s var(--ease-soft, ease), opacity 0.2s ease;
+}
+
+.btn-chevron {
+  display: inline-flex;
+  margin-left: 0.4em;
+  font-size: 1em;
+  transition: transform 0.25s var(--ease-soft, ease);
+}
+
+@media (hover: hover) {
+  .choices > a:hover .btn-chevron,
+  .choices > button:hover .btn-chevron { transform: translateX(4px); }
+}
+
+/* linha base (discreta) + linha dourada que cresce */
+.settings-guide-link::before,
+.settings-guide-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.settings-guide-link::before {
+  height: 1px;
+  background: rgba(255, 213, 74, 0.28);
+}
+
+.settings-guide-link::after {
+  height: 2px;
+  background: var(--settings-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+@media (hover: hover) {
+  .settings-guide-link:hover::after        { transform: scaleX(1); }
+  .settings-guide-link:hover .sgl-chevron  { transform: translateX(4px); opacity: 1; }
+}
+
+.settings-guide-link:focus-visible::after        { transform: scaleX(1); }
+.settings-guide-link:focus-visible .sgl-chevron  { transform: translateX(4px); opacity: 1; }
+.settings-guide-link:focus-visible {
+  outline: 3px solid var(--settings-gold) !important;
+  outline-offset: 2px !important;
+  border-radius: 6px;
+}
+
+.settings-guide-link:active .sgl-label { opacity: 0.8; }
+
+/* Variante opcional "entrada de diário": barra dourada à esquerda + brilho suave.
+   Ativar acrescentando a classe is-journal ao botão. */
+.settings-guide-link.is-journal {
+  padding-left: 14px;
+  background-image: linear-gradient(90deg, rgba(255, 213, 74, 0.12), transparent 70%) !important;
+  border-radius: 0 8px 8px 0;
+}
+.settings-guide-link.is-journal::before {
+  inset: 0 auto 0 0;
+  width: 3px;
+  height: auto;
+  background: var(--settings-gold);
+  border-radius: 2px;
+}
+
+
 /* ---------- Botões inferiores — ponto 7 ---------- */
 
 .settings-actions {
@@ -4755,6 +4832,12 @@ body:has(#settings-overlay.open) #sound-btn {
   transition: filter 0.2s ease, transform 0.1s ease,
               border-color 0.2s ease, background 0.2s ease,
               box-shadow 0.2s ease;
+}
+
+.settings-btn .ph-icon {
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: 0;
 }
 
 .settings-btn:active {
@@ -5172,13 +5255,6 @@ body.reduce-motion .fade-black-overlay {
   color: inherit !important;
 }
 
-.alarm.guide-modal .alarm-close svg {
-  display: block;
-  width: 16px;
-  height: 16px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
-}
-
 .alarm.guide-modal .alarm-close:hover {
   opacity: 1;
   transform: none;
@@ -5253,10 +5329,9 @@ body.reduce-motion .fade-black-overlay {
   transition: background-color .15s ease, border-color .15s ease, font-weight .15s ease;
 }
 
-.guide-tab svg { 
+.guide-tab .ph-icon { 
   width: 1.2em; 
   height: 1.2em; 
-  flex: 0 0 auto;
 }
 
 @media (hover: hover) {
@@ -5378,9 +5453,7 @@ body.reduce-motion .fade-black-overlay {
 .guide-tab-ico {
   display: inline-flex;
   flex: 0 0 auto;
-}
-
-.guide-tab-ico svg { width: 1.2em; height: 1.2em; display: block;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
 }
 
 .guide-howto .gh-ico {
@@ -5389,13 +5462,12 @@ body.reduce-motion .fade-black-overlay {
   justify-content: center;
   padding-top: 0.1em;
   color: #FFF5E6;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
 }
 
-.guide-howto .gh-ico svg {
-  width: 1.3em;
-  height: 1.3em;
-  display: block;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+.guide-howto .gh-ico .ph-icon { 
+  width: 1.3em; 
+  height: 1.3em; 
 }
 
 /* Anula o ::before nativo do SugarCube ([data-icon]::before{content:attr(data-icon)}) */
@@ -5789,118 +5861,144 @@ var TIMER_MS = TIMER_MODES[timerMode] || TIMER_MODES.normal;
 
 
 /* ==========================================================================
-   [2] ÍCONES (SVG inline)
-   Todos usam currentColor, por isso herdam a cor do elemento pai.
+   [2] ÍCONES (Phosphor Icons — sprite SVG)
+   --------------------------------------------------------------------------
+   Todos os ícones vivem num único <svg> invisível no <body>, como <symbol>.
+   Cada uso é <svg><use href="#ph-NOME"/></svg>, o que:
+     - herda a cor do texto (currentColor dentro do path),
+     - escala via width/height ou CSS,
+     - reduz o peso total e centraliza a manutenção num só sítio.
+
+   Para adicionar/alterar um ícone:
+     1. Ir a https://phosphoricons.com
+     2. Escolher o peso e copiar o <path d="..."/>
+     3. Substituir o <path> do <symbol id="ph-NOME"> correspondente abaixo.
    ========================================================================== */
 
-var ICON_VOLUME_ON =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
-    '<path d="M16 9a4 4 0 0 1 0 6"/>' +
-    '<path d="M18.5 6.5a8 8 0 0 1 0 11"/>' +
-  '</svg>';
+/* Devolve o HTML de um ícone do sprite. Tamanho e cor vêm do CSS (.ph-icon). */
+function ph(nome) {
+  return '<svg class="ph-icon" viewBox="0 0 256 256" aria-hidden="true" focusable="false">' +
+           '<use href="#ph-' + nome + '"/>' +
+         '</svg>';
+}
 
-var ICON_VOLUME_OFF =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/>' +
-    '<line x1="16" y1="9" x2="21" y2="14"/>' +
-    '<line x1="21" y1="9" x2="16" y2="14"/>' +
-  '</svg>';
+var ICON_VOLUME_ON    = ph('speaker-high');
+var ICON_VOLUME_OFF   = ph('speaker-slash');
+var ICON_MIC          = ph('microphone');
+var ICON_GLOBE        = ph('globe');
+var ICON_FULLSCREEN   = ph('corners-out');
+var ICON_ANIMATION    = ph('animation');
+var ICON_GUIDE        = ph('book-open');
+var ICON_FONT         = ph('text-aa');
+var ICON_BACK         = ph('arrow-left');
+var ICON_EXIT         = ph('sign-out');
+var ICON_RESTART      = ph('arrow-counter-clockwise');
+var ICON_TIMER        = ph('timer');
+var ICON_FAST_FORWARD = ph('fast-forward');
+var ICON_SETTINGS     = ph('gear-six');
+var ICON_INFO         = ph('info');
+var ICON_CLOSE        = ph('x');
+var ICON_CHEVRON      = ph('caret-right');   
+var ICON_BACKSPACE    = ph('backspace');
 
-var ICON_MIC =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<rect x="9" y="2" width="6" height="12" rx="3"/>' +
-    '<path d="M5 10v1a7 7 0 0 0 14 0v-1"/>' +
-    '<line x1="12" y1="18" x2="12" y2="22"/>' +
-  '</svg>';
-
-var ICON_GLOBE =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="12" r="9"/>' +
-    '<ellipse cx="12" cy="12" rx="4" ry="9"/>' +
-    '<line x1="3" y1="12" x2="21" y2="12"/>' +
-  '</svg>';
-
-var ICON_ANIMATION =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 17h5" opacity="0.35"/>' +
-    '<path d="M4 12h4" opacity="0.5"/>' +
-    '<path d="M4 7h5" opacity="0.35"/>' +
-    '<path d="M10 6l9 6-9 6V6z"/>' +
-  '</svg>';
-
-var ICON_GUIDE =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>' +
-  '</svg>';
-
-var ICON_FONT =
-  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M2 19 L6 9 L10 19 M3.5 15.5 L8.5 15.5"/>' +
-    '<path d="M11 19 L16.5 5 L22 19 M13.1 14 L19.9 14"/>' +
-  '</svg>';
-
-var ICON_BACK =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<line x1="19" y1="12" x2="5" y2="12"/>' +
-    '<polyline points="12 19 5 12 12 5"/>' +
-  '</svg>';
-
-var ICON_EXIT =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>' +
-    '<polyline points="16 17 21 12 16 7"/>' +
-    '<line x1="21" y1="12" x2="9" y2="12"/>' +
-  '</svg>';
-
-var ICON_RESTART =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<polyline points="1 4 1 10 7 10"/>' +
-    '<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>' +
-  '</svg>';
-
-var ICON_TIMER =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="13" r="8"/>' +
-    '<path d="M12 9v4l2.5 2M9.5 2.5h5"/>' +
-  '</svg>';
-
-var ICON_FAST_FORWARD =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M3 6l8 6-8 6V6z"/>' +
-    '<path d="M12 6l8 6-8 6V6z"/>' +
-  '</svg>';
-
-var ICON_SETTINGS =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="12" r="3"/>' +
-    '<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>' +
-  '</svg>';
-
-var ICON_INFO =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="12" cy="12" r="10"/>' +
-    '<path d="M12 16v-4"/>' +
-    '<path d="M12 8h.01"/>' +
-  '</svg>';
-
-  var ICON_CLOSE =
-  '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<line x1="6" y1="6" x2="18" y2="18"/>' +
-    '<line x1="18" y1="6" x2="6" y2="18"/>' +
-  '</svg>';
-
-/* Ícones do Guia de Jogo: nas passagens basta usar data-icon="nome".
-   São preenchidos em preencherIconesDoGuia() (secção [10]). */
 var GUIDE_ICONS = {
-  info:     ICON_INFO,
-  guide:    ICON_GUIDE,
-  timer:    ICON_TIMER,
-  fast:     ICON_FAST_FORWARD,
-  sound:    ICON_VOLUME_ON,
+  info: ICON_INFO, 
+  guide: ICON_GUIDE, 
+  timer: ICON_TIMER,
+  fast: ICON_FAST_FORWARD, 
+  sound: ICON_VOLUME_ON, 
   settings: ICON_SETTINGS
 };
 
+$(document).one(':passagestart', function () {
+  if (document.getElementById('ph-sprite')) return;
+
+  $('body').append(
+    '<svg id="ph-sprite" xmlns="http://www.w3.org/2000/svg" ' +
+      'aria-hidden="true" focusable="false" ' +
+      'style="position:absolute;width:0;height:0;overflow:hidden">' +
+
+      /* --- Áudio --- */
+      '<symbol id="ph-speaker-high" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM32,96H72v64H32ZM144,207.64,88,164.09V91.91l56-43.55Zm54-106.08a40,40,0,0,1,0,52.88,8,8,0,0,1-12-10.58,24,24,0,0,0,0-31.72,8,8,0,0,1,12-10.58ZM248,128a79.9,79.9,0,0,1-20.37,53.34,8,8,0,0,1-11.92-10.67,64,64,0,0,0,0-85.33,8,8,0,1,1,11.92-10.67A79.83,79.83,0,0,1,248,128Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-speaker-slash" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M53.92,34.62A8,8,0,1,0,42.08,45.38L73.55,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V175.09l42.08,46.29a8,8,0,1,0,11.84-10.76ZM32,96H72v64H32ZM144,207.64,88,164.09V95.89l56,61.6Zm42-63.77a24,24,0,0,0,0-31.72,8,8,0,1,1,12-10.57,40,40,0,0,1,0,52.88,8,8,0,0,1-12-10.59Zm-80.16-76a8,8,0,0,1,1.4-11.23l39.85-31A8,8,0,0,1,160,32v74.83a8,8,0,0,1-16,0V48.36l-26.94,21A8,8,0,0,1,105.84,67.91ZM248,128a79.9,79.9,0,0,1-20.37,53.34,8,8,0,0,1-11.92-10.67,64,64,0,0,0,0-85.33,8,8,0,1,1,11.92-10.67A79.83,79.83,0,0,1,248,128Z"/>' +
+      '</symbol>' +
+
+      /* --- Definições --- */
+      '<symbol id="ph-microphone" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V240a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-globe" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-animation" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M32,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H40A8,8,0,0,1,32,64Zm104,56H40a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Zm0,64H40a8,8,0,0,0,0,16h96a8,8,0,0,0,0-16Zm112-24a8,8,0,0,1-3.76,6.78l-64,40A8,8,0,0,1,168,200V120a8,8,0,0,1,12.24-6.78l64,40A8,8,0,0,1,248,160Zm-23.09,0L184,134.43v51.14Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-text-aa" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-gear-six" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-corners-out" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-timer" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M128,40a96,96,0,1,0,96,96A96.11,96.11,0,0,0,128,40Zm0,176a80,80,0,1,1,80-80A80.09,80.09,0,0,1,128,216ZM173.66,90.34a8,8,0,0,1,0,11.32l-40,40a8,8,0,0,1-11.32-11.32l40-40A8,8,0,0,1,173.66,90.34ZM96,16a8,8,0,0,1,8-8h48a8,8,0,0,1,0,16H104A8,8,0,0,1,96,16Z"/>' +
+      '</symbol>' +
+
+      /* --- Navegação --- */
+      '<symbol id="ph-arrow-left" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-arrow-counter-clockwise" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-sign-out" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-x" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/>' +
+      '</symbol>' +
+
+      /* --- Guia --- */
+      '<symbol id="ph-book-open" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M208,24H72A32,32,0,0,0,40,56V224a8,8,0,0,0,8,8H192a8,8,0,0,0,0-16H56a16,16,0,0,1,16-16H208a8,8,0,0,0,8-8V32A8,8,0,0,0,208,24Zm-8,160H72a31.82,31.82,0,0,0-16,4.29V56A16,16,0,0,1,72,40H200Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-info" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-fast-forward" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M248.67,114.66,160.48,58.5A15.91,15.91,0,0,0,136,71.84v37.3L56.48,58.5A15.91,15.91,0,0,0,32,71.84V184.16A15.92,15.92,0,0,0,56.48,197.5L136,146.86v37.3a15.92,15.92,0,0,0,24.48,13.34l88.19-56.16a15.8,15.8,0,0,0,0-26.68ZM48,183.94V72.07L135.82,128Zm104,0V72.07L239.82,128Z"/>' +
+      '</symbol>' +
+
+      /* --- Telemóvel --- */
+      '<symbol id="ph-backspace" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M216,40H68.53a16.08,16.08,0,0,0-13.72,7.77L9.14,123.88a8,8,0,0,0,0,8.24l45.67,76.11A16.08,16.08,0,0,0,68.53,216H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM61.67,204.12,68.53,200h0ZM216,200H68.53l-43.2-72,43.2-72H216ZM106.34,146.34,124.69,128l-18.35-18.34a8,8,0,0,1,11.32-11.32L136,116.69l18.34-18.35a8,8,0,0,1,11.32,11.32L147.31,128l18.35,18.34a8,8,0,0,1-11.32,11.32L136,139.31l-18.34,18.35a8,8,0,0,1-11.32-11.32Z"/>' +
+      '</symbol>' +
+
+      /* --- Uso geral / toasts / ecrã de rotação --- */
+      '<symbol id="ph-caret-right" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-device-rotate" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16Zm8,200a8,8,0,0,1-8,8H80a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h96a8,8,0,0,1,8,8ZM140,60a12,12,0,1,1-12-12A12,12,0,0,1,140,60Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-warning" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-check-circle" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>' +
+      '</symbol>' +
+      '<symbol id="ph-medal" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M216,96A88,88,0,1,0,72,163.83V240a8,8,0,0,0,11.58,7.16L128,225l44.43,22.21A8.07,8.07,0,0,0,176,248a8,8,0,0,0,8-8V163.83A87.85,87.85,0,0,0,216,96ZM56,96a72,72,0,1,1,72,72A72.08,72.08,0,0,1,56,96ZM168,227.06l-36.43-18.21a8,8,0,0,0-7.16,0L88,227.06V174.37a87.89,87.89,0,0,0,80,0ZM128,152A56,56,0,1,0,72,96,56.06,56.06,0,0,0,128,152Zm0-96A40,40,0,1,1,88,96,40,40,0,0,1,128,56Z"/>' +
+      '</symbol>' +  
+
+    '</svg>'
+  );
+});
 
 /* ==========================================================================
    [3] VIEWPORT E ECRÃ
@@ -5942,10 +6040,6 @@ $('<link rel="apple-touch-icon" sizes="180x180" href="' + base + 'apple-touch-ic
 $('<link rel="icon" type="image/png" sizes="32x32" href="' + base + 'favicon-32x32.png">').appendTo('head');
 $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x16.png">').appendTo('head');
 
-/* Material Symbols: só o ícone "backspace" do telemóvel (passagem 2.1) */
-if (!document.querySelector('link[href*="Material+Symbols+Outlined"]')) {
-  $('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=backspace">').appendTo('head');
-}
 
 /* ---- 3.4 Bloqueio de zoom (necessário no iOS Safari) ---- */
 
@@ -5989,23 +6083,7 @@ function criarAvisoDeRotacao() {
     '<div class="rotate-overlay">' +
       '<div class="rotate-content">' +
         '<div class="rotate-message">' +
-          '<div class="rotate-icon">' +
-            '<svg viewBox="0 0 120 120" width="60" height="60">' +
-              '<circle cx="60" cy="60" r="48" fill="none" stroke="#b77e56" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.3"/>' +
-              '<path d="M60 6 C 20 6, 6 30, 6 50" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
-              '<path d="M6 50 L12 42 L4 44" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
-              '<path d="M60 114 C 100 114, 114 90, 114 70" stroke="#FFF5E6" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>' +
-              '<path d="M114 70 L108 78 L116 76" stroke="#FFF5E6" stroke-width="2.5" fill="white" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' +
-              '<rect x="25" y="42" width="70" height="36" rx="6" fill="none" stroke="#FFF5E6" stroke-width="3"/>' +
-              '<rect x="32" y="47" width="46" height="26" rx="2" fill="none" stroke="#FFF5E6" stroke-width="2" stroke-dasharray="2 2" opacity="0.5"/>' +
-              '<circle cx="88" cy="60" r="4" fill="none" stroke="#FFF5E6" stroke-width="2.5"/>' +
-              '<circle cx="88" cy="60" r="2" fill="#FFF5E6"/>' +
-              '<line x1="36" y1="52" x2="74" y2="52" stroke="#FFF5E6" stroke-width="2" opacity="0.4"/>' +
-              '<line x1="36" y1="56" x2="64" y2="56" stroke="#FFF5E6" stroke-width="2" opacity="0.25"/>' +
-              '<path d="M30 35 L36 30 L42 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
-              '<path d="M90 35 L84 30 L78 35" stroke="#b77e56" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>' +
-            '</svg>' +
-          '</div>' +
+          '<div class="rotate-icon">' + ph('device-rotate') + '</div>' +
           '<p class="rotate-text">Rode o dispositivo para a posição vertical</p>' +
           '<p class="rotate-sub">— Melhor experiência em modo retrato —</p>' +
         '</div>' +
@@ -6449,7 +6527,7 @@ $(document).one(':storyready', atualizarSomPorVisibilidade);
 /* ---- 5.6 Sons de interface ---- */
 
 // Hover em botões
-$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
+$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, .settings-guide-link, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
   SimpleAudio.tracks.get('hover').volume(0.1).play();
 });
 
@@ -6812,13 +6890,12 @@ window.mostrarToast = function (tipo, conteudo, iconeCustom) {
     $('.toast-notif').remove();   // só um toast de cada vez
 
     var icone;
-    if (tipo === 'perigoso') {
-      icone = '⚠️';
-    } else if (tipo === 'achievement') {
-      icone = iconeCustom || '🏅';
-    } else {
-      icone = iconeCustom || '✅';
-    }
+      if (tipo === 'perigoso')           
+        icone = ph('warning');
+      else if (tipo === 'achievement')   
+        icone = iconeCustom || ph('medal');
+      else                               
+        icone = iconeCustom || ph('check-circle');
 
     // 1.ª linha = título; 2.ª linha (opcional) = texto
     var partes = conteudo.split('\n');
@@ -6865,7 +6942,6 @@ function aplicarFonte() {
   var extraHeight = extraHeights[fontIndex] || '0vh';
   
   // Guarda o valor numa variável CSS global
-  document.documentElement.style.setProperty('--ui-extra-height', extraHeight);
   document.documentElement.style.setProperty('--ui-extra-height', extraHeight);
   document.documentElement.style.setProperty('--ui-scale', guideScales[fontIndex]);
 
@@ -7262,8 +7338,7 @@ function criarEcraTelemovel() {
     'justify-content': 'center'
   });
   $screen.html(
-    '<span id="phone-digits">___</span>' +
-    '<span id="phone-backspace" class="material-symbols-outlined" role="button" tabindex="0" aria-label="Apagar número">backspace</span>'
+    '<span id="phone-backspace" role="button" tabindex="0" aria-label="Apagar número">' + ICON_BACKSPACE + '</span>'
   );
   $('.phone-scene').append($screen);
 }
@@ -7455,12 +7530,6 @@ function aplicarIconeFechar() {
     $target.html(ICON_CLOSE).attr('aria-label', 'Fechar');
   });
 }
-  // X do Guia: troca o "✕" de texto por um SVG limpo
-  $('.guide-modal .alarm-close').each(function () {
-    var $inner = $(this).find('a, .macro-back').first();
-    var $target = $inner.length ? $inner : $(this);
-    $target.html(ICON_CLOSE);
-  });
 
 /* ==========================================================================
    [11] DEFINIÇÕES (botão + painel lateral) E SAIR DO JOGO
@@ -7479,112 +7548,114 @@ $(document).one(':passagestart', function () {
 
   /* ---------- 11.1 HTML ---------- */
 
-  // Botão "Definições" (nook, canto superior direito)
-  $('body').append(
-    '<button id="settings-nook" type="button" aria-label="Abrir definições" aria-haspopup="dialog">' +
-      '<span class="settings-icon" aria-hidden="true">⚙</span>' +
-      '<span class="settings-label">Definições</span>' +
-    '</button>'
-  );
+   // Botão "Definições" (nook, canto superior direito)  
+   $('body').append(    
+    '<button id="settings-nook" type="button" aria-label="Abrir definições" aria-haspopup="dialog">' +      
+      '<span class="settings-icon" aria-hidden="true">' + ICON_SETTINGS + '</span>' +      
+      '<span class="settings-label">Definições</span>' +    
+    '</button>' 
+    );
 
-  // Painel lateral
-  $('body').append(
-    '<div id="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true">' +
-      '<aside id="settings-panel">' +
-        '<header class="settings-header">' +
-          '<h2 class="settings-title" id="settings-title">' +
-            '<span class="settings-icon" aria-hidden="true">⚙</span> Definições' +
-          '</h2>' +
-          '<button id="settings-close" type="button" aria-label="Fechar definições">' + ICON_CLOSE + '</button>' +
-        '</header>' +
+  // Painel lateral  
+  $('body').append(    
+    '<div id="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title" aria-hidden="true">' +      
+      '<aside id="settings-panel">' +         
+        '<header class="settings-header">' +          
+          '<h2 class="settings-title" id="settings-title">' +            
+            '<span class="settings-icon" aria-hidden="true">' + ICON_SETTINGS + '</span> Definições' +          
+          '</h2>' +          
+          '<button id="settings-close" type="button" aria-label="Fechar definições">' + ICON_CLOSE + '</button>' +        
+        '</header>' +         
+        
+        '<div class="settings-body">' +           
+        
+          /* ===== Grupo 1 — Geral (sem título) ===== */          
+          '<section class="settings-group" aria-label="Geral">' +             
+            '<div class="settings-row settings-row-language">' +              
+              '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +              
+              '<select id="language-select" class="language-select" aria-label="Idioma">' +                
+                '<option value="pt" selected>Português</option>' +                
+                '<option value="en">English</option>' +                
+                '<option value="es">Español</option>' +                
+                '<option value="fr">Français</option>' +                
+                '<option value="de">Deutsch</option>' +                
+                '<option value="it">Italiano</option>' +                
+                '<option value="el">Ελληνικά</option>' +                
+                '<option value="ru">Русский</option>' +              
+              '</select>' +            
+            '</div>' +  
 
-        '<div class="settings-body">' +
+            '<div class="settings-row">' +              
+              '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_FULLSCREEN + '</span> Ecrã cheio</span>' +              
+              '<div class="toggle-switch" id="toggle-fullscreen" role="switch" aria-checked="false" tabindex="0" aria-label="Ecrã cheio"></div>' +            
+            '</div>' +           
+          '</section>' +
 
-          /* Som Geral: ícone clicável + slider + % */
-          '<div class="settings-row settings-row-sound">' +
-            '<div class="settings-row-sound-top">' +
-              '<button type="button" class="sound-icon-btn" id="sound-icon-btn" aria-label="Silenciar som">' +
-                '<span class="sound-icon" aria-hidden="true">' + ICON_VOLUME_ON + '</span>' +
-                '<span class="sound-label">Som Geral</span>' +
-              '</button>' +
-              '<span class="volume-value" id="volume-value">100%</span>' +
-            '</div>' +
-            '<div class="sound-slider-wrap">' +
-              '<input type="range" min="0" max="100" step="1" value="100" id="volume-slider" aria-label="Nível de volume">' +
-            '</div>' +
-          '</div>' +
+          /* ===== Grupo 2 — Áudio ===== */          
+          '<section class="settings-group" aria-labelledby="sg-audio">' +            
+            '<h3 class="settings-group-title" id="sg-audio">Áudio</h3>' +             
+              '<div class="settings-row settings-row-sound">' +              
+                '<button type="button" class="sound-icon-btn" id="sound-icon-btn" aria-label="Silenciar som">' +                
+                  '<span class="sound-icon" aria-hidden="true">' + ICON_VOLUME_ON + '</span>' +                
+                  '<span class="sound-label">Som Geral</span>' +              
+                '</button>' +              
+                '<div class="sound-slider-wrap">' +                
+                  '<input type="range" min="0" max="100" step="1" value="100" id="volume-slider" aria-label="Nível de volume">' +              
+                '</div>' +              
+                '<span class="volume-value" id="volume-value">100%</span>' +            
+              '</div>' +             
+              '<div class="settings-row">' +              
+                '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_MIC + '</span> Narração</span>' +              
+                '<div class="toggle-switch" id="toggle-voice" role="switch" aria-checked="false" tabindex="0" aria-label="Narração de voz"></div>' +            
+              '</div>' +           
+          '</section>' +
 
-          /* Narração de Voz (placeholder) */
-          '<div class="settings-row">' +
-            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_MIC + '</span> Narração de Voz</span>' +
-            '<div class="toggle-switch" id="toggle-voice" role="switch" aria-checked="false" tabindex="0" aria-label="Narração de voz"></div>' +
-          '</div>' +
+          /* ===== Grupo 3 — Acessibilidade ===== */          
+          '<section class="settings-group" aria-labelledby="sg-acess">' +            
+            '<h3 class="settings-group-title" id="sg-acess">Acessibilidade</h3>' +             
+              '<div class="settings-row settings-row-font">' +              
+                '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_FONT + '</span> Tamanho da letra</span>' +              
+                '<div class="font-levels" id="font-levels" role="radiogroup" aria-label="Tamanho da letra">' +                
+                  '<button type="button" class="font-level" data-level="0" aria-label="Tamanho A">A</button>' +                
+                  '<button type="button" class="font-level" data-level="1" aria-label="Tamanho A mais">A+</button>' +                
+                  '<button type="button" class="font-level" data-level="2" aria-label="Tamanho A mais mais">A++</button>' +                
+                  '<button type="button" class="font-level" data-level="3" aria-label="Tamanho A mais mais mais">A+++</button>' +              
+                '</div>' +            
+              '</div>' +             
+              '<div class="settings-row">' +              
+                '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_ANIMATION + '</span> Animações</span>' +              
+                '<div class="toggle-switch on" id="toggle-animations" role="switch" aria-checked="true" tabindex="0" aria-label="Animações"></div>' +            
+              '</div>' +             
+              '<div class="settings-row settings-row-font">' +              
+                '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_TIMER + '</span> Temporizador</span>' +              
+                '<div class="font-levels" id="timer-levels" role="radiogroup" aria-label="Temporizador de decisão">' +                
+                  '<button type="button" class="font-level" role="radio" data-mode="normal">Normal</button>' +                
+                  '<button type="button" class="font-level" role="radio" data-mode="extended">Alargado</button>' +                
+                  '<button type="button" class="font-level" role="radio" data-mode="off">Desligado</button>' +              
+                '</div>' +              
+                '<span class="settings-hint" id="timer-hint" aria-live="polite"></span>' +            
+              '</div>' +           
+          '</section>' +
 
-          /* Idioma (placeholder) */
-          '<div class="settings-row settings-row-language">' +
-            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +
-            '<select id="language-select" class="language-select" aria-label="Idioma">' +
-              '<option value="pt" selected>Português</option>' +
-              '<option value="en">English</option>' +
-              '<option value="es">Español</option>' +
-              '<option value="fr">Français</option>' +
-              '<option value="de">Deutsch</option>' +
-              '<option value="it">Italiano</option>' +
-              '<option value="el">Ελληνικά</option>' +
-              '<option value="ru">Русский</option>' +
-            '</select>' +
-          '</div>' +
-
-          /* Tamanho da Letra (segmentado) */
-          '<div class="settings-row settings-row-font">' +
-            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_FONT + '</span> Tamanho da Letra</span>' +
-            '<div class="font-levels" id="font-levels" role="radiogroup" aria-label="Tamanho da letra">' +
-              '<button type="button" class="font-level" data-level="0" aria-label="Tamanho A">A</button>' +
-              '<button type="button" class="font-level" data-level="1" aria-label="Tamanho A mais">A+</button>' +
-              '<button type="button" class="font-level" data-level="2" aria-label="Tamanho A mais mais">A++</button>' +
-              '<button type="button" class="font-level" data-level="3" aria-label="Tamanho A mais mais mais">A+++</button>' +
-            '</div>' +
-          '</div>' +
-
-          /* Ecrã Cheio */
-          '<div class="settings-row">' +
-            '<span class="settings-row-label"><span class="icon" aria-hidden="true">⛶</span> Ecrã Cheio</span>' +
-            '<div class="toggle-switch" id="toggle-fullscreen" role="switch" aria-checked="false" tabindex="0" aria-label="Ecrã cheio"></div>' +
-          '</div>' +
-
-          /* Animações */
-          '<div class="settings-row">' +
-            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_ANIMATION + '</span> Animações</span>' +
-            '<div class="toggle-switch on" id="toggle-animations" role="switch" aria-checked="true" tabindex="0" aria-label="Animações"></div>' +
-          '</div>' +
-
-          /* Temporizador */
-          '<div class="settings-row settings-row-font">' +
-            '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_TIMER + '</span> Temporizador</span>' +
-            '<div class="font-levels" id="timer-levels" role="radiogroup" aria-label="Temporizador de decisão">' +
-              '<button type="button" class="font-level" role="radio" data-mode="normal">Normal</button>' +
-              '<button type="button" class="font-level" role="radio" data-mode="extended">Alargado</button>' +
-              '<button type="button" class="font-level" role="radio" data-mode="off">Desligado</button>' +
-            '</div>' +
-            '<span class="settings-hint" id="timer-hint" aria-live="polite"></span>' +
-          '</div>' +
-
-          /* Guia de Jogo */
-          '<button type="button" class="settings-btn settings-btn-guide" id="settings-guide">' + ICON_GUIDE + ' Guia de Jogo</button>' +
-
-        '</div>' +
-
-        '<div class="settings-actions">' +
-          '<button type="button" class="settings-btn settings-btn-back" id="settings-back">' + ICON_BACK + ' Voltar para Trás</button>' +
-          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">' + ICON_RESTART + ' Recomeçar Cenário</button>' +
-          /* "Sair do Jogo" só aparece em PWA ou ecrã cheio (ver updateExitButton) */
-          '<div class="settings-exit-group" style="display:none">' +
-            '<button type="button" class="settings-btn settings-btn-exit" id="settings-exit">' + ICON_EXIT + ' Sair do Jogo</button>' +
-          '</div>' +
-        '</div>' +
-      '</aside>' +
-    '</div>'
-  );
+          /* ===== Guia de jogo — NÃO é um botão de ação, é uma ligação de navegação.             
+          Fora dos grupos, sem fundo, ícone dourado + chevron + linha a crescer.             
+          (opcional: acrescentar a classe is-journal para a variante "diário") ===== */          
+          '<button type="button" class="settings-guide-link" id="settings-guide">' +            
+            '<span class="sgl-icon" aria-hidden="true">' + ICON_GUIDE + '</span>' +            
+            '<span class="sgl-label">Guia de jogo</span>' +            
+            '<span class="sgl-chevron" aria-hidden="true">' + ICON_CHEVRON + '</span>' +          
+          '</button>' +         
+        '</div>' +         
+        '<div class="settings-actions">' +          
+          '<button type="button" class="settings-btn settings-btn-back" id="settings-back">' + ICON_BACK + ' Decisão anterior</button>' +          
+          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">' + ICON_RESTART + ' Recomeçar</button>' +          
+          '<div class="settings-exit-group" style="display:none">' +            
+          '<button type="button" class="settings-btn settings-btn-exit" id="settings-exit">' + ICON_EXIT + ' Sair do Jogo</button>' +          
+        '</div>' +        
+      '</div>' +      
+    '</aside>' +    
+  '</div>'  
+);
 
   // Diálogo "Sair do jogo?"
   $('#exit-overlay').remove();
@@ -8357,12 +8428,23 @@ $(document).on(':passageend', function () {
 
   abrirFocoDoAlerta();
   preencherIconesDoGuia();
+
+  // Chevron nos botões principais da página inicial (ex.: "Começar")
+  $('.sombrinha .choices > a, .sombrinha .choices > button').each(function () {
+    if (!$(this).find('.btn-chevron').length) {
+      $(this).append('<span class="btn-chevron" aria-hidden="true">' + ICON_CHEVRON + '</span>');
+    }
+  });
+
   aplicarIconeFechar();
+  $('.alarm .confirm-restart a').each(function () {
+    if (!$(this).find('.ph-icon').length) $(this).prepend(ICON_RESTART + ' ');
+  });
   configurarProntoEvacuar();
 });
 
 /* ---- 15.3 :passagestart (uma vez) — elementos fixos da interface ----
-   O botão de som e o painel de definições registam-se à parte ([5.7] e [11]) */
+   O botão de som e o painel de definições registam-se à parte ([5.7] e [11]). */
 $(document).one(':passagestart', function () {
   criarAvisoDeRotacao();
   tentarBloquearOrientacao();
