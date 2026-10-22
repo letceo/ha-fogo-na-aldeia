@@ -4043,7 +4043,7 @@ html[data-init="loading"] #init-loading {
   --settings-accent: #EAA788;
   --settings-track: rgba(255, 255, 255, 0.1255);
   --settings-border: rgba(183, 127, 85, 0.4);
-  --settings-group-bg: rgba(0, 0, 0, 0.22);
+  --settings-group-bg: rgba(255, 255, 255, 0.0627);
   --settings-group-border: rgba(183, 127, 85, 0.35);
   --settings-divider: rgba(255, 245, 230, 0.08);
   --settings-gold: #FFD54A;
@@ -4304,8 +4304,8 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .settings-title {
-  font-family: "Winky Rough", sans-serif;
-  font-size: 1.5em;
+  font-family: "Fira Sans", sans-serif;  
+  font-weight: 600;  
   font-weight: 700;
   margin: 0;
   color: #FFF5E6;
@@ -4367,7 +4367,7 @@ body:has(#settings-overlay.open) #sound-btn {
   align-items: center;
   gap: 0.6em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 400;
   font-family: "Fira Sans", sans-serif;
   color: #FFF5E6;
 }
@@ -4382,6 +4382,7 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .language-select {
+  font-weight: 400;
   background-color: rgba(0, 0, 0, 0.25);
   color: #FFF5E6;
   border: 1.5px solid rgba(183, 127, 85, 0.5);
@@ -4445,7 +4446,7 @@ body:has(#settings-overlay.open) #sound-btn {
 
 .sound-icon-btn .sound-label {
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 400;
   font-family: "Fira Sans", sans-serif;
   color: #FFF5E6;
 }
@@ -4615,11 +4616,11 @@ body:has(#settings-overlay.open) #sound-btn {
   border: none;
   color: rgba(255, 245, 230, 0.65);
   font-family: "Fira Sans", sans-serif;
-  font-weight: 500;               
+  font-weight: 400;               
   padding: 10px 4px;
   border-radius: 7px;
   cursor: pointer;
-  font-size: 0.95em;
+  font-size: 0.9em;
   line-height: 1;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   transition: color 0.2s ease, background 0.2s ease,
@@ -4651,7 +4652,7 @@ body:has(#settings-overlay.open) #sound-btn {
 
 /* Seletor do temporizador: 3 opções, texto um pouco mais pequeno */
 #timer-levels .font-level {
-  font-size: 0.85em;
+  font-size: 0.9em;
   padding: 10px 2px;
 }
 
@@ -4712,7 +4713,7 @@ body:has(#settings-overlay.open) #sound-btn {
   color: #FFF5E6;
   font-family: "Fira Sans", sans-serif;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: 400;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -4755,11 +4756,6 @@ body:has(#settings-overlay.open) #sound-btn {
   right: 0;
   bottom: 0;
   pointer-events: none;
-}
-
-.settings-guide-link::before {
-  height: 1px;
-  background: rgba(255, 213, 74, 0.28);
 }
 
 .settings-guide-link::after {
@@ -5524,117 +5520,6 @@ body.reduce-motion .fade-black-overlay {
   }
 }
 
-/* ============================================================
-   SAIR DO JOGO 
-   ============================================================ */
-:root {
-  --btn-exit-bg:            rgba(30, 15, 6, .55);
-  --btn-exit-bg-hover:      rgba(30, 15, 6, .75);
-  --btn-exit-bg-active:     rgba(20, 10, 4, .85);
-  --btn-exit-border:        #E3C4A0;   
-  --btn-exit-border-hover:  #FFD9A8;
-}
-
-/* Botão terciário "reforçado": fundo escuro + borda tracejada opaca */
-.settings-btn.settings-btn-exit {
-  height: 46px;
-  background-color: var(--btn-exit-bg) !important;
-  background-image: none !important;
-  border: 2px dashed var(--btn-exit-border) !important;
-  border-radius: var(--btn-radius, 10px) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08) !important;
-  color: var(--btn-text, #FFF5E6) !important;
-  font-family: "Winky Rough", sans-serif !important;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, .7);
-  transition: background-color .15s ease, border-color .15s ease,
-              transform .15s ease !important;
-}
-
-.settings-btn.settings-btn-exit:hover {
-  background-color: var(--btn-exit-bg-hover) !important;
-  border-color: var(--btn-exit-border-hover) !important;
-  border-style: solid !important;
-}
-
-.settings-btn.settings-btn-exit:active {
-  background-color: var(--btn-exit-bg-active) !important;
-  transform: translateY(1px) !important;
-}
-
-.settings-btn.settings-btn-exit:focus-visible {
-  outline: 3px solid var(--btn-focus, #EAA788) !important;
-  outline-offset: 2px !important;
-}
-
-.settings-exit-group {
-  margin-top: 10px;
-  padding-top: 16px;
-  border-top: 1px dashed rgba(227, 196, 160, .45);
-}
-
-#exit-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9800;                      
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-#exit-overlay.open {
-  display: flex;
-}
-
-.exit-box {
-  width: fit-content;
-  min-width: min(92vw, 420px);
-  max-width: 92vw;
-  max-height: min(calc(90vh + var(--ui-extra-height, 0vh)), calc(100dvh - 40px));
-  overflow-y: auto;
-  box-sizing: border-box;
-  padding: 1.4rem 1.4rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  text-align: center;
-
-  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png");
-  background-size: cover;
-  background-position: center;
-  border: 6px solid #b77e56;
-  border-radius: 6px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-
-  color: #FFF5E6;
-  font-family: "Fira Sans", sans-serif;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-.exit-title {
-  margin: 0;
-  font-family: "Winky Rough", sans-serif;
-  font-size: clamp(1.3em, 4vw, 1.7em);
-  font-weight: 700;
-  color: #FFF5E6;
-}
-
-.exit-text {
-  margin: 0;
-  font-size: 1.05em;
-  line-height: 1.5;
-}
-
-.exit-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.3rem;
-}
-
 #story {
   margin: 0 !important;
   left: 0 !important;
@@ -6229,7 +6114,6 @@ var fogoFadeTimer = null;                 // intervalo do fade do fogo
 var earRingingFadeTimer = null;           // intervalo do fade do zumbido
 var earRinging21FadeIniciado = false;     // o fade longo da passagem 21 só corre uma vez
 var silenciadoAutomaticamente = false;    // mute por jogo em segundo plano
-var saidaAtiva = false;                   // ecrã "Jogo terminado" aberto (ver [11])
 
 /* ---- 5.1 Pássaros ----
    Contínuo, com continuidade entre passagens. Volume: exterior 0.8,
@@ -6507,7 +6391,7 @@ function atualizarSomPorVisibilidade() {
     SimpleAudio.mute(true);
   } else if (!escondido && silenciadoAutomaticamente) {
     silenciadoAutomaticamente = false;
-    if (!$('#sound-btn').hasClass('muted') && !saidaAtiva) SimpleAudio.mute(false);
+    if (!$('#sound-btn').hasClass('muted')) SimpleAudio.mute(false);
   }
 }
 
@@ -6694,7 +6578,6 @@ function timerShouldRun() {
     && timerTextReady
     && !document.hidden
     && !$('#settings-overlay').hasClass('open')
-    && !$('#exit-overlay').hasClass('open')
     && State.variables.entrouPanico !== true
     && passage() === timerPassage;
 }
@@ -6856,7 +6739,6 @@ function syncAutoFim() {
   if (autoFimPassage === null) return;
   var deveCorrer = !document.hidden
     && !$('#settings-overlay').hasClass('open')
-    && !$('#exit-overlay').hasClass('open')
     && passage() === autoFimPassage;
 
   if (deveCorrer && autoFimEnd === null) {
@@ -7482,11 +7364,9 @@ $(document).on('click', '.alarm-close', function (e) {
 $(document).on('keydown.alarm-escape', function (e) {
   if (e.key !== 'Escape') return;
 
-  if ($('#exit-overlay').hasClass('open')) {            // 1. Sair do jogo
-    $('#exit-cancel').trigger('click');
-  } else if ($('#settings-overlay').hasClass('open')) { // 2. Definições
+  if ($('#settings-overlay').hasClass('open')) {        // 1. Definições
     $('#settings-close').trigger('click');
-  } else {                                              // 3. Caixas .alarm
+  } else {                                              // 2. Caixas .alarm
     var $close = $('.alarm .alarm-close').first();
     if ($close.length) {
       $close.trigger('click');
@@ -7570,7 +7450,8 @@ $(document).one(':passagestart', function () {
         '<div class="settings-body">' +           
         
           /* ===== Grupo 1 — Geral (sem título) ===== */          
-          '<section class="settings-group" aria-label="Geral">' +             
+          '<section class="settings-group" aria-labelledby="sg-geral">' +
+            '<h3 class="settings-group-title" id="sg-geral">Geral</h3>' +            
             '<div class="settings-row settings-row-language">' +              
               '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +              
               '<select id="language-select" class="language-select" aria-label="Idioma">' +                
@@ -7648,29 +7529,11 @@ $(document).one(':passagestart', function () {
         '</div>' +         
         '<div class="settings-actions">' +          
           '<button type="button" class="settings-btn settings-btn-back" id="settings-back">' + ICON_BACK + ' Decisão anterior</button>' +          
-          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">' + ICON_RESTART + ' Recomeçar</button>' +          
-          '<div class="settings-exit-group" style="display:none">' +            
-          '<button type="button" class="settings-btn settings-btn-exit" id="settings-exit">' + ICON_EXIT + ' Sair do Jogo</button>' +          
-        '</div>' +        
+          '<button type="button" class="settings-btn settings-btn-restart" id="settings-restart">' + ICON_RESTART + ' Recomeçar</button>' +              
       '</div>' +      
     '</aside>' +    
   '</div>'  
 );
-
-  // Diálogo "Sair do jogo?"
-  $('#exit-overlay').remove();
-  $('body').append(
-    '<div id="exit-overlay" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-hidden="true">' +
-      '<div class="exit-box">' +
-        '<h2 class="exit-title" id="exit-title">Sair do jogo?</h2>' +
-        '<p class="exit-text" id="exit-text">Quer mesmo sair do jogo?</p>' +
-        '<div class="exit-actions">' +
-          '<button type="button" class="settings-btn settings-btn-guide" id="exit-cancel">' + ICON_BACK + ' Continuar a jogar</button>' +
-          '<button type="button" class="settings-btn settings-btn-back" id="exit-confirm">' + ICON_EXIT + ' Sair</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>'
-  );
 
   /* ---------- Referências aos elementos ---------- */
   var $overlay      = $('#settings-overlay');
@@ -7830,97 +7693,23 @@ $(document).one(':passagestart', function () {
   });
   ativarTeclado($voiceToggle);
 
-  /* ---------- 11.8 Ecrã cheio e Sair do jogo ---------- */
-  function updateFullToggle() {
-    var on = !!document.fullscreenElement;
-    $fullToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
-    updateExitButton();
+  /* ---------- 11.8 Ecrã cheio ---------- */
+function updateFullToggle() {
+  var on = !!document.fullscreenElement;
+  $fullToggle.toggleClass('on', on).attr('aria-checked', on ? 'true' : 'false');
+}
+
+$fullToggle.off('click.settings').on('click.settings', function () {
+  if (!document.fullscreenElement) {
+    var p = document.documentElement.requestFullscreen &&
+            document.documentElement.requestFullscreen();
+    if (p && p.catch) p.catch(function () {});
+  } else if (document.exitFullscreen) {
+    document.exitFullscreen();
   }
-
-  /* "Sair do jogo" só aparece em PWA (sempre) ou em ecrã cheio.
-     Os browsers só deixam window.close() fechar janelas abertas por script
-     (ou algumas janelas de PWA no desktop). Se não fechar, mostramos
-     "Jogo terminado" com o som e o temporizador parados. */
-  function isPWA() {
-    return window.matchMedia('(display-mode: standalone)').matches ||
-           window.matchMedia('(display-mode: fullscreen)').matches ||
-           window.matchMedia('(display-mode: minimal-ui)').matches ||
-           window.navigator.standalone === true;      // iOS
-  }
-
-  function updateExitButton() {
-    $('.settings-exit-group').toggle(isPWA() || !!document.fullscreenElement);
-  }
-
-  var $exit        = $('#exit-overlay');
-  var $exitTitle   = $('#exit-title');
-  var $exitText    = $('#exit-text');
-  var $exitConfirm = $('#exit-confirm');
-  var $exitCancel  = $('#exit-cancel');
-
-  function abrirSaida() {
-    closeSettings();
-    $exitTitle.text('Sair do jogo?');
-    $exitText.text('Quer mesmo sair do jogo?');
-    $exitConfirm.show();
-    $exitCancel.html(ICON_BACK + ' Continuar a jogar');
-    $exit.addClass('open').attr('aria-hidden', 'false');
-    syncTimer();                       // pausa o temporizador
-    window.__a11yOpenDialog($exit);
-    $exitCancel.trigger('focus');
-  }
-
-  function fecharSaida() {
-    $exit.removeClass('open').attr('aria-hidden', 'true');
-    if (saidaAtiva) {
-      saidaAtiva = false;
-      if (!$('#sound-btn').hasClass('muted') && !document.hidden) SimpleAudio.mute(false);
-    }
-    syncTimer();                       // retoma o temporizador
-    window.__a11yCloseDialog();
-  }
-
-  function confirmarSaida() {
-    try { window.close(); } catch (e) {}
-
-    // Se o browser deixou fechar, esta parte nunca chega a correr.
-    setTimeout(function () {
-      if (document.fullscreenElement && document.exitFullscreen) {
-        var p = document.exitFullscreen();
-        if (p && p.catch) p.catch(function () {});   // devolve a barra do browser
-      }
-      saidaAtiva = true;
-      if (!$('#sound-btn').hasClass('muted')) SimpleAudio.mute(true);
-      $exitTitle.text('Jogo terminado');
-      $exitText.text('O browser não permite que o jogo se feche sozinho. Já pode fechar esta janela ou a app.');
-      $exitConfirm.hide();
-      $exitCancel.html(ICON_BACK + ' Voltar ao jogo').trigger('focus');
-    }, 300);
-  }
-
-  $('#settings-exit').off('click.settings').on('click.settings', abrirSaida);
-  $exitConfirm.off('click.exit').on('click.exit', confirmarSaida);
-  $exitCancel.off('click.exit').on('click.exit', fecharSaida);
-  $exit.off('click.exit').on('click.exit', function (e) {
-    if (e.target === $exit[0]) fecharSaida();     // clique no fundo escuro
-  });
-  $(document).off('keydown.exit').on('keydown.exit', function (e) {
-    if (e.key === 'Escape' && $exit.hasClass('open')) fecharSaida();
-  });
-
-  updateExitButton();
-
-  $fullToggle.off('click.settings').on('click.settings', function () {
-    if (!document.fullscreenElement) {
-      var p = document.documentElement.requestFullscreen &&
-              document.documentElement.requestFullscreen();
-      if (p && p.catch) p.catch(function () {});
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  });
-  ativarTeclado($fullToggle);
-  $(document).off('fullscreenchange.settings').on('fullscreenchange.settings', updateFullToggle);
+});
+ativarTeclado($fullToggle);
+$(document).off('fullscreenchange.settings').on('fullscreenchange.settings', updateFullToggle);
 
   /* ---------- 11.9 Abrir / fechar o painel ---------- */
   function openSettings() {
