@@ -104,22 +104,172 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="31c8fced-3998-4c9b-8d1a-dbe731f7b188" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* FONTS */
+	<tw-storydata name="Há fogo na aldeia" startnode="20" creator="Twine" creator-version="2.12.0" format="SugarCube" format-version="2.37.3" ifid="31c8fced-3998-4c9b-8d1a-dbe731f7b188" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* ==========================================================================
+   HÁ FOGO NA ALDEIA — Story CSS
+   ==========================================================================
 
+   COMO ESTE FICHEIRO ESTÁ ORGANIZADO
+   --------------------------------------------------------------------------
+   A ordem dos seletores é significativa (cascata CSS) e foi preservada.
+   Não reordenar blocos sem verificar dependências de especificidade.
+   Para navegar, pesquisar pelo número ou título (ex.: "[10]").
+
+   [1]  FONTES .............. imports do Google Fonts + utilitário .fira-sans-regular
+   [2]  TOKENS E RESET ...... todas as variáveis :root + reset + #story/.scene
+   [3]  ÍCONES .............. .ph-icon (wrapper do sprite SVG do story.js)
+   [4]  CAIXA DE TEXTO ...... .text-box, .text-scroll, scrollbar nativa
+   [5]  CAIXAS DE ALERTA .... .alarm + variantes + X de fechar
+   [6]  IMAGENS DE CENA ..... .image-bg / .image-overlay (estrutura base)
+   [7]  PÁGINA INICIAL ...... h1, .sombrinha, .footer, botões home
+   [8]  BOTÃO DE SOM ........ #sound-btn + estado .muted
+   [9]  ANIMAÇÕES GERAIS .... keyframes partilhados (sceneFade, tremores...)
+   [10] FUNDOS E EFEITOS .... classes por cena (.village, .casa, .casafumo*…)
+   [11] PRONTO PARA EVACUAR . passagem 13
+   [12] TOASTS .............. notificações
+   [13] SCROLLBAR FALSA ..... barra custom em touch (sincronizada pelo JS)
+   [14] RESPONSIVIDADE ...... media queries transversais
+   [15] TELEMÓVEL (2.1) ..... .phone-scene, teclado, ecrã do telefone
+   [16] AVISO DE ROTAÇÃO .... .rotate-overlay
+   [17] ECRÃ DE CARREGAMENTO  #loading-screen, barra, título
+   [18] BALÕES DE PENSAMENTO  animações dos balões (passagens 15 e 31)
+   [19] CONFIRMAR RECOMEÇAR  ajustes finos do .alarm:has(.confirm-restart)
+   [20] SISTEMA DE BOTÕES ... tokens, base, MAIN / ALERT / SECONDARY
+   [21] PAINEL DE DEFINIÇÕES  #settings-overlay + controlos
+   [22] GUIA DE JOGO ........ ligação no painel + modal
+   [23] ACESSIBILIDADE ...... body.reduce-motion (desliga animações)
+   [24] RESULTADOS .......... .er-card + sirene
+
+   CONVENÇÕES
+   --------------------------------------------------------------------------
+   - Não renomear classes/seletores: o story.js depende de muitos
+     (#sound-btn, #settings-overlay, .alarm-close, .text-scroll,
+     .phone-key, .fake-scrollbar-*, .prontoevacuar-stage, .er-card, etc.).
+   - Não reordenar regras: a cascata depende da ordem em .alarm, .choices,
+     .text-box e #settings-*.
+   - Media queries ficam junto do bloco que afetam.
+   - @keyframes ficam junto da cena que animam (localidade de comportamento).
+   - Variáveis reutilizadas estão todas em :root no topo de [2].
+   - Comentários de secção: / * [N] TÍTULO * /.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   [1] FONTES
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap');
-
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.fira-sans-regular { font-family: "Fira Sans", sans-serif; font-weight: 400; font-style: normal;
+.fira-sans-regular {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-/* Para mobile*/
 
+/* ==========================================================================
+   [2] TOKENS E RESET
+   --------------------------------------------------------------------------
+   Bloco :root consolidado a partir dos vários blocos dispersos pelo ficheiro
+   original. CSS vars resolvem-se no uso, por isso agrupar é seguro. Overrides
+   dentro de media queries permanecem junto da media query (não aqui).
+
+   Reset: html/body sem scroll. Só .text-scroll tem scroll.
+   --app-height é calculado em JS ([3.1] story.js) para corrigir 100vh no
+   Android e alimenta .scene / #story.
+   ========================================================================== */
 :root {
+  /* Layout */
   --app-height: 100dvh;
-}
 
-/* GARANTE QUE NADA TEM SCROLL EXCETO A TEXTBOX */
+  /* Botões do cabeçalho */
+  --icon-btn-size: 44px;
+  --ease-soft: cubic-bezier(.22, 1, .36, 1);
+
+  /* Página inicial (escala com --ui-scale, definida pelo JS) */
+  --home-btn-w:   calc(200px * var(--ui-scale, 1));
+  --home-btn-h:   calc(56px * var(--ui-scale, 1));
+  --home-btn-fs:  calc(1.55em * var(--ui-scale, 1));
+  --home-btn-pad: 10px 20px;
+
+  /* Pronto para evacuar (passagem 13) */
+  --pe3-crop-y: 25%;
+  --pe-textbox: 34vh;
+  --pe-shift-up: 5vh;
+  --pe-mobile-zoom: 1.12;
+  --pe-tab-land-side: 0vw;
+  --pe-tab-land-top: 0vh;
+  --pe-tab-port-side: 0vw;
+  --pe-tab-port-top: 0vh;
+  --pe-tab-port-zoom: 124%;
+  --pe-tab-port-x: 58%;
+
+  /* Carro (passagens 11 e 22) */
+  --carro-andar-mid-x: -1.9%;
+  --carro-andar-mid-y: -25%;
+  --carro-andar-mid-scale: 0.895;
+  --carro-andar-end-x: -1.6%;
+  --carro-andar-end-y: -23%;
+  --carro-andar-end-scale: 0.91;
+
+  --carro-inv-x: -1.6%;
+  --carro-inv-y: -23%;
+  --carro-inv-scale: 0.91;
+  --carro-inv-final-x: -25vw;
+  --carro-inv-final-y: -25vh;
+
+  /* Carro na floresta */
+  --carro-floresta-img-start-w: 90%;
+  --carro-floresta-img-end-w: 40%;
+  --carro-floresta-img-start-bottom: -20%;
+  --carro-floresta-img-end-bottom: 20%;
+  --carro-floresta-img-start-left: -10%;
+  --carro-floresta-img-end-left: 35%;
+
+  /* Sistema de botões */
+  --btn-main-bg:            #5F372A;
+  --btn-main-bg-hover:      #462A21;
+  --btn-main-bg-active:     #38221A;
+  --btn-main-border:        #B08D76;
+  --btn-main-border-hover:  #EAA476;
+
+  --btn-alert-bg:           #C31B1B;
+  --btn-alert-bg-hover:     #9D1412;
+  --btn-alert-bg-active:    #83110F;
+  --btn-alert-border:       #D52927;
+  --btn-alert-border-hover: #CD4336;
+  --btn-alert-shadow:       #6B0F0F;
+
+  --btn-sec-bg:             rgba(186, 151, 115, .62);
+  --btn-sec-bg-hover:       rgba(234, 168, 122, .62);
+  --btn-sec-bg-active:      rgba(196, 136, 92, .62);
+  --btn-sec-border:         #C9A288;
+  --btn-sec-border-hover:   #EAA476;
+
+  --btn-focus:              #FFD54A;
+  --btn-disabled-bg:        rgba(134, 130, 130, .6);
+
+  --btn-text:               #FFF5E6;
+  --btn-radius:             10px;
+  --btn-transition: background-color .15s ease,
+                    border-color     .15s ease,
+                    box-shadow       .15s ease,
+                    transform        .15s ease;
+
+  --btn-shadow-rest:  0 4px 0 rgba(0, 0, 0, .35);
+  --btn-shadow-lift:  0 6px 0 rgba(0, 0, 0, .35);
+  --btn-shadow-press: 0 2px 0 rgba(0, 0, 0, .35), inset 0 2px 4px rgba(0, 0, 0, .45);
+  --btn-texture: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
+
+  /* Painel de definições */
+  --settings-accent: #EAA788;
+  --settings-track: rgba(255, 255, 255, 0.1255);
+  --settings-border: rgba(183, 127, 85, 0.4);
+  --settings-group-bg: rgba(255, 255, 255, 0.0627);
+  --settings-group-border: rgba(183, 127, 85, 0.35);
+  --settings-divider: rgba(255, 245, 230, 0.08);
+  --settings-gold: #FFD54A;
+  --settings-panel-width: min(90vw, 360px);
+}
 
 html,
 body {
@@ -127,8 +277,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden !important;  
-  overflow-y: hidden !important;  
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   max-width: 100%;
 }
 
@@ -142,27 +292,8 @@ body {
   overflow: hidden !important;
 }
 
-/* ÍCONES (Phosphor) — sprite SVG; a cor vem de currentColor nos <path> */
-.ph-icon {
-  display: inline-block;
-  flex: 0 0 auto;
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.125em;
-  fill: currentColor;
-}
-
-/* ============================================================
-   ALINHAMENTO CONSISTENTE: sound-btn + font-btn
-   ============================================================ */
-
-:root {
-  --icon-btn-size: 44px;
-  --ease-soft: cubic-bezier(.22, 1, .36, 1);
-}
-
-/* GERAL */
-
+/* Base geral (repete algumas regras por compatibilidade com o reset do
+   SugarCube — não remover sem testar). */
 html,
 body {
   width: 100%;
@@ -175,7 +306,8 @@ body {
   max-width: 100%;
 }
 
-#ui-bar { display: none;
+#ui-bar {
+  display: none;
 }
 
 #story,
@@ -201,7 +333,7 @@ body {
 .scene {
   position: relative;
   width: 100vw;
-  height: var(--app-height) !important;   
+  height: var(--app-height) !important;
   top: 0 !important;
   padding: 0;
   align-items: center;
@@ -229,7 +361,7 @@ body {
   min-height: 100% !important;
   position: relative;
   width: 100vw;
-  height: var(--app-height); 
+  height: var(--app-height);
   background-position: center center;
   background-repeat: no-repeat;
   align-items: center;
@@ -237,18 +369,45 @@ body {
   overflow: hidden;
 }
 
-p { color: white !important;
+p {
+  color: white !important;
 }
 
+
+/* ==========================================================================
+   [3] ÍCONES
+   --------------------------------------------------------------------------
+   Todos os ícones vêm do sprite SVG injetado pelo story.js em [2]
+   (secção "ÍCONES"). Cada uso é <svg class="ph-icon"><use href="#ph-NOME"/>
+   </svg>, herda currentColor e escala por font-size. Não duplicar paths aqui.
+   ========================================================================== */
+.ph-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+
+/* ==========================================================================
+   [4] CAIXA DE TEXTO
+   --------------------------------------------------------------------------
+   Estrutura: .text-box (moldura fixa em baixo) > .text-scroll (área com
+   scroll). O story.js em [8.3] envolve o conteúdo nesta div e controla a
+   animação palavra a palavra. A scrollbar nativa está estilizada aqui;
+   em touch é substituída pela barra fake da secção [13].
+   ========================================================================== */
 .text-box {
   position: absolute !important;
   bottom: 0 !important;
   right: 0 !important;
   left: auto !important;
   font-size: 1.15em !important;
-  padding: 1% 0 !important;          
+  padding: 1% 0 !important;
   padding-top: clamp(2rem, 5vw, 3.2rem) !important;
-  padding-bottom: env(safe-area-inset-bottom, 0px) !important; 
+  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   color: white !important;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png") !important;
   background-size: cover !important;
@@ -260,7 +419,7 @@ p { color: white !important;
   min-height: 15vh !important;
   max-height: 30vh !important;
   z-index: 3 !important;
-  overflow: hidden !important;           
+  overflow: hidden !important;
   width: 100% !important;
   margin: 0 !important;
   box-sizing: border-box !important;
@@ -292,7 +451,8 @@ p { color: white !important;
   scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
 }
 
-.text-scroll::-webkit-scrollbar { width: 5px;
+.text-scroll::-webkit-scrollbar {
+  width: 5px;
 }
 
 .text-scroll::-webkit-scrollbar-track {
@@ -312,8 +472,6 @@ p { color: white !important;
 .text-scroll::-webkit-scrollbar-thumb:hover {
   background-color: rgba(255, 252, 224, 0.95);
 }
-
-/* Chrome/Safari/Edge: */
 
 .text-box p {
   margin: 0.3em 0 !important;
@@ -338,6 +496,15 @@ p { color: white !important;
   color: white;
 }
 
+
+/* ==========================================================================
+   [5] CAIXAS DE ALERTA
+   --------------------------------------------------------------------------
+   .alarm é o contentor usado nas passagens "⟲" (recomeçar), "Sobre" e
+   "Guia de Jogo". Inclui variantes :has(.confirm-restart) e
+   :has(.resumo-112), além do X de fechar (.alarm-close) partilhado com o
+   painel de definições. Os ajustes finos do recomeçar estão em [19].
+   ========================================================================== */
 .alarm {
   position: absolute;
   top: 50%;
@@ -414,8 +581,6 @@ p { color: white !important;
   color: white !important;
 }
 
-/* Recomeçar = mesmo aspeto do Sobre / Como jogar */
-
 .alarm .alarm-subtext {
   font-size: 1em !important;
 }
@@ -426,18 +591,11 @@ p { color: white !important;
   }
 }
 
-/* ============================================================
-   RECOMEÇAR — título e botões mais pequenos
-   ============================================================ */
-
-/* Título */
-
+/* Recomeçar — título e botões mais compactos */
 .alarm:has(.confirm-restart) h2 {
   font-size: clamp(1.1em, 2.6vw, 1.5em) !important;
   margin-top: 0 !important;
 }
-
-/* Botões (tablet/desktop) */
 
 @media screen and (min-width: 601px) {
   .alarm:has(.confirm-restart) .choices .cancel-restart .macro-back,
@@ -453,8 +611,6 @@ p { color: white !important;
   }
 }
 
-/* Mobile */
-
 @media screen and (max-width: 768px) {
   .alarm:has(.confirm-restart) h2 {
     font-size: 1.15em !important;
@@ -469,10 +625,6 @@ p { color: white !important;
   }
 }
 
-/* Alinhamento à esquerda só aplica em ecrãs onde os botões ficam em linha;
-   em mobile mantém-se o comportamento genérico (stretch), que é o que dá
-   aos dois botões a mesma largura, empilhados corretamente */
-
 @media screen and (min-width: 601px) {
   .alarm .choices:has(.confirm-restart) {
     justify-content: flex-start !important;
@@ -485,8 +637,7 @@ p { color: white !important;
   border-width: 3px !important;
 }
 
-/* Fade uniforme de 0.4 sobre o fundo desta caixa, em todos os dispositivos */
-
+/* Fundo escurecido da cena por trás do alerta */
 .alarm-scene .image-bg.village::after {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -494,8 +645,6 @@ p { color: white !important;
   mask-image: none !important;
   background-color: rgba(0, 0, 0, 0.82) !important;
 }
-
-/* Fundo escurecido para a passagem "Guia de jogo" (fundo .casa) */
 
 .alarm-scene .image-bg.casa::after {
   content: '';
@@ -507,14 +656,11 @@ p { color: white !important;
 }
 
 /* ---- Botão fechar (X) — partilhado por .alarm e Definições ---- */
-
 .alarm .alarm-close .ph-icon,
 #settings-close .ph-icon {
   width: 18px;
   height: 18px;
 }
-
-/* Nas caixas .alarm o X fica no canto */
 
 .alarm .alarm-close {
   position: absolute;
@@ -567,13 +713,22 @@ p { color: white !important;
   }
 }
 
+
+/* ==========================================================================
+   [6] IMAGENS DE CENA (estrutura base)
+   --------------------------------------------------------------------------
+   .image-bg       → fundo da cena (z-index 1)
+   .image-overlay  → camada por cima (z-index 2), ex.: fumo, fogo, carro
+   .image-fumo     → variante de fumo, também z-index 1
+   As classes por cena (.village, .casa, …) estão em [10].
+   ========================================================================== */
 .image-bg,
 .image-overlay {
   position: absolute;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  overflow: hidden !important; 
+  overflow: hidden !important;
   animation: sceneFade .5s ease;
   width: 100vw;
   height: 85vh;
@@ -612,8 +767,8 @@ p { color: white !important;
 }
 
 .image-overlay.kit1 {
-    background-size: 60% auto !important;
-    background-position: right top !important;
+  background-size: 60% auto !important;
+  background-position: right top !important;
 }
 
 .alarm-scene .image-bg {
@@ -632,8 +787,13 @@ p { color: white !important;
   display: none !important;
 }
 
-/* DETAils */
 
+/* ==========================================================================
+   [7] PÁGINA INICIAL
+   --------------------------------------------------------------------------
+   h1, .sombrinha, .centro, .footer e os botões grandes da home. As medidas
+   escalam com --ui-scale (definida pelo JS em [8.2] aplicarFonte).
+   ========================================================================== */
 h1 {
   font-family: "Winky Rough", sans-serif;
   font-size: 6em;
@@ -666,6 +826,8 @@ h1 {
   text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
+/* O JS em aplicarFonte() sobrepõe com inline !important. Estes valores são
+   fallback para quando o JS ainda não correu. */
 .sombrinha p.readable {
   font-size: clamp(0.9rem, 2.6vw, 1.3rem) !important;
 }
@@ -729,13 +891,6 @@ h1 {
   font-style: italic;
 }
 
-:root {
-  --home-btn-w:   calc(200px * var(--ui-scale, 1));
-  --home-btn-h:   calc(56px * var(--ui-scale, 1));
-  --home-btn-fs:  calc(1.55em * var(--ui-scale, 1));
-  --home-btn-pad: 10px 20px;
-}
-
 .choices a,
 .choices a:hover,
 .choices a:focus,
@@ -771,10 +926,14 @@ h1 {
   touch-action: manipulation;
 }
 
-/* ============================================================
-   SOUND + FONT BUTTONS
-   ============================================================ */
 
+/* ==========================================================================
+   [8] BOTÃO DE SOM
+   --------------------------------------------------------------------------
+   #sound-btn é criado pelo story.js em [5.7] e comandado também a partir do
+   painel de definições. O estado .muted desenha um risco diagonal sobre o
+   ícone. Alinhamento horizontal com #settings-nook ([21]).
+   ========================================================================== */
 #sound-btn {
   position: fixed;
   top: max(1%, env(safe-area-inset-top));
@@ -787,7 +946,7 @@ h1 {
 
   --sound-btn-w: 76px;
   width: var(--sound-btn-w);
-  height: 64px;                    
+  height: 64px;
   padding: 0;
   box-sizing: border-box;
 
@@ -827,11 +986,9 @@ h1 {
   line-height: 0;
 }
 
-/* Hover */
-
 @media screen and (hover: hover) {
   #sound-btn:hover {
-    width: calc(var(--sound-btn-w) + 12px);    
+    width: calc(var(--sound-btn-w) + 12px);
     background-color: #A56D47 !important;
     border-color: #EDBF93 !important;
     filter: brightness(1.1);
@@ -843,8 +1000,6 @@ h1 {
             drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
   }
 }
-
-/* Mudo */
 
 #sound-btn.muted {
   background-color: #8A5A3B !important;
@@ -862,22 +1017,18 @@ h1 {
   opacity: 1 !important;
 }
 
-/* Contentor do ícone passa a ser a referência para o risco */
-
 #sound-btn.muted .sound-btn-icon {
   position: relative;
 }
-
-/* Risco vermelho diagonal por cima do ícone */
 
 #sound-btn.muted .sound-btn-icon::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 130%;                          /* ligeiramente maior que o ícone */
+  width: 130%;
   height: 3px;
-  background-color: #D52927;            /* vermelho do botão "Recomeçar" */
+  background-color: #D52927;
   border-radius: 2px;
   transform: translate(-50%, -50%) rotate(-45deg);
   transform-origin: center center;
@@ -887,8 +1038,6 @@ h1 {
   pointer-events: none;
   z-index: 1;
 }
-
-/* Hover do mudo — comportamento igual ao normal */
 
 @media screen and (hover: hover) {
   #sound-btn.muted:hover {
@@ -903,8 +1052,6 @@ h1 {
   }
 }
 
-/* Mobile: botão quadrado, só ícone — igual ao nook */
-
 @media screen and (max-width: 768px) {
   #sound-btn {
     --sound-btn-w: 60px;
@@ -918,13 +1065,19 @@ h1 {
   }
 }
 
+/* Botões nativos sem background/borda (o estilo é aplicado via classes). */
 button {
   background: none !important;
   border: none !important;
 }
 
-/* ANIMAÇÃO EFEITOS E TRANSIÇÕES */
 
+/* ==========================================================================
+   [9] ANIMAÇÕES GERAIS
+   --------------------------------------------------------------------------
+   @keyframes partilhados por várias cenas. Os keyframes específicos de cada
+   cena ficam junto dessa cena em [10] (localidade de comportamento).
+   ========================================================================== */
 @keyframes sceneFade {
   from {
     opacity: 0;
@@ -1056,8 +1209,19 @@ button {
   }
 }
 
-/* IMAGENS DE FUNDO */
 
+
+/* ==========================================================================
+   [10] FUNDOS E EFEITOS
+   --------------------------------------------------------------------------
+   Classes utilitárias aplicadas em .image-bg / .image-overlay / .image-fumo
+   em cada passagem (.village, .casa, .casafumo1…6, .carro-andar, …). Cada
+   bloco tem a sua própria animação (fumo, fogo, carro, sirene, piscar, etc.).
+   Classes que ainda não têm passagem estão listadas no topo do story.js para
+   futura utilização — não remover.
+   ========================================================================== */
+
+/* ---- Página inicial / segurança ---- */
 .village {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png);
 }
@@ -1089,8 +1253,7 @@ button {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/seguranca2.png);
 }
 
-/* IMAGENS FOGO */
-
+/* ---- Fogo (overlay animado) ---- */
 .fire-overlay {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/fire-transparent.png");
 }
@@ -1156,6 +1319,7 @@ button {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -1177,6 +1341,7 @@ button {
     background-size: 140%;
     opacity: 0.8;
   }
+
   100% {
     background-size: 160%;
     opacity: 1;
@@ -1238,6 +1403,7 @@ button {
   }
 }
 
+/* Overlay preto que escurece a cena antes de avançar (fins automáticos). */
 .fade-black-overlay {
   position: absolute;
   inset: 0;
@@ -1257,6 +1423,7 @@ button {
   }
 }
 
+/* ---- Casas e cenários base ---- */
 .casa {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa.png);
 }
@@ -1330,7 +1497,7 @@ button {
 }
 
 .salva-pelo-bombeiro {
-	background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/salva-pelo-bombeiro.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/salva-pelo-bombeiro.jpg);
 }
 
 .ponto-da-mulher {
@@ -1362,6 +1529,7 @@ button {
   height: 100vh !important;
 }
 
+/* ---- Casa a arder: transição "de pé" → "ardida" ---- */
 .casafire-de {
   z-index: 2;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa.png");
@@ -1373,11 +1541,21 @@ button {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-fire.jpg");
 }
 
+@keyframes fadeOut-de {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 .casa-ardida,
 .casa-ardida.fullheight {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-ardida.jpg");
-  background-size: cover; /* Preenche o ecrã todo, eliminando as barras laterais */
-  background-position: center 100%; /* Empurra a imagem para cima para mostrar a personagem */
+  background-size: cover;
+  background-position: center 100%;
   background-repeat: no-repeat;
   background-color: #1a1108;
 
@@ -1390,6 +1568,7 @@ button {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/salvar-laurinda.jpg");
 }
 
+/* ---- Pronto para evacuar (variantes ainda sem passagem) ---- */
 .prontoparaevacuar-sembobi {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar-sembobi.png");
 }
@@ -1402,8 +1581,7 @@ button {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar-sembobi3.png");
 }
 
-/* --- Overlays: com Bobi --- */
-
+/* ---- Overlays do Bobi e fumo progressivo (casafumo1…6) ---- */
 .casa-semjanela-jardim {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casa-semjanela-jardim.png");
 }
@@ -1436,16 +1614,7 @@ button {
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/casafumo6.png");
 }
 
-@keyframes fadeOut-de {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
+/* ---- Reparar / chamar 112 / avisar vizinhos (animações de overlay) ---- */
 .reparar-overlay {
   background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/repararbefore.png);
 }
@@ -1533,217 +1702,7 @@ button {
   }
 }
 
-/* ============================================================
-   PRONTO PARA EVACUAR — contain, aspect-ratio real (16:9),
-   padding-bottom alinhado com a altura real da text-box
-   ============================================================ */
-
-#prontoevacuarScene {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  position: relative;
-  width: 100vw;
-  height: var(--app-height) !important;
-  overflow: hidden;
-  box-sizing: border-box;
-  background-color: #FFF5E6;
-}
-
-.prontoevacuar-stage {
-  position: absolute;
-  inset: 0;
-}
-
-.prontoevacuar-stage .state {
-  position: absolute;
-  inset: 0;
-  background-size: cover;         
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0;
-}
-
-.prontoevacuar-stage .s1 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar1.png");
-  opacity: 1;
-}
-
-.prontoevacuar-stage .s2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuarbobi.png");
-}
-
-.prontoevacuar-stage .s3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar3.png");
-}
-
-.prontoevacuar-stage.play .s2 { animation: fadeState 1.4s ease-out 1.6s forwards;
-}
-
-.prontoevacuar-stage.play .s3 { animation: fadeState 1.4s ease-out 3.6s forwards;
-}
-
-@keyframes fadeState {
-  0%   { opacity: 0; transform: scale(.985); }
-  55%  { opacity: 1; transform: scale(1.004); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* ============================================================
-   .s3 (prontoparaevacuar3) — camadas de fogo/silhueta/fuminho
-   Imagens já vêm posicionadas/recortadas corretamente — só
-   empilhar (fogo -> silhueta -> fuminho no topo) e animar.
-   ============================================================ */
-
-:root {
-  --pe3-crop-y: 25%;   /* experimenta 15% / 20% / 30%... */
-}
-
-.prontoevacuar-stage .s3,
-.prontoevacuar-stage .s3 > div {
-  background-position: center var(--pe3-crop-y);
-}
-
-.prontoevacuar-stage .s3 > div {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.pe3-fogo {
-  z-index: 1;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar3-fogo.png");
-  animation: vibrate-2 0.35s linear infinite both;
-}
-
-.pe3-semfundo {
-  z-index: 2;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar-3semfundo.png");
-}
-
-.pe3-fuminho {
-  z-index: 3;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar3-fuminhp.png");
-  animation:
-    pe3-fuminho-drift     5s   ease-in-out infinite,
-    pe3-fuminho-opacidade 4.5s ease-in-out infinite,
-    fumo-vibrar           0.35s linear infinite;
-}
-
-@keyframes pe3-fuminho-drift {
-  0%, 100% { transform: translate(0, 0); }
-  50%      { transform: translate(3px, -6px); }
-}
-
-@keyframes pe3-fuminho-opacidade {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.8; }
-}
-
-/* ============================================================
-   PRONTO PARA EVACUAR — ajustes por dispositivo
-   ============================================================ */
-
-:root {
-  --pe-textbox: 34vh;        /* altura da text-box (fallback se o JS não medir) */
-  --pe-shift-up: 5vh;        /* desktop: quanto sobe o conjunto */    /* tablet retrato: largura da imagem */
-  --pe-mobile-zoom: 1.12;    /* mobile: zoom do painel 2 */
-}
-
-/* Faixa 601–768px: a text-box tem até 35vh */
-
-@media screen and (min-width: 601px) and (max-width: 768px) {
-  :root { --pe-textbox: 35vh;
-  }
-}
-
-/* DESKTOP — cover (cortado em cima/baixo) como no original,
-   mas o stage inteiro sobe. O que sobra em baixo fica debaixo da text-box. */
-
-@media screen and (min-width: 1025px) {
-  .prontoevacuar-stage {
-    inset: calc(-1 * var(--pe-shift-up)) 0 var(--pe-shift-up) 0;
-  }
-}
-
-/* ============================================================
-   PRONTO PARA EVACUAR — TABLET (touch, 601px+)
-   Tem de vir DEPOIS do bloco de desktop (min-width:1025px).
-   ============================================================ */
-
-:root {
-  --pe-tab-land-side: 0vw;    /* paisagem: sem margem lateral */
-  --pe-tab-land-top: 0vh;
-  --pe-tab-port-side: 0vw;    /* retrato: sem margem lateral */
-  --pe-tab-port-top: 0vh;
-  --pe-tab-port-zoom: 124%;    /* retrato: zoom */
-  --pe-tab-port-x: 58%;        /* retrato: 0% = corta só à direita, 50% = corta igual, 100% = corta só à esquerda */
-}
-
-/* TABLET PAISAGEM */
-
-@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: landscape) {
-  .prontoevacuar-stage {
-    inset: var(--pe-tab-land-top) var(--pe-tab-land-side)
-      calc(var(--pe-textbox-px, var(--pe-textbox)) + 2vh) var(--pe-tab-land-side);
-  }
-
-  .prontoevacuar-stage .s3,
-.prontoevacuar-stage .s3 > div {
-    background-position: center var(--pe3-crop-y);
-  }
-
-  .prontoevacuar-stage .state,
-.prontoevacuar-stage .s3 > div {
-    background-size: contain;
-    background-position: center center;
-  }
-}
-
-/* TABLET RETRATO — zoom ancorado à direita:
-   corta um pouco do 1º painel, nunca o último */
-
-@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: portrait) {
-  .prontoevacuar-stage {
-    inset: var(--pe-tab-port-top) var(--pe-tab-port-side)
-      calc(var(--pe-textbox-px, var(--pe-textbox)) + 2vh) var(--pe-tab-port-side);
-  }
-
-  .prontoevacuar-stage .state,
-.prontoevacuar-stage .s3 > div {
-    background-size: var(--pe-tab-port-zoom) auto;
-    background-position: var(--pe-tab-port-x) center;
-  }
-}
-
-/* MOBILE — só o painel 2 (versão completa), a ecrã inteiro,
-   com zoom para cobrir a margem de cima */
-
-@media screen and (max-width: 600px) {
-  .prontoevacuar-stage {
-    inset: 0;
-  }
-
-  .prontoevacuar-stage .s1,
-.prontoevacuar-stage .s3 {
-    display: none !important;
-  }
-
-  .prontoevacuar-stage .s2,
-.prontoevacuar-stage.play .s2 {
-    display: block;
-    opacity: 1 !important;
-    animation: none !important;
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuarbobi3.png");
-    background-size: cover;
-    background-position: center 30%;
-    transform: scale(var(--pe-mobile-zoom));
-    transform-origin: center bottom;
-  }
-}
-
+/* ---- Pânico (passagem 20) ---- */
 .panico {
   animation: em-panico 1.2s ease-in-out forwards;
   transform-origin: center bottom;
@@ -1775,10 +1734,7 @@ button {
   50%      { transform: scale(1.025); }
 }
 
-/* ============================================================
-   PASSAGEM 20 (pânico): tremor de mãos + respiração difícil
-   ============================================================ */
-
+/* Passagem 20: tremor de mãos + respiração difícil */
 .panico-scene .image-overlay.panico {
   animation:
     tremer-respirar-dificil 1.8s ease-in-out infinite,
@@ -1813,6 +1769,7 @@ button {
   }
 }
 
+/* ---- Escolhas do 112 (checkbox + resumo) ---- */
 .choices-112 {
   display: flex;
   flex-direction: column;
@@ -1843,10 +1800,7 @@ button {
   line-height: 1.8;
 }
 
-/* ============================================================
-   ELETRICIDADE – piscar de luzes
-   ============================================================ */
-
+/* ---- Piscar de luzes (eletricidade) ---- */
 .eletricidade-leve {
   animation: eletricidade-leve-anim 8s ease-in-out infinite !important;
 }
@@ -1871,12 +1825,13 @@ button {
   }
 }
 
+/* ---- Fumo em gradiente (camada CSS, sem imagem) ---- */
 .fumo-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  bottom: 40vh;              
+  bottom: 40vh;
   z-index: 2;
   pointer-events: none;
   background-image: none !important;
@@ -1912,14 +1867,7 @@ button {
   }
 }
 
-/* ============================================================
-   FUMO IMAGEM — casafumo1…6
-   sceneFade/fade + drift + vibrate, em propriedades separadas
-   para não colidirem entre si.
-   ============================================================ */
-
-/* Vibração exclusiva do fumo */
-
+/* ---- Fumo imagem (casafumo1…6): fade + drift + vibrate ---- */
 @keyframes fumo-vibrar {
   0%   { transform: translate(0, 0); }
   20%  { transform: translate(0.75px, -0.75px); }
@@ -1928,9 +1876,6 @@ button {
   80%  { transform: translate(-0.75px, -0.75px); }
   100% { transform: translate(0, 0); }
 }
-
-/* Fade + zoom, mas com "scale" individual (não "transform")
-   para deixar o "transform" livre para o vibrate */
 
 @keyframes fumoSceneFade {
   from { opacity: 0; scale: 1.02; }
@@ -1941,8 +1886,6 @@ button {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
-/* Drift sem opacity (senão sobrepõe-se ao fade) */
 
 @keyframes fumo-drift {
   0%, 100% { translate: 0 0; }
@@ -1957,8 +1900,6 @@ button {
   75%      { translate: 0.5px 0.5px; }
 }
 
-/* Leve — base clara, fumo suave */
-
 .fumo-leve {
   opacity: 0.5;
   animation:
@@ -1967,16 +1908,12 @@ button {
     fumo-vibrar  0.35s linear infinite;
 }
 
-/* Médio — base intermédia */
-
 .fumo-medio {
   animation:
     fumoSceneFade .5s ease,
     fumo-drift    4s  ease-in-out infinite,
     fumo-vibrar   0.35s linear infinite;
 }
-
-/* Fumo 3 e 4 — entram por camadas depois da casa-fire */
 
 .fumo-entra-3 {
   opacity: 0;
@@ -2010,22 +1947,7 @@ button {
     fumo-vibrar      0.35s linear infinite;
 }
 
-:root {
-  /* Valores desktop (default) */
-  --carro-andar-mid-x: -1.9%;
-  --carro-andar-mid-y: -25%;
-  --carro-andar-mid-scale: 0.895;
-  --carro-andar-end-x: -1.6%;
-  --carro-andar-end-y: -23%;
-  --carro-andar-end-scale: 0.91;
-
-  --carro-inv-x: -1.6%;
-  --carro-inv-y: -23%;
-  --carro-inv-scale: 0.91;
-  --carro-inv-final-x: -25vw;  /* por defeito, igual à posição da rotação */
-  --carro-inv-final-y: -25vh;
-}
-
+/* ---- Carro a andar / inversão ---- */
 .carro-andar {
   animation: carro-andar-anim 1.4s ease-out forwards;
   transform-origin: center bottom;
@@ -2072,11 +1994,9 @@ button {
   }
 }
 
-/* Tablets (iPad, etc.) — mesma animação do desktop, ligeiramente mais "zoom" */
-
 @media screen and (min-width: 601px) and (max-width: 1024px) {
   .carro-andar,
-.carro-inversao {
+  .carro-inversao {
     --carro-andar-mid-x: -2.3%;
     --carro-andar-mid-y: -29%;
     --carro-andar-mid-scale: 1.0;
@@ -2095,8 +2015,6 @@ button {
   }
 }
 
-/* Telemóveis — carro maior para não parecer perdido no ecrã */
-
 @media screen and (max-width: 600px) {
   .carro-andar {
     --carro-andar-mid-x: -9vw;
@@ -2112,22 +2030,14 @@ button {
     --carro-inv-y: -25vh;
     --carro-inv-scale: 3.10;
     --carro-inv-origin-y: 90%;
-    --carro-inv-final-x: 0vw;   
-    --carro-inv-final-y: 12vh;   
+    --carro-inv-final-x: 0vw;
+    --carro-inv-final-y: 12vh;
     background-size: contain !important;
     background-repeat: no-repeat !important;
   }
 }
 
-:root {
-  --carro-floresta-img-start-w: 90%;  
-  --carro-floresta-img-end-w: 40%;  
-  --carro-floresta-img-start-bottom: -20%;
-  --carro-floresta-img-end-bottom: 20%;
-  --carro-floresta-img-start-left: -10%;  
-  --carro-floresta-img-end-left: 35%;
-}
-
+/* Carro a entrar na floresta (imagem overlay animada) */
 .carro-floresta-img {
   position: absolute;
   width: var(--carro-floresta-img-start-w);
@@ -2155,8 +2065,6 @@ button {
   }
 }
 
-/* Tablets */
-
 @media screen and (min-width: 601px) and (max-width: 1024px) {
   .carro-floresta-img {
     --carro-floresta-img-start-w: 190%;
@@ -2168,19 +2076,18 @@ button {
   }
 }
 
-/* Telemóveis — maior para não se perder no ecrã */
-
 @media screen and (max-width: 600px) {
   .carro-floresta-img {
-      --carro-floresta-img-start-w: 220%;  
-      --carro-floresta-img-end-w: 140%;  
-      --carro-floresta-img-start-bottom: 5%;
-      --carro-floresta-img-end-bottom: 28%;
-      --carro-floresta-img-start-left: -70%;  
-      --carro-floresta-img-end-left: -5%;
+    --carro-floresta-img-start-w: 220%;
+    --carro-floresta-img-end-w: 140%;
+    --carro-floresta-img-start-bottom: 5%;
+    --carro-floresta-img-end-bottom: 28%;
+    --carro-floresta-img-start-left: -70%;
+    --carro-floresta-img-end-left: -5%;
   }
 }
 
+/* Rio → floresta: fade cruzado com ::before + ::after */
 .image-bg.rio-para-fogo {
   position: absolute;
   inset: 0;
@@ -2219,6 +2126,7 @@ button {
   }
 }
 
+/* Passagem 29: blur que abre para focar */
 .passagem-29-bg {
   filter: blur(12px);
   animation: focar 4s ease-out 4s forwards;
@@ -2234,6 +2142,7 @@ button {
   }
 }
 
+/* Piscar de olhos (hospital) */
 .piscar-overlay {
   position: absolute;
   inset: 0;
@@ -2281,7 +2190,192 @@ button {
   }
 }
 
-/* TOASTS - Notificações */
+
+/* ==========================================================================
+   [11] PRONTO PARA EVACUAR (PASSAGEM 13)
+   --------------------------------------------------------------------------
+   Estrutura: .prontoevacuar-stage > .state.s1/.s2/.s3, cada um com a sua
+   imagem. Em mobile (≤600px) só o .s2 é mostrado. O story.js em [13] mede
+   a altura da .text-box e injeta em --pe-textbox-px para a imagem não ficar
+   tapada em tablet. A sequência de fade entre estados é acionada pela classe
+   .play (adicionada em :passagestart de '13').
+   ========================================================================== */
+#prontoevacuarScene {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  height: var(--app-height) !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #FFF5E6;
+}
+
+.prontoevacuar-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.prontoevacuar-stage .state {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+
+.prontoevacuar-stage .s1 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar1.png");
+  opacity: 1;
+}
+
+.prontoevacuar-stage .s2 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuarbobi.png");
+}
+
+.prontoevacuar-stage .s3 {
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar3.png");
+}
+
+.prontoevacuar-stage.play .s2 {
+  animation: fadeState 1.4s ease-out 1.6s forwards;
+}
+
+.prontoevacuar-stage.play .s3 {
+  animation: fadeState 1.4s ease-out 3.6s forwards;
+}
+
+@keyframes fadeState {
+  0%   { opacity: 0; transform: scale(.985); }
+  55%  { opacity: 1; transform: scale(1.004); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ---- Camadas internas do .s3: fogo, silhueta e fuminho ---- */
+.prontoevacuar-stage .s3,
+.prontoevacuar-stage .s3 > div {
+  background-position: center var(--pe3-crop-y);
+}
+
+.prontoevacuar-stage .s3 > div {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.pe3-fogo {
+  z-index: 1;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar3-fogo.png");
+  animation: vibrate-2 0.35s linear infinite both;
+}
+
+.pe3-semfundo {
+  z-index: 2;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar-3semfundo.png");
+}
+
+.pe3-fuminho {
+  z-index: 3;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuar3-fuminhp.png");
+  animation:
+    pe3-fuminho-drift     5s   ease-in-out infinite,
+    pe3-fuminho-opacidade 4.5s ease-in-out infinite,
+    fumo-vibrar           0.35s linear infinite;
+}
+
+@keyframes pe3-fuminho-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(3px, -6px); }
+}
+
+@keyframes pe3-fuminho-opacidade {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.8; }
+}
+
+/* ---- Ajustes por dispositivo ---- */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  :root {
+    --pe-textbox: 35vh;
+  }
+}
+
+/* Desktop: o stage inteiro sobe um pouco */
+@media screen and (min-width: 1025px) {
+  .prontoevacuar-stage {
+    inset: calc(-1 * var(--pe-shift-up)) 0 var(--pe-shift-up) 0;
+  }
+}
+
+/* Tablet paisagem */
+@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: landscape) {
+  .prontoevacuar-stage {
+    inset: var(--pe-tab-land-top) var(--pe-tab-land-side)
+      calc(var(--pe-textbox-px, var(--pe-textbox)) + 2vh) var(--pe-tab-land-side);
+  }
+
+  .prontoevacuar-stage .s3,
+  .prontoevacuar-stage .s3 > div {
+    background-position: center var(--pe3-crop-y);
+  }
+
+  .prontoevacuar-stage .state,
+  .prontoevacuar-stage .s3 > div {
+    background-size: contain;
+    background-position: center center;
+  }
+}
+
+/* Tablet retrato: zoom ancorado à direita, corta o 1.º painel */
+@media screen and (min-width: 601px) and (pointer: coarse) and (orientation: portrait) {
+  .prontoevacuar-stage {
+    inset: var(--pe-tab-port-top) var(--pe-tab-port-side)
+      calc(var(--pe-textbox-px, var(--pe-textbox)) + 2vh) var(--pe-tab-port-side);
+  }
+
+  .prontoevacuar-stage .state,
+  .prontoevacuar-stage .s3 > div {
+    background-size: var(--pe-tab-port-zoom) auto;
+    background-position: var(--pe-tab-port-x) center;
+  }
+}
+
+/* Mobile: só o painel 2, a ecrã inteiro, com zoom */
+@media screen and (max-width: 600px) {
+  .prontoevacuar-stage {
+    inset: 0;
+  }
+
+  .prontoevacuar-stage .s1,
+  .prontoevacuar-stage .s3 {
+    display: none !important;
+  }
+
+  .prontoevacuar-stage .s2,
+  .prontoevacuar-stage.play .s2 {
+    display: block;
+    opacity: 1 !important;
+    animation: none !important;
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/prontoparaevacuarbobi3.png");
+    background-size: cover;
+    background-position: center 30%;
+    transform: scale(var(--pe-mobile-zoom));
+    transform-origin: center bottom;
+  }
+}
+
+
+/* ==========================================================================
+   [12] TOASTS
+   --------------------------------------------------------------------------
+   .toast-notif é criado por mostrarToast() (story.js [7]). Tipos disponíveis:
+   bom, perigoso/atencao, fogo, arvore, achievement. A cor da borda e do ícone
+   variam por tipo. Só um toast de cada vez.
+   ========================================================================== */
 .toast-notif {
   position: fixed;
   top: 80px;
@@ -2289,6 +2383,7 @@ button {
   z-index: 999;
   width: 260px;
   padding: 12px 16px;
+  border-radius: 6px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -2296,39 +2391,71 @@ button {
   transition: right 0.4s ease;
   font-family: "Fira Sans", sans-serif;
   border: 3px solid #b77e56;
-  border-right: none;
-  border-radius: 6px 0 0 6px;
   background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood.png");
   background-size: cover;
   background-position: center;
 }
 
 .toast-notif.toast-visivel {
-  right: 0;
+  right: 16px;
 }
 
+/* Cores por tipo — só o ícone recebe a cor do tipo.
+   O título fica na cor do texto (ver .toast-titulo) e destaca-se por peso. */
 .toast-notif.toast-bom {
   border-color: #5fba5f;
 }
+.toast-notif.toast-bom .toast-icone {
+  color: #5fba5f;
+}
 
-.toast-notif.toast-perigoso {
-  border-color: #cc3333;
+.toast-notif.toast-perigoso,
+.toast-notif.toast-atencao {
+  border-color: #f0c000;
+}
+.toast-notif.toast-perigoso .toast-icone,
+.toast-notif.toast-atencao .toast-icone {
+  color: #f0c000;
+}
+
+.toast-notif.toast-fogo {
+  border-color: #ef4444;
+}
+.toast-notif.toast-fogo .toast-icone {
+  color: #ef4444;
+}
+
+.toast-notif.toast-arvore {
+  border-color: #5fba5f;
+}
+.toast-notif.toast-arvore .toast-icone {
+  color: #5fba5f;
 }
 
 .toast-notif.toast-achievement {
-  border-color: #b77e56;
+  border-color: #e0a566;
+}
+.toast-notif.toast-achievement .toast-icone {
+  color: #e0a566;
+}
+
+.toast-notif .toast-icone .ph-icon {
+  filter: drop-shadow(0 0 4px currentColor);
 }
 
 .toast-icone {
   font-size: 1.5em;
   line-height: 1;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
 }
 
 .toast-titulo {
   font-family: "Winky Rough", sans-serif;
   font-size: 1em;
-  color: white;
+  color: #FFF5E6;              
+  font-weight: 700;            
   text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
   display: block;
   margin-bottom: 2px;
@@ -2351,20 +2478,23 @@ button {
   font-size: clamp(1.5em, 4vw, 2.2em) !important;
 }
 
-/* ============================================================
-   SCROLLBAR CUSTOM — MOBILE/TABLET (touch)
-   Esconde a scrollbar nativa em dispositivos touch e substitui
-   por uma barra fake com o mesmo estilo do desktop.
-   ============================================================ */
 
+/* ==========================================================================
+   [13] SCROLLBAR FALSA (touch)
+   --------------------------------------------------------------------------
+   Em dispositivos (pointer: coarse) a scrollbar nativa é escondida e
+   substituída por .fake-scrollbar-track / .fake-scrollbar-thumb, que são
+   posicionados dinamicamente pelo story.js em [14]. Em desktop a barra
+   nativa continua a ser usada (ver [4] e [5]).
+   ========================================================================== */
 @media (pointer: coarse) {
   .text-scroll,
-.alarm {
+  .alarm {
     scrollbar-width: none !important;
   }
 
   .text-scroll::-webkit-scrollbar,
-.alarm::-webkit-scrollbar {
+  .alarm::-webkit-scrollbar {
     display: none !important;
   }
 }
@@ -2393,10 +2523,14 @@ button {
   min-height: 26px;
 }
 
-/* ============================================================
-   RESPONSIVIDADE MELHORADA
-   ============================================================ */
 
+/* ==========================================================================
+   [14] RESPONSIVIDADE GLOBAL
+   --------------------------------------------------------------------------
+   Media queries transversais que afetam várias secções ao mesmo tempo.
+   As queries específicas de uma secção vivem dentro dessa secção (ex.:
+   as do telemóvel em [15], as do carregamento em [17]).
+   ========================================================================== */
 @media screen and (max-width: 1024px) {
   .choices {
     margin-top: 1rem !important;
@@ -2456,7 +2590,7 @@ button {
     font-size: 1.25em !important;
     max-height: calc(35vh + env(safe-area-inset-bottom, 0px)) !important;
     padding: 0 0 0 0 !important;
-    padding-top: clamp(0.5rem, 2.5vw, 0.9rem) !important; 
+    padding-top: clamp(0.5rem, 2.5vw, 0.9rem) !important;
     line-height: 1.6 !important;
     bottom: 0 !important;
     left: 0 !important;
@@ -2479,8 +2613,6 @@ button {
     transform: translate(-50%, -50%) !important;
   }
 
-  /* --- SOUND + FONT BUTTONS MOBILE --- */
-
   #decision-timer {
     top: calc(max(1%, env(safe-area-inset-top, 0px)) + var(--icon-btn-size) + 10px) !important;
     right: max(1%, env(safe-area-inset-right, 0px)) !important;
@@ -2498,7 +2630,7 @@ button {
   }
 
   .choices a,
-.choices button {
+  .choices button {
     font-size: 0.85em !important;
     padding: 8px 12px !important;
     text-align: center !important;
@@ -2511,15 +2643,13 @@ button {
 }
 
 /* Ecrãs baixos em geral */
-
 @media screen and (max-height: 700px) {
   .text-box {
     max-height: 30vh !important;
   }
 }
 
-/* Tipografia da caixa de texto vai encolhendo em ecrãs muito estreitos */
-
+/* Tipografia do text-box em ecrãs muito estreitos */
 @media screen and (max-width: 600px) {
   .text-box {
     padding-top: clamp(0.45rem, 2.5vw, 0.8rem) !important;
@@ -2535,68 +2665,65 @@ button {
     scrollbar-color: #888 #f0f0f0;
   }
 
-  .text-scroll::-webkit-scrollbar { 
+  .text-scroll::-webkit-scrollbar {
     width: 8px;
   }
 
-  .text-scroll::-webkit-scrollbar-track { 
-    background: #f0f0f0; 
+  .text-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
     border-radius: 4px;
   }
 
-  .text-scroll::-webkit-scrollbar-thumb { 
-    background: #888; 
+  .text-scroll::-webkit-scrollbar-thumb {
+    background: #888;
     border-radius: 4px;
   }
 
-  .text-scroll::-webkit-scrollbar-thumb:hover { 
+  .text-scroll::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .text-box { 
+  .text-box {
     padding-top: clamp(0.4rem, 3vw, 0.7rem) !important;
     font-size: 1.1em !important;
     border-width: 3.5px !important;
     max-height: 35vh !important;
   }
 
-  .text-scroll { 
+  .text-scroll {
     padding: 0 4% 2% 4% !important;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .text-box { 
+  .text-box {
     padding-top: clamp(0.4rem, 3vw, 0.65rem) !important;
     font-size: 1.1em !important;
     border-width: 3.5px !important;
     max-height: 35vh !important;
   }
 
-  .text-scroll { 
+  .text-scroll {
     padding: 0 4% 2% 4% !important;
   }
 }
 
 @media screen and (max-width: 340px) {
-  .text-box { 
+  .text-box {
     padding-top: clamp(0.35rem, 3.5vw, 0.6rem) !important;
     font-size: 1em !important;
     border-width: 3.5px !important;
     max-height: 35vh !important;
   }
 
-  .text-scroll { 
+  .text-scroll {
     padding: 0 5% 4% 5% !important;
   }
 }
 
-/* ============================================================
-   AJUSTES RESPONSIVOS (página inicial)
-   ============================================================ */
-
+/* Ajustes responsivos da página inicial */
 .image-bg.village.fullheight {
   position: relative;
   min-height: 100dvh;
@@ -2674,16 +2801,59 @@ button {
   }
 }
 
-/* ============================================================
-   ÍCONE DE APAGAR (BACKSPACE) — TELEMÓVEL 2.1
-   ============================================================ */
+/* Ajustes tablet/desktop: compactar a text-box para evitar scroll interno */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .text-box {
+    max-height: 34vh !important;
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.6% !important;
+    line-height: 1.5 !important;
+  }
 
+  .text-scroll {
+    padding: 0 1.8% !important;
+  }
+
+  .choices {
+    margin-top: 0.6rem !important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .text-box {
+    max-height: 34vh !important;
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.6% !important;
+    line-height: 1.5 !important;
+    border-bottom: 0 !important;
+    border-radius: 6px 6px 0 0 !important;
+  }
+
+  .text-scroll {
+    padding: 0 1.4% !important;
+  }
+
+  .choices {
+    margin-top: 0.6rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   [15] TELEMÓVEL (PASSAGEM 2.1)
+   --------------------------------------------------------------------------
+   Estrutura: .phone-scene (imagem do telefone) > .phone-keys (grelha 3×5) +
+   #phone-screen (dígitos + backspace). O story.js em [9] dimensiona o
+   telemóvel e ajusta os overlays ao centro real da imagem em tablet retrato.
+   ========================================================================== */
+
+/* ---- Ecrã do telemóvel (dígitos + backspace) ---- */
 #phone-digits {
   flex: 1 1 auto;
   text-align: center;
-  padding-right: 1.4em;      /* reserva espaço para o botão de apagar */
+  padding-right: 1.4em;
   box-sizing: border-box;
-  white-space: normal;       /* permite 2 linhas quando o texto não cabe */
+  white-space: normal;
   overflow-wrap: break-word;
   line-height: 1.25;
 }
@@ -2692,7 +2862,7 @@ button {
   position: absolute;
   right: 0;
   top: 50%;
-  transform: translateY(-40%); 
+  transform: translateY(-40%);
   color: white;
   text-shadow: 0 1px 2px rgba(0,0,0,0.6);
   cursor: pointer;
@@ -2702,8 +2872,8 @@ button {
   transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
-#phone-backspace .ph-icon { 
-  vertical-align: middle; 
+#phone-backspace .ph-icon {
+  vertical-align: middle;
 }
 
 #phone-backspace:active {
@@ -2715,13 +2885,10 @@ button {
 }
 
 #phone-digits.error-message {
-  transform: translateY(-8px);   /* Ajuste este valor conforme pretender */
+  transform: translateY(-8px);
 }
 
-/* ============================================================
-   CAIXA DE TEXTO DO TELEFONE
-   ============================================================ */
-
+/* ---- Caixa de texto específica do telemóvel ---- */
 .phone-text-box {
   min-height: clamp(15vh, 18vh, 22vh) !important;
   max-height: min(32vh, 22rem) !important;
@@ -2750,10 +2917,7 @@ button {
   }
 }
 
-/* ============================================================
-   TELEMÓVEL (cena 2.1)
-   ============================================================ */
-
+/* ---- Cenário e teclado ---- */
 .phone-scene {
   position: absolute;
   box-sizing: border-box;
@@ -2872,12 +3036,11 @@ button {
   font-family: monospace;
 }
 
-/* --- Desktop (>1024px, qualquer orientação) --- */
-
+/* Desktop */
 @media screen and (min-width: 1025px) {
   .phone-keys {
     top: 38%;
-    height: auto;              
+    height: auto;
     grid-template-rows: repeat(5, auto);
     row-gap: 9%;
     column-gap: 4%;
@@ -2885,9 +3048,9 @@ button {
   }
 
   .phone-key,
-.phone-call {
+  .phone-call {
     width: 78%;
-    height: auto;               
+    height: auto;
     aspect-ratio: 1 / 1;
   }
 }
@@ -2898,8 +3061,7 @@ button {
   }
 }
 
-/* --- Paisagem em ecrãs intermédios --- */
-
+/* Paisagem em ecrãs intermédios */
 @media screen and (orientation: landscape) and (max-width: 1399px) {
   .phone-scene {
     left: 66%;
@@ -2910,7 +3072,7 @@ button {
   .phone-keys {
     font-size: 1.2em;
     column-gap: 4%;
-    row-gap:9%;
+    row-gap: 9%;
   }
 
   #phone-digits {
@@ -2923,35 +3085,34 @@ button {
   }
 }
 
-/* --- Mobile em retrato (≤600px) --- */
-
+/* Mobile em retrato (≤600px) */
 @media screen and (max-width: 600px) and (orientation: portrait) {
   #phone-backspace {
-  font-size: clamp(2rem, 5.5vw, 1.7rem);
-  right: 2%;
+    font-size: clamp(2rem, 5.5vw, 1.7rem);
+    right: 2%;
   }
 
   #phone-digits {
-  padding-right: 1.8em;
+    padding-right: 1.8em;
   }
 
   .phone-keys {
     left: 26%;
-    top: 36%;       
+    top: 36%;
     width: 48%;
     height: 56%;
-    row-gap: 18%;    
+    row-gap: 18%;
     column-gap: 4%;
   }
 
   .phone-key,
-.phone-call {
-    height: auto !important;    
-    width: 100%;                
-    aspect-ratio: 1 / 1;        
+  .phone-call {
+    height: auto !important;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     min-width: 42px;
-    min-height: 42px;          
+    min-height: 42px;
     max-width: 64px;
     max-height: 64px;
   }
@@ -2983,8 +3144,7 @@ button {
   }
 }
 
-/* --- Tablet/iPad em retrato (601–1024px) --- */
-
+/* Tablet em retrato (601–1024px): usa o centro real da imagem do telefone */
 @media screen and (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
   #phone-backspace {
     font-size: clamp(2.5rem, 3.5vw, 2.6rem);
@@ -3009,7 +3169,7 @@ button {
   }
 
   .phone-key,
-.phone-call {
+  .phone-call {
     height: auto !important;
     border-radius: 50%;
     aspect-ratio: 1 / 1;
@@ -3042,258 +3202,237 @@ button {
   }
 }
 
-/* --- Ecrãs muito baixos em retrato --- */
-
+/* Ecrãs muito baixos em retrato */
 @media screen and (max-height: 600px) and (orientation: portrait) {
   .phone-keys {
     height: 48%;
   }
 }
 
-/* ============================================================
-   AVISO DE ROTAÇÃO - ESTILO COESO COM O JOGO
-   ============================================================ */
 
+/* ==========================================================================
+   [16] AVISO DE ROTAÇÃO
+   --------------------------------------------------------------------------
+   Overlay mostrado quando o dispositivo está em paisagem em touch (o jogo é
+   pensado para retrato). A visibilidade é decidida aqui; o nó é criado pelo
+   story.js em [3.5].
+   ========================================================================== */
 .rotate-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100dvh;
-    height: var(--app-height, 100dvh);   /* altura real, calculada em JS */
-    box-sizing: border-box;
-    overflow: hidden;
-    padding:
-        max(1rem, env(safe-area-inset-top))
-        max(1rem, env(safe-area-inset-right))
-        max(1rem, env(safe-area-inset-bottom))
-        max(1rem, env(safe-area-inset-left));
-    --rotate-icon: min(60px, 14vh);      /* o ícone encolhe em ecrãs baixos */
-    z-index: 99999;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    
-    /* Fundo com overlay preto MAIS TRANSPARENTE */
-    background-color: rgba(0, 0, 0, 0.5);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: overlay;
-    color: white;
-    font-family: "Fira Sans", sans-serif;
-}
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  height: var(--app-height, 100dvh);
+  box-sizing: border-box;
+  overflow: hidden;
+  padding:
+    max(1rem, env(safe-area-inset-top))
+    max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom))
+    max(1rem, env(safe-area-inset-left));
+  --rotate-icon: min(60px, 14vh);
+  z-index: 99999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 
-/* Camada de overlay preto ainda mais transparente */
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  color: white;
+  font-family: "Fira Sans", sans-serif;
+}
 
 .rotate-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 0;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
 }
-
-/* Conteúdo fica acima do overlay - CENTRALIZADO PERFEITAMENTE */
 
 .rotate-overlay .rotate-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 400px;
-    width: 90%;
-    max-height: 100%;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  width: 90%;
+  max-height: 100%;
 }
-
-/* ===== CAIXA DE TEXTO COM ÍCONE E SUBTÍTULO DENTRO ===== */
 
 .rotate-overlay .rotate-message {
-    font-family: "Fira Sans", sans-serif;
-    color: #FFF5E6 !important;
-    line-height: 1.6;
-    padding: min(1.8rem, 4vh) 2rem;
-    
-    /* Estilo igual à text-box do jogo */
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png");
-    background-size: cover;
-    background-position: center;
-    border: 4px solid #b77e56;
-    border-radius: 6px;
-    box-shadow: 
-        inset 0 1px 0 rgba(255,255,255,0.15),
-        0 8px 32px rgba(0, 0, 0, 0.3);
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-    width: 100%;
-    max-width: 380px;
-    margin: 0 auto;
-    
-    /* Flex para alinhar ícone e texto */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-}
+  font-family: "Fira Sans", sans-serif;
+  color: #FFF5E6 !important;
+  line-height: 1.6;
+  padding: min(1.8rem, 4vh) 2rem;
 
-/* Texto principal */
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/texture.png");
+  background-size: cover;
+  background-position: center;
+  border: 4px solid #b77e56;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.15),
+    0 8px 32px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
 
 .rotate-overlay .rotate-text {
-    color: #FFF5E6 !important;
-    margin: 0;
-    font-weight: 400;
-    font-size: 1.15em;
-    letter-spacing: 0.02em;
-    text-align: center;
+  color: #FFF5E6 !important;
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.15em;
+  letter-spacing: 0.02em;
+  text-align: center;
 }
-
-/* Subtítulo dentro da caixa */
 
 .rotate-overlay .rotate-sub {
-    color: rgba(255, 245, 230, 0.7) !important;
-    margin: 0;
-    font-size: 0.75em;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    font-style: italic;
-    text-align: center;
-    border-top: 1px solid rgba(183, 126, 86, 0.3);
-    padding-top: 0.6rem;
-    width: 80%;
+  color: rgba(255, 245, 230, 0.7) !important;
+  margin: 0;
+  font-size: 0.75em;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  text-align: center;
+  border-top: 1px solid rgba(183, 126, 86, 0.3);
+  padding-top: 0.6rem;
+  width: 80%;
 }
-
-/* Ícone dentro da caixa */
 
 .rotate-overlay .rotate-icon {
-    font-size: var(--rotate-icon); 
-    color: #FFF5E6;
-    animation: rotate-hint 3.2s ease-in-out infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 0;
-    flex-shrink: 0;
+  font-size: var(--rotate-icon);
+  color: #FFF5E6;
+  animation: rotate-hint 3.2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  flex-shrink: 0;
 }
 
-/* ===== ANIMAÇÃO: de horizontal (0°) para vertical (90°) ===== */
-
-/* ===== ANIMAÇÃO: o telemóvel começa deitado e endireita-se ===== */
 @keyframes rotate-hint {
-    0%, 15% { transform: rotate(90deg); }
-    50%, 75% { transform: rotate(0deg); }
-    100% { transform: rotate(90deg); }
+  0%, 15%   { transform: rotate(90deg); }
+  50%, 75%  { transform: rotate(0deg); }
+  100%      { transform: rotate(90deg); }
 }
 
-/* ===== RESPONSIVIDADE ===== */
-
-/* Tablets e telemóveis em paisagem */
-
+/* Mostrar só em paisagem em touch ou em ecrãs muito baixos */
 @media screen and (orientation: landscape) and (max-height: 500px),
        screen and (orientation: landscape) and (pointer: coarse) and (max-width: 1024px) {
   .rotate-overlay {
-        display: flex;
+    display: flex;
   }
 }
-
-/* Telemóveis pequenos */
 
 @media screen and (max-width: 500px) {
   .rotate-overlay {
-        --rotate-icon: min(46px, 14vh);
+    --rotate-icon: min(46px, 14vh);
   }
 
   .rotate-overlay .rotate-content {
-        width: 95%;
-        max-width: 340px;
+    width: 95%;
+    max-width: 340px;
   }
 
   .rotate-overlay .rotate-message {
-        font-size: 0.9em;
-        padding: 1.2rem 1.2rem;
-        max-width: 100%;
-        gap: 0.5rem;
+    font-size: 0.9em;
+    padding: 1.2rem 1.2rem;
+    max-width: 100%;
+    gap: 0.5rem;
   }
 
   .rotate-overlay .rotate-text {
-        font-size: 1em;
+    font-size: 1em;
   }
 
   .rotate-overlay .rotate-sub {
-        font-size: 0.7em;
-        width: 90%;
-        padding-top: 0.4rem;
+    font-size: 0.7em;
+    width: 90%;
+    padding-top: 0.4rem;
   }
 }
-
-/* Telemóveis muito pequenos */
 
 @media screen and (max-width: 380px) {
   .rotate-overlay .rotate-message {
-        font-size: 0.8em;
-        padding: 1rem 0.8rem;
+    font-size: 0.8em;
+    padding: 1rem 0.8rem;
   }
 
   .rotate-overlay {
-      --rotate-icon: min(38px, 14vh);
+    --rotate-icon: min(38px, 14vh);
   }
 
   .rotate-overlay .rotate-text {
-        font-size: 0.9em;
+    font-size: 0.9em;
   }
 
   .rotate-overlay .rotate-sub {
-        font-size: 0.65em;
-        width: 95%;
+    font-size: 0.65em;
+    width: 95%;
   }
 }
-
-/* Tablets */
 
 @media screen and (min-width: 501px) and (max-width: 1024px) {
   .rotate-overlay .rotate-content {
-        max-width: 480px;
+    max-width: 480px;
   }
 
   .rotate-overlay .rotate-message {
-        font-size: 1.25em;
-        padding: min(2rem, 4vh) 2.5rem;  
-        max-width: 420px;
-        gap: 0.8rem;
+    font-size: 1.25em;
+    padding: min(2rem, 4vh) 2.5rem;
+    max-width: 420px;
+    gap: 0.8rem;
   }
 
   .rotate-overlay {
-        --rotate-icon: min(72px, 14vh);
+    --rotate-icon: min(72px, 14vh);
   }
 
   .rotate-overlay .rotate-sub {
-        font-size: 0.7em;
+    font-size: 0.7em;
   }
 }
 
-/* Ecrãs baixos (telemóveis em paisagem): caixa compacta */
 @media screen and (max-height: 500px) {
   .rotate-overlay .rotate-message {
-        font-size: 0.95em;
-        padding: 0.6rem 1.2rem;
-        gap: 0.3rem;
+    font-size: 0.95em;
+    padding: 0.6rem 1.2rem;
+    gap: 0.3rem;
   }
 
   .rotate-overlay .rotate-sub {
-        padding-top: 0.3rem;
+    padding-top: 0.3rem;
   }
 }
 
-/* ============================================================
-   PÁGINA DE CARREGAMENTO
-   ============================================================ */
 
-/* ===== OVERRIDE DO ECRÃ NATIVO DO SUGARCUBE ===== */
+/* ==========================================================================
+   [17] ECRÃ DE CARREGAMENTO
+   --------------------------------------------------------------------------
+   Construído pelo story.js em [12]. Inclui override do #init-screen nativo
+   do SugarCube, #loading-screen com título + chama Lottie + barra + dicas,
+   e a animação de "voo" do título até .sombrinha h1 (feita em JS).
+   ========================================================================== */
 
+/* Override do ecrã nativo do SugarCube (aparece antes do JS correr) */
 #init-screen {
-	background-color: #1a1108 !important; /* mesma cor do teu #loading-screen */
+  background-color: #1a1108 !important;
 }
 
 html[data-init="loading"] #init-loading {
@@ -3311,8 +3450,6 @@ html[data-init="loading"] #init-loading {
   to { transform: rotate(360deg); }
 }
 
-/* LOADING SCREEN */
-
 #loading-screen {
   position: fixed;
   inset: 0;
@@ -3320,51 +3457,39 @@ html[data-init="loading"] #init-loading {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #1a1108; 
+  background: #1a1108;
   transition: opacity 0.6s ease;
 }
 
-/* BACKGROUND */
-
 .loading-background {
-    position: absolute;
-    inset: 0;
-	background-color: #1a1108;
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
-
-    background-size: cover;
-    background-position: center;
-
-    filter: blur(2px);
-    transform: scale(1.02);
-
-    z-index: -2;
+  position: absolute;
+  inset: 0;
+  background-color: #1a1108;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/bg-village.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  transform: scale(1.02);
+  z-index: -2;
 }
 
 .loading-background::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background: rgba(20, 15, 10, 0.35);
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 15, 10, 0.35);
 }
-
-/* CONTEÚDO CENTRAL*/
 
 .loading-content {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-
-    font-size: 16px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 16px;
 }
-
-/*TÍTULO*/
 
 .loading-title {
   font-family: "Winky Rough", sans-serif !important;
@@ -3372,10 +3497,10 @@ html[data-init="loading"] #init-loading {
   font-style: normal !important;
   font-optical-sizing: auto !important;
 
-  font-size: 4.5em !important;      
-  text-align: center !important;  
-  margin-bottom: -0.5em;           
-  margin-top:0.5em;    
+  font-size: 4.5em !important;
+  text-align: center !important;
+  margin-bottom: -0.5em;
+  margin-top: 0.5em;
 
   color: orange !important;
 
@@ -3384,30 +3509,27 @@ html[data-init="loading"] #init-loading {
     6px 6px 0 #5C3921,
     9px 9px 15px rgba(50,30,15,.35),
     1px 1px 3px rgba(0,0,0,0.6) !important;
+
+  transform-origin: top left;
 }
 
-/* CHAMA */
-
 .loading-flame {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 18.75em;   
-    height: 18.75em;
-
-    margin-bottom: -2em;
-    margin-top: -1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18.75em;
+  height: 18.75em;
+  margin-bottom: -2em;
+  margin-top: -1em;
 }
 
 .loading-flame dotlottie-wc {
-    display: block;
-    width: 100%;
-    height: 100%;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-/* BARRA DE PROGRESSO (estilo madeira)*/
-
+/* Barra de progresso (estilo madeira) */
 .custom-loader {
   width: 45%;
   height: 22px;
@@ -3428,43 +3550,35 @@ html[data-init="loading"] #init-loading {
   content: "";
   position: absolute;
   inset: 2px;
-  right: calc(100% - var(--progress, 0%)); 
+  right: calc(100% - var(--progress, 0%));
   border-radius: 20px;
-
   background-color: #B77E56;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
-
   transition: right 0.25s ease;
 }
 
-/* TEXTO "CARREGANDO..."*/
-
 .loading-text {
-    margin: 12px 0 0;
-    text-align: center;
-
-    font-family: "Fira Sans", sans-serif;
-    font-weight: 600;
-    color: white;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  margin: 12px 0 0;
+  text-align: center;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 600;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
-/* FOOTER / DICAS*/
-
 .loading-footer {
-    position: relative;
-    width: 100%;
-    padding: 15px 20px;
-    box-sizing: border-box;
-    text-align: center;
-
-    font-family: "Fira Sans", sans-serif;
-    color: white;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  position: relative;
+  width: 100%;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  text-align: center;
+  font-family: "Fira Sans", sans-serif;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
 .tip-label {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 #tip-text {
@@ -3487,103 +3601,101 @@ html[data-init="loading"] #init-loading {
   opacity: 0;
 }
 
-/* MOBILE */
-
 @media (max-width: 600px) {
   .loading-content {
-        font-size: 12px;
+    font-size: 12px;
   }
 
   .loading-flame {
-        width: 300px;
-        height: 300px;
+    width: 300px;
+    height: 300px;
   }
 
   .loading-flame dotlottie-wc {
-        width: 300px;
-        height: 300px;
+    width: 300px;
+    height: 300px;
   }
 
   .loading-footer {
-        padding: 12px 15px;
-        font-size: 0.85rem;
+    padding: 12px 15px;
+    font-size: 0.85rem;
   }
 }
 
-/* O título anima-se via transform (JS calcula o destino) */
 
-.loading-title {
-  transform-origin: top left;
-}
 
-/* ============================================================
-   ANIMAÇÃO PARA BALÕES DE PENSAMENTO (passagens 15 e 31)
-   ============================================================ */
+/* ==========================================================================
+   [18] BALÕES DE PENSAMENTO
+   --------------------------------------------------------------------------
+   Usadas nas passagens 15 (kit) e 31 (segurança). Não há JS a mexer nestas
+   classes — são aplicadas diretamente no HTML da passagem.
+   ========================================================================== */
 
-/* Versão A - kit1: opacidade gradual, bounce muito suave */
-
+/* Kit: fade-in com bounce muito suave (origem no canto superior direito). */
 .thought-bubble-kit-a {
-    animation: kitBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    transform-origin: right top;
+  animation: kitBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform-origin: right top;
 }
 
 @keyframes kitBounceA {
-    0% {
-        opacity: 0;
-        transform: scale(0.92) translateX(8px) translateY(-6px);
-    }
-    35% {
-        opacity: 0.5;
-        transform: scale(0.97) translateX(3px) translateY(-2px);
-    }
-    60% {
-        opacity: 0.85;
-        transform: scale(1.02) translateX(-1px) translateY(1px);
-    }
-    80% {
-        opacity: 1;
-        transform: scale(0.99) translateX(0px) translateY(0px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateX(0) translateY(0);
-    }
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateX(8px) translateY(-6px);
+  }
+  35% {
+    opacity: 0.5;
+    transform: scale(0.97) translateX(3px) translateY(-2px);
+  }
+  60% {
+    opacity: 0.85;
+    transform: scale(1.02) translateX(-1px) translateY(1px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.99) translateX(0px) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0) translateY(0);
+  }
 }
 
-/* Versão A - seguranca: opacidade gradual, bounce muito suave */
-
+/* Segurança: fade-in com bounce muito suave (origem em baixo). */
 .thought-fade-in-a {
-    animation: segurancaBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: segurancaBounceA 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes segurancaBounceA {
-    0% {
-        opacity: 0;
-        transform: scale(0.92) translateY(6px);
-    }
-    40% {
-        opacity: 0.6;
-        transform: scale(0.97) translateY(2px);
-    }
-    65% {
-        opacity: 0.9;
-        transform: scale(1.02) translateY(-2px);
-    }
-    85% {
-        opacity: 1;
-        transform: scale(0.99) translateY(0px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(6px);
+  }
+  40% {
+    opacity: 0.6;
+    transform: scale(0.97) translateY(2px);
+  }
+  65% {
+    opacity: 0.9;
+    transform: scale(1.02) translateY(-2px);
+  }
+  85% {
+    opacity: 1;
+    transform: scale(0.99) translateY(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-/* ============================================================
-   CAIXA DE CONFIRMAÇÃO — RECOMEÇAR (restart)
-   Corrige o corte de margens em mobile/tablet
-   ============================================================ */
 
+/* ==========================================================================
+   [19] CONFIRMAR RECOMEÇAR (ajustes finos)
+   --------------------------------------------------------------------------
+   Só para .alarm:has(.confirm-restart): box-sizing, margem de segurança,
+   gap dos botões, tamanho de letra em mobile. A base do .alarm está em [5];
+   o botão "Recomeçar" em si está em [20] (família ALERT).
+   ========================================================================== */
 .alarm,
 .alarm *,
 .alarm .choices a,
@@ -3592,14 +3704,12 @@ html[data-init="loading"] #init-loading {
 }
 
 /* Garante margem visível à volta da caixa em qualquer ecrã */
-
 .alarm {
   max-width: calc(100vw - 2rem) !important;
   margin: 0 auto !important;
 }
 
-/* Espaçamento entre botões via gap (não margin)  */
-
+/* Espaçamento entre botões via gap (não margin) */
 .alarm .choices {
   gap: 1.5rem !important;
   justify-content: center !important;
@@ -3611,10 +3721,6 @@ html[data-init="loading"] #init-loading {
   }
 }
 
-/* ============================================================
-   TABLET — caixa maior, margem só de ~5% à volta
-   ============================================================ */
-
 @media screen and (min-width: 601px) and (max-width: 1024px) {
   .alarm {
     width: 90% !important;
@@ -3622,34 +3728,43 @@ html[data-init="loading"] #init-loading {
   }
 }
 
-/* ============================================================
-   MOBILE — letra mais pequena na caixa de confirmação
-   ============================================================ */
-
 @media screen and (max-width: 768px) {
   .alarm {
-    font-size: 0.8em !important; /* já tinhas 0.95em, isto reduz mais */
+    font-size: 0.8em !important;
   }
 
   .alarm .choices a,
-.alarm .choices button {
+  .alarm .choices button {
     font-size: 0.85em !important;
     padding: 8px 12px !important;
   }
 }
 
-/* ============================================================
-   BOTÕES PÁGINA INICIAL — TABLET E DESKTOP (≥601px)
-   ============================================================ */
 
+/* ==========================================================================
+   [20] SISTEMA DE BOTÕES
+   --------------------------------------------------------------------------
+   Três famílias de botões:
+     MAIN      → .choices > a/button, .settings-btn-guide
+     ALERT     → .alarm .confirm-restart a, .settings-btn-restart
+     SECONDARY → .cancel-restart, .btn-sobre, .settings-btn-back
+   Tokens em :root (topo de [2]). A textura (madeira) é aplicada via ::before
+   em MAIN + SECONDARY; NUNCA em ALERT.
+
+   Esta secção inclui também duas sub-secções que precisam de vir NESTA
+   posição da cascata (depois de [5] e [14]):
+     - Botões da página inicial (≥601px) — afina tamanho/alinhamento.
+     - Ajuste de margens da text-box em tablet/desktop — compacta para
+       minimizar scroll interno.
+   ========================================================================== */
+
+/* ---- Botões da página inicial (tablet/desktop) ---- */
 @media screen and (min-width: 601px) {
   .sombrinha .choices {
     gap: 1.5rem !important;
     justify-content: center !important;
     align-items: center !important;
   }
-
-  /* Sobre / Como jogar — mesmos valores, alinhados à esquerda */
 
   .alarm .choices:has(.btn-sobre) {
     justify-content: flex-start !important;
@@ -3686,14 +3801,10 @@ html[data-init="loading"] #init-loading {
   }
 }
 
-/* ============================================================
-   AJUSTE: reduzir margens da text-box e compactar botões
-   em tablet/desktop, para minimizar o scroll interno
-   ============================================================ */
-
+/* ---- Ajuste text-box em tablet/desktop (compactar para evitar scroll) ---- */
 @media screen and (min-width: 601px) and (max-width: 1024px) {
   .text-box {
-    max-height: 34vh !important;            
+    max-height: 34vh !important;
     padding-top: 0.85rem !important;
     padding-bottom: 0.6% !important;
     line-height: 1.5 !important;
@@ -3711,7 +3822,7 @@ html[data-init="loading"] #init-loading {
 @media screen and (min-width: 1025px) {
   .text-box {
     max-height: 34vh !important;
-    padding-top: 0.85rem !important;       
+    padding-top: 0.85rem !important;
     padding-bottom: 0.6% !important;
     line-height: 1.5 !important;
     border-bottom: 0 !important;
@@ -3727,54 +3838,7 @@ html[data-init="loading"] #init-loading {
   }
 }
 
-/* ============================================================
-   BOTÕES — sistema unificado
-   ------------------------------------------------------------
-   Main       → começar / choices do jogo
-   Alert      → recomeçar (alert + definições) — SEM textura
-   Secondary  → sobre / como jogar / manter progresso / voltar
-   ============================================================ */
-
-/* ---------- Tokens ---------- */
-
-:root {
-  --btn-main-bg:            #5F372A;
-  --btn-main-bg-hover:      #462A21;
-  --btn-main-bg-active:     #38221A;
-  --btn-main-border:        #B08D76;
-  --btn-main-border-hover:  #EAA476;
-
-  --btn-alert-bg:           #C31B1B;
-  --btn-alert-bg-hover:     #9D1412;
-  --btn-alert-bg-active:    #83110F;
-  --btn-alert-border:       #D52927;
-  --btn-alert-border-hover: #CD4336;
-  --btn-alert-shadow:       #6B0F0F;
-
-  --btn-sec-bg:             rgba(186, 151, 115, .62);
-  --btn-sec-bg-hover:       rgba(234, 168, 122, .62);
-  --btn-sec-bg-active:      rgba(196, 136, 92, .62);
-  --btn-sec-border:         #C9A288;
-  --btn-sec-border-hover:   #EAA476;
-
-  --btn-focus:              #FFD54A;
-  --btn-disabled-bg:        rgba(134, 130, 130, .6);
-
-  --btn-text:               #FFF5E6;
-  --btn-radius:             10px;
-  --btn-transition: background-color .15s ease,
-                    border-color     .15s ease,
-                    box-shadow       .15s ease,
-                    transform        .15s ease;
-
-  --btn-shadow-rest:  0 4px 0 rgba(0, 0, 0, .35);
-  --btn-shadow-lift:  0 6px 0 rgba(0, 0, 0, .35);
-  --btn-shadow-press: 0 2px 0 rgba(0, 0, 0, .35), inset 0 2px 4px rgba(0, 0, 0, .45);
-  --btn-texture:            url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/wood-dark.png");
-}
-
-/* ---------- Base comum ---------- */
-
+/* ---- Base comum às três famílias ---- */
 :is(
   .choices > a, .choices > button,
   .alarm .confirm-restart a,
@@ -3806,10 +3870,7 @@ html[data-init="loading"] #init-loading {
   transform: none !important;
 }
 
-/* ============================================================
-   MAIN — começar / choices
-   ============================================================ */
-
+/* ---- MAIN ---- */
 :is(.choices > a, .choices > button, .settings-btn-guide) {
   background-color: var(--btn-main-bg) !important;
   border-color:    var(--btn-main-border) !important;
@@ -3830,10 +3891,7 @@ html[data-init="loading"] #init-loading {
   transform: translateY(2px) !important;
 }
 
-/* ============================================================
-   ALERT — recomeçar (alert + definições) — SEM textura
-   ============================================================ */
-
+/* ---- ALERT (sem textura) ---- */
 :is(.alarm .confirm-restart a, .alarm .confirm-restart a:visited, .settings-btn-restart) {
   background-color: var(--btn-alert-bg) !important;
   border: 2px solid var(--btn-alert-border) !important;
@@ -3860,16 +3918,11 @@ html[data-init="loading"] #init-loading {
   transform: translateY(1px) !important;
 }
 
-/* Ícone ↻ antes do texto — só no alert da confirmação */
-
 .alarm .confirm-restart a::before {
   content: none !important;
 }
 
-/* ============================================================
-   SECONDARY — sobre / como jogar / manter progresso / voltar
-   ============================================================ */
-
+/* ---- SECONDARY ---- */
 :is(
   .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a,
@@ -3911,10 +3964,7 @@ html[data-init="loading"] #init-loading {
   transform: translateY(2px) !important;
 }
 
-/* ============================================================
-   TEXTURA (multiply) — main + secondary, NUNCA no alert
-   ============================================================ */
-
+/* ---- Textura (madeira) — MAIN + SECONDARY, NUNCA ALERT ---- */
 :is(
   .choices > a, .choices > button,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
@@ -3936,10 +3986,7 @@ html[data-init="loading"] #init-loading {
   border-radius: inherit !important;
 }
 
-/* ============================================================
-   FOCUS — todos
-   ============================================================ */
-
+/* ---- Focus visível (todos) ---- */
 :is(
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
@@ -3950,11 +3997,10 @@ html[data-init="loading"] #init-loading {
   outline-offset: var(--btn-focus-offset, 2px) !important;
 }
 
-/* ---------- Focus em elementos que não são "botões do sistema" ---------- */
-
+/* Focus em elementos que não são "botões do sistema" */
 :is(
   #settings-nook,
-  #sound-btn,            
+  #sound-btn,
   .alarm .alarm-close,
   .footer a,
   a.link-external,
@@ -3966,10 +4012,7 @@ html[data-init="loading"] #init-loading {
   outline-offset: 2px !important;
 }
 
-/* ============================================================
-   DISABLED — todos
-   ============================================================ */
-
+/* ---- Disabled (todos) ---- */
 :is(
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
@@ -4009,10 +4052,7 @@ html[data-init="loading"] #init-loading {
   display: none !important;
 }
 
-/* ============================================================
-   WRAPPER .btn-sobre — não é botão, é só invólucro
-   ============================================================ */
-
+/* ---- Wrapper .btn-sobre (não é botão, é só invólucro) ---- */
 .sombrinha .choices .btn-sobre,
 .alarm .choices .btn-sobre {
   background: none !important;
@@ -4035,27 +4075,28 @@ html[data-init="loading"] #init-loading {
   display: none !important;
 }
 
-/* ============================================================
-   VARIÁVEIS DE COR — PAINEL DE DEFINIÇÕES
-   ============================================================ */
 
-:root {
-  --settings-accent: #EAA788;
-  --settings-track: rgba(255, 255, 255, 0.1255);
-  --settings-border: rgba(183, 127, 85, 0.4);
-  --settings-group-bg: rgba(255, 255, 255, 0.0627);
-  --settings-group-border: rgba(183, 127, 85, 0.35);
-  --settings-divider: rgba(255, 245, 230, 0.08);
-  --settings-gold: #FFD54A;
-  --settings-panel-width: min(90vw, 360px);
-}
+/* ==========================================================================
+   [21] PAINEL DE DEFINIÇÕES
+   --------------------------------------------------------------------------
+   HTML criado em [11] do story.js. Inclui:
+     - #settings-nook (botão do canto superior direito);
+     - #settings-overlay + #settings-panel (painel deslizante);
+     - controlos: slider de volume, toggles, seletor de fonte/temporizador;
+     - botões inferiores (Recomeçar, Decisão anterior);
+     - ligação para o Guia de Jogo (que fica em [22]).
+   A acessibilidade (focus trap, tecla Escape) é tratada em JS [4] e [11].
+   Os tokens de cor (--settings-*) vivem em [2].
+   ========================================================================== */
 
+/* Override da largura do painel em tablet */
 @media screen and (min-width: 601px) and (max-width: 1024px) {
   :root {
     --settings-panel-width: min(65vw, 560px);
   }
 }
 
+/* Desloca o botão de som + esconde-o atrás do painel quando está aberto */
 body:has(#settings-overlay.open) #settings-nook {
   transform: translateX(calc(-1 * var(--settings-panel-width)));
 }
@@ -4074,20 +4115,13 @@ body:has(#settings-overlay.open) #settings-nook {
   }
 }
 
-/* ============================================================
-   QUANDO O PAINEL DE DEFINIÇÕES ESTÁ ABERTO
-   ============================================================ */
-
 body:has(#settings-overlay.open) #sound-btn {
-  z-index: 100 !important;       
+  z-index: 100 !important;
   pointer-events: none !important;
   transition: opacity 0.3s ease;
 }
 
-/* ============================================================
-   NOOK DE DEFINIÇÕES — botão (madeira + texture, texto branco)
-   ============================================================ */
-
+/* ---- #settings-nook (botão madeira) ---- */
 #settings-nook {
   position: fixed;
   top: max(1%, env(safe-area-inset-top));
@@ -4141,9 +4175,6 @@ body:has(#settings-overlay.open) #sound-btn {
   color: #FFFFFF !important;
 }
 
-/* Desktop/tablet: o botão está ancorado à direita, por isso crescer o
-   padding-left "puxa-o" para a esquerda sem mexer no texto */
-
 @media screen and (min-width: 769px) and (hover: hover) {
   body:not(:has(#settings-overlay.open)) #settings-nook:hover {
     padding-right: 34px;
@@ -4154,8 +4185,6 @@ body:has(#settings-overlay.open) #sound-btn {
     text-shadow: 0 2px 3px rgba(0, 0, 0, 0.65), 1px 3px 6px rgba(0, 0, 0, 0.4);
   }
 }
-
-/* Mobile: só ícone, cresce um pouco em largura */
 
 @media screen and (max-width: 768px) and (hover: hover) {
   body:not(:has(#settings-overlay.open)) #settings-nook:hover {
@@ -4182,8 +4211,6 @@ body:has(#settings-overlay.open) #sound-btn {
   transition: max-width 0.3s ease, opacity 0.2s ease;
 }
 
-/* Mobile: só ícone, 52×52 (mesmo tamanho dos outros botões) */
-
 @media screen and (max-width: 768px) {
   #settings-nook {
     width: var(--icon-btn-size);
@@ -4195,12 +4222,12 @@ body:has(#settings-overlay.open) #sound-btn {
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
   }
 
-  #settings-nook .settings-label { display: none;
+  #settings-nook .settings-label {
+    display: none;
   }
 }
 
-/* Desktop / tablet: afasta o timer */
-
+/* Desloca o timer para não ficar por baixo do #settings-nook em desktop */
 @media screen and (min-width: 769px) {
   #decision-timer {
     top: 80px !important;
@@ -4208,10 +4235,7 @@ body:has(#settings-overlay.open) #sound-btn {
   }
 }
 
-/* ============================================================
-   PAINEL DE DEFINIÇÕES — fundo castanho com madeira
-   ============================================================ */
-
+/* ---- Overlay + painel ---- */
 #settings-overlay {
   position: fixed;
   inset: 0;
@@ -4282,10 +4306,12 @@ body:has(#settings-overlay.open) #sound-btn {
   transform: translateX(0);
 }
 
-#settings-panel::-webkit-scrollbar { width: 6px;
+#settings-panel::-webkit-scrollbar {
+  width: 6px;
 }
 
-#settings-panel::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3);
+#settings-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 #settings-panel::-webkit-scrollbar-thumb {
@@ -4293,8 +4319,7 @@ body:has(#settings-overlay.open) #sound-btn {
   border-radius: 999px;
 }
 
-/* ---------- Header ---------- */
-
+/* ---- Header do painel ---- */
 .settings-header {
   display: flex;
   align-items: center;
@@ -4304,8 +4329,7 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .settings-title {
-  font-family: "Fira Sans", sans-serif;  
-  font-weight: 600;  
+  font-family: "Fira Sans", sans-serif;
   font-weight: 700;
   margin: 0;
   color: #FFF5E6;
@@ -4315,52 +4339,50 @@ body:has(#settings-overlay.open) #sound-btn {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-.settings-title .settings-icon { font-size: 1.1em; }
+.settings-title .settings-icon {
+  font-size: 1.1em;
+}
 
-/* ---------- Body ---------- */
-
+/* ---- Body ---- */
 .settings-body {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-   .settings-group {
-     display: flex;
-     flex-direction: column;
-     padding: 4px 14px 6px;
-     background: var(--settings-group-bg);
-     border: 1px solid var(--settings-group-border);
-     border-radius: 12px;
-     box-sizing: border-box;
-   }
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 14px 6px;
+  background: var(--settings-group-bg);
+  border: 1px solid var(--settings-group-border);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
 
-   .settings-group-title {
-     margin: 10px 0 0;
-     font-family: "Fira Sans", sans-serif;
-     font-size: 0.72em;
-     font-weight: 600;
-     letter-spacing: 0.08em;
-     text-transform: uppercase;
-     color: var(--settings-accent);
-     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-   }
+.settings-group-title {
+  margin: 10px 0 0;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--settings-accent);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
 
-/* Container comum a cada elemento
-   (Som Geral / Narração / Tamanho da Letra / Ecrã Cheio) — ponto 6 */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
 
-   .settings-row {
-     display: flex;
-     align-items: center;
-     justify-content: space-between;
-     gap: 14px;
-     padding: 12px 0;
-     box-sizing: border-box;
-   }
-
-   .settings-row + .settings-row {
-     border-top: 1px solid var(--settings-divider);
-   }
+.settings-row + .settings-row {
+  border-top: 1px solid var(--settings-divider);
+}
 
 .settings-row-label {
   display: flex;
@@ -4381,6 +4403,7 @@ body:has(#settings-overlay.open) #sound-btn {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 
+/* ---- Select de idioma ---- */
 .language-select {
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.25);
@@ -4407,14 +4430,12 @@ body:has(#settings-overlay.open) #sound-btn {
   color: #FFF5E6;
 }
 
-/* ---------- Som Geral: ícone clicável + slider + % ---------- */
-
+/* ---- Som Geral: ícone + slider + % ---- */
 .settings-row-sound {
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 8px 12px;
 }
-
 
 .sound-icon-btn {
   background: none;
@@ -4452,7 +4473,7 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 .sound-slider-wrap {
-  flex: 1 1 90px; 
+  flex: 1 1 90px;
   min-width: 90px;
   display: flex;
   align-items: center;
@@ -4466,8 +4487,7 @@ body:has(#settings-overlay.open) #sound-btn {
   color: rgba(255, 245, 230, 0.85);
 }
 
-/* Slider — ponto 3 */
-
+/* Slider de volume */
 .sound-slider-wrap input[type="range"] {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
@@ -4546,8 +4566,7 @@ body:has(#settings-overlay.open) #sound-btn {
   outline-offset: 2px;
 }
 
-/* ---------- Toggle switch — ponto 5 ---------- */
-
+/* ---- Toggle switch ---- */
 .toggle-switch {
   position: relative;
   width: 46px;
@@ -4582,7 +4601,7 @@ body:has(#settings-overlay.open) #sound-btn {
 
 .toggle-switch.on::after {
   background: #FFF5E6;
-  transform: translateX(22px); /* corrige o bug: faltava o movimento da bolinha */
+  transform: translateX(22px);
 }
 
 .toggle-switch:focus-visible {
@@ -4590,8 +4609,7 @@ body:has(#settings-overlay.open) #sound-btn {
   outline-offset: 2px;
 }
 
-/* ---------- Seletor de tamanho de letra — ponto 4 ---------- */
-
+/* ---- Seletor de tamanho de letra ---- */
 .settings-row-font {
   flex-direction: column;
   align-items: stretch;
@@ -4603,7 +4621,6 @@ body:has(#settings-overlay.open) #sound-btn {
   gap: 4px;
   width: 100%;
   box-sizing: border-box;
-
   background: var(--settings-track);
   border-radius: 10px;
   padding: 4px;
@@ -4616,7 +4633,7 @@ body:has(#settings-overlay.open) #sound-btn {
   border: none;
   color: rgba(255, 245, 230, 0.65);
   font-family: "Fira Sans", sans-serif;
-  font-weight: 400;               
+  font-weight: 400;
   padding: 10px 4px;
   border-radius: 7px;
   cursor: pointer;
@@ -4662,16 +4679,10 @@ body:has(#settings-overlay.open) #sound-btn {
   color: rgba(255, 245, 230, .8);
 }
 
-/* ---------- Focus no painel de definições (accent em vez do amarelo) ---------- */
-
-/* Herança: os .settings-btn-restart / .settings-btn-back passam
-   automaticamente para accent via var(--btn-focus). */
-
+/* ---- Focus no painel (accent em vez do amarelo) ---- */
 #settings-panel {
   --btn-focus: #EAA788;
 }
-
-/* Controlos interativos do painel */
 
 :is(
   #settings-close,
@@ -4689,116 +4700,7 @@ body:has(#settings-overlay.open) #sound-btn {
   outline: none !important;
 }
 
-/* ==========================================================================
-   3. GUIA DE JOGO — ligação de navegação (não é um botão de ação)
-   Regras de UI aplicadas:
-   - sem "caixa" = não altera o jogo (botões de madeira = ações; aqui só se vai ler);
-   - chevron ">" = "abre outra página" (convenção universal de navegação);
-   - dourado reservado a "informação" (ícone + linha), nunca usado nos botões;
-   - feedback ao hover/foco: linha dourada cresce da esquerda + chevron desliza.
-   NOTA: o "button" global tem background/border none !important, por isso as
-   linhas são desenhadas com ::before / ::after.
-   ========================================================================== */
-.settings-guide-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.7em;
-  width: 100%;
-  margin-top: 2px;
-  padding: 12px 6px 12px 4px;
-  box-sizing: border-box;
-  cursor: pointer;
-  text-align: left;
-  color: #FFF5E6;
-  font-family: "Fira Sans", sans-serif;
-  font-size: 1em;
-  font-weight: 400;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.settings-guide-link .sgl-icon {
-  display: inline-flex;
-  font-size: 22px;
-  color: var(--settings-gold);
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
-}
-
-.settings-guide-link .sgl-label { flex: 1; }
-
-.settings-guide-link .sgl-chevron {
-  display: inline-flex;
-  font-size: 18px;
-  opacity: 0.8;
-  transition: transform 0.25s var(--ease-soft, ease), opacity 0.2s ease;
-}
-
-.btn-chevron {
-  display: inline-flex;
-  margin-left: 0.4em;
-  font-size: 1em;
-  transition: transform 0.25s var(--ease-soft, ease);
-}
-
-@media (hover: hover) {
-  .choices > a:hover .btn-chevron,
-  .choices > button:hover .btn-chevron { transform: translateX(4px); }
-}
-
-/* linha base (discreta) + linha dourada que cresce */
-.settings-guide-link::before,
-.settings-guide-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.settings-guide-link::after {
-  height: 2px;
-  background: var(--settings-gold);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.3s ease;
-}
-
-@media (hover: hover) {
-  .settings-guide-link:hover::after        { transform: scaleX(1); }
-  .settings-guide-link:hover .sgl-chevron  { transform: translateX(4px); opacity: 1; }
-}
-
-.settings-guide-link:focus-visible::after        { transform: scaleX(1); }
-.settings-guide-link:focus-visible .sgl-chevron  { transform: translateX(4px); opacity: 1; }
-.settings-guide-link:focus-visible {
-  outline: 3px solid var(--settings-gold) !important;
-  outline-offset: 2px !important;
-  border-radius: 6px;
-}
-
-.settings-guide-link:active .sgl-label { opacity: 0.8; }
-
-/* Variante opcional "entrada de diário": barra dourada à esquerda + brilho suave.
-   Ativar acrescentando a classe is-journal ao botão. */
-.settings-guide-link.is-journal {
-  padding-left: 14px;
-  background-image: linear-gradient(90deg, rgba(255, 213, 74, 0.12), transparent 70%) !important;
-  border-radius: 0 8px 8px 0;
-}
-.settings-guide-link.is-journal::before {
-  inset: 0 auto 0 0;
-  width: 3px;
-  height: auto;
-  background: var(--settings-gold);
-  border-radius: 2px;
-}
-
-
-/* ---------- Botões inferiores — ponto 7 ---------- */
-
+/* ---- Botões inferiores ---- */
 .settings-actions {
   margin-top: auto;
   padding-top: 20px;
@@ -4841,7 +4743,8 @@ body:has(#settings-overlay.open) #sound-btn {
 }
 
 @media screen and (min-width: 601px) and (max-width: 1024px) {
-  #settings-panel { width: min(65vw, 560px);
+  #settings-panel {
+    width: min(65vw, 560px);
   }
 }
 
@@ -4855,10 +4758,129 @@ body:has(#settings-overlay.open) #sound-btn {
   }
 }
 
-/* ============================================================
-   REDUZIR/DESATIVAR ANIMAÇÕES
-   ============================================================ */
 
+/* ==========================================================================
+   [22] GUIA DE JOGO (parte 1 — ligação no painel)
+   --------------------------------------------------------------------------
+   Esta secção tem duas partes no ficheiro (para preservar a cascata):
+     - PARTE 1 (aqui): .settings-guide-link → ligação que aparece no fundo
+       do painel de definições. Parece um link, não um botão de ação.
+     - PARTE 2 (mais abaixo, depois de [24]): .alarm.guide-modal → o modal
+       com o menu (Sobre / Como jogar) e o painel de conteúdo. Usa rádios
+       escondidos para trocar de aba sem JS.
+   ========================================================================== */
+.settings-guide-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  width: 100%;
+  margin-top: 2px;
+  padding: 12px 6px 12px 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
+  color: #FFF5E6;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-guide-link .sgl-icon {
+  display: inline-flex;
+  font-size: 22px;
+  color: var(--settings-gold);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+}
+
+.settings-guide-link .sgl-label {
+  flex: 1;
+}
+
+.settings-guide-link .sgl-chevron {
+  display: inline-flex;
+  font-size: 18px;
+  opacity: 0.8;
+  transition: transform 0.25s var(--ease-soft, ease), opacity 0.2s ease;
+}
+
+.btn-chevron {
+  display: inline-flex;
+  margin-left: 0.4em;
+  font-size: 1em;
+  transition: transform 0.25s var(--ease-soft, ease);
+}
+
+@media (hover: hover) {
+  .choices > a:hover .btn-chevron,
+  .choices > button:hover .btn-chevron {
+    transform: translateX(4px);
+  }
+}
+
+.settings-guide-link::before,
+.settings-guide-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.settings-guide-link::after {
+  height: 2px;
+  background: var(--settings-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+@media (hover: hover) {
+  .settings-guide-link:hover::after       { transform: scaleX(1); }
+  .settings-guide-link:hover .sgl-chevron { transform: translateX(4px); opacity: 1; }
+}
+
+.settings-guide-link:focus-visible::after        { transform: scaleX(1); }
+.settings-guide-link:focus-visible .sgl-chevron  { transform: translateX(4px); opacity: 1; }
+.settings-guide-link:focus-visible {
+  outline: 3px solid var(--settings-gold) !important;
+  outline-offset: 2px !important;
+  border-radius: 6px;
+}
+
+.settings-guide-link:active .sgl-label {
+  opacity: 0.8;
+}
+
+/* Variante opcional "entrada de diário": barra dourada à esquerda + brilho.
+   Ativar acrescentando a classe is-journal ao botão. */
+.settings-guide-link.is-journal {
+  padding-left: 14px;
+  background-image: linear-gradient(90deg, rgba(255, 213, 74, 0.12), transparent 70%) !important;
+  border-radius: 0 8px 8px 0;
+}
+
+.settings-guide-link.is-journal::before {
+  inset: 0 auto 0 0;
+  width: 3px;
+  height: auto;
+  background: var(--settings-gold);
+  border-radius: 2px;
+}
+
+
+/* ==========================================================================
+   [23] ACESSIBILIDADE
+   --------------------------------------------------------------------------
+   .reduce-motion é adicionado ao <body> pelo story.js em [8.1] quando o
+   jogador desliga "Animações" nas definições. Anula animações/transições e
+   esconde overlays puramente decorativos (senão ficariam presos no estado
+   final e tapariam a cena).
+   ========================================================================== */
 body.reduce-motion *,
 body.reduce-motion *::before,
 body.reduce-motion *::after {
@@ -4869,19 +4891,21 @@ body.reduce-motion *::after {
   scroll-behavior: auto !important;
 }
 
-/* Overlays que só servem de efeito de transição (senão ficam
-   no estado final e tapam a cena) */
-
 body.reduce-motion .fade-black-overlay {
   display: none !important;
 }
 
-/* ============================================================
-   RESULTADOS
-   ============================================================ */
 
-/* Menos espaço no topo da caixa */
+/* ==========================================================================
+   [24] RESULTADOS
+   --------------------------------------------------------------------------
+   - .alarm:has(.resumo-112) → ajustes da caixa de resultado do 112.
+   - .sirene-fx → efeito de luzes de sirene (vermelho/azul em contrafase).
+   - .er-card → cartão de resultado dos exercícios (chips + barra).
+   Respeita prefers-reduced-motion.
+   ========================================================================== */
 
+/* Menos espaço no topo da caixa de resultado do 112 */
 .alarm:has(.resumo-112) {
   padding-top: 0.8rem !important;
 }
@@ -4894,8 +4918,6 @@ body.reduce-motion .fade-black-overlay {
   margin-top: 0.4rem;
 }
 
-/* Borda main (a regra .alarm .choices a estava a sobrepor-se) */
-
 .alarm:has(.resumo-112) .choices > a {
   border-color: var(--btn-main-border) !important;
 }
@@ -4904,8 +4926,6 @@ body.reduce-motion .fade-black-overlay {
 .alarm:has(.resumo-112) .choices > a:active {
   border-color: var(--btn-main-border-hover) !important;
 }
-
-/* Alinhamento e tamanho iguais ao Sobre (tablet/desktop) */
 
 @media screen and (min-width: 601px) {
   .alarm:has(.resumo-112) .choices {
@@ -4924,8 +4944,9 @@ body.reduce-motion .fade-black-overlay {
   }
 }
 
+/* ---- Sirene (luzes vermelhas/azuis em contrafase) ---- */
 .sirene-fx {
-  --sirene-max: .75;          /* intensidade global: baixa para .5 se ainda for forte */
+  --sirene-max: .75;
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -4942,34 +4963,26 @@ body.reduce-motion .fade-black-overlay {
   opacity: 0;
 }
 
-/* Vermelho, à esquerda */
-
 .sirene-fx::before {
   background:
-    /* núcleo brilhante */
     radial-gradient(circle at 10% 30%,
       rgba(255,230,230,.95) 0,
       rgba(255,80,80,.7) 2.5%,
       rgba(255,40,40,.25) 8%,
       transparent 16%),
-    /* risca horizontal (anamórfica) */
     radial-gradient(ellipse 70% 2.5% at 10% 30%,
       rgba(255,120,120,.8) 0,
       rgba(255,60,60,.3) 45%,
       transparent 100%),
-    /* reflexos ao longo da lente */
     radial-gradient(circle at 32% 44%, rgba(255,70,70,.22) 0, transparent 5%),
     radial-gradient(circle at 48% 52%, rgba(255,70,70,.16) 0, transparent 8%),
     radial-gradient(circle at 64% 60%, rgba(255,70,70,.12) 0, transparent 4%),
-    /* glow suave de fundo */
     radial-gradient(ellipse 90% 80% at 10% 30%,
       rgba(255,40,40,.22) 0,
       rgba(255,40,40,.08) 55%,
       transparent 100%);
   animation: sirene-alternar 1.6s infinite;
 }
-
-/* Azul, à direita, em contrafase */
 
 .sirene-fx::after {
   background:
@@ -5002,14 +5015,13 @@ body.reduce-motion .fade-black-overlay {
 
 @media (prefers-reduced-motion: reduce) {
   .sirene-fx::before,
-.sirene-fx::after { animation: none; opacity: .3;
+  .sirene-fx::after {
+    animation: none;
+    opacity: .3;
   }
 }
 
-/* ============================================================
-   CARTÃO DE RESULTADO DOS EXERCÍCIOS
-   ============================================================ */
-
+/* ---- Cartão de resultado dos exercícios ---- */
 .er-card {
   --er-ok:   #7FD17F;
   --er-bad:  #FF7B76;
@@ -5020,8 +5032,6 @@ body.reduce-motion .fade-black-overlay {
   font-size: 1em;
   line-height: 1.3;
 }
-
-/* ---- Cabeçalho: pontuação + barra ---- */
 
 .er-head {
   display: flex;
@@ -5048,10 +5058,13 @@ body.reduce-motion .fade-black-overlay {
   line-height: 1;
 }
 
-.er-score-slash { opacity: 0.55;
+.er-score-slash {
+  opacity: 0.55;
 }
 
-.er-score-label { opacity: 0.85; margin-left: 0.3em;
+.er-score-label {
+  opacity: 0.85;
+  margin-left: 0.3em;
 }
 
 .er-bar {
@@ -5078,12 +5091,12 @@ body.reduce-motion .fade-black-overlay {
   border: 2px solid var(--er-miss);
 }
 
-/* ---- Grupos ---- */
-
-.er-group { margin: 0 0 0.75em;
+.er-group {
+  margin: 0 0 0.75em;
 }
 
-.er-group:last-child { margin-bottom: 0.2em;
+.er-group:last-child {
+  margin-bottom: 0.2em;
 }
 
 .er-group-title {
@@ -5096,14 +5109,9 @@ body.reduce-motion .fade-black-overlay {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-.er-t-ok { color: var(--er-ok);
-}
-
-.er-t-bad { color: var(--er-bad);
-}
-
-.er-t-miss { color: var(--er-miss);
-}
+.er-t-ok   { color: var(--er-ok); }
+.er-t-bad  { color: var(--er-bad); }
+.er-t-miss { color: var(--er-miss); }
 
 .er-count {
   display: inline-flex;
@@ -5118,8 +5126,6 @@ body.reduce-motion .fade-black-overlay {
   font-size: 0.8em;
   font-weight: 700;
 }
-
-/* ---- Chips ---- */
 
 .er-chips {
   display: flex;
@@ -5158,23 +5164,24 @@ body.reduce-motion .fade-black-overlay {
   text-shadow: none;
 }
 
-.er-chip-ok { border-color: var(--er-ok);   background-color: rgba(127, 209, 127, 0.16);
+.er-chip-ok {
+  border-color: var(--er-ok);
+  background-color: rgba(127, 209, 127, 0.16);
 }
 
-.er-chip-bad { border-color: var(--er-bad);  background-color: rgba(255, 123, 118, 0.16);
+.er-chip-bad {
+  border-color: var(--er-bad);
+  background-color: rgba(255, 123, 118, 0.16);
 }
 
-.er-chip-miss { border-color: var(--er-miss); background-color: rgba(240, 193, 90, 0.16);
+.er-chip-miss {
+  border-color: var(--er-miss);
+  background-color: rgba(240, 193, 90, 0.16);
 }
 
-.er-chip-ok i { background: var(--er-ok);
-}
-
-.er-chip-bad i { background: var(--er-bad);
-}
-
-.er-chip-miss i { background: var(--er-miss);
-}
+.er-chip-ok i   { background: var(--er-ok); }
+.er-chip-bad i  { background: var(--er-bad); }
+.er-chip-miss i { background: var(--er-miss); }
 
 .er-msg-ok {
   margin: 0.1em 0 0 !important;
@@ -5183,21 +5190,27 @@ body.reduce-motion .fade-black-overlay {
   font-size: 1.05em;
 }
 
-/* Telemóvel: chips um pouco mais compactos */
-
 @media screen and (max-width: 600px) {
-  .er-chip { font-size: 0.9em; padding: 0.3em 0.7em 0.3em 0.35em;
+  .er-chip {
+    font-size: 0.9em;
+    padding: 0.3em 0.7em 0.3em 0.35em;
   }
 
   .er-score-num,
-.er-score-total { font-size: 1.35em;
+  .er-score-total {
+    font-size: 1.35em;
   }
 }
 
-/* ============================================================
-   GUIA DE JOGO / SOBRE
-   ============================================================ */
 
+/* ==========================================================================
+   [22] GUIA DE JOGO (parte 2 — modal)
+   --------------------------------------------------------------------------
+   Aparece aqui (depois de [24]) para preservar a cascata: os estilos do
+   modal precisam de vir depois de .alarm/.choices em [5] e [20].
+   Estrutura: .alarm.guide-modal com menu lateral + conteúdo. As abas usam
+   rádios escondidos (#gt-sobre / #gt-como) para trocar de painel sem JS.
+   ========================================================================== */
 .alarm.guide-modal {
   --guide-top-gap: 26px;
   width: min(92vw, 1000px) !important;
@@ -5213,8 +5226,7 @@ body.reduce-motion .fade-black-overlay {
   text-align: left;
 }
 
-/* ---- Botão fechar: X numa caixa de madeira ---- */
-
+/* X de fechar do modal (caixa de madeira) */
 .alarm.guide-modal .alarm-close {
   top: 10px;
   right: 10px;
@@ -5272,8 +5284,6 @@ body.reduce-motion .fade-black-overlay {
   box-sizing: border-box;
 }
 
-/* radios escondidos (mas focáveis) */
-
 .guide-radio {
   position: absolute;
   opacity: 0;
@@ -5281,8 +5291,6 @@ body.reduce-motion .fade-black-overlay {
   height: 1px;
   pointer-events: none;
 }
-
-/* ---- Menu ---- */
 
 .guide-menu {
   grid-area: menu;
@@ -5298,10 +5306,10 @@ body.reduce-motion .fade-black-overlay {
 .alarm .guide-menu-title {
   margin: 0 0 1.5em !important;
   font-family: "Fira Sans", sans-serif;
-  font-size: 1.65em !important; 
+  font-size: 1.65em !important;
   font-weight: 600;
-  text-align: left; 
-  padding-left: 0.55em; 
+  text-align: left;
+  padding-left: 0.55em;
   color: #FFF5E6;
 }
 
@@ -5314,7 +5322,7 @@ body.reduce-motion .fade-black-overlay {
   border: 1px solid transparent;
   border-radius: 10px;
   color: #FFF5E6;
-  font-size: 1.15em; 
+  font-size: 1.15em;
   font-weight: 500;
   text-align: left;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
@@ -5325,24 +5333,23 @@ body.reduce-motion .fade-black-overlay {
   transition: background-color .15s ease, border-color .15s ease, font-weight .15s ease;
 }
 
-.guide-tab .ph-icon { 
-  width: 1.2em; 
-  height: 1.2em; 
+.guide-tab .ph-icon {
+  width: 1.2em;
+  height: 1.2em;
 }
 
 @media (hover: hover) {
-  .guide-tab:hover { 
+  .guide-tab:hover {
     background: rgba(255, 255, 255, 0.1);
   }
 }
 
-/* Aba selecionada: fundo #00000040 + borda #EFA97966 + ícone amarelo + texto a negrito */
-
+/* Aba selecionada */
 #gt-sobre:checked ~ .guide-menu label[for="gt-sobre"],
 #gt-como:checked  ~ .guide-menu label[for="gt-como"] {
   background: #00000040;
   border-color: #EFA97966;
-  font-weight: 700; 
+  font-weight: 700;
 }
 
 #gt-sobre:checked ~ .guide-menu label[for="gt-sobre"] .guide-tab-ico,
@@ -5356,8 +5363,7 @@ body.reduce-motion .fade-black-overlay {
   outline-offset: 1px;
 }
 
-/* ---- Painel de conteúdo: preenche a área toda ---- */
-
+/* Conteúdo do guia */
 .guide-content {
   --guide-pad-x: 1.4em;
   grid-area: content;
@@ -5371,7 +5377,7 @@ body.reduce-motion .fade-black-overlay {
   backdrop-filter: blur(2.7px);
   -webkit-backdrop-filter: blur(2.7px);
   border: none;
-  border-left: 3px solid #E4A172; 
+  border-left: 3px solid #E4A172;
   border-radius: 0;
   box-shadow: 0 8px 20px -8px #00000026;
   font-size: 0.92em;
@@ -5383,35 +5389,35 @@ body.reduce-motion .fade-black-overlay {
   scrollbar-color: rgba(255, 252, 224, 0.8) rgba(250, 237, 205, 0.15);
 }
 
-.guide-content::-webkit-scrollbar { 
+.guide-content::-webkit-scrollbar {
   width: 5px;
 }
 
-.guide-content::-webkit-scrollbar-track { 
-  background: rgba(250, 237, 205, 0.15); 
+.guide-content::-webkit-scrollbar-track {
+  background: rgba(250, 237, 205, 0.15);
   border-radius: 999px;
 }
 
-.guide-content::-webkit-scrollbar-thumb { 
-  background: rgba(255, 252, 224, 0.8); 
+.guide-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 252, 224, 0.8);
   border-radius: 999px;
 }
 
-.guide-pane { 
-  display: none; 
+.guide-pane {
+  display: none;
   text-align: left;
 }
 
 #gt-sobre:checked ~ .guide-content #guide-sobre,
-#gt-como:checked  ~ .guide-content #guide-como { 
+#gt-como:checked  ~ .guide-content #guide-como {
   display: block;
 }
 
 .guide-pane-title {
   margin: 0 0 0.8em;
-  padding: 0 2.8em 0.55em 0;   
+  padding: 0 2.8em 0.55em 0;
   font-family: "Fira Sans", sans-serif;
-  font-size: 1.7em; 
+  font-size: 1.7em;
   font-weight: 600;
   text-align: left;
   color: #FFF5E6;
@@ -5419,24 +5425,36 @@ body.reduce-motion .fade-black-overlay {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, .6);
 }
 
-.guide-pane p { margin: 0 0 0.8em; font-size: inherit; text-align: left;
+.guide-pane p {
+  margin: 0 0 0.8em;
+  font-size: inherit;
+  text-align: left;
 }
 
-.guide-pane .guide-subtitle { margin-bottom: 0.3em;
+.guide-pane .guide-subtitle {
+  margin-bottom: 0.3em;
 }
 
-.guide-pane ul { margin: 0; padding-left: 1.2em;
+.guide-pane ul {
+  margin: 0;
+  padding-left: 1.2em;
 }
 
-.guide-pane li { margin: 0.1em 0; color: #FFF5E6; text-align: left;
+.guide-pane li {
+  margin: 0.1em 0;
+  color: #FFF5E6;
+  text-align: left;
 }
 
-.guide-pane a { color: #FFD9A8; text-decoration: underline;
+.guide-pane a {
+  color: #FFD9A8;
+  text-decoration: underline;
 }
 
 /* Lista "Como jogar" com ícones */
-
-.guide-pane ul.guide-howto { list-style: none; padding-left: 0;
+.guide-pane ul.guide-howto {
+  list-style: none;
+  padding-left: 0;
 }
 
 .guide-howto li {
@@ -5461,13 +5479,12 @@ body.reduce-motion .fade-black-overlay {
   filter: drop-shadow(0 1px 2px rgba(0,0,0,.6));
 }
 
-.guide-howto .gh-ico .ph-icon { 
-  width: 1.3em; 
-  height: 1.3em; 
+.guide-howto .gh-ico .ph-icon {
+  width: 1.3em;
+  height: 1.3em;
 }
 
 /* Anula o ::before nativo do SugarCube ([data-icon]::before{content:attr(data-icon)}) */
-
 .guide-tab-ico::before,
 .gh-ico::before {
   content: none !important;
@@ -5476,8 +5493,7 @@ body.reduce-motion .fade-black-overlay {
   margin: 0 !important;
 }
 
-/* ---- Mobile: menu em cima, conteúdo por baixo ---- */
-
+/* Mobile: menu em cima, conteúdo por baixo */
 @media screen and (max-width: 600px) {
   .alarm.guide-modal {
     width: 94vw !important;
@@ -5503,27 +5519,60 @@ body.reduce-motion .fade-black-overlay {
   .alarm .guide-menu-title {
     flex: 1 1 100%;
     margin: 0 0 0.3em !important;
-    font-size: 1.35em !important; 
-    padding-left: 0; 
+    font-size: 1.35em !important;
+    padding-left: 0;
   }
 
-  .guide-tab { 
-    padding: 0.45em 0.7em; 
-    font-size: 1em; 
+  .guide-tab {
+    padding: 0.45em 0.7em;
+    font-size: 1em;
   }
 
   .guide-content {
     --guide-pad-x: 1em;
     padding: 0.8em var(--guide-pad-x);
     border-left: none;
-    border-top: 3px solid #E4A172; 
+    border-top: 3px solid #E4A172;
   }
 }
 
+
+/* ==========================================================================
+   FIX FINAL
+   --------------------------------------------------------------------------
+   Remover margin/left herdados do #story do SugarCube. Precisa de vir no fim
+   do ficheiro para vencer a especificidade das regras base em [2].
+   ========================================================================== */
 #story {
   margin: 0 !important;
   left: 0 !important;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* ==========================================================================
+}
+
+
+/* ==========================================================================
+   NOTAS DE MANUTENÇÃO
+   --------------------------------------------------------------------------
+   - Ao acrescentar uma cena nova:
+       → criar .image-bg.NOME em [10];
+       → acrescentar a imagem a imagesBackground no story.js ([1]).
+   - Ao acrescentar um botão de ação:
+       → usar a família MAIN (.choices > a). A textura é aplicada em ::before.
+   - Ao acrescentar um botão "Recomeçar":
+       → usar a família ALERT (.alarm .confirm-restart a). NUNCA aplicar textura.
+   - Ao acrescentar um ícone:
+       → ir a phosphoricons.com, copiar o <path>;
+       → acrescentar <symbol id="ph-NOME"> no sprite em [2] do story.js.
+   - Ao ajustar o tamanho da letra:
+       → mexer só em fontSizes / readableFontSizes (story.js [1]).
+       O CSS reage via aplicarFonte() que escreve inline !important.
+   - Ao adicionar uma variável partilhada:
+       → acrescentar em :root no topo de [2]. Não criar novos blocos :root
+         a meio do ficheiro (o ficheiro original tinha vários — foram
+         consolidados aqui para facilitar manutenção).
+   - Ordem de secções [22]: a ligação do guia está em [22] (parte 1) e o
+     modal em [22] (parte 2) mais abaixo — a separação é intencional, para
+     preservar a cascata. Se mover, testar primeiro.
+   ========================================================================== */</style><script role="script" id="twine-user-script" type="text/twine-javascript">/* ==========================================================================
    HÁ FOGO NA ALDEIA — Story JavaScript (SugarCube 2)
    ==========================================================================
 
@@ -5880,6 +5929,35 @@ $(document).one(':passagestart', function () {
       '<symbol id="ph-medal" viewBox="0 0 256 256">' +
         '<path fill="currentColor" d="M216,96A88,88,0,1,0,72,163.83V240a8,8,0,0,0,11.58,7.16L128,225l44.43,22.21A8.07,8.07,0,0,0,176,248a8,8,0,0,0,8-8V163.83A87.85,87.85,0,0,0,216,96ZM56,96a72,72,0,1,1,72,72A72.08,72.08,0,0,1,56,96ZM168,227.06l-36.43-18.21a8,8,0,0,0-7.16,0L88,227.06V174.37a87.89,87.89,0,0,0,80,0ZM128,152A56,56,0,1,0,72,96,56.06,56.06,0,0,0,128,152Zm0-96A40,40,0,1,1,88,96,40,40,0,0,1,128,56Z"/>' +
       '</symbol>' +  
+
+      /* --- Toasts: ícones de conquista / bom --- */
+      '<symbol id="ph-bell" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M224,71.1a8,8,0,0,1-10.78-3.42,94.13,94.13,0,0,0-33.46-36.91,8,8,0,1,1,8.54-13.54,111.46,111.46,0,0,1,39.12,43.09A8,8,0,0,1,224,71.1ZM35.71,72a8,8,0,0,0,7.1-4.32A94.13,94.13,0,0,1,76.27,30.77a8,8,0,1,0-8.54-13.54A111.46,111.46,0,0,0,28.61,60.32,8,8,0,0,0,35.71,72Zm186.1,103.94A16,16,0,0,1,208,200H167.2a40,40,0,0,1-78.4,0H48a16,16,0,0,1-13.79-24.06C43.22,160.39,48,138.28,48,112a80,80,0,0,1,160,0C208,138.27,212.78,160.38,221.81,175.94ZM150.62,200H105.38a24,24,0,0,0,45.24,0ZM208,184c-10.64-18.27-16-42.49-16-72a64,64,0,0,0-128,0c0,29.52-5.38,53.74-16,72Z"/>' +
+      '</symbol>' +
+
+      '<symbol id="ph-house" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,120l80-80,80,80v88H160V152a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v56H48Zm96,88H112V160h32Z"/>' +
+      '</symbol>' +
+
+      '<symbol id="ph-acalmar" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M72,144H32a8,8,0,0,1,0-16H67.72l13.62-20.44a8,8,0,0,1,13.32,0l25.34,38,9.34-14A8,8,0,0,1,136,128h24a8,8,0,0,1,0,16H140.28l-13.62,20.44a8,8,0,0,1-13.32,0L88,126.42l-9.34,14A8,8,0,0,1,72,144ZM178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,.75,0,1.5,0,2.25a8,8,0,1,0,16-.5c0-.58,0-1.17,0-1.75A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46c0,53.61-77.76,102.15-96,112.8-10.83-6.31-42.63-26-66.68-52.21a8,8,0,1,0-11.8,10.82c31.17,34,72.93,56.68,74.69,57.63a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40Z"/>' +
+      '</symbol>' +
+
+      '<symbol id="ph-phone" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M146.34,109.66a8,8,0,0,1,0-11.32L180.69,64H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8V96a8,8,0,0,1-16,0V75.31l-34.34,34.35a8,8,0,0,1-11.32,0Zm77.54,73.42A56.26,56.26,0,0,1,168,232C88.6,232,24,167.4,24,88A56.26,56.26,0,0,1,72.92,32.12a16,16,0,0,1,16.62,9.51l21.12,47.16,0,.12A16,16,0,0,1,109.39,104c-.18.27-.37.52-.57.77L88,129.45c7.49,15.22,23.41,31,38.83,38.51l24.34-20.71a8.12,8.12,0,0,1,.75-.56,15.93,15.93,0,0,1,15.17-1.4l.13.06,47.11,21.11A16,16,0,0,1,223.88,183.08Zm-15.88-2s-.07,0-.11,0h0l-47-21.06-24.35,20.72a8.44,8.44,0,0,1-.74.56,16,16,0,0,1-15.75,1.14c-18.73-9.05-37.4-27.58-46.46-46.11a16,16,0,0,1,1-15.7,6.13,6.13,0,0,1,.57-.77L96,95.15l-21-47a.61.61,0,0,1,0-.12A40.2,40.2,0,0,0,40,88,128.14,128.14,0,0,0,168,216,40.21,40.21,0,0,0,208,181.07Z"/>' +
+      '</symbol>' +
+
+      '<symbol id="ph-backpack" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M168,40.58V32A24,24,0,0,0,144,8H112A24,24,0,0,0,88,32v8.58A56.09,56.09,0,0,0,40,96V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V96A56.09,56.09,0,0,0,168,40.58ZM112,24h32a8,8,0,0,1,8,8v8H104V32A8,8,0,0,1,112,24Zm56,136H88v-8a8,8,0,0,1,8-8h64a8,8,0,0,1,8,8ZM88,176h48v8a8,8,0,0,0,16,0v-8h16v40H88Zm112,40H184V152a24,24,0,0,0-24-24H96a24,24,0,0,0-24,24v64H56V96A40,40,0,0,1,96,56h64a40,40,0,0,1,40,40V216ZM152,88a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,88Z"/>' +
+      '</symbol>' +
+
+      '<symbol id="ph-fire" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M143.38,17.85a8,8,0,0,0-12.63,3.41l-22,60.41L84.59,58.26a8,8,0,0,0-11.93.89C51,87.53,40,116.08,40,144a88,88,0,0,0,176,0C216,84.55,165.21,36,143.38,17.85ZM128,216a72.08,72.08,0,0,1-72-72c0-22,8.09-44.79,24.06-67.84l26.37,25.58a8,8,0,0,0,13.09-3l22.27-61.07C164.21,58.08,200,97.91,200,144A72.08,72.08,0,0,1,128,216Z"/>' +
+      '</symbol>' +
+
+      '<symbol id="ph-tree" viewBox="0 0 256 256">' +
+        '<path fill="currentColor" d="M230.32,187.09l-46-59.09H208a8,8,0,0,0,6.34-12.88l-80-104a8,8,0,0,0-12.68,0l-80,104A8,8,0,0,0,48,128H71.64l-46,59.09A8,8,0,0,0,32,200h88v40a8,8,0,0,0,16,0V200h88a8,8,0,0,0,6.32-12.91ZM48.36,184l46-59.09A8,8,0,0,0,88,112H64.25L128,29.12,191.75,112H168a8,8,0,0,0-6.31,12.91L207.64,184Z"/>' +
+      '</symbol>' +
 
     '</svg>'
   );
@@ -6772,12 +6850,20 @@ window.mostrarToast = function (tipo, conteudo, iconeCustom) {
     $('.toast-notif').remove();   // só um toast de cada vez
 
     var icone;
-      if (tipo === 'perigoso')           
-        icone = ph('warning');
-      else if (tipo === 'achievement')   
-        icone = iconeCustom || ph('medal');
-      else                               
-        icone = iconeCustom || ph('check-circle');
+    if (iconeCustom && typeof iconeCustom === 'string' && iconeCustom.length > 0) {
+      // 3.º argumento explícito manda sempre (para overrides pontuais)
+      icone = ph(iconeCustom);
+    } else if (tipo === 'fogo') {
+      icone = ph('fire');
+    } else if (tipo === 'arvore') {
+      icone = ph('tree');
+    } else if (tipo === 'perigoso' || tipo === 'atencao') {
+      icone = ph('warning');
+    } else if (tipo === 'achievement') {
+      icone = ph('medal');
+    } else {
+      icone = ph('check-circle');
+    }
 
     // 1.ª linha = título; 2.ª linha (opcional) = texto
     var partes = conteudo.split('\n');
@@ -8140,12 +8226,38 @@ $(document).on(':passagestart', function (ev) {
     birdsStarted = false;
     var birds = SimpleAudio.tracks.get('birds');
     if (birds) birds.stop();
-    State.variables.entrouPanico = false;
     earRinging21FadeIniciado = false;
     resetTimer();
-    State.variables.jaEntrouPanico = false;
-    State.variables.panicOrigin = null;
-  }
+
+    // Reset completo para novas jogadas
+    var V = State.variables;
+    V.ligou112           = false;
+    V.perfeito112        = false;
+    V.fez112             = false;
+    V.kit                = false;
+    V.kitPerfeito        = false;
+    V.fezKit             = false;
+    V.cao                = false;
+    V.avisouVizinhos     = false;
+    V.tocouSino          = false;
+    V.tocouSinoGeral     = false;
+    V.entrouPanico       = false;
+    V.jaEntrouPanico     = false;
+    V.panicOrigin        = null;
+    V.mobilidadeReduzida = false;
+    V.foiResgatado       = false;
+    V.ignorouAlerta      = false;
+    V.casaPreparada      = false;
+    V.casaPerfeita       = false;
+    V.fezCasa            = false;
+    V.caminhoPerigoso    = false;
+    V.naoEvacuar         = false;
+    V.ajudarLaurinda     = false;
+    V.demorouLaurinda    = false;
+    V.fezSeguranca       = false;
+    V.casaSeguraFinal    = false;
+    V.segurancaPerfeita  = false;
+}
 
   // Limpa o que pertencia à passagem anterior
   cancelarAutoFim();
@@ -8470,7 +8582,7 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
     &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="4" tags="" position="300,925" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene eletricidade-leve&quot;&gt;
-    &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Um incêndio pode propagar-se em minutos.\nNunca ignores um alerta.&#39;, &#39;🔥&#39;)&gt;&gt;
+    &lt;&lt;run mostrarToast(&#39;fogo&#39;, &#39;Um incêndio pode propagar-se em minutos.\nNunca ignores um alerta.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;
@@ -8574,7 +8686,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="16" name="6" tags="" position="450,750" size="100,100">&lt;&lt;nobr&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
-    &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Guardião da Aldeia\nFizeste tocar o sino de alerta.&#39;, &#39;🔔&#39;)&gt;&gt;
+    &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Guardião da Aldeia\nFizeste tocar o sino de alerta.&#39;, &#39;bell&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg sino sino-bg-abanar&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay sino-overlay sino-abanar&quot;&gt;&lt;/div&gt;
   &lt;/div&gt;
@@ -8709,12 +8821,12 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
                         &lt;&lt;set $casaPreparada to true&gt;&gt;
                         &lt;&lt;set $casaPerfeita to true&gt;&gt;
                         &lt;&lt;set $mensagemCasa to &quot;Perfeito! Preparaste a casa com todas as medidas de segurança necessárias.&quot;&gt;&gt;
-                        &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Casa Perfeita\nTomaste todas as medidas certas para ficar em segurança.&#39;, &#39;🏠&#39;)&gt;&gt;
+                        &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Casa Perfeita\nTomaste todas as medidas certas para ficar em segurança.&#39;, &#39;house&#39;)&gt;&gt;
 
                     &lt;&lt;elseif $corretasCasa gte 4 and $erradasCasa lte 1&gt;&gt;
                         &lt;&lt;set $casaPreparada to true&gt;&gt;
                         &lt;&lt;set $mensagemCasa to &quot;Preparaste bem a casa, mas cometeste algum erro. As medidas que tomaste vão ajudar-te a manter-te em segurança.&quot;&gt;&gt;
-                        &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Casa Preparada\nTomaste as medidas certas para ficar em segurança em casa.&#39;, &#39;🏠&#39;)&gt;&gt;
+                        &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Casa Preparada\nTomaste as medidas certas para ficar em segurança em casa.&#39;, &#39;house&#39;)&gt;&gt;
 
                     &lt;&lt;else&gt;&gt;
                         &lt;&lt;set $casaPreparada to false&gt;&gt;
@@ -8853,7 +8965,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;&lt;if $corretas eq 5 and $erradas eq 0&gt;&gt;
             &lt;&lt;set $perfeito112 to true&gt;&gt;
             &lt;&lt;set $ligou112 to true&gt;&gt;
-            &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Alerta Rápido\nDeste todas as informações corretas ao 112.&#39;, &#39;📞&#39;)&gt;&gt;
+            &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Alerta Rápido\nDeste todas as informações corretas ao 112.&#39;, &#39;phone&#39;)&gt;&gt;
             &lt;p class=&quot;animar&quot;&gt;Deste ao operador tudo o que ele precisava de saber. Os bombeiros já estão a caminho.&lt;/p&gt;
         &lt;&lt;elseif $corretas gte 3 and $erradas eq 0&gt;&gt;
             &lt;&lt;set $ligou112 to true&gt;&gt;
@@ -8914,7 +9026,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="25" name="21" tags="" position="1175,750" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene eletricidade-leve&quot;&gt;
-    &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Sangue Frio\nConseguiste acalmar-te numa situação de pânico.&#39;, &#39;🧘&#39;)&gt;&gt;
+    &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Sangue Frio\nConseguiste acalmar-te numa situação de pânico.&#39;, &#39;acalmar&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
 
     &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
@@ -9052,7 +9164,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="28" name="22" tags="" position="1000,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;&lt;run mostrarToast(&#39;bom&#39;, &#39;Boa escolha! Zona sem vegetação é mais segura.&#39;, &#39;✅&#39;)&gt;&gt;
+    &lt;&lt;run mostrarToast(&#39;bom&#39;, &#39;Boa escolha! Zona sem vegetação é mais segura.&#39;, &#39;check-circle&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg transito&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay  carro-inversao&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
@@ -9067,7 +9179,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="23" tags="" position="875,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;, &#39;🌲&#39;)&gt;&gt;
+   &lt;&lt;run mostrarToast(&#39;arvore&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg rio&quot;&gt;&lt;/div&gt;
     &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/car-invert.png&quot;&gt;
 &lt;/div&gt;
@@ -9306,7 +9418,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
                         &lt;&lt;set $kit to true&gt;&gt;
                         &lt;&lt;set $kitPerfeito to true&gt;&gt;
                         &lt;&lt;set $mensagemKit to &quot;Excelente! Preparaste o kit perfeitamente. Levas tudo o que é essencial para enfrentar a emergência.&quot;&gt;&gt;
-                        &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Kit Perfeito\nMontaste o kit de emergência ideal sem erros!&#39;, &#39;🎒&#39;)&gt;&gt;
+                        &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Kit Perfeito\nMontaste o kit de emergência ideal sem erros!&#39;, &#39;backpack&#39;)&gt;&gt;
 
                     &lt;&lt;elseif ($corretasKit eq 6 and $erradasKit eq 0) or ($corretasKit eq 7 and $erradasKit eq 1) or ($corretasKit eq 6 and $erradasKit eq 1)&gt;&gt;
                         &lt;&lt;set $kit to true&gt;&gt;
@@ -9690,7 +9802,7 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
         &lt;&lt;if $segurancaPerfeita&gt;&gt;
-            &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Refúgio Correto\nSeguiste todas as medidas de segurança enquanto esperavas que o fogo passasse.&#39;, &#39;🏠&#39;)&gt;&gt;
+            &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Refúgio Correto\nSeguiste todas as medidas de segurança enquanto esperavas que o fogo passasse.&#39;, &#39;house&#39;)&gt;&gt;
             &lt;p class=&quot;animar&quot;&gt;✅ Perfeito! Apesar de ser sempre preferível evacuar a tempo, seguiste todas as medidas de segurança para te protegeres em casa.&lt;/p&gt;
         &lt;&lt;elseif $casaSeguraFinal&gt;&gt;
             &lt;p class=&quot;animar&quot;&gt;🟡 Boa, mas faltou alguma medida importante. As que tomaste ajudaram-te a manter em segurança.&lt;/p&gt;
@@ -9722,7 +9834,7 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
             &lt;&lt;if $casaSeguraFinal&gt;&gt;
                 [[Continuar-&gt;final-2]]
             &lt;&lt;else&gt;&gt;
-                [[Continuar-&gt;35][$foiResgatado to true]]
+                [[Continuar-&gt;35][$foiResgatado = true]]
             &lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
