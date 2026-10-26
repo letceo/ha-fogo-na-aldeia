@@ -6020,7 +6020,9 @@ document.addEventListener('touchmove', function (e) {
 var lastTouchEnd = 0;
 document.addEventListener('touchend', function (e) {
   var now = Date.now();
-  if (now - lastTouchEnd <= 300) e.preventDefault();
+  var isControl = e.target.closest &&
+    e.target.closest('.phone-key, .phone-call, #phone-backspace, button, a, input, select');
+  if (!isControl && now - lastTouchEnd <= 300) e.preventDefault();
   lastTouchEnd = now;
 }, { passive: false });
 
@@ -7306,6 +7308,7 @@ function criarEcraTelemovel() {
     'justify-content': 'center'
   });
   $screen.html(
+    '<span id="phone-digits">___</span>' +
     '<span id="phone-backspace" role="button" tabindex="0" aria-label="Apagar número">' + ICON_BACKSPACE + '</span>'
   );
   $('.phone-scene').append($screen);
@@ -7915,7 +7918,7 @@ $(document).one(':storyready', function () {
   if (!document.querySelector('script[src*="dotlottie-wc"]')) {
     var lottieScript = document.createElement('script');
     lottieScript.type = 'module';
-    lottieScript.src = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
+    lottieScript.src = 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@0.9.26/dist/dotlottie-wc.js';
     document.head.appendChild(lottieScript);
   }
 
@@ -8584,16 +8587,16 @@ No entanto, apercebo-me que a minha vizinha, D.Laurinda, ainda está em casa. N�
     &lt;div class=&quot;scene eletricidade-leve&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;fogo&#39;, &#39;Um incêndio pode propagar-se em minutos.\nNunca ignores um alerta.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay casafire-para fullheight&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay casafire-de fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay casafire-para&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay casafire-de&quot;&gt;&lt;/div&gt;
 
     &lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
 
-    &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay call overlay-top&quot;&gt;&lt;/div&gt;
     
-    &lt;div class=&quot;image-overlay eletricidade-overlay fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay eletricidade-overlay&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
         &lt;p class=&quot;animar&quot;&gt;Da janela, o fumo parece estar longe, provavelmente nem chega aqui. O tempo passa. O telefone toca algumas vezes, vizinhos preocupados que já pensam em evacuar. 
