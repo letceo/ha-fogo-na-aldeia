@@ -9324,25 +9324,31 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;❌ Não levaste o kit de evacuação.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
+            
             &lt;&lt;if $bobiSeguro&gt;&gt;
                 &lt;p&gt;✅ O Bobi ficou em segurança.&lt;/p&gt;
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;ℹ️ O Bobi ficou para trás. Os animais devem fazer parte do plano de evacuação sempre que possível.&lt;/p&gt;
+            &lt;&lt;/if&gt;&gt; &lt;!-- FALTAVA ESTE FECHO AQUI --&gt;
+
             &lt;&lt;if $fez112&gt;&gt;
                 &lt;p&gt;✅ Avisaste as autoridades&lt;/p&gt;
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;❌ Esqueceste-te de avisar as autoridades.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
+
             &lt;&lt;if $casaPreparada&gt;&gt;
                 &lt;p&gt;✅ Preparaste a tua casa com antecedência.&lt;/p&gt;
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;❌ A tua casa ficou em risco porque não fizeste a preparação adequada.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
+
             &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
                 &lt;p&gt;✅ Avisaste ou ajudaste os vizinhos.&lt;/p&gt;
             &lt;&lt;else&gt;&gt;
                 &lt;p&gt;❌ Não avisaste nem ajudaste os vizinhos.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
+
             &lt;&lt;if $viuLaurinda&gt;&gt;
               &lt;&lt;if $ajudarLaurinda&gt;&gt;
                   &lt;p&gt;✅ Ajudaste a D. Laurinda a evacuar.&lt;/p&gt;
@@ -9351,6 +9357,8 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
               &lt;&lt;else&gt;&gt;
                   &lt;p&gt;ℹ️ Seguiste para o ponto de encontro sem ajudar a D. Laurinda. Ajudar só é seguro se não te colocar em risco.&lt;/p&gt;
               &lt;&lt;/if&gt;&gt;
+            &lt;&lt;/if&gt;&gt; &lt;!-- FALTAVA ESTE FECHO AQUI --&gt;
+
             &lt;&lt;if $entrouPanico&gt;&gt;
                 &lt;p&gt;⚠️ Entraste em pânico num momento crítico.&lt;/p&gt;
             &lt;&lt;/if&gt;&gt;
