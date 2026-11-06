@@ -2056,6 +2056,7 @@ button {
 .fumo-casa.nv2 { --fx-rgb: 250,250,250; --fx-rgb2: 225,225,225; --fx-op: .40; --fx-rise: 42vh; }  /* passagem 8 */
 .fumo-casa.nv3 { --fx-rgb: 245,245,245; --fx-rgb2: 205,205,205; --fx-op: .52; --fx-rise: 64vh; }  /* passagem 9 (máx.) */
 .fumo-casa.nv4 { --fx-rgb: 52,49,47; --fx-rgb2: 24,22,21; --fx-op: .62; --fx-rise: 85vh; }  /* passagem 16 (muito intenso) */
+.fumo-casa.nv5 { --fx-rgb: 150,146,142; --fx-rgb2: 112,108,104; --fx-op: .55; --fx-rise: 85vh; }  /* passagem 39 (forte, cinzento médio, não preto) */
 
 .fumo-casa.nv1 > i:nth-child(n+4) { display: none; }   /* 3 focos, só à direita */
 .fumo-casa.nv2 > i:nth-child(n+6) { display: none; }   /* 5 focos */
@@ -2123,16 +2124,27 @@ body.reduce-motion .fumo-casa > i {
   80%, 100% { opacity: 1; }
 }
 
-/* ---- Passagem 39: o fumo sobe até 55% e baixa quando ela respira ---- */
+/* ---- Passagem 39: fumo preto no máximo → tosse (0–5 s) → respira (5.5 s) → baixa ---- */
 .fumo-39 {
-  opacity: .3;
+  opacity: .75;
   animation: fumo-sobe-acalma 16s ease-in-out forwards !important;
 }
 
+/* imagens de fumo mais escuras (retirar se já forem pretas) */
+.image-fumo.fumo-39 {
+  filter: brightness(.3) contrast(1.1);
+}
+
+/* o fumo procedural fica ATRÁS da personagem (z 2), mas cobre o fundo/janela */
+.fumo-casa.fumo-39 {
+  z-index: 1;
+}
+
 @keyframes fumo-sobe-acalma {
-  0%   { opacity: .30; }
-  30%  { opacity: .55; }   /* pico: tosse (~5 s) */
-  100% { opacity: .12; }   /* respira fundo e acalma */
+  0%   { opacity: .75; }
+  25%  { opacity: 1;   }   /* pico durante a tosse */
+  34%  { opacity: 1;   }   /* ~5.5 s: começa a respirar fundo */
+  100% { opacity: .22; }   /* respira e o fumo baixa */
 }
 
 .laurinda-dentro {
@@ -2197,6 +2209,13 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
     fumoSceneFade .5s ease,
     fumo-drift    4s  ease-in-out infinite,
     fumo-vibrar   0.35s linear infinite;
+}
+
+/* Torna uma camada de fumo mais ténue, sem mexer nas animações.
+   Usar em conjunto com fumo-leve / fumo-medio.
+   0.2 = quase invisível, 0.6 = bem visível. */
+.fumo-tenue {
+  filter: opacity(0.55);
 }
 
 .fumo-entra-3 {
@@ -2472,6 +2491,74 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
     opacity: 0;
     filter: blur(0);
   }
+}
+
+/* ---- Chegada ao ponto de encontro ----
+   Fase A (.chegada-a): vizinhos / bombeiros, por cima de tudo.
+   O JS (sequenciaChegada) acrescenta .fase-b à .scene quando a fase A
+   acaba: a A desvanece e as camadas da B entram uma a uma (transition-delay). */
+.vizinhos {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/vizinhos.png);
+}
+
+.chegada-a {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* A fase A desaparece de vez quando o preto já tapa tudo */
+.scene.fase-b .chegada-a {
+  opacity: 0;
+  transition: none;
+}
+
+/* Preto entre a fase A e o ponto de encontro (fica por baixo da text-box) */
+.chegada-preto {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease-in;
+}
+
+.scene.fase-preto .chegada-preto {
+  opacity: 1;
+}
+
+.scene.fase-b .chegada-preto {
+  transition: opacity 1.4s ease-out;   /* o preto abre e revela o ponto de encontro */
+}
+
+/* Luzes da sirene (fase A dos bombeiros): entram devagar e repetem até a fase acabar */
+.chegada-a .sirene-fx {
+  animation: seq-entra 7s ease-in both;
+}
+
+.chegada-a .sirene-fx::before,
+.chegada-a .sirene-fx::after {
+  animation-iteration-count: infinite;
+}
+
+/* Camadas da fase B: começam invisíveis e entram em cascata */
+.scene .chegada-camada {
+  opacity: 0;
+  animation: none;
+  transition: opacity 1.6s ease-out;
+}
+
+.scene.fase-b .ponto-de-encontro-fogo.chegada-camada      { opacity: 1; transition-delay: 1.2s; }
+.scene.fase-b .pontodeencontro-fumonomonte.chegada-camada { opacity: 1; transition-delay: 1.4s; }
+.scene.fase-b .pontodeencontro-fuminho.chegada-camada     { opacity: 1; transition-delay: 1.6s; }
+.scene.fase-b .chegada-multidao.chegada-camada            { opacity: 1; transition-delay: 1s; }
+
+.scene.fase-b .pontodeencontro-fuminho.chegada-camada {
+  animation:
+    pe3-fuminho-drift 5s ease-in-out infinite,
+    fumo-vibrar       0.35s linear infinite;
 }
 
 
@@ -5192,6 +5279,13 @@ body.reduce-motion .fade-black-overlay {
   display: none !important;
 }
 
+body.reduce-motion .chegada-camada {
+  transition-delay: 0s !important;
+}
+
+body.reduce-motion .chegada-preto {
+  display: none !important;
+}
 
 /* ==========================================================================
    [24] RESULTADOS
@@ -5278,7 +5372,7 @@ body.reduce-motion .fade-black-overlay {
       rgba(255,40,40,.22) 0,
       rgba(255,40,40,.08) 55%,
       transparent 100%);
-  animation: sirene-alternar 1.6s infinite;
+  animation: sirene-alternar 1.6s 3;          /* 3 ciclos ≈ 4.8 s */   /* no ::before */
 }
 
 .sirene-fx::after {
@@ -5299,7 +5393,7 @@ body.reduce-motion .fade-black-overlay {
       rgba(50,90,255,.22) 0,
       rgba(50,90,255,.08) 55%,
       transparent 100%);
-  animation: sirene-alternar 1.6s infinite .8s;
+  animation: sirene-alternar 1.6s 3 .8s;      /* termina ≈ 5.6 s */    /* no ::after */
 }
 
 @keyframes sirene-alternar {
@@ -5316,6 +5410,11 @@ body.reduce-motion .fade-black-overlay {
     animation: none;
     opacity: .3;
   }
+}
+
+/* Passagem 35: sirene mais distante (ela está a acordar, os bombeiros a chegar) */
+.scene:has(.piscar-overlay) .sirene-fx {
+  --sirene-max: .45;
 }
 
 /* ---- Cartão de resultado dos exercícios ---- */
@@ -5885,6 +5984,8 @@ body.reduce-motion .fade-black-overlay {
    [5]  ÁUDIO ............... pássaros, fogo, zumbido, mute em segundo plano
    [6]  TEMPORIZADORES ...... decisão (passagens 7, 8, 13, 16) e fim automático
    [7]  TOASTS .............. notificações no canto do ecrã
+   [7B] CHEGADA ............. sequência do ponto de encontro (sons + camadas)
+   [8]  TEXTO ANIMADO ....... palavra a palavra + tamanho da letra
    [8]  TEXTO ANIMADO ....... palavra a palavra + tamanho da letra
    [9]  TELEMÓVEL (2.1) ..... teclado de marcação do 112
    [10] RECOMEÇAR / GUIA .... caixas de alerta e botão X
@@ -5950,18 +6051,30 @@ var AUTO_FIM = {
   '34': { destino: '35', espera: 8000 }
 };
 
-/* ---- Som: onde se ouvem os pássaros ---- */
-var BIRDS_EXTERIOR = ['Start', '6', '14', 'Resultados', 'Sobre', 'Guia de Jogo'];
-var BIRDS_INTERIOR = ['1', '2', '2.1', 'Resultado 112', '3', '4', '5'];
-/* Fora destas listas, os pássaros desaparecem com fade. */
+/* ---- Som: pássaros por níveis ----
+   Fora das listas, os pássaros desaparecem com fade.
+   A página inicial é especial: começa em "medio" e, passado BIRDS_START_ESPERA,
+   desce devagar para "muito_baixo". */
+var BIRDS_VOL = { alto: 0.35, medio: 0.20, baixo: 0.08, muito_baixo: 0.03 };
+var BIRDS_FADE_MS      = 1200;   // transição entre níveis
+var BIRDS_START_ESPERA = 6000;   // ms na página inicial antes de começar a descer
+var BIRDS_START_FADE   = 5000;   // duração da descida
 
-/* ---- Som: volume do fogo consoante a proximidade ---- */
+var BIRDS_NIVEIS = {
+  'alto':  ['1', '2.1'],
+  'medio': ['5'],
+  'baixo': ['final-3', 'final-2', '2', 'Resultado 112', '6']
+};
+
+/* ---- Som: volume do fogo consoante a proximidade ----
+   Os volumes de cada nível estão em ajustarVolumeFogo ([5.2]).
+   A passagem 27 não está aqui: tem tratamento próprio (aplicarFogoAApagar). */
 var FOGO_PROXIMIDADE = {
-  'muito_longe': ['14', '26'],
-  'longe':       ['4', '8', '10', '11', '12', '13-Laurinda', '22', '23'],
-  'perto':       ['7', '9','13-Laurinda', '15', 'Resultado Casa', '24','27', '31', 'Resultado Kit'],
-  'muito_perto': ['16', '19', '28', '25', '32', '33'],
-  'dentro_casa': ['34','39'],
+  'muito_longe': ['15', '31', '39', 'Resultado Casa', 'Resultado Kit', 'Resultado Segurança'],
+  'longe':       ['4', '8', '9', '10', '11', '14', '22', '26', '38'],
+  'perto':       ['7', '12', '13', '13-Laurinda', '23', '37'],
+  'muito_perto': ['16', '19', '24', '25', '32', '33'],
+  'aqui':        ['28', '34'],
   'fadeout':     ['Start', '1', '2', '2.1', 'Resultado 112', '3', '5', '6', '20', '21', '29', '35', 'Resultados']
 };
 /* Passagem que não esteja em nenhuma lista → 'fadeout'. */
@@ -5970,7 +6083,8 @@ var FOGO_PROXIMIDADE = {
    o som do fogo desce até 0 neste tempo (igual à animação .fogo-de, 4 s);
    só depois voltam os pássaros, baixinho */
 var FOGO_APAGAR_MS      = 4000;
-var PASSAROS_DEPOIS_VOL = 0.12;
+var FOGO_27_INICIO_VOL  = 0.80;   // o fogo começa alto e desce até 0 em FOGO_APAGAR_MS
+var PASSAROS_DEPOIS_VOL = 0.06;   // pássaros baixinhos quando fica a cidade ardida
 
 /* ---- Som: faixas curtas que param a cada mudança de passagem ----
    (birds, fire, heartbeat e ear-ringing são contínuos e geridos à parte) */
@@ -5978,8 +6092,29 @@ var SONS_CURTOS = [
   'phone-tap', 'hover', 'phone', 'sinos',
   'car-stopping', 'car-start', 'cough', 'tic',
   'heavy-breathing', 'breathing-exercise', 'hospital', 'crowd',
-  'porta-rebentada', '[siren]e'
+  'porta-rebentada', 'sirene', 'radio', 'keys',
+  'footsteps', 'knock'
 ];
+
+/* ---- Chegada ao ponto de encontro ---- */
+var CHEGADA_PASSOS_MS         = 4000;   // quanto tempo tocam os passos (a faixa é cortada com fade)
+var CHEGADA_BATER_PAUSA_MS    = 2500;   // tempo depois da batida até passar ao ponto de encontro
+var CHEGADA_SIRENE_SUBIDA_MS  = 7000;   // sirene a aproximar-se (bombeiros)
+var CHEGADA_SIRENE_INICIO_VOL = 0.02;
+var CHEGADA_SIRENE_MAX_VOL    = 0.30;
+var CHEGADA_SIRENE_SAIDA_MS   = 2500;   // a sirene desvanece enquanto ouvem os passos
+var CHEGADA_PRETO_MS         = 800;    // igual à transição do .chegada-preto no CSS
+var CHEGADA_TIC_N            = 3;      // quantos tics enquanto está preto
+var CHEGADA_TIC_INTERVALO_MS = 1000;
+var CHEGADA_MULTIDAO_VOL     = 0.4;
+var CHEGADA_MULTIDAO_FADE_MS = 4000;
+
+/* ---- Sirene (passagens 34 e 35) ---- */
+var SIRENE_34_INICIO_VOL = 0.02;   // quase inaudível ao início
+var SIRENE_34_MAX_VOL    = 0.30;   // volume quando "chega" (antes: 0.45)
+var SIRENE_34_SUBIDA_MS  = 9000;   // tempo a aproximar-se; a porta rebenta no fim
+var SIRENE_35_VOL        = 0.30;   // volume na 35 (antes: 0.6)
+var SIRENE_35_FADE_MS    = 2800;   // fadeout (igual ao que tinha)
 
 var AUTO_FIM = {
   '28': { destino: '29', espera: 8000 },
@@ -5987,7 +6122,7 @@ var AUTO_FIM = {
 };
 
 /* ---- Som: passagens com batimento cardíaco e zumbido ---- */
-var HEART_PASSAGES        = ['7', '20', '21', '8'];
+var HEART_PASSAGES        = ['7', '8', '16', '20', '21', '13-Laurinda'];
 var EAR_RINGING_PASSAGES  = ['20', '21', '28', '34', '29', '35'];
 
 /* ---- Imagens (carregamento) ---- */
@@ -6034,6 +6169,11 @@ var imagesBackground = [
   IMG + 'cenas/casafumo1.webp',
   IMG + 'cenas/phone.png',
   IMG + 'cenas/phone-call.png',
+  IMG + 'cenas/vizinhos.png',
+  IMG + 'cenas/ponto-de-encontro-fogo.webp',
+  IMG + 'cenas/pontodeencontro-fumonomonte.png',
+  IMG + 'cenas/pontodeencontro-fuminho.webp',
+  IMG + 'cenas/multidao-semlaurinda.png',
   // passagens 4–8
   IMG + 'cenas/ligar.png',
   IMG + 'cenas/casa-semjanela.webp',
@@ -6074,9 +6214,8 @@ var imagesBackground = [
 ];
 
 /* Imagens futuras (já existem regras CSS, ainda sem passagem):
-     cenas/seguranca.webp, cenas/mobilidade.jpg, cenas/fumo-sino-bg.webp,
-     cenas/multidao-laurindabem.png, cenas/multidao-semlaurinda.png,
-     cenas/ponto-de-encontro-fogo.webp, cenas/pontodeencontro-*.png,
+     cenas/seguranca.webp, cenas/mobilidade.jpg,
+     cenas/multidao-laurindabem.png,
      cenas/prontoparaevacuar-sembobi*.png
    Quando passarem a ser usadas, acrescentar a imagesBackground. */
 
@@ -6512,20 +6651,23 @@ var silenciadoAutomaticamente = false;    // mute por jogo em segundo plano
 /* ---- 5.1 Pássaros ----
    Contínuo, com continuidade entre passagens. Volume: exterior 0.8,
    interior 0.5. 'fadeout' faz fade de 1 s e pára. */
-function ajustarVolumeBirds(localizacao) {
+var birdsStartTimer = null;   // temporizador da descida na página inicial
+
+function ajustarVolumeBirds(nivel) {
   var birds = SimpleAudio.tracks.get('birds');
   if (!birds) return;
 
-  if (localizacao === 'fadeout') {
-    if (birds.isPlaying()) {
-      birds.fade(birds.volume(), 0, 1000);
-      setTimeout(function () { birds.stop(); }, 1100);
-    }
+  if (nivel === 'fadeout') {
+    if (birds.isPlaying()) fadeTrack('birds', 0, 1000);
     return;
   }
 
-  birds.volume(localizacao === 'exterior' ? 0.8 : 0.5);
-  if (!birds.isPlaying()) birds.loop(true).play();
+  var vol = BIRDS_VOL[nivel];
+  if (!birds.isPlaying()) {
+    birds.loop(true).volume(vol).play();
+  } else {
+    fadeTrack('birds', vol, BIRDS_FADE_MS);   // transição suave entre níveis
+  }
 }
 
 /* Arranca os pássaros (1.ª vez). Se o browser bloquear o autoplay,
@@ -6536,7 +6678,7 @@ function TocarBirds() {
   if (!birds) return;
 
   birdsStarted = true;
-  var p = birds.loop(true).volume(0.6).play();
+  var p = birds.loop(true).volume(BIRDS_VOL.medio).play();
 
   if (p && typeof p.catch === 'function') {
     p.catch(function () { birdsStarted = false; });
@@ -6549,14 +6691,20 @@ function ajustarVolumeFogo(nivel, duracaoMs) {
   var fire = SimpleAudio.tracks.get('fire');
   if (!fire) return;
 
+  if (!fire.isPlaying()) {
+    fire.loop(true).volume(0.001);
+    var p = fire.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  }
+
   // Nunca chega a 0 literal: a lib trataria como "parado" e reiniciaria a
   // faixa (o clique/"pop" que se ouvia).
   var volumes = {
-    'muito_longe': 0.04,
+    'muito_longe': 0.05,
     'longe':       0.18,
-    'perto':       0.40,
-    'muito_perto': 0.70,
-    'dentro_casa': 0.85,
+    'perto':       0.38,
+    'muito_perto': 0.62,
+    'aqui':        0.85,
     'fadeout':     0.001
   };
   var vol = volumes[nivel] !== undefined ? volumes[nivel] : 0.001;
@@ -6631,29 +6779,83 @@ function tocarEarRingingSeguro(track) {
   }
 }
 
+/* ---- Fade genérico (não usa track.fade, que tem outra assinatura) ---- */
+var trackFades = {};
+
+function getTrack(id) {
+  var t = SimpleAudio.tracks.get(id);
+  if (!t) console.warn('[áudio] faixa em falta:', id);
+  return t;
+}
+
+/* Muda o volume até "to" em "ms". Se to <= 0, pára a faixa no fim. */
+function fadeTrack(id, to, ms) {
+  var track = SimpleAudio.tracks.get(id);
+  if (!track) return;
+  if (trackFades[id]) { clearInterval(trackFades[id]); trackFades[id] = null; }
+
+  var from = track.volume();
+  var steps = Math.max(1, Math.round(ms / 50));
+  var i = 0;
+  trackFades[id] = setInterval(function () {
+    i++;
+    var v = from + (to - from) * (i / steps);
+    track.volume(Math.max(0.001, Math.min(1, v)));
+    if (i >= steps) {
+      clearInterval(trackFades[id]);
+      trackFades[id] = null;
+      if (to <= 0) track.stop(); else track.volume(to);
+    }
+  }, 50);
+}
+
+function cancelarFadesCurtos() {
+  for (var id in trackFades) {
+    if (trackFades[id]) { clearInterval(trackFades[id]); trackFades[id] = null; }
+  }
+}
+
 /* ---- 5.4 Regras de áudio por passagem (chamadas em :passagestart) ---- */
 
 /* Pára os sons curtos ao mudar de passagem. */
-function pararSonsCurtos() {
+function pararSonsCurtos(name) {
+  cancelarFadesCurtos();
   SONS_CURTOS.forEach(function (id) {
+    if (id === 'sirene' && name === '35') return;   // continuidade 34 → 35
     var track = SimpleAudio.tracks.get(id);
     if (track) track.stop();
   });
 }
 
-/* Pássaros: exterior / interior / fadeout conforme as listas de [1]. */
 function aplicarSomBirds(name) {
-  if (BIRDS_EXTERIOR.indexOf(name) > -1) {
-    ajustarVolumeBirds('exterior');
-  } else if (BIRDS_INTERIOR.indexOf(name) > -1) {
-    ajustarVolumeBirds('interior');
-  } else {
-    ajustarVolumeBirds('fadeout');
+  if (birdsStartTimer) { clearTimeout(birdsStartTimer); birdsStartTimer = null; }
+
+  // Página inicial: começa médio e, ao fim de uns segundos, desce para muito baixo
+  if (name === 'Start') {
+    ajustarVolumeBirds('medio');
+    birdsStartTimer = setTimeout(function () {
+      birdsStartTimer = null;
+      if (passage() !== 'Start') return;
+      fadeTrack('birds', BIRDS_VOL.muito_baixo, BIRDS_START_FADE);
+    }, BIRDS_START_ESPERA);
+    return;
   }
+
+  // Caixas por cima do jogo: não mexem nos pássaros
+  if (name === 'Sobre' || name === 'Guia de Jogo' || name === '⟲') return;
+
+  for (var nivel in BIRDS_NIVEIS) {
+    if (BIRDS_NIVEIS[nivel].indexOf(name) > -1) {
+      ajustarVolumeBirds(nivel);
+      return;
+    }
+  }
+  ajustarVolumeBirds('fadeout');
 }
 
 /* Fogo: nível de proximidade conforme FOGO_PROXIMIDADE. */
 function aplicarSomFogo(name) {
+  if (name === '27') return;   // tratada em aplicarFogoAApagar
   for (var nivel in FOGO_PROXIMIDADE) {
     if (FOGO_PROXIMIDADE[nivel].indexOf(name) > -1) {
       ajustarVolumeFogo(nivel);
@@ -6670,31 +6872,55 @@ function aplicarFogoAApagar(name) {
   if (passarosTimer) { clearTimeout(passarosTimer); passarosTimer = null; }
   if (name !== '27') return;
 
-  ajustarVolumeFogo('fadeout', FOGO_APAGAR_MS);   // substitui o fade de 0.8 s feito em aplicarSomFogo
+  // Começa com o fogo bem alto e vai descendo até 0 ao ritmo da animação (.fogo-de)
+  var fogo27 = SimpleAudio.tracks.get('fire');
+  if (fogo27) {
+    if (fogoFadeTimer) { clearInterval(fogoFadeTimer); fogoFadeTimer = null; }
+    fogo27.volume(FOGO_27_INICIO_VOL);
+  }
+  ajustarVolumeFogo('fadeout', FOGO_APAGAR_MS);
 
   passarosTimer = setTimeout(function () {
     passarosTimer = null;
     if (passage() !== '27') return;               // já saiu da passagem
     var birds = SimpleAudio.tracks.get('birds');
     if (!birds) return;
-    birds.loop(true).volume(0);
+    birds.loop(true).volume(0.001);
     var p = birds.play();
     if (p && typeof p.catch === 'function') p.catch(function () {});
-    birds.fade(0, PASSAROS_DEPOIS_VOL, 2000);
+    fadeTrack('birds', PASSAROS_DEPOIS_VOL, 2000);
   }, FOGO_APAGAR_MS);
 }
 
 /* Sons pontuais de cada passagem (respiração, tosse, carro, etc.). */
 function aplicarSonsPontuais(name) {
-    // Telefone a tocar (na 2.1 toca ao carregar em ligar; ver [9.4])
+  // Telefone a tocar (na 2.1 toca ao carregar em ligar; ver [9.4])
   if (name === '5') {
     SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
   }
+
+    // Rádio: fade-out ao sair da 12
+    if (name !== '12') {
+      var radioOff = SimpleAudio.tracks.get('radio');
+      if (radioOff && radioOff.isPlaying()) fadeTrack('radio', 0, 800);
+    }
 
   // Sinos
   if (name === '6') {
     SimpleAudio.tracks.get('sinos').loop(false).volume(0.3).play();
   }
+
+  // Rádio
+  if (name === '12') {
+    var radio = getTrack('radio');
+    if (radio) radio.loop(false).volume(0.2).play();
+  }
+
+    // Chaves
+    if (name === '13') {
+      var keys = getTrack('keys');
+      if (keys) keys.loop(false).volume(0.5).play();
+    }
 
   // Respiração pesada (pânico / fim)
   if (name === '20') {
@@ -6723,55 +6949,96 @@ function aplicarSonsPontuais(name) {
         SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
       }
     }, atrasoRespirar);
+
+    if (name === '35') {
+      // As luzes (.sirene-fx) duram LUZES_MS (ver CSS: 3 ciclos de 1.6 s + 0.8 s de desfasamento)
+      var LUZES_MS = animationsEnabled ? 5600 : 3000;
+      var sirene35 = getTrack('sirene');
+      if (sirene35) {
+        if (!sirene35.isPlaying()) sirene35.loop(true).volume(0.1).play();
+        fadeTrack('sirene', SIRENE_35_VOL, 1200);
+        setTimeout(function () {
+          if (passage() !== '35') return;
+          fadeTrack('sirene', 0, SIRENE_35_FADE_MS);     // desvanece com as luzes
+        }, LUZES_MS - SIRENE_35_FADE_MS);
+      }
+    }
   }
 
-  // Tosse (fumo): mais forte perto do fogo
-  if (name === '4' || name === '10' || name === '28') {
+  // Tosse: só com fumo intenso (28 = muito perto; 16 = fumo nv4)
+  if (name === '28') {
     SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
   }
-  if (name === '16') {
+    if (name === '16') {
     SimpleAudio.tracks.get('cough').loop(true).volume(0.6).play();
   }
-
+  // Passagem 4: tosse única, com o fumo ainda ligeiro
+  if (name === '4') {
+    setTimeout(function () {
+      if (passage() !== '4') return;      // já saiu da passagem
+      SimpleAudio.tracks.get('cough').loop(false).volume(0.2).play();
+    }, 1500);
+  }
   // Carro
   if (name === '11') SimpleAudio.tracks.get('car-stopping').loop(false).volume(0.6).play();
-  if (name === '22') SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
+  if (name === '22' || name === '13-Laurinda') SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
 
   // Multidão
   if (name === '26') SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
 
-  // Batimento cardíaco
-  if (HEART_PASSAGES.indexOf(name) > -1) {
-    SimpleAudio.tracks.get('heartbeat').loop(true).volume(0.1).play();
+  // Batimento cardíaco: só nas passagens de HEART_PASSAGES; nas outras pára
+  var heartbeat = SimpleAudio.tracks.get('heartbeat');
+  if (heartbeat) {
+    if (HEART_PASSAGES.indexOf(name) > -1) {
+      if (!heartbeat.isPlaying()) heartbeat.loop(true).volume(0.1).play();
+    } else if (heartbeat.isPlaying()) {
+      heartbeat.stop();
+    }
   }
 
-    // Passagem 34: porta rebentada + sirene quando o preto está total (~55% de --fim34-dur)
-  if (name === '34') {
-    var atraso = animationsEnabled ? 11500 : 500;
-    setTimeout(function () {
-      if (passage() !== '34') return;
-      var porta = SimpleAudio.tracks.get('porta-rebentada');
-      if (porta) porta.loop(false).volume(0.8).play();
-    }, atraso);
-    setTimeout(function () {
-      if (passage() !== '34') return;
-      var sirene = SimpleAudio.tracks.get('sirene');
-      if (sirene) { sirene.loop(true).volume(0.15).play(); sirene.fade(0.15, 0.5, 3000); }
-    }, atraso + 1000);
-  }
+    // ---- Passagem 34: ecrã fica todo preto → sirene ao longe → porta a rebentar ----
+    if (name === '34') {
+      var durMs = 20000;
+      try {
+        var cssDur = getComputedStyle(document.documentElement)
+          .getPropertyValue('--fim34-dur').trim();
+        if (cssDur) durMs = parseFloat(cssDur) * 1000;
+      } catch (e) {}
 
-  // Passagem 39: tosse → respira fundo (o fumo baixa ao mesmo tempo)
+      // 55% da sequência = primeiro preto total (ver .fumo-preto no CSS)
+      var atraso = animationsEnabled ? Math.round(durMs * 0.55) : 500;
+      // com animações desligadas a passagem é mais curta, por isso a subida também
+      var subida34 = animationsEnabled ? SIRENE_34_SUBIDA_MS : 4000;
+
+      setTimeout(function () {
+        if (passage() !== '34') return;
+        var sirene = getTrack('sirene');
+        if (!sirene) return;
+        sirene.loop(true).volume(SIRENE_34_INICIO_VOL).play();
+        fadeTrack('sirene', SIRENE_34_MAX_VOL, subida34);   // aproxima-se devagar
+      }, atraso);
+
+      setTimeout(function () {
+        if (passage() !== '34') return;
+        var porta = getTrack('porta-rebentada');
+        if (porta) porta.loop(false).volume(0.85).play();
+      }, atraso + subida34);                                // rebenta quando a sirene "chegou"
+    }
+
+  // ---- Passagem 39: fumo preto intenso → tosse → respira fundo → fumo baixa ----
   if (name === '39') {
-    var tosse = SimpleAudio.tracks.get('cough');
+
+    var tosse = getTrack('cough');
     if (tosse) tosse.loop(true).volume(0.5).play();
     setTimeout(function () {
-      if (passage() !== '39' || !tosse) return;
-      tosse.fade(0.5, 0, 1500);
-      setTimeout(function () { if (passage() === '39') tosse.stop(); }, 1600);
+      if (passage() !== '39') return;
+      fadeTrack('cough', 0, 1500);
     }, 4800);
+
+    // ~34% de 16 s = 5.5 s: coincide com o início da descida do fumo no CSS
     setTimeout(function () {
       if (passage() !== '39') return;
-      var respirar = SimpleAudio.tracks.get('breathing-exercise');
+      var respirar = getTrack('breathing-exercise');
       if (respirar) respirar.loop(false).volume(0.5).play();
     }, 5500);
   }
@@ -7226,9 +7493,8 @@ function iniciarAutoFim() {
   syncAutoFim();
 }
 
-
 /* ==========================================================================
-   [7] TOASTS (notificações)
+   [7A] TOASTS (notificações)
    Uso nas passagens: mostrarToast('bom' | 'perigoso' | 'achievement',
                                    'Título\nTexto opcional', 'ícone opcional')
    ========================================================================== */
@@ -7278,6 +7544,86 @@ window.mostrarToast = function (tipo, conteudo, iconeCustom) {
   }, 300);
 };
 
+/* ==========================================================================
+   [7B] CHEGADA AO PONTO DE ENCONTRO
+   --------------------------------------------------------------------------
+   Sequência da passagem do ponto de encontro (fase A: vizinhos/bombeiros →
+   preto com tics → camadas). Constantes em [1]; CSS em [10].
+   Uso nas passagens: <<run sequenciaChegada('vizinhos' | 'bombeiros' | 'direto')>>
+   ========================================================================== */
+var chegadaTimers = [];
+
+function cancelarChegada() {
+  chegadaTimers.forEach(clearTimeout);
+  chegadaTimers = [];
+}
+
+function sequenciaChegada(modo) {
+  cancelarChegada();
+  var p = passage();
+
+  function agendar(ms, fn) {
+    chegadaTimers.push(setTimeout(function () {
+      if (passage() !== p) return;      // já saiu da passagem
+      fn();
+    }, ms));
+  }
+  function tocar(id, vol) {
+    var t = getTrack(id);
+    if (t) t.loop(false).volume(vol).play();
+  }
+  function cena() { return $('.scene').not('.alarm-scene'); }
+
+  function tocarMultidao() {
+    var crowd = getTrack('crowd');
+    if (!crowd) return;
+    crowd.loop(true).volume(0.001).play();
+    fadeTrack('crowd', CHEGADA_MULTIDAO_VOL, CHEGADA_MULTIDAO_FADE_MS);
+  }
+
+  function mostrarPontoEncontro() {
+    cena().removeClass('fase-preto').addClass('fase-b');
+    tocarMultidao();
+  }
+
+  // fade para preto + tics (tempo a passar) → ponto de encontro
+  function passarTempo(inicio) {
+    agendar(inicio, function () { cena().addClass('fase-preto'); });
+    var primeiro = inicio + CHEGADA_PRETO_MS;
+    for (var i = 0; i < CHEGADA_TIC_N; i++) {
+      agendar(primeiro + i * CHEGADA_TIC_INTERVALO_MS, function () { tocar('tic', 0.4); });
+    }
+    agendar(primeiro + CHEGADA_TIC_N * CHEGADA_TIC_INTERVALO_MS, mostrarPontoEncontro);
+  }
+
+  // passos (cortados a meio) → batida → preto com tics
+  function passosEBatida(inicio) {
+    agendar(inicio, function () { tocar('footsteps', 0.5); });
+    agendar(inicio + CHEGADA_PASSOS_MS - 500, function () { fadeTrack('footsteps', 0, 500); });
+    agendar(inicio + CHEGADA_PASSOS_MS, function () { tocar('knock', 0.7); });
+    passarTempo(inicio + CHEGADA_PASSOS_MS + CHEGADA_BATER_PAUSA_MS);
+  }
+
+  if (modo === 'vizinhos') {
+    passosEBatida(500);
+
+  } else if (modo === 'bombeiros') {
+    var sirene = getTrack('sirene');
+    if (sirene) {
+      sirene.loop(true).volume(CHEGADA_SIRENE_INICIO_VOL).play();
+      fadeTrack('sirene', CHEGADA_SIRENE_MAX_VOL, CHEGADA_SIRENE_SUBIDA_MS);   // aproxima-se
+    }
+    agendar(CHEGADA_SIRENE_SUBIDA_MS, function () {
+      fadeTrack('sirene', 0, CHEGADA_SIRENE_SAIDA_MS);                         // chegaram
+    });
+    passosEBatida(CHEGADA_SIRENE_SUBIDA_MS);
+
+  } else {
+    agendar(300, mostrarPontoEncontro);   // sem fase A: só as camadas
+  }
+}
+
+window.sequenciaChegada = sequenciaChegada;   // as passagens só veem o que estiver em window
 
 /* ==========================================================================
    [8] TEXTO ANIMADO E TAMANHO DA LETRA
@@ -8338,9 +8684,9 @@ $(document).one(':storyready', function () {
   // Fogo: arranca mudo; o volume sobe conforme a passagem (aplicarSomFogo)
   var fire = SimpleAudio.tracks.get('fire');
   if (fire) {
-    fire.loop(true);
-    fire.volume(0);
-    fire.play();
+    fire.loop(true).volume(0.001);
+    var pf = fire.play();
+    if (pf && typeof pf.catch === 'function') pf.catch(function () {});
   }
 
   /* ---- Dicas rotativas (a cada 10 s, com fade) ---- */
@@ -8670,6 +9016,7 @@ function aplicarContinuidadeCamadas() {
 
     this.getAnimations().forEach(function (a) {
       if (!a.animationName || !a.effect) return;
+      if (a.animationName === 'fumo-sobe-acalma') return;   // 39: deixa correr desde o início
       var infinita = a.effect.getComputedTiming().iterations === Infinity;
       if (infinita) {
         if (ant[sig][a.animationName] != null) a.currentTime = ant[sig][a.animationName];
@@ -8735,6 +9082,7 @@ $(document).on(':passagestart', function (ev) {
 
   // Limpa o que pertencia à passagem anterior
   cancelarAutoFim();
+  cancelarChegada();
   TocarBirds();
   pauseTimer();
   timerTextReady = false;
@@ -8744,7 +9092,7 @@ $(document).on(':passagestart', function (ev) {
   $('.scene').hide().fadeIn(200);
 
   // Áudio
-  pararSonsCurtos();
+  pararSonsCurtos(name);
   aplicarSomBirds(name);
   aplicarSomFogo(name);
   aplicarFogoAApagar(name);
@@ -8919,8 +9267,8 @@ A caminho do ponto do carro, encontro o Bobi. Comigo está em segurança. Se tiv
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="5" tags="" position="450,500" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-    	&lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
-		&lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
+    	&lt;div class=&quot;image-fumo casafumo1 fumo-leve fumo-tenue&quot;&gt;&lt;/div&gt;
+		&lt;div class=&quot;image-fumo casafumo2 fumo-medio fumo-tenue&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay call-vizinho call-vizinho-topo&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
@@ -8931,10 +9279,11 @@ A caminho do ponto do carro, encontro o Bobi. Comigo está em segurança. Se tiv
              &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="3" tags="" position="300,650" size="100,100">&lt;&lt;nobr&gt;&gt;    
+&lt;&lt;/nobr&gt;&gt;
+</tw-passagedata><tw-passagedata pid="6" name="3" tags="" position="300,650" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-    	&lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
+    	&lt;div class=&quot;image-fumo casafumo1 fumo-leve fumo-tenue&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;image-overlay call112&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
@@ -8954,10 +9303,10 @@ A caminho do ponto do carro, encontro o Bobi. Comigo está em segurança. Se tiv
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
 
-    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight fumo-tenue&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheigh fumo-tenuet&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight fumo-tenue&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight fumo-tenue&quot;&gt;&lt;/div&gt;
 
     &lt;div class=&quot;image-bg casa-semjanela-jardim fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay reparar-overlay overlay-top fullheight&quot;&gt;&lt;/div&gt;
@@ -9029,38 +9378,63 @@ A caminho do ponto do carro, encontro o Bobi. Comigo está em segurança. Se tiv
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1675,1325" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg ponto-de-encontrosemfundo&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay  ponto-da-mulher&quot;&gt;
-    	&lt;div class=&quot;image-overlay fumo-overlay&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="19" tags="" position="1675,1325" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene&quot;&gt;
+
+    /* ---- Fase B: ponto de encontro (por camadas) ---- */
+  &lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg ponto-de-encontro-fogo&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg pontodeencontro-fumonomonte chegada-camada&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg pontodeencontro-fuminho chegada-camada&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg ponto-de-encontrosemfundo&quot;&gt;&lt;/div&gt;
+  &lt;&lt;if $bobiSeguro&gt;&gt;
+      &lt;div class=&quot;image-overlay multidao-semlaurinda chegada-camada chegada-multidao&quot;&gt;&lt;/div&gt;
+  &lt;&lt;else&gt;&gt;
+      &lt;div class=&quot;image-overlay multidao chegada-camada chegada-multidao&quot;&gt;&lt;/div&gt;
+  &lt;&lt;/if&gt;&gt;
+
+    /* ---- Fase A: chegada da ajuda (por cima; desvanece quando acaba) ---- */
+    &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+        &lt;&lt;run sequenciaChegada(&#39;vizinhos&#39;)&gt;&gt;
+        &lt;div class=&quot;chegada-a&quot;&gt;
+            &lt;div class=&quot;image-bg vizinhos&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;&lt;elseif $ligou112&gt;&gt;
+        &lt;&lt;run sequenciaChegada(&#39;bombeiros&#39;)&gt;&gt;
+        &lt;div class=&quot;chegada-a&quot;&gt;
+            &lt;div class=&quot;image-bg salva-pelo-bombeiro&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;sirene-fx&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;&lt;else&gt;&gt;
+        &lt;&lt;run sequenciaChegada(&#39;direto&#39;)&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;chegada-preto&quot;&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-            &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt;Os meus vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
-                
-            &lt;&lt;elseif $ligou112&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt; Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro&lt;/p&gt;
-                
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Os meus vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+        &lt;&lt;elseif $ligou112&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+        &lt;&lt;else&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Dirijo-me para o ponto de encontro da aldeia, onde os meus vizinhos já esperam.&lt;/p&gt;
+        &lt;&lt;/if&gt;&gt;
+        &lt;&lt;if $bobiSeguro&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Ao meu lado está o Bobi, o meu fiel companheiro. Não o podia deixar para trás.&lt;/p&gt;
+        &lt;&lt;/if&gt;&gt;
+        &lt;&lt;if not $kit or not $fezKit&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Apercebo-me que a maioria trouxe algumas coisas para se aguentar e arrependo-me de não ter preparado nada. Nem consigo comunicar com a minha família a avisar que estou bem... Espero que seja suficiente.&lt;/p&gt;
+        &lt;&lt;/if&gt;&gt;
+        &lt;div class=&quot;choices&quot;&gt;
+            &lt;&lt;if $fezCasa and $casaPreparada&gt;&gt;
+                [[Continuar-&gt;final-2]]
             &lt;&lt;else&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt; Dirijo-me para o ponto de encontro da aldeia, onde os meus vizinhos já esperam.&lt;/p&gt;
+                [[Continuar-&gt;final-3]]
             &lt;&lt;/if&gt;&gt;
-            &lt;&lt;if $bobiSeguro&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt;Ao meu lado está o Bobi, o meu fiel companheiro. Não o podia deixar para trás.&lt;/p&gt;
-            &lt;&lt;/if&gt;&gt;
-			&lt;&lt;if not $kit or not $fezKit&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt;Apercebo-me que a maioria trouxe algumas coisas para se aguentar e arrependo-me de não ter preparado nada. Nem consigo comunicar com a minha família a avisar que estou bem... Espero que seja suficiente.&lt;/p&gt;
-            &lt;&lt;/if&gt;&gt;
-    		&lt;div class=&quot;choices&quot;&gt;
-            	&lt;&lt;if $fezCasa and $casaPreparada&gt;&gt;
-                	[[Continuar-&gt;final-2]]
-                &lt;&lt;else&gt;&gt;
-                	[[Continuar-&gt;final-3]]
-                &lt;&lt;/if&gt;&gt;
-    		&lt;/div&gt;
-       &lt;/div&gt;
+        &lt;/div&gt;
     &lt;/div&gt;
+&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="4" tags="" position="300,925" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;&lt;run mostrarToast(&#39;fogo&#39;, &#39;Um incêndio pode propagar-se em minutos.\nNunca ignores um alerta.&#39;)&gt;&gt;
@@ -9068,8 +9442,8 @@ A caminho do ponto do carro, encontro o Bobi. Comigo está em segurança. Se tiv
     &lt;div class=&quot;image-overlay casafire-para&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay casafire-de&quot;&gt;&lt;/div&gt;
 
-    &lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fumo-tenue&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fumo-tenue&quot;&gt;&lt;/div&gt;
 
     &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay call overlay-top&quot;&gt;&lt;/div&gt;
@@ -9092,7 +9466,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
   &lt;&lt;set $r8 to false&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
   &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;image-fumo casafumo1 fumo-leve&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-fumo casafumo1 fumo-leve fumo-tenue&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;image-overlay pose-112&quot;&gt;&lt;/div&gt;
       &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
@@ -9117,7 +9491,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
           &lt;/div&gt;
       &lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+</tw-passagedata><tw-passagedata pid="13" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay fire-overlay chamas-mexer fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;
@@ -9136,8 +9511,20 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="14" tags="" position="1250,275" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg casa-fire&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay  call&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa-fire fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo6 fumo-entra-6 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay call overlay-top fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;fumo-casa nv3&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
         &lt;p class=&quot;animar&quot;&gt;Da janela vejo alguns dos meus vizinhos evacuar e decido fazer o mesmo. Lembro-me do que fazer nos exercícios de  preparação dos simulacros: manter a calma e ir para o ponto de encontro.
@@ -9380,8 +9767,10 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;cacheaudio &quot;tic&quot;  &quot;audio/tic.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;knock&quot;  &quot;audio/knock.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;footsteps&quot;  &quot;audio/footsteps.mp3&quot;&gt;&gt;
-&lt;&lt;cacheaudio &quot;siren&quot;  &quot;audio/siren.mp3&quot;&gt;&gt;
-
+&lt;&lt;cacheaudio &quot;sirene&quot;  &quot;audio/sirene.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;porta-rebentada&quot; &quot;audio/porta-rebentada.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;radio&quot; &quot;audio/radio.mp3&quot;&gt;&gt;
+&lt;&lt;cacheaudio &quot;keys&quot; &quot;audio/keys.mp3&quot;&gt;&gt;
 
 &lt;&lt;set $muted to false&gt;&gt;
 
@@ -9450,7 +9839,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;/silently&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo2 fumo-medio&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fumo-tenue&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay pose-112&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
@@ -9490,7 +9879,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="2.1" tags="" position="250,250" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;
+</tw-passagedata><tw-passagedata pid="24" name="2.1" tags="" position="250,250" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay pose-112before&quot;&gt;&lt;/div&gt;
@@ -9988,6 +10378,7 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg fogo-na-casa passagem-29-bg&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;piscar-overlay&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;sirene-fx&quot;&gt;&lt;/div&gt;
 
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;
@@ -10114,32 +10505,66 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
       
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="36" tags="" position="1175,625" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
-    	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
-    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="36" tags="" position="1175,625" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene&quot;&gt;
+    &lt;&lt;if $demorouLaurinda&gt;&gt;
+        &lt;&lt;set _modo to &#39;direto&#39;&gt;&gt;
+    &lt;&lt;elseif $ligou112&gt;&gt;
+        &lt;&lt;set _modo to &#39;bombeiros&#39;&gt;&gt;
+    &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+        &lt;&lt;set _modo to &#39;vizinhos&#39;&gt;&gt;
+    &lt;&lt;else&gt;&gt;
+        &lt;&lt;set _modo to &#39;direto&#39;&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+    &lt;&lt;run sequenciaChegada(_modo)&gt;&gt;
+
+    /* ---- Fase B: ponto de encontro (por camadas) ---- */
+    &lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg ponto-de-encontro-fogo&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg pontodeencontro-fumonomonte chegada-camada&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg pontodeencontro-fuminho chegada-camada&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg ponto-de-encontrosemfundo&quot;&gt;&lt;/div&gt;
+    &lt;&lt;if $demorouLaurinda&gt;&gt;
+        &lt;div class=&quot;image-overlay multidao-semlaurinda chegada-camada chegada-multidao&quot;&gt;&lt;/div&gt;
+    &lt;&lt;else&gt;&gt;
+        &lt;div class=&quot;image-overlay multidao chegada-camada chegada-multidao&quot;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    /* ---- Fase A: chegada da ajuda ---- */
+    &lt;&lt;if _modo is &#39;vizinhos&#39;&gt;&gt;
+        &lt;div class=&quot;chegada-a&quot;&gt;
+            &lt;div class=&quot;image-bg vizinhos&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;&lt;elseif _modo is &#39;bombeiros&#39;&gt;&gt;
+        &lt;div class=&quot;chegada-a&quot;&gt;
+            &lt;div class=&quot;image-bg salva-pelo-bombeiro&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;sirene-fx&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+    &lt;div class=&quot;chegada-preto&quot;&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-      &lt;&lt;if $demorouLaurinda&gt;&gt;
-          &lt;p class=&quot;animar&quot;&gt;Demorei demasiado tempo a decidir, por isso tive que evacuar sem ajudar a Dona Laurinda. Arranco sozinha para o ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia.
-      Encontro os meus vizinhos e ainda bem que ficaram bem! Mas estão aflitos - sem dinheiro, sem documentos. Saíram sem o kit e agora nem telemóvel têm para contactar os familiares.
-      Eventualmente, também a D.Laurinda se junta na praça, conduzida pelos bombeiros. Fisicamente está bem, mas bastante aflita sem parar de chorar. A casa dela está a arder, pouco deve sobrar. Não tinha o terreno limpo e o fogo pegou tudo.
-      Ao menos estamos vivos e seguros. Abro o kit ao lado do carro com tudo o que deixei preparado. Não faltou nada.&lt;/p&gt;
-      &lt;&lt;elseif $ligou112&gt;&gt;
-          &lt;p class=&quot;animar&quot;&gt;Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
-      &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-          &lt;p class=&quot;animar&quot;&gt;Os vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;&lt;if $demorouLaurinda&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Demorei demasiado tempo a decidir, por isso tive que evacuar sem ajudar a Dona Laurinda. Arranco sozinha para o ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia.
+Encontro os meus vizinhos e ainda bem que ficaram bem! Mas estão aflitos - sem dinheiro, sem documentos. Saíram sem o kit e agora nem telemóvel têm para contactar os familiares.
+Eventualmente, também a D.Laurinda se junta na praça, conduzida pelos bombeiros. Fisicamente está bem, mas bastante aflita sem parar de chorar. A casa dela está a arder, pouco deve sobrar. Não tinha o terreno limpo e o fogo pegou tudo.
+Ao menos estamos vivos e seguros. Abro o kit ao lado do carro com tudo o que deixei preparado. Não faltou nada.&lt;/p&gt;
+        &lt;&lt;elseif $ligou112&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Os bombeiros batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
+        &lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+            &lt;p class=&quot;animar&quot;&gt;Os vizinhos batem à porta e ajudam-me na deslocação para o ponto de encontro.&lt;/p&gt;
         &lt;&lt;else&gt;&gt;
-        	&lt;p class=&quot;animar&quot;&gt;Engulo em seco e continuo. O fogo é rápido e não quero arriscar. Há outras pessoas ainda na aldeia capazes de a ajudar. Arranco em direção ao ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia. 
+            &lt;p class=&quot;animar&quot;&gt;Engulo em seco e continuo. O fogo é rápido e não quero arriscar. Há outras pessoas ainda na aldeia capazes de a ajudar. Arranco em direção ao ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia.
 Encontro os meus vizinhos e ainda bem que ficaram bem! Mas estão aflitos - sem dinheiro, sem documentos. Saíram sem o kit e agora nem telemóvel têm para contactar os familiares.
 Eventualmente, também a D.Laurinda se junta na praça, conduzida pelos bombeiros. Fisicamente está bem, mas bastante aflita sem parar de chorar. A casa dela está a arder, pouco deve sobrar. Não tinha o terreno limpo e o fogo pegou tudo.
 Ao menos estamos vivos e seguros. Abro o kit ao lado do carro com tudo o que deixei preparado. Não faltou nada.&lt;/p&gt;
         &lt;&lt;/if&gt;&gt;
-    		&lt;div class=&quot;choices&quot;&gt;
-            	[[Continuar-&gt;final-2]] 
-            &lt;/div&gt;
+        &lt;div class=&quot;choices&quot;&gt;
+            [[Continuar-&gt;final-2]]
         &lt;/div&gt;
     &lt;/div&gt;
+&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="37" tags="" position="925,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg salvar-laurinda fullheight&quot;&gt;&lt;/div&gt;
@@ -10154,21 +10579,28 @@ Encontro-a ainda dentro de casa, indecisa, sem saber o que levar. Ajuda-a a reun
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="38" tags="" position="1175,875" size="100,100">&lt;&lt;nobr&gt;&gt;    
-    &lt;div class=&quot;scene&quot;&gt;
-    	&lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
-    
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="38" tags="" position="1175,875" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div class=&quot;scene&quot;&gt;
+    &lt;&lt;run sequenciaChegada(&#39;direto&#39;)&gt;&gt;
+
+    &lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg ponto-de-encontro-fogo&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg pontodeencontro-fumonomonte chegada-camada&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg pontodeencontro-fuminho chegada-camada&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg ponto-de-encontrosemfundo&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay multidao-laurindabem chegada-camada chegada-multidao&quot;&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-    	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-        &lt;p class=&quot;animar&quot;&gt;Chegamos as duas ao ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia. 
-A Dona Laurinda aperta-me a mão, sem palavras. Não houve tempo para tudo, mas conseguimos rapidamente reunir o essencial. 
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;p class=&quot;animar&quot;&gt;Chegamos as duas ao ponto de encontro, um local aberto e sem vegetação. Aqui é a praça da aldeia.
+A Dona Laurinda aperta-me a mão, sem palavras. Não houve tempo para tudo, mas conseguimos rapidamente reunir o essencial.
 A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar os que choram na rua.&lt;/p&gt;
-    		&lt;div class=&quot;choices&quot;&gt;
-            	&lt;&lt;if $casaPreparada&gt;&gt;
-            		[[Continuar-&gt;final-2]] 
-                &lt;&lt;else&gt;&gt;
-                	[[Continuar-&gt;final-3]]
-				&lt;&lt;/if&gt;&gt;
+        &lt;div class=&quot;choices&quot;&gt;
+            &lt;&lt;if $casaPreparada&gt;&gt;
+                [[Continuar-&gt;final-2]]
+            &lt;&lt;else&gt;&gt;
+                [[Continuar-&gt;final-3]]
+            &lt;&lt;/if&gt;&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
@@ -10189,48 +10621,42 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="47" name="39" tags="" position="700,350" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
-&lt;&lt;set $s1 to false&gt;&gt;
-&lt;&lt;set $s2 to false&gt;&gt;
-&lt;&lt;set $s3 to false&gt;&gt;
-&lt;&lt;set $s4 to false&gt;&gt;
-&lt;&lt;set $e1 to false&gt;&gt;
-&lt;&lt;set $e2 to false&gt;&gt;
-&lt;&lt;set $e3 to false&gt;&gt;
-&lt;&lt;set $e4 to false&gt;&gt;
+    &lt;&lt;set $s1 to false&gt;&gt;&lt;&lt;set $s2 to false&gt;&gt;&lt;&lt;set $s3 to false&gt;&gt;&lt;&lt;set $s4 to false&gt;&gt;
+    &lt;&lt;set $e1 to false&gt;&gt;&lt;&lt;set $e2 to false&gt;&gt;&lt;&lt;set $e3 to false&gt;&gt;&lt;&lt;set $e4 to false&gt;&gt;
 &lt;&lt;/silently&gt;&gt;
+&lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Materialista\nFicar em casa em caso de incêndio é extremamente perigoso. Só se o fogo já estiver tão próximo que a fuga é impossível.&#39;)&gt;&gt;
 
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;&lt;run mostrarToast(&#39;perigoso&#39;, &#39;Materialista\nFicar em casa em caso de incêndio é extremamente perigoso. Só se o fogo já estiver tão próximo que a fuga é impossível.&#39;)&gt;&gt;
-    &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo1 fumo-39&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo2 fumo-39&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo3 fumo-39&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo4 fumo-39&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo5 fumo-39&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-fumo casafumo6 fumo-39&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay laurinda-dentro&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;fumo-casa nv4 fumo-39&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo6 fumo-entra-6 fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay pose-reparar overlay-top fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;fumo-casa nv5&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
 
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
         &lt;p class=&quot;animar&quot;&gt;Após preparar tudo, vejo a paisagem pela janela. O fogo está tão perto... se quisesse evacuar teria de ser agora, se esperar mais ainda me arriscava a ser apanhada pelo fogo pelo caminho.&lt;/p&gt;
-
         &lt;p class=&quot;animar&quot;&gt;Mas olhando para tudo o que tenho em casa, todas as minhas memórias e pertences, toda a minha vida entre estas 4 paredes. Não conseguiria abandonar.&lt;/p&gt;
-
         &lt;p class=&quot;animar&quot;&gt;Posso ter a casa mais segura, mas a luta pela segurança ainda não acabou.&lt;/p&gt;
-
         &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que devo fazer para me manter em segurança?&lt;/b&gt;&lt;/p&gt;
 
         &lt;div class=&quot;choices-112&quot;&gt;
             &lt;label&gt;&lt;&lt;checkbox &quot;$s1&quot; false true&gt;&gt; Ficar longe das paredes.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s2&quot; false true&gt;&gt; Procurar abrigo nas divisões do extremo oposto da habitação em relação ao lado por onde o incêndio se está a aproximar.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s3&quot; false true&gt;&gt; Esperar que o fogo passe e, posteriormente, verificar a existência de focos de incêndio na envolvente da habitação e no seu telhado.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s4&quot; false true&gt;&gt; Usar máscara ou proteger as vias respiratórias do fumo.&lt;/label&gt;
-
             &lt;label&gt;&lt;&lt;checkbox &quot;$e1&quot; false true&gt;&gt; Refugiar-me numa divisão com janelas viradas para o lado do incêndio.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s2&quot; false true&gt;&gt; Procurar abrigo nas divisões do extremo oposto da habitação em relação ao lado por onde o incêndio se está a aproximar.&lt;/label&gt;
             &lt;label&gt;&lt;&lt;checkbox &quot;$e2&quot; false true&gt;&gt; Sair para o telhado para vigiar a aproximação das chamas.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s3&quot; false true&gt;&gt; Esperar que o fogo passe e, posteriormente, verificar a existência de focos de incêndio na envolvente da habitação e no seu telhado.&lt;/label&gt;
             &lt;label&gt;&lt;&lt;checkbox &quot;$e3&quot; false true&gt;&gt; Ir para a cave, no ponto mais baixo da casa.&lt;/label&gt;
+            &lt;label&gt;&lt;&lt;checkbox &quot;$s4&quot; false true&gt;&gt; Usar máscara ou proteger as vias respiratórias do fumo.&lt;/label&gt;
             &lt;label&gt;&lt;&lt;checkbox &quot;$e4&quot; false true&gt;&gt; Permanecer junto às janelas a observar o fogo.&lt;/label&gt;
         &lt;/div&gt;
 
