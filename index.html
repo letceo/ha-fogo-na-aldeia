@@ -138,6 +138,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
    [22] GUIA DE JOGO ........ ligação no painel + modal
    [23] ACESSIBILIDADE ...... body.reduce-motion (desliga animações)
    [24] RESULTADOS .......... .er-card + sirene
+   [25] QUIZ EM CADERNO ..... notebook-overlay + .nb-row + .nb-row-content
 
    CONVENÇÕES
    --------------------------------------------------------------------------
@@ -191,7 +192,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --home-btn-fs:  calc(1.55em * var(--ui-scale, 1));
   --home-btn-pad: 10px 20px;
 
-  --fim34-dur: 20s;   /* duração da sequência fumo → preto → casa a arder */
+  --fim34-dur: 24s;   /* duração da sequência fumo → preto → casa a arder */
 
   /* Passagem 19: quanto a imagem do evacuar desce para trás da text-box */
   --ev-desce: 8vh;
@@ -263,7 +264,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --btn-shadow-rest:  0 4px 0 rgba(0, 0, 0, .35);
   --btn-shadow-lift:  0 6px 0 rgba(0, 0, 0, .35);
   --btn-shadow-press: 0 2px 0 rgba(0, 0, 0, .35), inset 0 2px 4px rgba(0, 0, 0, .45);
-  --btn-texture: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/wood-dark.png");
+  --btn-texture: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/wood-dark.png");
 
   /* Painel de definições */
   --settings-accent: #EAA788;
@@ -274,56 +275,31 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --settings-divider: rgba(255, 245, 230, 0.08);
   --settings-gold: #FFD54A;
   --settings-panel-width: min(90vw, 360px);
+
+  /* Passagem 16: ombros → janela → pânico */
+  --seq16-t1:   3.2s;
+  --seq16-t2:   6.0s;
+  --seq16-fade: 0.15s;
+
+  /* Passagem 29: duração da fase de sirene em preto (lida pelo story.js [7C]) */
+  --desf29-dur: 8s;
 }
 
+/* Base geral */
 html,
 body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
   max-width: 100%;
-}
-
-#story,
-#passages {
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
-}
-
-#ui-overlay {
-  overflow: hidden !important;
-}
-
-/* Base geral (repete algumas regras por compatibilidade com o reset do
-   SugarCube — não remover sem testar). */
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
   color: black;
   gap: 0;
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
 }
 
-#ui-bar {
-  display: none;
-}
-
-#story,
-#passages {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  max-width: 100%;
-}
+#ui-bar { display: none; }
 
 #ui-overlay {
   background-color: #000;
@@ -333,7 +309,39 @@ body {
   position: fixed;
   top: 0%;
   visibility: hidden;
+  overflow: hidden !important;
 }
+
+#story,
+#passages {
+  margin: 0;
+  padding: 0;
+  max-width: 100% !important;
+  min-height: 100% !important;
+  background-image: none !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+#passages { width: 100%; height: 100%; }
+
+#story {
+  position: relative;
+  width: 100vw;
+  height: var(--app-height);
+  background-position: center center;
+  background-repeat: no-repeat;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botões nativos sem background/borda (o estilo é aplicado via classes) */
+button {
+  background: none !important;
+  border: none !important;
+}
+
+p { color: white !important; }
 
 .scene {
   position: relative;
@@ -345,37 +353,6 @@ body {
   justify-content: center;
   overflow: hidden !important;
   max-width: 100%;
-}
-
-#passages {
-  background-image: none !important;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  max-width: 100% !important;
-  min-height: 100% !important;
-}
-
-#story {
-  background-image: none !important;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  max-width: 100% !important;
-  min-height: 100% !important;
-  position: relative;
-  width: 100vw;
-  height: var(--app-height);
-  background-position: center center;
-  background-repeat: no-repeat;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-p {
-  color: white !important;
 }
 
 
@@ -415,7 +392,7 @@ p {
   padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   color: white !important;
   background-color: #6b4226 !important;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png") !important;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png") !important;
   background-size: cover !important;
   background-position: center !important;
   border: 8px solid #b77e56 !important;
@@ -518,23 +495,23 @@ p {
   cursor: default !important;
 }
 
-/* Barra de progresso da cena em sequência (só em CENA_SALTAVEL).
-   Encostada ao topo da .text-box, com a largura total da mesma.
-   O JS calcula left/width/bottom a partir do getBoundingClientRect()
-   da .text-box, por isso acompanha mudanças de tamanho da caixa. */
+/* Barra de progresso da cena em sequência (só em CENA_SALTAVEL, esperas longas).
+   Cápsula com o comprimento total da .text-box, logo acima dela.
+   O JS calcula left/width/bottom; --cena-total e --cena-atraso vêm do JS. */
 .cena-progresso {
   position: fixed;
   z-index: 50;
 
-  /* valores por defeito; o JS sobrepõe com inline */
   left: 0;
   width: 100vw;
   bottom: 30vh;
-  height: 4px;
+  height: 6px;
 
-  background-color: rgba(255, 252, 224, 0.12);
-  border-top: 1px solid rgba(255, 252, 224, 0.22);
-  /* nada de border-radius: queremos o topo reto, encostado à moldura */
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(255, 252, 224, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.35);
 
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -550,17 +527,31 @@ p {
   display: block;
   width: 0%;
   height: 100%;
-  background-color: rgba(255, 252, 224, 0.8);
+  border-radius: inherit;
+  background-color: rgba(255, 252, 224, 0.9);
+  animation: cena-barra var(--cena-total, 5s) linear var(--cena-atraso, 0s) forwards;
 }
 
-/* Sem animações: a barra na mesma avança (é informação, não decoração),
-   só não tem o fade-in */
+@keyframes cena-barra {
+  to { width: 100%; }
+}
+
 body.reduce-motion .cena-progresso {
   transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .cena-progresso { transition: none; }
+}
+
+.cena-progresso.pausada > i {
+  animation-play-state: paused;
+}
+
+/* O botão ↻ nativo da text-box fica escondido, mas é um proxy usado pelo painel
+   de definições (story.js [11.10]: #settings-restart / #settings-back). */
+.ui-btn {
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -577,13 +568,12 @@ body.reduce-motion .cena-progresso {
   left: 50%;
   width: auto !important;
   min-width: 50% !important;
-  max-width: calc(100vw - 2rem) !important;
   transform: translate(-50%, -50%);
   padding: 1% 2%;
   padding-bottom: calc(1% + env(safe-area-inset-bottom, 0px));
   background-color: #6b4226;
   background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
-    url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png);
+    url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png);
   border: 15px solid #b77e56;
   border-radius: 6px;
   line-height: 1.4 !important;
@@ -633,23 +623,15 @@ body.reduce-motion .cena-progresso {
 }
 
 .alarm .alarm-subtext {
+  font-size: 1em !important;
   font-weight: normal !important;
   margin-top: 0.4em;
-}
-
-.alarm .choices {
-  opacity: 1 !important;
-  flex-wrap: wrap !important;
 }
 
 .alarm .choices a,
 .alarm .choices button {
   opacity: 1 !important;
   color: white !important;
-}
-
-.alarm .alarm-subtext {
-  font-size: 1em !important;
 }
 
 @media screen and (min-width: 601px) {
@@ -751,8 +733,6 @@ body.reduce-motion .cena-progresso {
 .alarm .alarm-close svg,
 #settings-close svg {
   display: block;
-  width: 16px;
-  height: 16px;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
 }
 
@@ -858,6 +838,16 @@ body.reduce-motion .cena-progresso {
   }
 }
 
+/* Enquanto as imagens da cena não estão prontas (story.js [14C]) as camadas
+   ficam escondidas; a text-box e a UI continuam visíveis. */
+.scene.a-carregar {
+  background-color: #1a1108 !important;
+}
+
+.scene.a-carregar :is(.image-bg, .image-overlay, .image-fumo, .fumo-casa, .prontoevacuar-stage) {
+  visibility: hidden !important;
+}
+
 .alarm-scene .image-bg {
   height: 100vh !important;
 }
@@ -868,10 +858,6 @@ body.reduce-motion .cena-progresso {
   left: 0;
   height: 100vh !important;
   min-height: 100vh !important;
-}
-
-.ui-btn {
-  display: none !important;
 }
 
 
@@ -1045,7 +1031,7 @@ h1 {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -1092,7 +1078,7 @@ h1 {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -1150,12 +1136,6 @@ h1 {
     width: 26px;
     height: 26px;
   }
-}
-
-/* Botões nativos sem background/borda (o estilo é aplicado via classes). */
-button {
-  background: none !important;
-  border: none !important;
 }
 
 
@@ -1227,7 +1207,7 @@ button {
 }
 
 .sino-overlay {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/homem-sino.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/homem-sino.png");
 }
 
 .sino-bg-abanar {
@@ -1306,7 +1286,7 @@ button {
 
 /* ---- Página inicial / segurança ---- */
 .village {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/bg-village.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/bg-village.webp);
 }
 
 .village::after {
@@ -1329,16 +1309,16 @@ button {
 }
 
 .bg-seguranca {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/seguranca.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/seguranca.webp);
 }
 
 .seguranca {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/seguranca2.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/seguranca2.png);
 }
 
 /* ---- Fogo (overlay animado) ---- */
 .fire-overlay {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/fire-transparent.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/fire-transparent.webp");
 }
 
 .vibrate-2 {
@@ -1379,13 +1359,15 @@ button {
 
 .fire-overlay.fogo-de {
   z-index: 3;
-  animation: vibrate-2 0.35s linear infinite both, fogo-fade-out 4s ease-in-out forwards;
+  animation: 
+    vibrate-2 0.35s linear infinite both, 
+    fogo-fade-out 6s ease-in-out forwards;
 }
 
 .cinzas-overlay {
   z-index: 3;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/cinzas.webp");
-  animation: cinzas-fade-in 4s ease-in-out forwards;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/cinzas.webp");
+  animation: cinzas-fade-in 6s ease-in-out forwards;
 }
 
 @keyframes cinzas-fade-in {
@@ -1410,7 +1392,7 @@ button {
 
 .fogo-floresta {
   z-index: 2;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/fire-forest.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/fire-forest.png);
   background-size: cover;
   animation:
     vibrate-2 0.35s linear infinite both,
@@ -1508,54 +1490,62 @@ button {
 
 /* ---- Casas e cenários base ---- */
 .casa {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa.webp);
 }
 
 .casa-fire {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa-fire.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-fire.jpg);
+}
+
+.casa-naoardida-final {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-naoardida-final.png);
+}
+
+.casa-naoardida-finallady {
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-naoardida-finallady.png);
 }
 
 .sino {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/sino.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/sino.webp);
 }
 
 .transito {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/estrada-impedida.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/estrada-impedida.webp);
 }
 
 .carro-andar {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/car.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/car.png);
 }
 
 .carro-inversao {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/car.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/car.png);
 }
 
 .ponto-de-encontro {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/ponto-de-encontro.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/ponto-de-encontro.webp);
 }
 
 .pontoencontro {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/pontoencontro.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/pontoencontro.webp);
 }
 
 .multidao {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/multidao.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/multidao.png);
 }
 
 .multidao-laurindabem {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/multidao-laurindabem.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/multidao-laurindabem.png);
 }
 
 .multidao-semlaurinda {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/multidao-semlaurinda.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/multidao-semlaurinda.png);
 }
 
 /* Passagem 19: senhora + Bobi por cima da multidão.
    A altura é só a área acima da text-box (--ev-textbox-px, medida pelo JS),
    com a imagem encostada ao fundo dessa área: o Bobi nunca fica tapado. */
 .image-overlay.evacuar {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/evacuar.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/evacuar.png");
   background-size: contain;
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -1565,47 +1555,47 @@ button {
 }
 
 .rio {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/rio.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/rio.webp);
 }
 
 .floresta {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/floresta.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/floresta.webp);
 }
 
 .kit {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/kit2.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/kit2.webp);
 }
 
 .kit1 {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/kit1.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/kit1.png);
 }
 
 .fumo-sino-bg {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/fumo-sino-bg.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/fumo-sino-bg.webp);
 }
 
 .fogo-na-casa {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/fogo-na-casa.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/fogo-na-casa.webp);
 }
 
 .fogo-na-casa-overlay {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/fogo-na-casa-overlay.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/fogo-na-casa-overlay.png);
 }
 
 .mobilidade {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/mobilidade.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/mobilidade.jpg);
 }
 
 .salva-pelo-bombeiro {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/salva-pelo-bombeiro.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/salva-pelo-bombeiro.jpg);
 }
 
 .ponto-da-mulher {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/ponto-da-mulher.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/ponto-da-mulher.png);
 }
 
 .ponto-de-encontro-fogo {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/ponto-de-encontro-fogo.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/ponto-de-encontro-fogo.webp);
   animation:
     sceneFade .5s ease,
     vibrate-2 0.35s linear infinite both,
@@ -1613,19 +1603,19 @@ button {
 }
 
 .ponto-de-encontrosemfundo {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/ponto-de-encontrosemfundo.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/ponto-de-encontrosemfundo.webp);
 }
 
 .pontodeencontro-fuminho {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/pontodeencontro-fuminho.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/pontodeencontro-fuminho.webp);
 }
 
 .pontodeencontro-fumonomonte {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/pontodeencontro-fumonomonte.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/pontodeencontro-fumonomonte.png);
 }
 
 .pontodeencontro-semceu {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/pontodeencontro-semceu.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/pontodeencontro-semceu.webp);
 }
 
 .overlay-top {
@@ -1636,13 +1626,13 @@ button {
 /* ---- Casa a arder: transição "de pé" → "ardida" ---- */
 .casafire-de {
   z-index: 2;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa.webp");
   animation: fadeOut-de 3s ease-in-out forwards;
 }
 
 .casafire-para {
   z-index: 1;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa-fire.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-fire.jpg");
 }
 
 @keyframes fadeOut-de {
@@ -1658,7 +1648,7 @@ button {
 /* ---- Casa ardida: cover + pan vertical (personagem → telhado) ---- */
 .image-bg.casa-ardida,
 .image-bg.casa-ardida.fullheight {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa-ardida.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-ardida.jpg");
   background-size: cover;
   background-position: center 100%;
   background-repeat: no-repeat;
@@ -1690,59 +1680,93 @@ button {
   }
 }
 
+/* final-2: casa não ardida — pan de baixo (senhora) → topo (casa) → senhora.
+   Fundo e overlay partilham tamanho e animação, para ficarem alinhados. */
+.image-bg.casa-naoardida-final.pan-final,
+.image-overlay.casa-naoardida-finallady.pan-final {
+  background-size: cover;
+  background-position: center 100%;
+  background-repeat: no-repeat;
+
+  top: 0 !important;
+  bottom: auto !important;
+  height: calc(var(--app-height) - var(--ca-textbox-px, 28vh)) !important;
+  min-height: 0 !important;
+
+  animation:
+    sceneFade .5s ease,
+    casa-final-pan 14s ease-in-out .8s forwards;
+}
+
+@keyframes casa-final-pan {
+  0%   { background-position: center 100%; }  /* começa na senhora */
+  60%  { background-position: center 35%;  }  /* sobe devagar até à casa/telhado */
+  72%  { background-position: center 35%;  }  /* pausa breve no topo */
+  100% { background-position: center 100%; }  /* desce e fica na senhora a olhar para a casa */
+}
+
+/* Retrato: a imagem já cabe quase toda, sem pan */
+@media screen and (orientation: portrait) {
+  .image-bg.casa-naoardida-final.pan-final,
+  .image-overlay.casa-naoardida-finallady.pan-final {
+    background-position: 85% bottom;
+    animation: sceneFade .5s ease;
+  }
+}
+
 .salvar-laurinda {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/salvar-laurinda.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/salvar-laurinda.jpg");
 }
 
 /* ---- Pronto para evacuar (variantes ainda sem passagem) ---- */
 .prontoparaevacuar-sembobi {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar-sembobi.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar-sembobi.png");
 }
 
 .prontoparaevacuar-sembobi2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar-sembobi2.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar-sembobi2.webp");
 }
 
 .prontoparaevacuar-sembobi3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar-sembobi3.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar-sembobi3.webp");
 }
 
 /* ---- Overlays do Bobi e fumo progressivo (casafumo1…6) ---- */
 .casa-semjanela-jardim {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa-semjanela-jardim.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-semjanela-jardim.webp");
 }
 
 .casa-semjanela {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casa-semjanela.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casa-semjanela.webp");
 }
 
 .casafumo1 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casafumo1.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casafumo1.webp");
 }
 
 .casafumo2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casafumo2.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casafumo2.webp");
 }
 
 .casafumo3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casafumo3.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casafumo3.webp");
 }
 
 .casafumo4 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casafumo4.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casafumo4.webp");
 }
 
 .casafumo5 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casafumo5.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casafumo5.webp");
 }
 
 .casafumo6 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/casafumo6.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/casafumo6.webp");
 }
 
 /* ---- Reparar / chamar 112 / avisar vizinhos (animações de overlay) ---- */
 .reparar-overlay {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/repararbefore.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/repararbefore.png);
 }
 
 .turn-around {
@@ -1753,17 +1777,17 @@ button {
 @keyframes turnAround {
   0%, 40% {
     transform: rotate(0deg);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/repararbefore.png");
   }
 
   70% {
     transform: rotate(10deg);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/reparar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/reparar.png");
   }
 
   100% {
     transform: rotate(8deg);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/reparar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/reparar.png");
   }
 }
 
@@ -1774,29 +1798,29 @@ button {
 
 @keyframes call-112 {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/repararbefore.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112before.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112.png");
   }
 }
 
 /* Poses estáticas do 112 (sem animação) */
 .pose-112before {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112before.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112before.png");
 }
 
 .pose-112 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112.png");
 }
 
 .pose-panico2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/panico2.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/panico2.png");
 }
 
 /* Passagem 34: pessoa em pânico (pose fixa) a tremer/respirar com dificuldade */
@@ -1806,17 +1830,8 @@ button {
     tremer-respirar-dificil 1.8s ease-in-out infinite;
 }
 
-/* ---- Passagem 16: ombros → janela → pânico ----
-   A pose nova entra por cima com um fade curtíssimo; a anterior é
-   removida logo a seguir (sem fade), para não ficar "fantasma". */
-:root {
-  --seq16-t1:   3.2s;    /* ombros → janela */
-  --seq16-t2:   6.0s;    /* janela → pânico */
-  --seq16-fade: 0.15s;   /* duração da troca */
-}
-
-.pose-ignorar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/ignorar.png"); }
-.pose-reparar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/reparar.png"); }
+.pose-ignorar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/ignorar.png"); }
+.pose-reparar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/reparar.png"); }
 
 @keyframes seq-entra { from { opacity: 0; } to { opacity: 1; } }
 @keyframes seq-corta { from { opacity: 1; } to { opacity: 0; } }
@@ -1851,15 +1866,15 @@ button {
 
 @keyframes call-only {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/repararbefore.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112before.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/ligar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/ligar.png");
   }
 }
 
@@ -1874,15 +1889,15 @@ button {
 
 @keyframes call-viz {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/repararbefore.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112before.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/avisar-vizinhos.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/avisar-vizinhos.png");
   }
 }
 
@@ -1894,15 +1909,15 @@ button {
 
 @keyframes em-panico {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/reparar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/reparar.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/reparar3.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/reparar3.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/panico2.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/panico2.png");
   }
 }
 
@@ -1941,15 +1956,15 @@ button {
 
 @keyframes acalmarpanico {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/panico2.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/panico2.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/panico3.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/panico3.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/112before.png");
   }
 }
 
@@ -2262,18 +2277,12 @@ body.reduce-motion .fumo-casa > i {
 
 .laurinda-dentro {
   /* TODO: trocar pela imagem da Laurinda dentro de casa que já tens */
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/laurinda-dentro.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/laurinda-dentro.png");
 }
 
 /* Definições abertas: pára estas animações (tal como pára o AUTO_FIM) */
-body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
+body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .fade-black-overlay) {
   animation-play-state: paused !important;
-}
-
-@keyframes fumo-casa-mover {
-  0%   { background-position: 0% 0%,   100% 100%, 50% 50%; }
-  50%  { background-position: 14% 20%, 78% 70%,   40% 62%; }
-  100% { background-position: 6% 12%,  90% 60%,   46% 54%; }
 }
 
 /* ---- Fumo imagem (casafumo1…6): fade + drift + vibrate ---- */
@@ -2519,7 +2528,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/rio.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/rio.webp);
   background-size: cover;
   background-position: center;
   z-index: 1;
@@ -2529,7 +2538,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/floresta.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/floresta.webp);
   background-size: cover;
   background-position: center;
   z-index: 2;
@@ -2611,13 +2620,6 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 }
 
-/* ---- Passagem 29: sirenes a desfalecer (antes do hospital) ----
-   --desf29-dur = duração da fase de sirene em preto. O story.js lê este valor
-   ([7C]), por isso é o único sítio onde se altera. */
-:root {
-  --desf29-dur: 6s;
-}
-
 /* o piscar de olhos e o foco só começam depois da fase de sirene */
 .piscar-overlay.piscar-tarde {
   animation-delay: calc(var(--desf29-dur) + 3s);
@@ -2645,7 +2647,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
    O JS (sequenciaChegada) acrescenta .fase-b à .scene quando a fase A
    acaba: a A desvanece e as camadas da B entram uma a uma (transition-delay). */
 .vizinhos {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/vizinhos.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/vizinhos.jpg);
 }
 
 .chegada-a {
@@ -2763,16 +2765,16 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
 }
 
 .prontoevacuar-stage .s1 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar1.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar1.png");
   opacity: 1;
 }
 
 .prontoevacuar-stage .s2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuarbobi.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuarbobi.png");
 }
 
 .prontoevacuar-stage .s3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar3.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar3.png");
 }
 /* Continuação: s1 e s2 ficam estáticos e visíveis; só o s3 entra */
 .prontoevacuar-stage.continua .s1,
@@ -2817,18 +2819,18 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
 
 .pe3-fogo {
   z-index: 1;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar3-fogo.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar3-fogo.png");
   animation: vibrate-2 0.35s linear infinite both;
 }
 
 .pe3-semfundo {
   z-index: 2;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar-3semfundo.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar-3semfundo.png");
 }
 
 .pe3-fuminho {
   z-index: 3;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuar3-fuminhp.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuar3-fuminhp.png");
   animation:
     pe3-fuminho-drift     5s   ease-in-out infinite,
     pe3-fuminho-opacidade 4.5s ease-in-out infinite,
@@ -2908,7 +2910,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
     display: block;
     opacity: 1 !important;
     animation: none !important;
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/prontoparaevacuarbobi3.webp");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/prontoparaevacuarbobi3.webp");
     background-size: cover;
     background-position: center 30%;
     transform: scale(var(--pe-mobile-zoom));
@@ -2920,7 +2922,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
 /* ==========================================================================
    [12] TOASTS
    --------------------------------------------------------------------------
-   .toast-notif é criado por mostrarToast() (story.js [7]). Tipos disponíveis:
+   .toast-notif é criado por mostrarToast() (story.js [7A]). Tipos disponíveis:
    bom, perigoso/atencao, fogo, arvore, achievement. A cor da borda e do ícone
    variam por tipo. Só um toast de cada vez.
    ========================================================================== */
@@ -2939,7 +2941,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   transition: right 0.4s ease;
   font-family: "Fira Sans", sans-serif;
   border: 3px solid #b77e56;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/wood.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/wood.png");
   background-size: cover;
   background-position: center;
 }
@@ -3022,10 +3024,45 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   flex-direction: column;
 }
 
+/* ---- Temporizador de decisão (criado por criarTimerUI, story.js [6]) ---- */
+#decision-timer {
+  position: fixed;
+  top: 2%;
+  right: 2%;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  font-size: 1.3em;
+  font-weight: bold;
+  font-family: "Fira Sans", sans-serif;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 3px solid darkorange;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.5s ease;
+}
+
+#decision-timer.urgente {
+  border-color: #cc2222;
+  color: #ff4444;
+}
+
+/* Tablets (ecrã tátil largo): contador maior */
+@media screen and (min-width: 769px) and (pointer: coarse) {
+  #decision-timer {
+    width: 100px;
+    height: 100px;
+    font-size: 2.6em;
+  }
+}
+
 .alarm h2 {
   font-size: clamp(1.5em, 4vw, 2.2em) !important;
 }
-
 
 /* ==========================================================================
    [13] SCROLLBAR FALSA (touch)
@@ -3162,11 +3199,11 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 
   #decision-timer {
-    top: calc(max(1%, env(safe-area-inset-top, 0px)) + var(--icon-btn-size) + 10px) !important;
-    right: max(1%, env(safe-area-inset-right, 0px)) !important;
-    width: 46px !important;
-    height: 46px !important;
-    font-size: 1.05em !important;
+    top: calc(max(1%, env(safe-area-inset-top, 0px)) + var(--icon-btn-size) + 10px);
+    right: max(1%, env(safe-area-inset-right, 0px));
+    width: 46px;
+    height: 46px;
+    font-size: 1.05em;
   }
 
   .choices {
@@ -3242,32 +3279,6 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
 
   .text-scroll {
     padding: 0 4% 2% 4% !important;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .text-box {
-    padding-top: clamp(0.4rem, 3vw, 0.65rem) !important;
-    font-size: 1.1em !important;
-    border-width: 3.5px !important;
-    max-height: 35vh !important;
-  }
-
-  .text-scroll {
-    padding: 0 4% 2% 4% !important;
-  }
-}
-
-@media screen and (max-width: 340px) {
-  .text-box {
-    padding-top: clamp(0.35rem, 3.5vw, 0.6rem) !important;
-    font-size: 1em !important;
-    border-width: 3.5px !important;
-    max-height: 35vh !important;
-  }
-
-  .text-scroll {
-    padding: 0 5% 4% 5% !important;
   }
 }
 
@@ -3349,44 +3360,6 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 }
 
-/* Ajustes tablet/desktop: compactar a text-box para evitar scroll interno */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-  .text-box {
-    max-height: 34vh !important;
-    padding-top: 0.85rem !important;
-    padding-bottom: 0.6% !important;
-    line-height: 1.5 !important;
-  }
-
-  .text-scroll {
-    padding: 0 1.8% !important;
-  }
-
-  .choices {
-    margin-top: 0.6rem !important;
-  }
-}
-
-@media screen and (min-width: 1025px) {
-  .text-box {
-    max-height: 34vh !important;
-    padding-top: 0.85rem !important;
-    padding-bottom: 0.6% !important;
-    line-height: 1.5 !important;
-    border-bottom: 0 !important;
-    border-radius: 6px 6px 0 0 !important;
-  }
-
-  .text-scroll {
-    padding: 0 1.4% !important;
-  }
-
-  .choices {
-    margin-top: 0.6rem !important;
-  }
-}
-
-
 /* ==========================================================================
    [15] TELEMÓVEL (PASSAGEM 2.1)
    --------------------------------------------------------------------------
@@ -3457,7 +3430,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 600px) {
   .phone-text-box {
     min-height: 22vh !important;
     max-height: 36vh !important;
@@ -3686,13 +3659,6 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 }
 
-@media screen and (max-width: 400px) and (orientation: portrait) {
-  .phone-keys {
-    left: 25%;
-    width: 50%;
-  }
-}
-
 /* Tablet em retrato (601–1024px): usa o centro real da imagem do telefone */
 @media screen and (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
   #phone-backspace {
@@ -3789,7 +3755,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   text-align: center;
 
   background-color: rgba(0, 0, 0, 0.5);
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/bg-village.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/bg-village.webp");
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
@@ -3823,7 +3789,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   line-height: 1.6;
   padding: min(1.8rem, 4vh) 2rem;
 
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png");
   background-size: cover;
   background-position: center;
   border: 4px solid #b77e56;
@@ -3889,7 +3855,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 480px) {
   .rotate-overlay {
     --rotate-icon: min(46px, 14vh);
   }
@@ -3917,27 +3883,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39) {
   }
 }
 
-@media screen and (max-width: 380px) {
-  .rotate-overlay .rotate-message {
-    font-size: 0.8em;
-    padding: 1rem 0.8rem;
-  }
-
-  .rotate-overlay {
-    --rotate-icon: min(38px, 14vh);
-  }
-
-  .rotate-overlay .rotate-text {
-    font-size: 0.9em;
-  }
-
-  .rotate-overlay .rotate-sub {
-    font-size: 0.65em;
-    width: 95%;
-  }
-}
-
-@media screen and (min-width: 501px) and (max-width: 1024px) {
+@media screen and (min-width: 481px) and (max-width: 1024px) {
   .rotate-overlay .rotate-content {
     max-width: 480px;
   }
@@ -4014,7 +3960,7 @@ html[data-init="loading"] #init-loading {
   position: absolute;
   inset: 0;
   background-color: #1a1108;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/bg-village.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/bg-village.webp");
   background-size: cover;
   background-position: center;
   filter: blur(2px);
@@ -4086,7 +4032,7 @@ html[data-init="loading"] #init-loading {
   position: relative;
   overflow: hidden;
 
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/wood-dark.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/wood-dark.png");
   background-size: cover;
   background-position: center;
 
@@ -4239,11 +4185,10 @@ html[data-init="loading"] #init-loading {
 
 
 /* ==========================================================================
-   [19] CONFIRMAR RECOMEÇAR (ajustes finos)
+   [19] CAIXAS .alarm (ajustes comuns)
    --------------------------------------------------------------------------
-   Só para .alarm:has(.confirm-restart): box-sizing, margem de segurança,
-   gap dos botões, tamanho de letra em mobile. A base do .alarm está em [5];
-   o botão "Recomeçar" em si está em [20] (família ALERT).
+   Aplica-se a todos os .alarm: box-sizing, margem de segurança, gap dos 
+   botões, tamanho de letra em mobile
    ========================================================================== */
 .alarm,
 .alarm *,
@@ -4260,6 +4205,8 @@ html[data-init="loading"] #init-loading {
 
 /* Espaçamento entre botões via gap (não margin) */
 .alarm .choices {
+  opacity: 1 !important;
+  flex-wrap: wrap !important;
   gap: 1.5rem !important;
   justify-content: center !important;
 }
@@ -4294,7 +4241,7 @@ html[data-init="loading"] #init-loading {
    [20] SISTEMA DE BOTÕES
    --------------------------------------------------------------------------
    Três famílias de botões:
-     MAIN      → .choices > a/button, .settings-btn-guide
+     MAIN      → .choices > a/button
      ALERT     → .alarm .confirm-restart a, .settings-btn-restart
      SECONDARY → .cancel-restart, .btn-sobre, .settings-btn-back
    Tokens em :root (topo de [2]). A textura (madeira) é aplicada via ::before
@@ -4393,7 +4340,7 @@ html[data-init="loading"] #init-loading {
   .alarm .confirm-restart a,
   .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
+  .settings-btn-restart, .settings-btn-back
 ) {
   position: relative !important;
   isolation: isolate;
@@ -4420,20 +4367,20 @@ html[data-init="loading"] #init-loading {
 }
 
 /* ---- MAIN ---- */
-:is(.choices > a, .choices > button, .settings-btn-guide) {
+:is(.choices > a, .choices > button) {
   background-color: var(--btn-main-bg) !important;
   border-color:    var(--btn-main-border) !important;
   box-shadow: var(--btn-shadow-rest) !important;
 }
 
-:is(.choices > a, .choices > button, .settings-btn-guide):hover {
+:is(.choices > a, .choices > button):hover {
   background-color: var(--btn-main-bg-hover) !important;
   border-color:    var(--btn-main-border-hover) !important;
   box-shadow: var(--btn-shadow-lift) !important;
   transform: translateY(-1px) !important;
 }
 
-:is(.choices > a, .choices > button, .settings-btn-guide):active {
+:is(.choices > a, .choices > button):active {
   background-color: var(--btn-main-bg-active) !important;
   border-color:    var(--btn-main-border-hover) !important;
   box-shadow: var(--btn-shadow-press) !important;
@@ -4518,7 +4465,7 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
   .alarm .cancel-restart .macro-back,
-  .settings-btn-back, .settings-btn-guide
+  .settings-btn-back
 )::before {
   content: "" !important;
   display: block !important;
@@ -4540,7 +4487,7 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
+  .settings-btn-restart, .settings-btn-back
 ):focus-visible {
   outline: 3px solid var(--btn-focus) !important;
   outline-offset: var(--btn-focus-offset, 2px) !important;
@@ -4566,13 +4513,13 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
+  .settings-btn-restart, .settings-btn-back
 ):disabled,
 :is(
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
+  .settings-btn-restart, .settings-btn-back
 )[aria-disabled="true"] {
   background-color: var(--btn-disabled-bg) !important;
   background-image: none !important;
@@ -4596,7 +4543,7 @@ html[data-init="loading"] #init-loading {
   .choices > a, .choices > button,
   .alarm .confirm-restart a, .alarm .cancel-restart .macro-back,
   .sombrinha .btn-sobre a, .alarm .btn-sobre a,
-  .settings-btn-restart, .settings-btn-back, .settings-btn-guide
+  .settings-btn-restart, .settings-btn-back
 )[aria-disabled="true"]::before {
   display: none !important;
 }
@@ -4693,7 +4640,7 @@ body:has(#settings-overlay.open) #sound-btn {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -4779,8 +4726,8 @@ body:has(#settings-overlay.open) #sound-btn {
 /* Desloca o timer para não ficar por baixo do #settings-nook em desktop */
 @media screen and (min-width: 769px) {
   #decision-timer {
-    top: 80px !important;
-    right: 1% !important;
+    top: 80px;
+    right: 1%;
   }
 }
 
@@ -4821,7 +4768,7 @@ body:has(#settings-overlay.open) #sound-btn {
   overflow-y: auto;
 
   background-color: #4A2711;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/wood.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/wood.png");
   background-size: 180px 180px;
   background-repeat: repeat;
   background-position: left top;
@@ -5603,6 +5550,42 @@ body.reduce-motion .sirene-fx.sirene-34 {
   }
 }
 
+/* Passagem 29: luzes que desfalecem — fortes no início, cada vez mais suaves e desfocadas */
+.sirene-fx.desfalecer-luzes.luzes-longas {
+  animation: luzes-desfalecer var(--desf29-dur) ease-in-out both;
+}
+
+/* as luzes continuam a alternar durante a sequência toda (o JS remove o elemento no fim) */
+.sirene-fx.desfalecer-luzes.luzes-longas::before {
+  animation: sirene-alternar 1.6s infinite;
+}
+
+.sirene-fx.desfalecer-luzes.luzes-longas::after {
+  animation: sirene-alternar 1.6s .8s infinite;
+}
+
+@keyframes luzes-desfalecer {
+  0%   { opacity: 0;   filter: blur(0); }       /* surgem */
+  6%   { opacity: 1;   filter: blur(0); }       /* intensidade máxima */
+  35%  { opacity: .75; filter: blur(3px); }
+  65%  { opacity: .35; filter: blur(9px); }
+  100% { opacity: 0;   filter: blur(20px); }    /* esvaem-se, desfocadas */
+}
+
+/* Intensidade de cada pulso. Tem de ter esta especificidade para vencer a regra
+   .scene:has(.piscar-overlay) .sirene-fx (.45), que se aplica à 29 e à 35. */
+.scene .sirene-fx.desfalecer-luzes.luzes-longas {
+  --sirene-max: .9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sirene-fx.desfalecer-luzes.luzes-longas,
+  .sirene-fx.desfalecer-luzes.luzes-longas::before,
+  .sirene-fx.desfalecer-luzes.luzes-longas::after {
+    animation: none;
+  }
+}
+
 /* Passagem 35: sirene mais distante (ela está a acordar, os bombeiros a chegar) */
 .scene:has(.piscar-overlay) .sirene-fx {
   --sirene-max: .45;
@@ -5828,7 +5811,7 @@ body.reduce-motion .sirene-fx.sirene-34 {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -6123,6 +6106,355 @@ body.reduce-motion .sirene-fx.sirene-34 {
   }
 }
 
+/* ==========================================================================
+   [25] QUIZ EM CADERNO
+   ========================================================================== */
+
+.notebook-overlay {
+  position: absolute;
+  inset: 0 0 var(--nb-textbox-px, 34vh) 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: clamp(10px, 2.5vh, 28px);
+  box-sizing: border-box;
+  background: rgba(20, 10, 5, .45);
+}
+
+.notebook {
+  --nb-paper:    #D9D5CB;
+  --nb-border:   #B8845F;
+  --nb-ink:      #2B2118;
+  --nb-rule:     rgba(70, 55, 40, .22);
+  --nb-margin:   rgba(190, 96, 90, .55);
+  --nb-scale:    var(--ui-scale, 1);
+
+  --nb-col:       3.8rem;   
+  --nb-text-gap:  1.2rem;   
+  --nb-box:       20px;     
+  --nb-ring-pitch: 88px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(850px, 92%);
+  
+  height: 100%; 
+  max-height: calc(100vh - var(--nb-textbox-px, 30vh) - 40px); 
+  
+  box-sizing: border-box;
+  background-color: var(--nb-paper);
+  border: 12px solid var(--nb-border);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .35),
+    inset 0 0 24px rgba(90, 60, 30, .15),
+    0 14px 34px rgba(0, 0, 0, .55);
+
+  color: var(--nb-ink);
+  font-family: "Fira Sans", sans-serif;
+  font-size: calc(1.05rem * var(--nb-scale));
+  line-height: 1.35;
+  text-shadow: none;
+}
+
+/* Argolas */
+.notebook::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: -20px;
+  top: 45px;
+  bottom: 80px; 
+  width: 36px;
+  pointer-events: none;
+  background: radial-gradient(ellipse 16px 7px at 50% 50%, #3A2A20 0 60%, #1E1510 70%, transparent 78%);
+  background-size: 36px var(--nb-ring-pitch);
+  background-repeat: repeat-y;
+  filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, .4));
+}
+
+/* Título (alinhado exatamente com o início dos quadrados) */
+.notebook-title {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  
+  /* O título começa no sítio exato onde o quadrado está */
+  padding: 1.5rem 1rem 0.5rem calc(var(--nb-col) - 0.4rem - var(--nb-box));
+  
+  font-family: "Winky Rough", sans-serif;
+  font-size: 1.8em;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #3D2A1D;
+  background-color: var(--nb-paper); 
+}
+
+.notebook-title::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--nb-col) - 0.4rem - var(--nb-box));
+  bottom: 0.1rem;
+  width: 80px;
+  height: 2px;
+  background-color: var(--nb-margin);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+/* Lista com Scroll */
+.notebook-list {
+  flex: 1 1 auto;
+  min-height: 0; 
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem 0 1px 0; 
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  
+  scrollbar-width: thin;
+  scrollbar-color: #FFF5E6 rgba(250, 237, 205, 0.15);
+}
+
+.notebook-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.notebook-list::-webkit-scrollbar-track {
+  background: rgba(250, 237, 205, 0.15);
+  border-radius: 999px;
+  margin: 6px 0;
+}
+
+.notebook-list::-webkit-scrollbar-thumb {
+  background-color: #FFF5E6;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  min-height: 26px;
+}
+
+.notebook-list::-webkit-scrollbar-thumb:hover {
+  background-color: #FFFFFF;
+}
+
+/* Setinha centrada no rodapé */
+.nb-scroll-hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  
+  /* Fundo #C9A288 e ícone branco */
+  background-color: #C9A288;
+  color: #FFFFFF;
+  
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto; 
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  top: 50%;
+  margin-top: -18px; 
+}
+
+.nb-scroll-hint.visible {
+  opacity: 1;
+  animation: nb-bounce 1.5s infinite;
+}
+
+.nb-scroll-hint:active {
+  transform: translateX(-50%) scale(0.9);
+  animation: none;
+}
+
+@keyframes nb-bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, -6px); }
+}
+
+.nb-scroll-hint .ph-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---- Linha clicável ---- */
+.notebook .nb-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--nb-col) minmax(0, 1fr);
+  column-gap: var(--nb-text-gap);
+  align-items: center;
+  min-height: max(44px, calc(2.2rem * var(--nb-scale)));
+  padding: 0.4rem 1rem 0.4rem 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--nb-rule);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--nb-ink);
+  transition: background-color .15s ease;
+}
+
+.notebook .nb-row > :not(input) {
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.notebook .nb-row input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.notebook .nb-row::before {
+  content: "";
+  grid-column: 1;
+  justify-self: end;
+  padding-right: 0.4rem;
+  align-self: center;
+  width: var(--nb-box);
+  height: var(--nb-box);
+  box-sizing: border-box;
+  border: 2px solid #6F675B;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .12);
+  transition: border-color .15s ease, background-color .15s ease;
+}
+
+.notebook .nb-row::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--nb-col) - 0.4rem - var(--nb-box) / 2);
+  top: 50%;
+  width: calc(var(--nb-box) + 8px);
+  height: calc(var(--nb-box) + 8px);
+  transform: translate(-50%, -50%) scale(.4) rotate(-8deg);
+  opacity: 0;
+  pointer-events: none;
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 5.2 L19.3 19.6 M19.6 4.4 L5.1 19.2' fill='none' stroke='%23151515' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  transition: transform .18s cubic-bezier(.3, 1.6, .5, 1), opacity .1s ease;
+  z-index: 2;
+}
+
+.notebook .nb-row:has(input:checked)::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) rotate(0deg);
+}
+
+.notebook .nb-row:has(input:checked)::before {
+  border-color: #2B2118;
+}
+
+@media (hover: hover) {
+  .notebook .nb-row:hover { background-color: rgba(184, 132, 95, .15); }
+  .notebook .nb-row:hover::before { border-color: #2B2118; }
+}
+.notebook .nb-row:active { background-color: rgba(184, 132, 95, .25); }
+.notebook .nb-row:has(input:focus-visible) {
+  outline: 3px solid var(--btn-focus, #FFD54A);
+  outline-offset: -3px;
+  border-radius: 4px;
+}
+
+/* Rodapé */
+.notebook-actions.choices {
+  flex: 0 0 auto;
+  justify-content: flex-end !important;
+  align-items: center !important; 
+  flex-direction: row !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0.5rem 1.2rem calc(0.5rem + env(safe-area-inset-bottom, 0px)) !important;
+  background: var(--nb-paper); 
+  position: relative;
+  z-index: 2;
+  min-height: 70px; 
+}
+
+.notebook-actions.choices > a,
+.notebook-actions.choices > button {
+  width: auto !important;
+  min-width: 160px !important;
+  min-height: 44px !important;
+  font-size: 1.1em !important;
+  box-shadow: var(--btn-shadow-lift) !important;
+}
+
+/* ---- Telemóvel ---- */
+@media screen and (max-width: 600px) {
+  .notebook-overlay {
+    padding: calc(max(1%, env(safe-area-inset-top, 0px)) + var(--icon-btn-size, 52px) + 8px) 12px 12px;
+    background: rgba(20, 10, 5, .65);
+    place-items: center;
+  }
+
+  .notebook {
+    --nb-col:       3rem;
+    --nb-text-gap:  1rem;
+    --nb-box:       22px;
+
+    width: 100%;
+    height: 100%; 
+    max-height: calc(100vh - var(--nb-textbox-px, 30vh) - 20px);
+    border-radius: 12px;
+    border-width: 10px;
+    font-size: calc(1rem * var(--nb-scale));
+    line-height: 1.3;
+  }
+
+  .notebook::before { left: -19px; top: 40px; bottom: 70px; }
+
+  .notebook-title {
+    font-size: 1.5em;
+    padding: 1.2rem 0.8rem 0.5rem calc(var(--nb-col) - 0.4rem - var(--nb-box));
+  }
+
+  .notebook-list {
+    padding-top: 1.2rem;
+  }
+
+  .notebook .nb-row {
+    padding-right: 0.7rem;
+  }
+
+  .notebook-actions.choices {
+    padding: 0.5rem 1rem !important;
+    min-height: 60px;
+  }
+
+  .notebook-actions.choices > a,
+  .notebook-actions.choices > button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    font-size: 1.05em !important;
+  }
+
+  .text-box {
+    max-height: 24vh !important;
+    min-height: 15vh !important;
+    font-size: 1.05em !important;
+  }
+}
 
 /* ==========================================================================
    FIX FINAL
@@ -6168,39 +6500,46 @@ body.reduce-motion .sirene-fx.sirene-34 {
    O SugarCube só aceita UM ficheiro de JavaScript, por isso está dividido em
    secções numeradas. Para navegar, pesquise pelo número ou título (ex.: "[4]").
 
-   [1]  CONFIGURAÇÃO ........ constantes que se ajustam sem mexer na lógica
-   [2]  ÍCONES .............. SVGs usados nas definições e no guia
-   [3]  VIEWPORT E ECRÃ ..... altura real, meta viewport, bloqueio de zoom/rotação
-   [4]  ACESSIBILIDADE ...... gestão de foco em diálogos, ciclo de Tab
-   [5]  ÁUDIO ............... pássaros, fogo, zumbido, mute em segundo plano
-   [6]  TEMPORIZADORES ...... decisão (passagens 7, 8, 13, 16) e fim automático
-   [7]  TOASTS .............. notificações no canto do ecrã
-   [7B] CHEGADA ............. sequência do ponto de encontro (sons + camadas)
-   [7C] PASSAGEM 29 ......... Som de sirenes e personagem a desfalecer
-   [8]  TEXTO ANIMADO ....... palavra a palavra + tamanho da letra
-   [8]  TEXTO ANIMADO ....... palavra a palavra + tamanho da letra
-   [9]  TELEMÓVEL (2.1) ..... teclado de marcação do 112
-   [10] RECOMEÇAR / GUIA .... caixas de alerta e botão X
-   [11] DEFINIÇÕES .......... botão + painel lateral + sair do jogo
-   [12] ECRÃ DE CARREGAMENTO  loading + pré-carregamento de imagens
-   [13] PASSAGEM 13 ......... altura da text-box
-   [14] SCROLLBAR (touch) ... barra de scroll falsa em telemóveis/tablets
-   [15] EVENTOS PRINCIPAIS .. :passagestart / :passageend / :storyready
+    [1]  CONFIGURAÇÃO ........ constantes que se ajustam sem mexer na lógica
+    [2]  ÍCONES .............. SVGs usados nas definições e no guia
+    [3]  VIEWPORT E ECRÃ ..... altura real, meta viewport, bloqueio de zoom/rotação
+    [4]  ACESSIBILIDADE ...... gestão de foco em diálogos
+    [5]  ÁUDIO ............... pássaros, fogo, zumbido, sons pontuais, mute em 2.º plano
+    [6]  TEMPORIZADORES ...... decisão (7, 8, 13-Laurinda, 16), fim automático, agendarNaPassagem
+    [7A] TOASTS .............. notificações no canto do ecrã
+    [7B] CHEGADA ............. sequência do ponto de encontro
+    [7C] PASSAGEM 29 ......... sirenes a desfalecer
+    [8]  TEXTO ANIMADO ....... palavra a palavra + tamanho da letra
+    [8B] CENAS EM SEQUÊNCIA .. esperaDeCena, aguardarCena, barra de progresso
+    [9]  TELEMÓVEL (2.1) ..... teclado de marcação do 112
+    [10] RECOMEÇAR / GUIA .... caixas de alerta e botão X
+    [11] DEFINIÇÕES .......... botão + painel lateral
+    [12] ECRÃ DE CARREGAMENTO  loading + pré-carregamento de imagens
+    [13] AJUSTES DE ALTURA ... passagens 13, 19 e finais (text-box)
+    [14] SCROLLBAR (touch) ... barra de scroll falsa
+    [14B] CONTINUIDADE DE CAMADAS
+    [14C] IMAGENS PRONTAS
+    [15] EVENTOS PRINCIPAIS .. :passagestart / :passageend / :storyready
 
    CONVENÇÕES
    --------------------------------------------------------------------------
    - Nomes globais (var/function) NÃO devem ser renomeados: as passagens
      (Twine) podem chamá-los, por ex. mostrarToast(), Engine.play(), etc.
-   - Código em ES5 (var, function) por compatibilidade com browsers antigos.
+   - Código em ES5 (var, function) por convenção de estilo. O CSS já exige 
+      :has() (Firefox 121+, Safari 15.4+), por isso o baseline real 
+      é de 2023 em diante.
    - Texto visível ao jogador está em português (pt-PT).
    - Variáveis de estado do jogo (State.variables) usadas aqui:
-       entrouPanico, jaEntrouPanico, panicOrigin, demorouLaurinda, foiResgatado
+       entrouPanico, jaEntrouPanico, panicOrigin, demorouLaurinda, foiResgatado,
+       fezCasa, casaPreparada
    ========================================================================== */
 
 
 /* ==========================================================================
    [1] CONFIGURAÇÃO
    ========================================================================== */
+var FEATURES = { idioma: false, narracao: false };
+var CAIXAS_POR_CIMA = ['Sobre', 'Guia de Jogo', '⟲'];
 
 /* ---- Texto animado: ritmo (ms) ---- */
 var WORD_MS     = 70;   // intervalo entre palavras
@@ -6239,8 +6578,9 @@ var CHAMADA_112_MS = 3600;
 /* ---- Fim automático ("Será o fim?") ----
    espera = ms depois de o texto terminar (duplica no modo "extended") */
 var AUTO_FIM = {
-  '28': { destino: '29', espera: 1500 },
-  '34': { destino: '35', espera: 1500, minTotal: 0 }
+  '28': { destino: '29', espera: 4500, resgatado: true },
+  '34': { destino: '35', espera: 4500, minTotal: 0, resgatado: true },
+  '13': { destino: '13-Laurinda', leitura: 200, minEspera: 2500, semFade: true, semVoltar: true }
 };
 
 /* ---- Som: pássaros por níveis ----
@@ -6254,8 +6594,8 @@ var BIRDS_START_FADE   = 5000;   // duração da descida
 
 var BIRDS_NIVEIS = {
   'alto':  ['1', '2.1'],
-  'medio': ['5'],
-  'baixo': ['final-2', '2', 'Resultado 112', '6']
+  'medio': ['3', '5'],
+  'baixo': ['2', 'Resultado 112', '6']
 };
 
 /* ---- Som: volume do fogo consoante a proximidade ----
@@ -6265,24 +6605,21 @@ var FOGO_PROXIMIDADE = {
   'muito_longe': ['15', '31', 'Resultado Casa', 'Resultado Kit', 'Resultado Segurança'],
   'longe':       ['4', '8', '9', '10', '11', '14', '19', '22', '26', '38'],
   'perto':       ['7', '12', '13', '13-Laurinda', '23', '37','36'],
-  'muito_perto': ['16', '24', '25', '32', '33', '39',],
+  'muito_perto': ['16', '24', '25', '32', '33', '39'],
   'aqui':        ['28', '34'],
+  // 'fadeout' é o comportamento por omissão; a lista fica só como documentação
   'fadeout':     ['Start', '1', '2', '2.1', 'Resultado 112', '3', '5', '6', '20', '21', '29', '35', 'Resultados']
 };
-/* Passagem que não esteja em nenhuma lista → 'fadeout'. */
 
-/* ---- Passagem 27: o fogo apaga-se ----
-   o som do fogo desce até 0 neste tempo (igual à animação .fogo-de, 4 s);
-   só depois voltam os pássaros, baixinho */
-var FOGO_APAGAR_MS      = 4000;
-var FOGO_27_INICIO_VOL  = 0.80;   // o fogo começa alto e desce até 0 em FOGO_APAGAR_MS
-var PASSAROS_DEPOIS_VOL = 0.06;   // pássaros baixinhos quando fica a cidade ardida
-
-/* ---- Casa ardida: o fogo recua e voltam os pássaros ---- */
-var CASA_ARDIDA_PASSAGEM  = 'final-3';  // título da passagem no Twine
-var CASA_ARDIDA_FOGO_VOL  = 0.25;    // fogo começa assim (baixo) e desce até 0
-var CASA_ARDIDA_FOGO_MS   = 6000;    // duração do fade-out do fogo
-var CASA_ARDIDA_PASSAROS_VOL = 0.08; // volume final dos pássaros
+/* ---- Passagens em que o fogo recua e voltam os pássaros (27, final-2, final-3) ----
+   fogoVol: volume inicial do fogo (desce até 0 em fogoMs)
+   passarosAntesMs: quanto antes do fim do fogo entram os pássaros
+   passarosVol / passarosFadeMs: volume final e duração da entrada dos pássaros */
+var FOGO_RECUA = {
+  '27':      { fogoVol: 0.80, fogoMs: 6000, passarosAntesMs: 0,    passarosVol: 0.06, passarosFadeMs: 2000 },
+  'final-3': { fogoVol: 0.25, fogoMs: 6000, passarosAntesMs: 1500, passarosVol: 0.08, passarosFadeMs: 3000 },
+  'final-2': { fogoVol: 0.25, fogoMs: 6000, passarosAntesMs: 1500, passarosVol: 0.08, passarosFadeMs: 3000 }
+};
 
 /* ---- Som: faixas curtas que param a cada mudança de passagem ----
    (birds, fire, heartbeat e ear-ringing são contínuos e geridos à parte) */
@@ -6300,42 +6637,45 @@ var SONS_CURTOS = [
    Nas passagens de CENA_SALTAVEL (só animações CSS) um clique salta para o fim. */
 var CENA_SALTAVEL = ['19', '26', '27', '28','34', '36', '38', 'final-3'];
 
+/* Só mostra a barra de progresso se a espera restante for pelo menos isto (ms) */
+var CENA_BARRA_MIN_MS = 4000;
+
 /* ---- Chegada ao ponto de encontro ---- */
-var CHEGADA_PASSOS_MS         = 2500;   // passos (só vizinhos); cortados com fade
-var CHEGADA_BATER_PAUSA_MS    = 1200;   // da batida até começar o fade para preto
-var CHEGADA_SIRENE_SUBIDA_MS  = 2500;   // sirene a aproximar-se (bombeiros): só um bocadinho
+var CHEGADA_PASSOS_MS         = 4000;   // passos (só vizinhos); cortados com fade
+var CHEGADA_BATER_PAUSA_MS    = 2000;   // da batida até começar o fade para preto
+var CHEGADA_SIRENE_SUBIDA_MS  = 5000;   // sirene a aproximar-se (bombeiros): só um bocadinho
 var CHEGADA_SIRENE_INICIO_VOL = 0.02;
 var CHEGADA_SIRENE_MAX_VOL    = 0.30;
 var CHEGADA_SIRENE_SAIDA_MS   = 1000;   // a sirene desvanece quando batem à porta
 var CHEGADA_PRETO_MS          = 1100;    // um pouco mais que a transição do .chegada-preto (0.8s)
-var CHEGADA_TIC_N             = 2;      // tics enquanto está preto (põe 1 se quiseres só um)
-var CHEGADA_TIC_INTERVALO_MS  = 800;
+var CHEGADA_TIC_N             = 3;      // tics enquanto está preto (põe 1 se quiseres só um)
+var CHEGADA_TIC_INTERVALO_MS  = 1000;
+var CHEGADA_FOLGA_MS          = 2500;
 var CHEGADA_MULTIDAO_VOL     = 0.4;
 var CHEGADA_MULTIDAO_FADE_MS = 1500;
+var SIRENE_34_SUBIDA_MS      = 6000;
+var SIRENE_34_INICIO_VOL     = 0.02;
 
 /* ---- Passagem 33: salvo pelos bombeiros ---- */
-var SALVO_PASSOS_MS        = 2500;   // duração dos passos antes da batida
+var SALVO_PASSOS_MS        = 4000;   // duração dos passos antes da batida
 var SALVO_SIRENE_INICIO_VOL = 0.005; // quase inaudível ao início
 var SALVO_SIRENE_VOL       = 0.06;   // volume final (mais baixo que antes)
 var SALVO_SIRENE_SUBIDA_MS = 12000;  // sobe devagar durante a cena
 
 /* ---- Sirene (passagens 34 e 35) ---- */
-var SIRENE_34_INICIO_VOL = 0.02;   // quase inaudível ao início
-var SIRENE_34_MAX_VOL    = 0.30;   // volume quando "chega" (antes: 0.45)
-var SIRENE_34_SUBIDA_MS  = 8000;   // tempo a aproximar-se; a porta rebenta no fim
-var SIRENE_35_VOL        = 0.30;   // volume na 35 (antes: 0.6)
-var SIRENE_35_FADE_MS    = 2800;   // fadeout (igual ao que tinha)
+var SIRENE_34_MAX_VOL    = 0.30;   // volume quando "chega"
+var SIRENE_35_VOL        = 0.30;   // volume na 35
+var SIRENE_35_FADE_MS    = 2800;   // fadeout
 
 /* ---- Passagem 29: sirenes a desfalecer ----
    A duração total (D) vem do CSS (--desf29-dur). Cada onda é
    [início, volume, duração do fade], com início e duração em fração de D.
    Os volumes sobem e descem para dar a ideia de consciência a falhar. */
 var DESFALECER_SIRENE_ONDAS = [
-  [0,    0.10, 0.25],
-  [0.25, 0.18, 0.12],
-  [0.40, 0.06, 0.10],
-  [0.53, 0.14, 0.10],
-  [0.67, 0.04, 0.12]
+  [0,    0.20, 0.20],
+  [0.20, 0.14, 0.20],
+  [0.45, 0.08, 0.20],
+  [0.65, 0.04, 0.15]
 ];
 var DESFALECER_HOSPITAL_VOL = 0.6;
 
@@ -6344,7 +6684,7 @@ var HEART_PASSAGES        = ['7', '8', '16', '20', '21', '13-Laurinda'];
 var EAR_RINGING_PASSAGES  = ['20', '21', '28', '34', '29', '35'];
 
 /* ---- Imagens (carregamento) ---- */
-var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/';
+var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/';
 var IMG = CDN + 'images/';
 
 /* Passagem 13: telemóvel (≤600px) só usa o painel 2; tablet/desktop os 3.
@@ -6431,7 +6771,9 @@ var imagesBackground = [
   IMG + 'cenas/salva-pelo-bombeiro.jpg',
   IMG + 'cenas/fogo-na-casa.webp',
   IMG + 'cenas/fogo-na-casa-overlay.png',
-  IMG + 'cenas/salvar-laurinda.jpg'
+  IMG + 'cenas/salvar-laurinda.jpg',
+  IMG + 'cenas/casa-naoardida-final.png',
+  IMG + 'cenas/casa-naoardida-finallady.png'
 ];
 
 /* Imagens futuras (já existem regras CSS, ainda sem passagem):
@@ -6448,13 +6790,15 @@ var tips = [
 ];
 
 /* URL base dos ícones da app (favicon / apple-touch-icon) */
-var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/favicon/';
+var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/favicon/';
 
 /* ---- Preferências guardadas no browser (localStorage) ----
    hfna-animations: '1' | '0'      hfna-timer-mode: normal | extended | off */
-var animationsEnabled = true;
+var animationsEnabled = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 try {
-  if (localStorage.getItem('hfna-animations') === '0') animationsEnabled = false;
+  var pref = localStorage.getItem('hfna-animations');
+  if (pref === '0') animationsEnabled = false;
+  else if (pref === '1') animationsEnabled = true;
 } catch (e) {}
 
 var timerMode = 'normal';
@@ -6499,7 +6843,6 @@ var ICON_ANIMATION    = ph('animation');
 var ICON_GUIDE        = ph('book-open');
 var ICON_FONT         = ph('text-aa');
 var ICON_BACK         = ph('arrow-left');
-var ICON_EXIT         = ph('sign-out');
 var ICON_RESTART      = ph('arrow-counter-clockwise');
 var ICON_TIMER        = ph('timer');
 var ICON_FAST_FORWARD = ph('fast-forward');
@@ -6563,9 +6906,6 @@ $(document).one(':passagestart', function () {
       '</symbol>' +
       '<symbol id="ph-arrow-counter-clockwise" viewBox="0 0 256 256">' +
         '<path fill="currentColor" d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/>' +
-      '</symbol>' +
-      '<symbol id="ph-sign-out" viewBox="0 0 256 256">' +
-        '<path fill="currentColor" d="M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z"/>' +
       '</symbol>' +
       '<symbol id="ph-x" viewBox="0 0 256 256">' +
         '<path fill="currentColor" d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/>' +
@@ -6672,7 +7012,7 @@ if (window.visualViewport) {
   }
 })();
 
-/* ---- 3.3 Favicons e fontes externas ---- */
+/* ---- 3.3 Favicons ---- */
 $('<link rel="apple-touch-icon" sizes="180x180" href="' + base + 'apple-touch-icon.png">').appendTo('head');
 $('<link rel="icon" type="image/png" sizes="32x32" href="' + base + 'favicon-32x32.png">').appendTo('head');
 $('<link rel="icon" type="image/png" sizes="16x16" href="' + base + 'favicon-16x16.png">').appendTo('head');
@@ -6743,7 +7083,7 @@ function criarAvisoDeRotacao() {
    - Tab fica "preso" dentro do diálogo ativo;
    - ao fechar: devolve o foco ao elemento que abriu.
    Exposto em window.__a11yOpenDialog / __a11yCloseDialog para os restantes
-   módulos (definições, sair do jogo, alertas). */
+   módulos (definições e alertas). */
 (function () {
   var FOCUSABLE_SEL =
     'a[href], button:not([disabled]), input:not([disabled]), ' +
@@ -6807,54 +7147,6 @@ function criarAvisoDeRotacao() {
   });
 })();
 
-/* ---- 4.2 Ciclo de Tab na página ----
-   Do último elemento focável volta ao primeiro (e vice-versa com Shift). */
-(function () {
-  var FOCUSABLE_SEL =
-    'a[href], button:not([disabled]), input:not([disabled]), ' +
-    'select:not([disabled]), textarea:not([disabled]), ' +
-    '[tabindex]:not([tabindex="-1"])';
-
-  function getFocusables() {
-    return $(FOCUSABLE_SEL).filter(function () {
-      var $el = $(this);
-
-      if ($el.is(':hidden')) return false;
-      if ($el.css('visibility') === 'hidden') return false;
-
-      // Escondido por ancestral com [hidden] ou aria-hidden
-      if ($el.closest('[hidden], [aria-hidden="true"]').length) return false;
-
-      // Painel de definições fechado: não entra no ciclo
-      if ($el.closest('#settings-overlay').length &&
-          !$('#settings-overlay').hasClass('open')) {
-        return false;
-      }
-      return true;
-    });
-  }
-
-  $(document).on('keydown.focus-loop', function (e) {
-    if (e.key !== 'Tab') return;
-
-    var $focusables = getFocusables();
-    if ($focusables.length < 2) return;
-
-    var first   = $focusables[0];
-    var last    = $focusables[$focusables.length - 1];
-    var current = document.activeElement;
-
-    if (e.shiftKey && current === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && current === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  });
-})();
-
-
 /* ==========================================================================
    [5] ÁUDIO
    Faixas definidas no StoryInit/ficheiros de áudio (SimpleAudio):
@@ -6864,8 +7156,6 @@ function criarAvisoDeRotacao() {
 
 /* ---- Estado do áudio ---- */
 var birdsStarted = false;                 // evita iniciar os pássaros duas vezes
-var fogoFadeTimer = null;                 // intervalo do fade do fogo
-var earRingingFadeTimer = null;           // intervalo do fade do zumbido
 var earRinging21FadeIniciado = false;     // o fade longo da passagem 21 só corre uma vez
 var silenciadoAutomaticamente = false;    // mute por jogo em segundo plano
 
@@ -6909,7 +7199,7 @@ function TocarBirds() {
 /* ---- 5.2 Fogo ----
    Contínuo (nunca pára); só o volume muda, com fade de 0.8 s. */
 function ajustarVolumeFogo(nivel, duracaoMs) {
-  var fire = SimpleAudio.tracks.get('fire');
+  var fire = getTrack('fire');
   if (!fire) return;
 
   if (!fire.isPlaying()) {
@@ -6918,73 +7208,16 @@ function ajustarVolumeFogo(nivel, duracaoMs) {
     if (p && typeof p.catch === 'function') p.catch(function () {});
   }
 
-  // Nunca chega a 0 literal: a lib trataria como "parado" e reiniciaria a
-  // faixa (o clique/"pop" que se ouvia).
+  // Nunca chega a 0 literal: a lib trataria como "parado" e reiniciaria a faixa
   var volumes = {
-    'muito_longe': 0.05,
-    'longe':       0.18,
-    'perto':       0.38,
-    'muito_perto': 0.62,
-    'aqui':        0.85,
-    'fadeout':     0.001
+    'muito_longe': 0.05, 'longe': 0.18, 'perto': 0.38,
+    'muito_perto': 0.62, 'aqui': 0.85, 'fadeout': 0.001
   };
   var vol = volumes[nivel] !== undefined ? volumes[nivel] : 0.001;
-
-  // cancela fade anterior ainda em curso
-  if (fogoFadeTimer) {
-    clearInterval(fogoFadeTimer);
-    fogoFadeTimer = null;
-  }
-
-  var startVol = fire.volume();
-  var duracao  = duracaoMs || 800;
-  var steps    = 20;
-  var stepTime = duracao / steps;
-  var stepVal  = (vol - startVol) / steps;
-  var i = 0;
-
-  fogoFadeTimer = setInterval(function () {
-    i++;
-    fire.volume(Math.max(0.001, Math.min(1, startVol + stepVal * i)));
-
-    if (i >= steps) {
-      clearInterval(fogoFadeTimer);
-      fogoFadeTimer = null;
-      fire.volume(vol);
-    }
-  }, stepTime);
+  fadeTrack('fire', vol, duracaoMs || 800);
 }
 
-/* ---- 5.3 Zumbido nos ouvidos (ear-ringing) ----
-   Fade personalizado. Se targetVol <= 0, pára a faixa no fim. */
-function ajustarVolumeEarRinging(targetVol, duracaoMs) {
-  var track = SimpleAudio.tracks.get('ear-ringing');
-  if (!track) return;
-
-  if (earRingingFadeTimer) {
-    clearInterval(earRingingFadeTimer);
-    earRingingFadeTimer = null;
-  }
-
-  var startVol = track.volume();
-  var steps    = Math.max(20, Math.round(duracaoMs / 250));
-  var stepTime = duracaoMs / steps;
-  var stepVal  = (targetVol - startVol) / steps;
-  var i = 0;
-
-  earRingingFadeTimer = setInterval(function () {
-    i++;
-    track.volume(Math.max(0, Math.min(1, startVol + stepVal * i)));
-
-    if (i >= steps) {
-      clearInterval(earRingingFadeTimer);
-      earRingingFadeTimer = null;
-      track.volume(targetVol);
-      if (targetVol <= 0) track.stop();
-    }
-  }, stepTime);
-}
-
+/* ---- 5.3 Zumbido nos ouvidos (ear-ringing) ---- */
 /* play() devolve uma Promise; ignora o AbortError (play interrompido por
    um stop/pause logo a seguir) e regista os restantes erros. */
 function tocarEarRingingSeguro(track) {
@@ -7007,6 +7240,20 @@ function getTrack(id) {
   var t = SimpleAudio.tracks.get(id);
   if (!t) console.warn('[áudio] faixa em falta:', id);
   return t;
+}
+
+/* Toca uma faixa curta/contínua; ignora faixas em falta e promessas rejeitadas. */
+function tocarSom(id, vol, loop) {
+  var t = getTrack(id);
+  if (!t) return null;
+  t.loop(!!loop).volume(vol);
+  var p = t.play();
+  if (p && typeof p.catch === 'function') p.catch(function () {});
+  return t;
+}
+
+function cancelarFade(id) {
+  if (trackFades[id]) { clearInterval(trackFades[id]); trackFades[id] = null; }
 }
 
 /* Muda o volume até "to" em "ms". Se to <= 0, pára a faixa no fim. */
@@ -7049,22 +7296,14 @@ function pararSonsCurtos(name) {
 }
 
 function aplicarSomBirds(name) {
-  if (birdsStartTimer) { clearTimeout(birdsStartTimer); birdsStartTimer = null; }
-
   // Página inicial: começa médio e, ao fim de uns segundos, desce para muito baixo
   if (name === 'Start') {
     ajustarVolumeBirds('medio');
-    birdsStartTimer = setTimeout(function () {
-      birdsStartTimer = null;
-      if (passage() !== 'Start') return;
+    agendarNaPassagem(BIRDS_START_ESPERA, function () {
       fadeTrack('birds', BIRDS_VOL.muito_baixo, BIRDS_START_FADE);
-    }, BIRDS_START_ESPERA);
+    });
     return;
   }
-
-  // Caixas por cima do jogo: não mexem nos pássaros
-  if (name === 'Sobre' || name === 'Guia de Jogo' || name === '⟲') return;
-
   for (var nivel in BIRDS_NIVEIS) {
     if (BIRDS_NIVEIS[nivel].indexOf(name) > -1) {
       ajustarVolumeBirds(nivel);
@@ -7076,7 +7315,7 @@ function aplicarSomBirds(name) {
 
 /* Fogo: nível de proximidade conforme FOGO_PROXIMIDADE. */
 function aplicarSomFogo(name) {
-  if (name === '27' || name === 'final-3') return;   // tratada em aplicarFogoAApagar
+  if (FOGO_RECUA[name]) return;   // tratada em aplicarFogoARecuar
   for (var nivel in FOGO_PROXIMIDADE) {
     if (FOGO_PROXIMIDADE[nivel].indexOf(name) > -1) {
       ajustarVolumeFogo(nivel);
@@ -7086,201 +7325,52 @@ function aplicarSomFogo(name) {
   ajustarVolumeFogo('fadeout'); // não listada: volume mínimo
 }
 
-/* Passagem 27: fogo a apagar-se e regresso dos pássaros */
-var passarosTimer = null;
+/* Fogo a apagar-se → pássaros a entrar (27, final-2, final-3; ver FOGO_RECUA) */
+function aplicarFogoARecuar(name) {
+  var cfg = FOGO_RECUA[name];
+  if (!cfg) return;
 
-function aplicarFogoAApagar(name) {
-  if (passarosTimer) { clearTimeout(passarosTimer); passarosTimer = null; }
-  if (name !== '27') return;
+  var fogo = getTrack('fire');
+  if (fogo) fogo.volume(cfg.fogoVol);
+  ajustarVolumeFogo('fadeout', cfg.fogoMs);
 
-  // Começa com o fogo bem alto e vai descendo até 0 ao ritmo da animação (.fogo-de)
-  var fogo27 = SimpleAudio.tracks.get('fire');
-  if (fogo27) {
-    if (fogoFadeTimer) { clearInterval(fogoFadeTimer); fogoFadeTimer = null; }
-    fogo27.volume(FOGO_27_INICIO_VOL);
-  }
-  ajustarVolumeFogo('fadeout', FOGO_APAGAR_MS);
-
-  passarosTimer = setTimeout(function () {
-    passarosTimer = null;
-    if (passage() !== '27') return;               // já saiu da passagem
-    var birds = SimpleAudio.tracks.get('birds');
+  agendarNaPassagem(cfg.fogoMs - cfg.passarosAntesMs, function () {
+    var birds = getTrack('birds');
     if (!birds) return;
     birds.loop(true).volume(0.001);
     var p = birds.play();
     if (p && typeof p.catch === 'function') p.catch(function () {});
-    fadeTrack('birds', PASSAROS_DEPOIS_VOL, 2000);
-  }, FOGO_APAGAR_MS);
+    fadeTrack('birds', cfg.passarosVol, cfg.passarosFadeMs);
+  });
 }
 
-/* Casa ardida: fogo baixo a apagar-se → pássaros a entrar suavemente */
-function aplicarSomCasaArdida(name) {
-  if (name !== 'final-3') return;
+/* Tempos da passagem 34 (partilhados entre o áudio e a espera da cena) */
+function temposPassagem34() {
+  var durMs = lerDuracaoCss('--fim34-dur', 24000);
+  return {
+    sireneInicio: animationsEnabled ? Math.round(durMs * 0.55) : 500,   // 55% = 1.º preto total (.fumo-preto)
+    subida:       animationsEnabled ? SIRENE_34_SUBIDA_MS : 4000
+  };
+}
 
-  var fogo = SimpleAudio.tracks.get('fire');
-  if (fogo) {
-    if (fogoFadeTimer) { clearInterval(fogoFadeTimer); fogoFadeTimer = null; }
-    fogo.volume(CASA_ARDIDA_FOGO_VOL);
+/* Esperas de cena: os botões só aparecem depois disto (ver [8B]) */
+function registarEsperasDaPassagem(name) {
+  if (name === '28') esperaDeCena(animationsEnabled ? 6500 : 0);   // fogo-floresta + fogo-aparece
+  if (name === '34') {
+    var t = temposPassagem34();
+    esperaDeCena(t.sireneInicio + t.subida + 800);   // +800 ms: pausa depois do som
   }
-  ajustarVolumeFogo('fadeout', CASA_ARDIDA_FOGO_MS);
-
-  // Os pássaros entram um pouco antes do fogo acabar (sobreposição suave)
-  passarosTimer = setTimeout(function () {
-    passarosTimer = null;
-    if (passage() !== 'final-3') return;
-    var birds = SimpleAudio.tracks.get('birds');
-    if (!birds) return;
-    birds.loop(true).volume(0.001);
-    var p = birds.play();
-    if (p && typeof p.catch === 'function') p.catch(function () {});
-    fadeTrack('birds', CASA_ARDIDA_PASSAROS_VOL, 3000);
-  }, CASA_ARDIDA_FOGO_MS - 1500);
 }
 
-/* Sons pontuais de cada passagem (respiração, tosse, carro, etc.). */
+/* Sons pontuais, por ordem de passagem. */
 function aplicarSonsPontuais(name) {
-  // Telefone a tocar (na 2.1 toca ao carregar em ligar; ver [9.4])
-  if (name === '5') {
-    SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
+
+  // ---- Contínuos entre passagens ----
+  if (name !== '12') {                                   // rádio: fade-out ao sair da 12
+    var radioOff = SimpleAudio.tracks.get('radio');
+    if (radioOff && radioOff.isPlaying()) fadeTrack('radio', 0, 800);
   }
-
-    // Rádio: fade-out ao sair da 12
-    if (name !== '12') {
-      var radioOff = SimpleAudio.tracks.get('radio');
-      if (radioOff && radioOff.isPlaying()) fadeTrack('radio', 0, 800);
-    }
-
-  // Sinos
-  if (name === '6') {
-    SimpleAudio.tracks.get('sinos').loop(false).volume(0.3).play();
-  }
-
-  // Rádio
-  if (name === '12') {
-    var radio = getTrack('radio');
-    if (radio) radio.loop(false).volume(0.2).play();
-  }
-
-  // Chaves
-  if (name === '13') {      
-    var keys = getTrack('keys');
-    if (keys) keys.loop(false).volume(0.5).play();
-  }
-  
-  // Respiração pesada (pânico / fim)
-  if (name === '20') {
-    earRinging21FadeIniciado = false;
-    setTimeout(function () {
-      if (passage() === '20') {
-        SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
-      }
-    }, 1400);
-  } else if (name === '28' || name === '34') {
-    SimpleAudio.tracks.get('heavy-breathing').loop(true).volume(0.5).play();
-  }
-
-  // Exercício de respiração (acalmar)
-  if (name === '21') {
-    SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
-  }
-
-  // Hospital + respiração (finais). Com animações ligadas, 29 e 35 são
-  // tratadas em sequenciaDesfalecer ([7C]); isto fica só para animações desligadas.
-  if ((name === '29' || name === '35') && duracaoDesfalecer() === 0) {
-    SimpleAudio.tracks.get('hospital').loop(false).volume(0.6).play();
-
-    var atrasoRespirar = 1500; // ms
-    setTimeout(function () {
-      if (passage() === name) {
-        SimpleAudio.tracks.get('breathing-exercise').loop(false).volume(0.5).play();
-      }
-    }, atrasoRespirar);
-
-    if (name === '35') {
-      // As luzes (.sirene-fx) duram LUZES_MS (ver CSS: 3 ciclos de 1.6 s + 0.8 s de desfasamento)
-      var LUZES_MS = animationsEnabled ? 5600 : 3000;
-      var sirene35 = getTrack('sirene');
-      if (sirene35) {
-        if (!sirene35.isPlaying()) sirene35.loop(true).volume(0.1).play();
-        fadeTrack('sirene', SIRENE_35_VOL, 1200);
-        setTimeout(function () {
-          if (passage() !== '35') return;
-          fadeTrack('sirene', 0, SIRENE_35_FADE_MS);     // desvanece com as luzes
-        }, LUZES_MS - SIRENE_35_FADE_MS);
-      }
-    }
-  }
-
-  // Passagem 37: chega a casa da Dona Laurinda e bate à porta
-  if (name === '37') {
-    setTimeout(function () {
-        if (passage() !== '37') return;   // já saiu da passagem
-        var knock = getTrack('knock');
-        if (knock) knock.loop(false).volume(0.7).play();
-      }, 400);
-  }
-
-  // Tosse: só com fumo intenso (28 = muito perto; 16 = fumo nv4)
-  if (name === '28') {
-    SimpleAudio.tracks.get('cough').loop(true).volume(0.3).play();
-  }
-  
-  if (name === '16') {
-    SimpleAudio.tracks.get('cough').loop(true).volume(0.6).play();
-
-    // Knock: a proteção civil bate à porta
-    setTimeout(function () {
-      if (passage() !== '16') return;
-      var knock = getTrack('knock');
-      if (knock) knock.loop(false).volume(0.7).play();
-    }, 2200);
-  }
-
-  // Passagem 33: sirene a aproximar-se desde o início + passos → batida
-  if (name === '33') {
-    var t0 = 300;   // pequena pausa inicial
-
-    // Sirene: arranca logo, quase inaudível, e sobe devagar
-    var sirene33 = getTrack('sirene');
-    if (sirene33) {
-      sirene33.loop(true).volume(SALVO_SIRENE_INICIO_VOL).play();
-      fadeTrack('sirene', SALVO_SIRENE_VOL, SALVO_SIRENE_SUBIDA_MS);
-    }
-
-    setTimeout(function () {
-      if (passage() !== '33') return;
-      var passos = getTrack('footsteps');
-      if (passos) passos.loop(false).volume(0.5).play();
-    }, t0);
-
-    setTimeout(function () {
-      if (passage() !== '33') return;
-      fadeTrack('footsteps', 0, 500);          // corta os passos com fade
-    }, t0 + SALVO_PASSOS_MS - 500);
-
-    setTimeout(function () {
-      if (passage() !== '33') return;
-      var knock = getTrack('knock');
-      if (knock) knock.loop(false).volume(0.7).play();
-    }, t0 + SALVO_PASSOS_MS);
-  }
-
-  // Passagem 4: tosse única, com o fumo ainda ligeiro
-  if (name === '4') {
-    setTimeout(function () {
-      if (passage() !== '4') return;      // já saiu da passagem
-      SimpleAudio.tracks.get('cough').loop(false).volume(0.2).play();
-    }, 1500);
-  }
-  // Carro
-  if (name === '11') SimpleAudio.tracks.get('car-stopping').loop(false).volume(0.6).play();
-  if (name === '22' || name === '13-Laurinda') SimpleAudio.tracks.get('car-start').loop(false).volume(0.6).play();
-
-  // Multidão
-  if (name === '26') SimpleAudio.tracks.get('crowd').loop(true).volume(0.6).play();
-
-  // Batimento cardíaco: só nas passagens de HEART_PASSAGES; nas outras pára
-  var heartbeat = SimpleAudio.tracks.get('heartbeat');
+  var heartbeat = SimpleAudio.tracks.get('heartbeat');   // batimento: só em HEART_PASSAGES
   if (heartbeat) {
     if (HEART_PASSAGES.indexOf(name) > -1) {
       if (!heartbeat.isPlaying()) heartbeat.loop(true).volume(0.1).play();
@@ -7289,100 +7379,120 @@ function aplicarSonsPontuais(name) {
     }
   }
 
-    // ---- Passagem 34: ecrã fica todo preto → sirene ao longe → porta a rebentar ----
-    if (name === '34') {
-      var durMs = 20000;
-      try {
-        var cssDur = getComputedStyle(document.documentElement)
-          .getPropertyValue('--fim34-dur').trim();
-        if (cssDur) durMs = parseFloat(cssDur) * 1000;
-      } catch (e) {}
+  // ---- Por passagem ----
+  if (name === '4') {                                    // tosse única, fumo ligeiro
+    agendarNaPassagem(1500, function () { tocarSom('cough', 0.2); });
+  }
+  if (name === '5')  tocarSom('phone', 0.5);             // (na 2.1 toca ao ligar; ver [9.4])
+  if (name === '6')  tocarSom('sinos', 0.3);
+  if (name === '11') tocarSom('car-stopping', 0.6);
+  if (name === '12') tocarSom('radio', 0.2);
+  if (name === '13') tocarSom('keys', 0.5);
+  if (name === '13-Laurinda') tocarSom('car-start', 0.6);
 
-      // 55% da sequência = primeiro preto total (ver .fumo-preto no CSS)
-      var atraso = animationsEnabled ? Math.round(durMs * 0.55) : 500;
-      // com animações desligadas a passagem é mais curta, por isso a subida também
-      var subida34 = animationsEnabled ? SIRENE_34_SUBIDA_MS : 4000;
+  if (name === '16') {                                   // fumo nv4 + proteção civil bate à porta
+    tocarSom('cough', 0.6, true);
+    agendarNaPassagem(2200, function () { tocarSom('knock', 0.7); });
+  }
 
-      // ---- ADICIONAR: o botão só aparece quando a porta rebenta ----
-      esperaDeCena(atraso + subida34 + 800);   // +800ms: pequena pausa depois do som
+  if (name === '20') {                                   // pânico
+    earRinging21FadeIniciado = false;
+    agendarNaPassagem(1400, function () { tocarSom('heavy-breathing', 0.5, true); });
+  }
+  if (name === '21') tocarSom('breathing-exercise', 0.5);
+  if (name === '22') tocarSom('car-start', 0.6);
+  if (name === '26') tocarSom('crowd', 0.6, true);
 
-      setTimeout(function () {
-        if (passage() !== '34') return;
-        var sirene = getTrack('sirene');
-        if (!sirene) return;
-        sirene.loop(true).volume(SIRENE_34_INICIO_VOL).play();
-        fadeTrack('sirene', SIRENE_34_MAX_VOL, subida34);   // aproxima-se devagar
-      }, atraso);
+  if (name === '28') {                                   // fumo muito perto
+    tocarSom('heavy-breathing', 0.5, true);
+    tocarSom('cough', 0.3, true);
+  }
 
-      setTimeout(function () {
-        if (passage() !== '34') return;
-        var porta = getTrack('porta-rebentada');
-        if (porta) porta.loop(false).volume(0.85).play();
-      }, atraso + subida34);                                // rebenta quando a sirene "chegou"
+  // 29 e 35 com animações ligadas: tratadas em sequenciaDesfalecer ([7C])
+  if ((name === '29' || name === '35') && duracaoDesfalecer() === 0) {
+    tocarSom('hospital', 0.6);
+    agendarNaPassagem(1500, function () { tocarSom('breathing-exercise', 0.5); });
+
+    if (name === '35') {
+      var LUZES_MS = 3000;   // duração das luzes com animações desligadas
+      var sirene35 = getTrack('sirene');
+      if (sirene35) {
+        if (!sirene35.isPlaying()) sirene35.loop(true).volume(0.1).play();
+        fadeTrack('sirene', SIRENE_35_VOL, 1200);
+        agendarNaPassagem(LUZES_MS - SIRENE_35_FADE_MS, function () {
+          fadeTrack('sirene', 0, SIRENE_35_FADE_MS);     // desvanece com as luzes
+        });
+      }
     }
+  }
 
-  // ---- Passagem 39: fumo preto intenso → tosse → respira fundo → fumo baixa ----
-  if (name === '39') {
+  if (name === '33') {                                   // sirene a aproximar-se + passos → batida
+    var t0 = 300;
+    var sirene33 = getTrack('sirene');
+    if (sirene33) {
+      sirene33.loop(true).volume(SALVO_SIRENE_INICIO_VOL).play();
+      fadeTrack('sirene', SALVO_SIRENE_VOL, SALVO_SIRENE_SUBIDA_MS);
+    }
+    agendarNaPassagem(t0, function () { tocarSom('footsteps', 0.5); });
+    agendarNaPassagem(t0 + SALVO_PASSOS_MS - 500, function () { fadeTrack('footsteps', 0, 500); });
+    agendarNaPassagem(t0 + SALVO_PASSOS_MS, function () { tocarSom('knock', 0.7); });
+  }
 
-    var tosse = getTrack('cough');
-    if (tosse) tosse.loop(true).volume(0.5).play();
-    setTimeout(function () {
-      if (passage() !== '39') return;
-      fadeTrack('cough', 0, 1500);
-    }, 4800);
+  if (name === '34') {                                   // preto → sirene ao longe → porta a rebentar
+    tocarSom('heavy-breathing', 0.5, true);
+    var d34 = temposPassagem34();
+    agendarNaPassagem(d34.sireneInicio, function () {
+      var sirene = getTrack('sirene');
+      if (!sirene) return;
+      sirene.loop(true).volume(SIRENE_34_INICIO_VOL).play();
+      fadeTrack('sirene', SIRENE_34_MAX_VOL, d34.subida);
+    });
+    agendarNaPassagem(d34.sireneInicio + d34.subida, function () { tocarSom('porta-rebentada', 0.85); });
+  }
 
-    // ~34% de 16 s = 5.5 s: coincide com o início da descida do fumo no CSS
-    setTimeout(function () {
-      if (passage() !== '39') return;
-      var respirar = getTrack('breathing-exercise');
-      if (respirar) respirar.loop(false).volume(0.5).play();
-    }, 5500);
+  if (name === '37') {                                   // bate à porta da D. Laurinda
+    agendarNaPassagem(400, function () { tocarSom('knock', 0.7); });
+  }
+
+  if (name === '39') {                                   // fumo preto → tosse → respira fundo
+    tocarSom('cough', 0.5, true);
+    agendarNaPassagem(4800, function () { fadeTrack('cough', 0, 1500); });
+    agendarNaPassagem(5500, function () { tocarSom('breathing-exercise', 0.5); });   // ~34% de 16 s
   }
 }
 
 /* Zumbido: gerido à parte para dar continuidade entre passagens
    (ex.: 20 → 21 não reinicia o som). */
 function aplicarSomEarRinging(name) {
-  var track = SimpleAudio.tracks.get('ear-ringing');
+  var track = getTrack('ear-ringing');
+  if (!track) return;
 
   if (name === '21') {
-    // Passagem 21: volume baixo e fade-out lento até desaparecer
+    // Volume baixo e fade-out lento até desaparecer
     if (!track.isPlaying()) {
       track.loop(true).volume(0.05);
       tocarEarRingingSeguro(track);
     } else {
-      // Já tocava (continuidade da 20): cancela fade em curso e fixa o volume
-      if (earRingingFadeTimer) {
-        clearInterval(earRingingFadeTimer);
-        earRingingFadeTimer = null;
-      }
+      cancelarFade('ear-ringing');
       track.volume(0.05);
     }
-
     if (!earRinging21FadeIniciado) {
       earRinging21FadeIniciado = true;
-      setTimeout(function () {
-        if (passage() !== '21') return;
-        ajustarVolumeEarRinging(0, 15000);
-      }, 1500);
+      agendarNaPassagem(1500, function () { fadeTrack('ear-ringing', 0, 15000); });
     }
 
   } else if (EAR_RINGING_PASSAGES.indexOf(name) > -1) {
     // 20 / 28 / 34 / 29 / 35: entrada suave
     if (!track.isPlaying()) {
-      track.loop(true).volume(0);
+      track.loop(true).volume(0.001);
       tocarEarRingingSeguro(track);
-      ajustarVolumeEarRinging(0.10, 1500);
+      fadeTrack('ear-ringing', 0.10, 1500);
     } else {
-      ajustarVolumeEarRinging(0.10, 500);
+      fadeTrack('ear-ringing', 0.10, 500);
     }
 
   } else {
-    // Qualquer outra passagem: pára
-    if (earRingingFadeTimer) {
-      clearInterval(earRingingFadeTimer);
-      earRingingFadeTimer = null;
-    }
+    cancelarFade('ear-ringing');
     if (track.isPlaying()) track.stop();
   }
 }
@@ -7419,15 +7529,11 @@ $(document).one(':storyready', atualizarSomPorVisibilidade);
 
 /* ---- 5.6 Sons de interface ---- */
 
-// Hover em botões
-$(document).on('mouseenter', '.choices a, .choices button, #settings-nook, .settings-guide-link, #sound-btn, .sound-icon-btn, .toggle-switch, .font-level, .settings-btn, #settings-close, .language-select', function () {
-  SimpleAudio.tracks.get('hover').volume(0.1).play();
-});
-
 // Teclas do telemóvel (2.1)
-$(document).on('click', '.phone-key', function () {
-  SimpleAudio.tracks.get('phone-tap').volume(0.3).play();
-});
+$(document).on('click', '.phone-key', function () { tocarSom('phone-tap', 0.3); });
+
+// Som de clique nas linhas do caderno
+$(document).on('click', '.notebook .nb-row', function () { tocarSom('hover', 0.3); });
 
 /* ---- 5.7 Botão de som (canto superior esquerdo) ----
    Criado na 1.ª passagem. O painel de definições comanda este botão
@@ -7448,34 +7554,14 @@ $(document).one(':passagestart', function () {
   });
 });
 
-/* ---- 5.8 Reiniciar o jogo: repõe o estado do áudio ---- */
-$(document).on(':storyrestart', function () {
-  birdsStarted = false;
-
-  ['birds', 'fire', 'heartbeat', 'ear-ringing'].forEach(function (id) {
-    var track = SimpleAudio.tracks.get(id);
-    if (track) track.stop();
-  });
-
-  if (earRingingFadeTimer) {
-    clearInterval(earRingingFadeTimer);
-    earRingingFadeTimer = null;
-  }
-  earRinging21FadeIniciado = false;
-
-  State.variables.entrouPanico = false;
-  resetTimer();
-});
-
-
 /* ==========================================================================
    [6] TEMPORIZADORES
    --------------------------------------------------------------------------
-   6A. Temporizador de decisão (passagens 7, 8, 13 e 16)
+   6A. Temporizador de decisão (passagens 7, 8, 13-Laurinda e 16”)
        - só começa a contar quando o texto e os botões já apareceram;
        - pára com o jogo em segundo plano, definições/sair abertos;
        - retoma com o tempo que restava (não recomeça);
-       - ao esgotar → pânico (passagem 20), exceto na 13 (→ passagem 36);
+       - ao esgotar → pânico (passagem 20), exceto na 13-Laurinda (→ 36);
        - depois do 1.º pânico deixa de ser usado (exceto na 13).
    6B. Fim automático ("Será o fim?", passagens 28 e 34)
    ========================================================================== */
@@ -7504,57 +7590,14 @@ function renderTimer() {
   var $t = $('#decision-timer');
   if (!$t.length) return;
   var secs = Math.ceil(timerMsLeft() / 1000);
-  $t.text(secs);
-  if (secs <= timerWarnSecs()) {
-    $t.css({ 'border-color': '#cc2222', 'color': '#ff4444' });
-  } else {
-    $t.css({ 'border-color': 'darkorange', 'color': 'white' });
-  }
+  $t.text(secs).toggleClass('urgente', secs <= timerWarnSecs());
 }
 
 /* Cria o círculo do contador. Tamanho/posição por largura do ecrã
    (em ≤768px o CSS sobrepõe com !important; ver #decision-timer). */
 function criarTimerUI() {
   $('#decision-timer').remove();
-  var $timer = $('<div id="decision-timer"></div>');
-
-  var timerCSS = {
-    'position': 'fixed',
-    'top': '2%',
-    'right': '2%',
-    'z-index': '100',
-    'width': '50px',
-    'height': '50px',
-    'font-size': '1.3em',
-    'border-radius': '50%',
-    'background-color': 'rgba(0,0,0,0.5)',
-    'border': '3px solid darkorange',
-    'color': 'white',
-    'font-weight': 'bold',
-    'display': 'flex',
-    'align-items': 'center',
-    'justify-content': 'center',
-    'font-family': 'Fira Sans, sans-serif',
-    'text-shadow': '0 1px 3px rgba(0,0,0,0.8)',
-    'transition': 'border-color 0.5s ease'
-  };
-
-  if (window.innerWidth <= 600) {              // telemóvel
-    timerCSS.width = '65px';
-    timerCSS.height = '65px';
-    timerCSS['font-size'] = '1.7em';
-    timerCSS.top = '2%';
-    timerCSS.right = '8%';
-  } else if (window.innerWidth <= 1366 && window.innerHeight <= 1366) {  // tablet
-    timerCSS.width = '100px';
-    timerCSS.height = '100px';
-    timerCSS['font-size'] = '2.6em';
-    timerCSS.top = '2%';
-    timerCSS.right = '2%';
-  }
-
-  $timer.css(timerCSS);
-  $('body').append($timer);
+  $('body').append('<div id="decision-timer"></div>');
   renderTimer();
 }
 
@@ -7713,7 +7756,7 @@ document.addEventListener('visibilitychange', syncTimer);
 window.addEventListener('pagehide', pauseTimer);
 window.addEventListener('pageshow', syncTimer);
 
-/* ---- 6B. Fim automático ("Será o fim?") ---- */
+/* ---- 6B. Fim automático: "Será o fim?" (28 e 34) e avanço por tempo de leitura (13, ver AUTO_FIM) ---- */
 var passageStartTime = Date.now();
 var autoFimPassage = null;
 var autoFimTimeout = null;
@@ -7725,23 +7768,7 @@ function cancelarAutoFim() {
   autoFimPassage = null;
   autoFimEnd = null;
   autoFimRemaining = 0;
-}
-
-/* Chamado quando o texto termina (finishAnimation). */
-function iniciarAutoFim() {
-  var cfg = AUTO_FIM[passage()];
-  if (!cfg || timerMode === 'off') return;   // "Desligado" = só avança com o botão
-
-  var espera = cfg.espera * (timerMode === 'extended' ? 2 : 1);
-  cancelarAutoFim();
-  autoFimPassage = passage();
-  autoFimRemaining = espera;
-
-  // o escurecer acaba exatamente quando a passagem avança
-  $('.fade-black-overlay').css('animation',
-    'fade-to-black 4s ease-in ' + Math.max(0, espera - 4000) + 'ms forwards');
-
-  syncAutoFim();
+  removerBarraCena($('.cena-progresso.auto'));
 }
 
 /* Pára com as definições abertas, o jogo em segundo plano, etc. */
@@ -7750,8 +7777,10 @@ function syncAutoFim() {
   var deveCorrer = !document.hidden
     && !$('#settings-overlay').hasClass('open')
     && passage() === autoFimPassage;
-
-  if (deveCorrer && autoFimEnd === null) {
+  
+    $('.cena-progresso.auto').toggleClass('pausada', !deveCorrer);
+  
+    if (deveCorrer && autoFimEnd === null) {
     autoFimEnd = Date.now() + autoFimRemaining;
     autoFimTimeout = setTimeout(avancarAutoFim, autoFimRemaining);
   } else if (!deveCorrer && autoFimEnd !== null) {
@@ -7767,26 +7796,64 @@ function avancarAutoFim() {
   var cfg = AUTO_FIM[p];
   cancelarAutoFim();
   if (!cfg || passage() !== p) return;
-  State.variables.foiResgatado = true;   // o mesmo que o [$foiResgatado = true] do link
+  if (cfg.resgatado) State.variables.foiResgatado = true;   // o mesmo que o [$foiResgatado = true] do link
   Engine.play(cfg.destino);
 }
 
 function iniciarAutoFim() {
   var cfg = AUTO_FIM[passage()];
   if (!cfg || timerMode === 'off') return;
+  if (cfg.semVoltar && State.length < State.size) return;   // chegou a recuar: não avança sozinho
 
-  var espera = cfg.espera * (timerMode === 'extended' ? 2 : 1);
-  if (cfg.minTotal && animationsEnabled) {
-    espera = Math.max(espera, cfg.minTotal - (Date.now() - passageStartTime));
+  var mult = (timerMode === 'extended' ? 2 : 1);
+  var espera;
+
+  if (cfg.leitura) {
+    // tempo de leitura = palavras × ms/palavra, contado desde o início da passagem
+    var palavras = $('.text-box .text-scroll p').text().trim().split(/\s+/).length;
+    var total = palavras * cfg.leitura * mult;
+    espera = Math.max((cfg.minEspera || 0) * mult,
+                      total - (Date.now() - passageStartTime));
+  } else {
+      espera = cfg.espera * mult;
   }
+
   cancelarAutoFim();
   autoFimPassage = passage();
   autoFimRemaining = espera;
 
-  $('.fade-black-overlay').css('animation',
-    'fade-to-black 4s ease-in ' + Math.max(0, espera - 4000) + 'ms forwards');
+  if (!cfg.semFade) {
+    $('.fade-black-overlay').css('animation',
+      'fade-to-black 4s ease-in ' + Math.max(0, espera - 4000) + 'ms forwards');
+  }
+
+  // Barra por cima da text-box (a mesma das cenas em sequência)
+  if (cfg.leitura) {
+    var passado = Date.now() - passageStartTime;
+    criarBarraCena(passado + espera, passado).addClass('auto');
+  }
 
   syncAutoFim();
+}
+
+/* ---- 6C. Utilitários de tempo ---- */
+var agendadas = [];
+
+/* setTimeout que só corre se ainda estiveres na mesma passagem.
+   Cancelado em :passagestart por cancelarAgendadas(). */
+function agendarNaPassagem(ms, fn) {
+  var p = passage();
+  agendadas.push(setTimeout(function () { if (passage() === p) fn(); }, ms));
+}
+function cancelarAgendadas() { agendadas.forEach(clearTimeout); agendadas = []; }
+
+/* Lê uma duração em segundos de uma variável CSS (ex.: '--fim34-dur') → ms */
+function lerDuracaoCss(nomeVar, fallbackMs) {
+  try {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(nomeVar).trim();
+    if (v) return parseFloat(v) * 1000;
+  } catch (e) {}
+  return fallbackMs;
 }
 
 /* ==========================================================================
@@ -7847,25 +7914,10 @@ window.mostrarToast = function (tipo, conteudo, iconeCustom) {
    preto com tics → camadas). Constantes em [1]; CSS em [10].
    Uso nas passagens: <<run sequenciaChegada('vizinhos' | 'bombeiros' | 'direto')>>
    ========================================================================== */
-var chegadaTimers = [];
-
-function cancelarChegada() {
-  chegadaTimers.forEach(clearTimeout);
-  chegadaTimers = [];
-}
 
 function sequenciaChegada(modo) {
-  cancelarChegada();
-  var p = passage();
+  var agendar = agendarNaPassagem;
 
-  esperaDeCena(modo === 'vizinhos' ? 7500 : modo === 'bombeiros' ? 7000 : 2500);
-
-  function agendar(ms, fn) {
-    chegadaTimers.push(setTimeout(function () {
-      if (passage() !== p) return;      // já saiu da passagem
-      fn();
-    }, ms));
-  }
   function tocar(id, vol) {
     var t = getTrack(id);
     if (t) t.loop(false).volume(vol).play();
@@ -7885,19 +7937,20 @@ function sequenciaChegada(modo) {
   }
 
   // fade para preto + tics (tempo a passar) → ponto de encontro
-  function passarTempo(inicio) {
+    function passarTempo(inicio) {
     agendar(inicio, function () { cena().addClass('fase-preto'); });
     var primeiro = inicio + CHEGADA_PRETO_MS;
     for (var i = 0; i < CHEGADA_TIC_N; i++) {
       agendar(primeiro + i * CHEGADA_TIC_INTERVALO_MS, function () { tocar('tic', 0.4); });
     }
-    agendar(primeiro + CHEGADA_TIC_N * CHEGADA_TIC_INTERVALO_MS, function () {
+    var tRevela = primeiro + CHEGADA_TIC_N * CHEGADA_TIC_INTERVALO_MS;
+    agendar(tRevela, function () {
       fadeTrack('tic', 0, 400);          // corta o tic quando o preto abre
       mostrarPontoEncontro();
     });
+    return tRevela;
   }
 
-  // (passos só nos vizinhos) → batida → preto com tics
   function batidaEPreto(inicio, comPassos) {
     var tBatida = inicio;
     if (comPassos) {
@@ -7906,25 +7959,26 @@ function sequenciaChegada(modo) {
       tBatida = inicio + CHEGADA_PASSOS_MS;
     }
     agendar(tBatida, function () { tocar('knock', 0.7); });
-    passarTempo(tBatida + CHEGADA_BATER_PAUSA_MS);
+    return passarTempo(tBatida + CHEGADA_BATER_PAUSA_MS);
   }
 
   if (modo === 'vizinhos') {
-    batidaEPreto(300, true);              // passos → knock → preto + tic
+    esperaDeCena(batidaEPreto(300, true) + CHEGADA_FOLGA_MS);
 
   } else if (modo === 'bombeiros') {
     var sirene = getTrack('sirene');
     if (sirene) {
       sirene.loop(true).volume(CHEGADA_SIRENE_INICIO_VOL).play();
-      fadeTrack('sirene', CHEGADA_SIRENE_MAX_VOL, CHEGADA_SIRENE_SUBIDA_MS);   // aproxima-se
+      fadeTrack('sirene', CHEGADA_SIRENE_MAX_VOL, CHEGADA_SIRENE_SUBIDA_MS);
     }
     agendar(CHEGADA_SIRENE_SUBIDA_MS, function () {
-      fadeTrack('sirene', 0, CHEGADA_SIRENE_SAIDA_MS);                         // chegaram
+      fadeTrack('sirene', 0, CHEGADA_SIRENE_SAIDA_MS);
     });
-    batidaEPreto(CHEGADA_SIRENE_SUBIDA_MS, false);   // knock logo a seguir, sem passos
+    esperaDeCena(batidaEPreto(CHEGADA_SIRENE_SUBIDA_MS, false) + CHEGADA_FOLGA_MS);
 
   } else {
-    agendar(300, mostrarPontoEncontro);   // sem fase A: só as camadas
+    esperaDeCena(2500);                   // sem fase A: só as camadas
+    agendar(300, mostrarPontoEncontro);
   }
 }
 
@@ -7943,39 +7997,19 @@ window.pontoEncontroPreparado = function () {
    (.desfalecer-luzes) → hospital + respiração + texto.
    Duração em CSS (--desf29-dur). Com animações desligadas: 0 (sem sequência).
    ========================================================================== */
-var desfalecerTimers = [];
-
-function cancelarDesfalecer() {
-  desfalecerTimers.forEach(clearTimeout);
-  desfalecerTimers = [];
-}
 
 function duracaoDesfalecer() {
   if (!animationsEnabled) return 0;
-  var ms = 6000;
-  try {
-    var v = getComputedStyle(document.documentElement)
-      .getPropertyValue('--desf29-dur').trim();
-    if (v) ms = parseFloat(v) * 1000;
-  } catch (e) {}
-  return ms;
+  return lerDuracaoCss('--desf29-dur', 8000);
 }
 
 function sequenciaDesfalecer() {
-  cancelarDesfalecer();
   var D = duracaoDesfalecer();
   if (!D) return;
 
-  var p = passage();
+  var agendar = agendarNaPassagem;
   var $box = $('.text-box');
   $box.css({ visibility: 'hidden', opacity: 0 });   // o texto só aparece com o hospital
-
-  function agendar(ms, fn) {
-    desfalecerTimers.push(setTimeout(function () {
-      if (passage() !== p) return;      // já saiu da passagem
-      fn();
-    }, ms));
-  }
 
   // Sirene: começa quase inaudível e vai oscilando; no fim esvai-se
   var sirene = getTrack('sirene');
@@ -8038,157 +8072,6 @@ function aplicarFonte() {
     el.style.setProperty('font-size', readableFontSizes[fontIndex], 'important');
   });
 }
-
-var cenaEsperaMs = 0;
-var cenaTimer = null;
-var cenaLiberta = null;   // função que termina a espera (se houver uma a decorrer)
-var hintInterval = null;
-
-window.esperaDeCena = function (ms) {
-  cenaEsperaMs = Math.max(cenaEsperaMs, ms);
-};
-
-function esperaRestanteCena() {
-  if (!animationsEnabled) return 0;
-  return Math.max(0, cenaEsperaMs - (Date.now() - passageStartTime));
-}
-
-function cancelarCena() {
-  if (cenaTimer) { clearTimeout(cenaTimer); cenaTimer = null; }
-  if (hintInterval) { clearInterval(hintInterval); hintInterval = null; } 
-  cenaLiberta = null;
-  cenaEsperaMs = 0;
-  $(document).off('keydown.skipCena');
-  $('.scene').off('click.skipCena'); 
-}
-
-// Se a janela muda de tamanho com uma cena a decorrer, a barra acompanha
-$(window).on('resize.barraCena orientationchange.barraCena', function () {
-  var barra = document.querySelector('.cena-progresso');
-  if (barra) posicionarBarraCena(barra);
-});
-
-/* Termina de imediato as animações CSS finitas da cena (as infinitas continuam). */
-function saltarAnimacoesCss() {
-  var sc = document.querySelector('.scene:not(.alarm-scene)');
-  if (!sc || !sc.getAnimations) return;
-  sc.getAnimations({ subtree: true }).forEach(function (a) {
-    var t = a.effect && a.effect.getComputedTiming();
-    if (t && t.iterations !== Infinity) { try { a.finish(); } catch (e) {} }
-  });
-}
-
-function bloquearEscolhas(on) {
-  var $c = $('.text-box .choices');
-  $c.toggleClass('choices-esperar', on);
-  if (on) {
-    $c.find('a, button').each(function () {
-      // Guarda estado anterior (só na 1.ª vez)
-      if (!$(this).data('bloqueado-orig')) {
-        $(this).data('bloqueado-orig', {
-          tabindex: this.getAttribute('tabindex'),
-          pe: this.style.pointerEvents,
-          opacity: this.style.opacity
-        });
-      }
-      this.setAttribute('tabindex', '-1');
-      this.setAttribute('aria-disabled', 'true');
-      this.style.pointerEvents = 'none';
-    });
-    $c.attr('inert', '');
-  } else {
-    $c.removeAttr('inert');
-    $c.find('a, button').each(function () {
-      var orig = $(this).data('bloqueado-orig');
-      if (orig) {
-        if (orig.tabindex == null) this.removeAttribute('tabindex');
-        else this.setAttribute('tabindex', orig.tabindex);
-        this.style.pointerEvents = orig.pe || '';
-        this.style.opacity = orig.opacity || '';
-        $(this).removeData('bloqueado-orig');
-      }
-      this.removeAttribute('aria-disabled');
-    });
-  }
-}
-
-/* Coloca a .cena-progresso encostada ao topo da .text-box, com a largura dela.
-   Chamado ao criar a barra e em cada resize/orientationchange. */
-function posicionarBarraCena(barra) {
-  if (!barra) return;
-  var box = document.querySelector('.text-box');
-  if (!box) return;
-  var r = box.getBoundingClientRect();
-  barra.style.left = r.left + 'px';
-  barra.style.width = r.width + 'px';
-  // bottom = distância do fundo da janela ao topo da text-box
-  barra.style.bottom = (window.innerHeight - r.top) + 'px';
-}
-
-/* Corre fn quando a cena acabar (ou já, se não houver espera). */
-function aguardarCena(fn) {
-  var resto = esperaRestanteCena();
-  if (resto <= 0) { fn(); return; }
-
-  var p = passage();
-  var feito = false;
-  bloquearEscolhas(true);
-
-  // Barra de progresso da cena (só nas cenas saltáveis)
-    // Barra de progresso da cena (só nas cenas saltáveis)
-  var $hint = null;
-  if (CENA_SALTAVEL.indexOf(p) > -1) {
-    $hint = $('<div class="cena-progresso" aria-hidden="true"><i></i></div>');
-    $('body').append($hint);
-
-    posicionarBarraCena($hint[0]);
-
-    setTimeout(function () { $hint.addClass('ativa'); }, 50);
-
-    var $fill = $hint.find('i');
-    var hintStart = Date.now();
-    hintInterval = setInterval(function () {        // <-- sem "var"
-      var pct = Math.min(100, ((Date.now() - hintStart) / resto) * 100);
-      $fill[0].style.width = pct + '%';
-    }, 80);
-  }
-
-  function removerHint() {
-    if (!$hint) return;
-    if (hintInterval) { clearInterval(hintInterval); hintInterval = null; }
-    $hint.removeClass('ativa');
-    setTimeout(function () { $hint.remove(); }, 350);
-  }
-
-  function acabar() {
-    if (feito) return;
-    feito = true;
-    removerHint();
-    cancelarCena();
-    bloquearEscolhas(false);
-    fn();
-  }
-
-  cenaLiberta = acabar;
-  cenaTimer = setTimeout(acabar, resto);
-
-  if (CENA_SALTAVEL.indexOf(p) > -1) {
-    var saltar = function (ev) {
-      // Ignora cliques em botões/links da UI (⟲, back, settings, etc.)
-      if (ev && ev.target && $(ev.target).closest(
-            'a, button, .ui-btn, #settings-nook, #sound-btn, #decision-timer'
-          ).length) return;
-      saltarAnimacoesCss();
-      acabar();
-    };
-    // .on em vez de .one: o guard pode fazer "return" sem consumir o listener
-    $('.scene').not('.alarm-scene').on('click.skipCena', saltar);
-    $(document).one('keydown.skipCena', function (e) {
-      if (e.key === ' ') { e.preventDefault(); saltar(); }
-    });
-  }
-}
-window.liberarCena = function () { if (cenaLiberta) cenaLiberta(); };
 
 /* ---- 8.3 Animação palavra a palavra ----
    Corre no fim de cada passagem. Passos:
@@ -8261,8 +8144,6 @@ function iniciarTextoAnimado() {
       $(this).css('opacity', 1);
       $(this).find('.word').css('opacity', 1);
     });
-
-    if ($box.length === 0) return;
 
     $scroll.css('overflow-y', 'auto');
 
@@ -8374,6 +8255,164 @@ function iniciarTextoAnimado() {
   showNext();
 }
 
+/* ==========================================================================
+   [8B] CENAS EM SEQUÊNCIA
+   --------------------------------------------------------------------------
+   Os botões só aparecem no fim da cena. esperaDeCena(ms) regista a espera
+   (nas passagens: <<run esperaDeCena(5000)>>); aguardarCena(fn) corre fn no fim.
+   Em CENA_SALTAVEL um clique/Espaço salta para o fim.
+   ========================================================================== */
+
+var cenaEsperaMs = 0;
+var cenaTimer = null;
+var cenaLiberta = null;   // função que termina a espera (se houver uma a decorrer)
+
+window.esperaDeCena = function (ms) {
+  cenaEsperaMs = Math.max(cenaEsperaMs, ms);
+};
+
+function esperaRestanteCena() {
+  if (!animationsEnabled) return 0;
+  return Math.max(0, cenaEsperaMs - (Date.now() - passageStartTime));
+}
+
+function cancelarCena() {
+  if (cenaTimer) { clearTimeout(cenaTimer); cenaTimer = null; }
+  cenaLiberta = null;
+  cenaEsperaMs = 0;
+  $(document).off('keydown.skipCena');
+  $('.scene').off('click.skipCena'); 
+}
+
+// Se a janela muda de tamanho com uma cena a decorrer, a barra acompanha
+$(window).on('resize.barraCena orientationchange.barraCena', function () {
+  var barra = document.querySelector('.cena-progresso');
+  if (barra) posicionarBarraCena(barra);
+});
+
+/* Termina de imediato as animações CSS finitas da cena (as infinitas continuam). */
+function saltarAnimacoesCss() {
+  var sc = document.querySelector('.scene:not(.alarm-scene)');
+  if (!sc || !sc.getAnimations) return;
+  sc.getAnimations({ subtree: true }).forEach(function (a) {
+    var t = a.effect && a.effect.getComputedTiming();
+    if (t && t.iterations !== Infinity) { try { a.finish(); } catch (e) {} }
+  });
+}
+
+function bloquearEscolhas(on) {
+  var $c = $('.text-box .choices');
+  $c.toggleClass('choices-esperar', on);
+  if (on) {
+    $c.find('a, button').each(function () {
+      // Guarda estado anterior (só na 1.ª vez)
+      if (!$(this).data('bloqueado-orig')) {
+        $(this).data('bloqueado-orig', {
+          tabindex: this.getAttribute('tabindex'),
+          pe: this.style.pointerEvents,
+          opacity: this.style.opacity
+        });
+      }
+      this.setAttribute('tabindex', '-1');
+      this.setAttribute('aria-disabled', 'true');
+      this.style.pointerEvents = 'none';
+    });
+    $c.attr('inert', '');
+  } else {
+    $c.removeAttr('inert');
+    $c.find('a, button').each(function () {
+      var orig = $(this).data('bloqueado-orig');
+      if (orig) {
+        if (orig.tabindex == null) this.removeAttribute('tabindex');
+        else this.setAttribute('tabindex', orig.tabindex);
+        this.style.pointerEvents = orig.pe || '';
+        this.style.opacity = orig.opacity || '';
+        $(this).removeData('bloqueado-orig');
+      }
+      this.removeAttribute('aria-disabled');
+    });
+  }
+}
+
+/* Coloca a .cena-progresso encostada ao topo da .text-box, com a largura dela.
+   Chamado ao criar a barra e em cada resize/orientationchange. */
+function posicionarBarraCena(barra) {
+  if (!barra) return;
+  var box = document.querySelector('.text-box');
+  if (!box) return;
+  var r = box.getBoundingClientRect();
+  barra.style.left = r.left + 'px';
+  barra.style.width = r.width + 'px';
+  // bottom = distância do fundo da janela ao topo da text-box
+  barra.style.bottom = (window.innerHeight - r.top) + 'px';
+}
+
+/* Cria a barra de progresso por cima da text-box.
+   totalMs = duração total da barra; jaPassouMs = quanto já devia estar preenchido
+   (a barra nasce já com o progresso real, em vez de começar sempre a 0). */
+function criarBarraCena(totalMs, jaPassouMs) {
+  var $b = $('<div class="cena-progresso" aria-hidden="true"><i></i></div>');
+  $b[0].style.setProperty('--cena-total', totalMs + 'ms');
+  $b[0].style.setProperty('--cena-atraso', -jaPassouMs + 'ms');
+  $('body').append($b);
+  posicionarBarraCena($b[0]);
+  setTimeout(function () { $b.addClass('ativa'); }, 50);
+  return $b;
+}
+
+function removerBarraCena($b) {
+  if (!$b || !$b.length) return;
+  $b.removeClass('ativa');
+  setTimeout(function () { $b.remove(); }, 350);
+}
+
+/* Corre fn quando a cena acabar (ou já, se não houver espera). */
+function aguardarCena(fn) {
+  var resto = esperaRestanteCena();
+  if (resto <= 0) { fn(); return; }
+
+  var p = passage();
+  var feito = false;
+  var total = cenaEsperaMs;   // guardado antes de cancelarCena() o repor a 0
+  bloquearEscolhas(true);
+
+  // Barra de progresso da cena (só nas cenas saltáveis e com espera longa)
+  var $hint = null;
+  if (CENA_SALTAVEL.indexOf(p) > -1 && resto >= CENA_BARRA_MIN_MS) {
+    $hint = criarBarraCena(total, total - resto);
+  }
+
+  function removerHint() { removerBarraCena($hint); }
+
+  function acabar() {
+    if (feito) return;
+    feito = true;
+    removerHint();
+    cancelarCena();
+    bloquearEscolhas(false);
+    fn();
+  }
+
+  cenaLiberta = acabar;
+  cenaTimer = setTimeout(acabar, resto);
+
+  if (CENA_SALTAVEL.indexOf(p) > -1) {
+    var saltar = function (ev) {
+      // Ignora cliques em botões/links da UI (⟲, back, settings, etc.)
+      if (ev && ev.target && $(ev.target).closest(
+            'a, button, .ui-btn, #settings-nook, #sound-btn, #decision-timer'
+          ).length) return;
+      saltarAnimacoesCss();
+      acabar();
+    };
+    // .on em vez de .one: o guard pode fazer "return" sem consumir o listener
+    $('.scene').not('.alarm-scene').on('click.skipCena', saltar);
+    $(document).one('keydown.skipCena', function (e) {
+      if (e.key === ' ') { e.preventDefault(); saltar(); }
+    });
+  }
+}
+window.liberarCena = function () { if (cenaLiberta) cenaLiberta(); };
 
 /* ==========================================================================
    [9] TELEMÓVEL (passagem 2.1 — marcar o 112)
@@ -8624,7 +8663,7 @@ $(document).on('click', '#phone-backspace', function () {
     var display = next + '___'.slice(next.length);
     $digits.text(display).css('color', 'white');
   }
-  SimpleAudio.tracks.get('phone-tap').volume(0.3).play();
+  tocarSom('phone-tap', 0.3);
 });
 
 // Acessibilidade: o botão apagar também funciona com Enter/Espaço
@@ -8643,10 +8682,8 @@ $(document).on('click', '.phone-call', function () {
     if ($(this).data('chamando')) return;           // evita duplo clique
     $(this).data('chamando', true);
     $('.scene .image-overlay').removeClass('pose-112before').addClass('pose-112');
-    SimpleAudio.tracks.get('phone').loop(false).volume(0.5).play();
-    setTimeout(function () {
-      if (passage() === '2.1') Engine.play('2');    // se recuou/recomeçou, não avança
-    }, CHAMADA_112_MS);
+    tocarSom('phone', 0.5);
+    agendarNaPassagem(CHAMADA_112_MS, function () { Engine.play('2'); });
   } else if (current.length === 0) {
     mostrarErroTelemovel('Marca um nº');
   } else {
@@ -8771,8 +8808,60 @@ function aplicarIconeFechar() {
   });
 }
 
+/* ======== 10A - Ajuste do Caderno */
+/* Quiz em caderno: altura disponível = espaço acima da text-box */
+function ajustarCaderno() {
+  var ov  = document.querySelector('.notebook-overlay');
+  var box = document.querySelector('.text-box');
+  if (!ov || !box) return;
+  
+  ov.style.setProperty('--nb-textbox-px', box.getBoundingClientRect().height + 'px');
+
+  var list = document.querySelector('.notebook-list');
+  var actions = document.querySelector('.notebook-actions');
+  if (!list || !actions) return;
+
+  // Remove setas antigas
+  var oldHint = actions.querySelector('.nb-scroll-hint');
+  if (oldHint) oldHint.remove();
+
+  // Cria a setinha
+  var hint = document.createElement('div');
+  hint.className = 'nb-scroll-hint';
+  hint.innerHTML = '<svg class="ph-icon" viewBox="0 0 256 256"><path fill="currentColor" d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
+
+  // Ação de clicar para scrollar para baixo
+  hint.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    list.scrollBy({ top: list.clientHeight * 0.8, behavior: 'smooth' });
+  });
+
+  // Anexa a seta ao RODAPÉ (a mesma secção do botão)
+  actions.appendChild(hint);
+
+  function verificarScroll() {
+    var hasScroll = list.scrollHeight > list.clientHeight + 5;
+    var isNearBottom = list.scrollTop + list.clientHeight >= list.scrollHeight - 20;
+    
+    if (hasScroll && !isNearBottom) {
+      hint.classList.add('visible');
+    } else {
+      hint.classList.remove('visible');
+    }
+  }
+
+  setTimeout(verificarScroll, 50);
+  
+  if (list._scrollHandler) {
+    list.removeEventListener('scroll', list._scrollHandler);
+  }
+  list._scrollHandler = verificarScroll;
+  list.addEventListener('scroll', verificarScroll);
+}
+
 /* ==========================================================================
-   [11] DEFINIÇÕES (botão + painel lateral) E SAIR DO JOGO
+   [11] DEFINIÇÕES (botão + painel lateral)
    Tudo é criado na 1.ª passagem, dentro de uma única função (partilha de
    variáveis jQuery e funções internas). Sub-blocos:
      11.1 criar HTML        11.5 tamanho da letra    11.9 abrir/fechar
@@ -8812,19 +8901,16 @@ $(document).one(':passagestart', function () {
           /* ===== Grupo 1 — Geral (sem título) ===== */          
           '<section class="settings-group" aria-labelledby="sg-geral">' +
             '<h3 class="settings-group-title" id="sg-geral">Geral</h3>' +            
-            '<div class="settings-row settings-row-language">' +              
-              '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +              
-              '<select id="language-select" class="language-select" aria-label="Idioma">' +                
-                '<option value="pt" selected>Português</option>' +                
-                '<option value="en">English</option>' +                
-                '<option value="es">Español</option>' +                
-                '<option value="fr">Français</option>' +                
-                '<option value="de">Deutsch</option>' +                
-                '<option value="it">Italiano</option>' +                
-                '<option value="el">Ελληνικά</option>' +                
-                '<option value="ru">Русский</option>' +              
-              '</select>' +            
-            '</div>' +  
+              (FEATURES.idioma ?
+              '<div class="settings-row settings-row-language">' +
+                '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_GLOBE + '</span> Idioma</span>' +
+                '<select id="language-select" class="language-select" aria-label="Idioma">' +
+                  '<option value="pt" selected>Português</option><option value="en">English</option>' +
+                  '<option value="es">Español</option><option value="fr">Français</option>' +
+                  '<option value="de">Deutsch</option><option value="it">Italiano</option>' +
+                  '<option value="el">Ελληνικά</option><option value="ru">Русский</option>' +
+                '</select>' +
+              '</div>' : '') +
 
             '<div class="settings-row">' +              
               '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_FULLSCREEN + '</span> Ecrã cheio</span>' +              
@@ -8845,10 +8931,11 @@ $(document).one(':passagestart', function () {
                 '</div>' +              
                 '<span class="volume-value" id="volume-value">100%</span>' +            
               '</div>' +             
-              '<div class="settings-row">' +              
-                '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_MIC + '</span> Narração</span>' +              
-                '<div class="toggle-switch" id="toggle-voice" role="switch" aria-checked="false" tabindex="0" aria-label="Narração de voz"></div>' +            
-              '</div>' +           
+              (FEATURES.narracao ?
+                '<div class="settings-row">' +
+                  '<span class="settings-row-label"><span class="icon" aria-hidden="true">' + ICON_MIC + '</span> Narração</span>' +
+                  '<div class="toggle-switch" id="toggle-voice" role="switch" aria-checked="false" tabindex="0" aria-label="Narração de voz"></div>' +
+                '</div>' : '') +        
           '</section>' +
 
           /* ===== Grupo 3 — Acessibilidade ===== */          
@@ -9020,6 +9107,7 @@ $(document).one(':passagestart', function () {
 
     // A fake scrollbar precisa de recalcular depois de o texto mudar de tamanho
     setTimeout(function () {
+      reajustarCenas();
       if (window.refreshFakeScrollbars) window.refreshFakeScrollbars();
     }, 60);
   }
@@ -9106,12 +9194,8 @@ $(document).off('fullscreenchange.settings').on('fullscreenchange.settings', upd
     if (e.target === $overlay[0]) closeSettings();   // clique no fundo escuro
   });
 
-  $(document).off('keydown.settings').on('keydown.settings', function (e) {
-    if (e.key === 'Escape' && $overlay.hasClass('open')) closeSettings();
-  });
-
   /* ---------- 11.10 Botões inferiores ---------- */
-
+  // O botão ↻ da text-box (.ui-btn) está escondido por CSS: serve de "botão fantasma" para estas definições
   // Recomeçar: reutiliza o botão ↻ da text-box (abre a passagem '⟲')
   $('#settings-restart').off('click.settings').on('click.settings', function () {
     closeSettings();
@@ -9203,7 +9287,7 @@ $(document).one(':storyready', function () {
     '<main class="loading-content">' +
       '<h1 class="loading-title">Há fogo na aldeia.</h1>' +
       '<div class="loading-flame">' +
-        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
+        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
       '</div>' +
       '<span class="custom-loader"></span>' +
       '<p class="loading-text">Carregando...</p>' +
@@ -9262,7 +9346,11 @@ $(document).one(':storyready', function () {
     if (loaded >= total) finishLoading();
   }
 
+  var carregamentoFechado = false;
+
   function finishLoading() {
+    if (carregamentoFechado) return;
+    carregamentoFechado = true;
     var passado = Date.now() - tempoInicio;
     var faltam = Math.max(0, tempoMinimo - passado);
     setTimeout(morphOut, faltam + 300);
@@ -9371,33 +9459,23 @@ $(document).one(':storyready', function () {
     };
     img.src = src;
   });
+
+  // Imagem crítica que nunca responde: avança ao fim de 15 s
+  setTimeout(function () {
+    if (carregamentoFechado) return;
+    overlay.style.setProperty('--progress', '100%');
+    finishLoading();
+  }, 15000);
 });
 
 /* ==========================================================================
-   [13] PASSAGEM 13 — "PRONTO PARA EVACUAR"
-   Mede a altura real da text-box e passa-a ao CSS (--pe-textbox-px) para a
-   imagem não ficar tapada em tablets.
+   [13] AJUSTES DE ALTURA (passagens 13, 19 e finais)
    ========================================================================== */
 function ajustarProntoEvacuar() {
   var stage = document.querySelector('.prontoevacuar-stage');
   var box = document.querySelector('#prontoevacuarScene .text-box');
   if (!stage || !box) return;
   stage.style.setProperty('--pe-textbox-px', box.getBoundingClientRect().height + 'px');
-}
-
-/* Liga/desliga os ouvintes conforme se está ou não na passagem 13 */
-function configurarProntoEvacuar() {
-  if (passage() === '13' || passage() === '13-Laurinda') {
-    setTimeout(ajustarProntoEvacuar, 60);
-    $(window).off('resize.pe').on('resize.pe', ajustarProntoEvacuar);
-    // Mudar o tamanho da letra altera a altura da caixa
-    $(document).off('click.pefont').on('click.pefont', '.font-level', function () {
-      setTimeout(ajustarProntoEvacuar, 60);
-    });
-  } else {
-    $(window).off('resize.pe');
-    $(document).off('click.pefont');
-  }
 }
 
 /* Passagem 19: altura da camada evacuar = espaço acima da text-box */
@@ -9408,23 +9486,24 @@ function ajustarEvacuar() {
   ov.style.setProperty('--ev-textbox-px', box.getBoundingClientRect().height + 'px');
 }
 
-$(window).on('resize', ajustarEvacuar);
-$(document).on('click', '.font-level', function () {
-  setTimeout(ajustarEvacuar, 60);
-});
-
-/* Passagem da casa ardida: altura da imagem = espaço acima da text-box */
+/* Passagens com pan (casa ardida / final-2): altura da imagem = espaço acima da text-box */
 function ajustarCasaArdida() {
-  var bg  = document.querySelector('.image-bg.casa-ardida');
   var box = document.querySelector('.text-box');
-  if (!bg || !box) return;
-  bg.style.setProperty('--ca-textbox-px', box.getBoundingClientRect().height + 'px');
+  if (!box) return;
+  var h = box.getBoundingClientRect().height + 'px';
+  document.querySelectorAll('.image-bg.casa-ardida, .pan-final').forEach(function (el) {
+    el.style.setProperty('--ca-textbox-px', h);
+  });
 }
 
-$(window).on('resize', ajustarCasaArdida);
-$(document).on('click', '.font-level', function () {
-  setTimeout(ajustarCasaArdida, 60);   // o tamanho da letra muda a altura da caixa
-});
+/* Um só ponto de reajuste: chamado no resize, ao mudar a letra e no :passageend */
+function reajustarCenas() {
+  ajustarProntoEvacuar();
+  ajustarEvacuar();
+  ajustarCasaArdida();
+  ajustarCaderno();
+}
+$(window).on('resize', reajustarCenas);
 
 /* ==========================================================================
    [14] SCROLLBAR FALSA (telemóvel/tablet — ecrãs touch)
@@ -9591,6 +9670,68 @@ function aplicarContinuidadeCamadas() {
 }
 
 /* ==========================================================================
+   [14C] CENA SÓ APARECE COM AS IMAGENS PRONTAS
+   --------------------------------------------------------------------------
+   Evita ver o fumo/overlays sem o fundo quando uma imagem ainda não carregou
+   ou não foi descodificada. Se tudo já estiver pronto, não faz nada.
+   ========================================================================== */
+var IMG_CENA_MAX_MS = 3000;   // limite de espera (nunca bloqueia mais do que isto)
+var imgsProntas = {};         // urls já carregados e descodificados
+
+function urlsDeFundoDaCena($cena) {
+  var urls = [];
+  $cena.find('*').addBack().each(function () {
+    var bg = getComputedStyle(this).backgroundImage;
+    if (!bg || bg === 'none') return;
+    var re = /url\(["']?([^"')]+)["']?\)/g, m;
+    while ((m = re.exec(bg))) {
+      if (m[1].indexOf('data:') !== 0 && urls.indexOf(m[1]) === -1) urls.push(m[1]);
+    }
+  });
+  return urls;
+}
+
+function aguardarImagensDaCena() {
+  var p = passage();
+  if (p === 'Start') return;                       // o ecrã de carregamento já trata disto
+
+  var $cena = $('.scene').not('.alarm-scene');
+  if (!$cena.length) return;
+
+  var pendentes = urlsDeFundoDaCena($cena).filter(function (u) { return !imgsProntas[u]; });
+  if (!pendentes.length) return;
+
+  var restantes = pendentes.length;
+  var revelado = false;
+  $cena.addClass('a-carregar');
+
+  function revelar() {
+    if (revelado || passage() !== p) return;       // já saiu da passagem: não mexe na nova
+    revelado = true;
+    $('.scene').removeClass('a-carregar');
+  }
+
+  function pronta(u) {
+    imgsProntas[u] = true;
+    if (--restantes <= 0) revelar();
+  }
+
+  pendentes.forEach(function (u) {
+    var img = new Image();
+    img.src = u;
+    if (img.decode) {
+      img.decode().then(function () { pronta(u); }, function () { pronta(u); });
+    } else if (img.complete) {
+      pronta(u);
+    } else {
+      img.onload = img.onerror = function () { pronta(u); };
+    }
+  });
+
+  setTimeout(revelar, IMG_CENA_MAX_MS);
+}
+
+/* ==========================================================================
    [15] EVENTOS PRINCIPAIS DO SUGARCUBE
    --------------------------------------------------------------------------
    :passagestart → antes de a passagem aparecer (reset de estado, áudio)
@@ -9611,68 +9752,41 @@ $(document).on(':passagestart', function (ev) {
     if (birds) birds.stop();
     earRinging21FadeIniciado = false;
     resetTimer();
-
-    // Reset completo para novas jogadas
-    var V = State.variables;
-    V.ligou112           = false;
-    V.perfeito112        = false;
-    V.fez112             = false;
-    V.kit                = false;
-    V.kitPerfeito        = false;
-    V.fezKit             = false;
-    V.bobiSeguro         = false;
-    V.avisouVizinhos     = false;
-    V.tocouSino          = false;
-    V.tocouSinoGeral     = false;
-    V.entrouPanico       = false;
-    V.jaEntrouPanico     = false;
-    V.panicOrigin        = null;
-    V.mobilidadeReduzida = false;
-    V.foiResgatado       = false;
-    V.ignorouAlerta      = false;
-    V.casaPreparada      = false;
-    V.casaPerfeita       = false;
-    V.fezCasa            = false;
-    V.caminhoPerigoso    = false;
-    V.naoEvacuar         = false;
-    V.viuLaurinda        = false;
-    V.ajudarLaurinda     = false;
-    V.demorouLaurinda    = false;
-    V.fezSeguranca       = false;
-    V.casaSeguraFinal    = false;
-    V.segurancaPerfeita  = false;
-}
+    Object.assign(State.variables, setup.estadoInicial);   // reset completo para novas jogadas
+  }
 
   // Limpa o que pertencia à passagem anterior
   cancelarAutoFim();
   cancelarCena();
-  cancelarChegada();
-  cancelarDesfalecer();
+  cancelarAgendadas();
   TocarBirds();
   pauseTimer();
   timerTextReady = false;
   passageTextDone = false;
   $('#decision-timer').remove();
 
-  $('.scene').hide().fadeIn(200);
+  var porCima = CAIXAS_POR_CIMA.indexOf(name) > -1;   // Sobre / Guia / ⟲: não mexem em nada
 
-  // Áudio
-  pararSonsCurtos(name);
-  aplicarSomBirds(name);
-  aplicarSomFogo(name);
-  aplicarFogoAApagar(name);
-  aplicarSomCasaArdida(name);   
-  
+  if (!porCima) {
+    pararSonsCurtos(name);
+    aplicarSomBirds(name);
+    aplicarSomFogo(name);
+    aplicarFogoARecuar(name);
+  }
+
   // Cronómetro: passagens com contador criam-no; as restantes limpam-no
-  // ('⟲' e 'Guia de Jogo' mantêm-no, para o jogo continuar de onde estava)
   if (TIMER_PASSAGES.indexOf(name) > -1) {
     startDecisionTimer();
-  } else if (name !== '⟲' && name !== 'Guia de Jogo') {
+  } else if (!porCima) {
     resetTimer();
   }
 
-  aplicarSonsPontuais(name);
-  aplicarSomEarRinging(name);
+  if (!porCima) {
+    aplicarSonsPontuais(name);
+    aplicarSomEarRinging(name);
+  }
+  registarEsperasDaPassagem(name);
+
 
   // Passagem 13: dispara a sequência de imagens (.play ativa as animações CSS)
   if (name === '13' || name === '13-Laurinda') {
@@ -9696,23 +9810,16 @@ $(document).on(':passagestart', function (ev) {
   } else {
     $(window).off('resize.phone');
   }
-
-  // Passagem 28: fogo-floresta + fogo-aparece levam ~6s a estabilizar
-  if (name === '28') {
-    esperaDeCena(animationsEnabled ? 6500 : 0);
-  }
 });
 
 /* ---- 15.2 :passageend ---- */
 $(document).on(':passageend', function () {
 
   aplicarContinuidadeCamadas();   // [14B] camadas que já existiam não reaparecem
+  aguardarImagensDaCena();        // [14C] esconde as camadas até as imagens estarem prontas
   aplicarFonte();   // reaplica o tamanho da letra a cada passagem
 
   // O botão de recomeçar nativo (.ui-btn) mostra só o símbolo ↻
-  var $restart = $('.ui-btn a:first-child');
-  if ($restart.length) $restart.text('↻');
-
   if (passage() === '2.1') criarEcraTelemovel();
 
   // 29: o texto só arranca depois da sequência das sirenes (ver [7C])
@@ -9741,9 +9848,8 @@ $(document).on(':passageend', function () {
   $('.alarm .confirm-restart a').each(function () {
     if (!$(this).find('.ph-icon').length) $(this).prepend(ICON_RESTART + ' ');
   });
-  configurarProntoEvacuar();
-  ajustarCasaArdida();
-  ajustarEvacuar();
+  reajustarCenas();
+  setTimeout(reajustarCenas, 60);   // depois de aplicarFonte() assentar
 });
 
 /* ---- 15.3 :passagestart (uma vez) — elementos fixos da interface ----
@@ -10049,30 +10155,37 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
   &lt;div class=&quot;image-fumo casafumo1 fumo-leve fumo-tenue&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;image-bg casa-semjanela-jardim&quot;&gt;&lt;/div&gt;
   &lt;div class=&quot;image-overlay pose-112&quot;&gt;&lt;/div&gt;
-      &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-          &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-          &lt;p class=&quot;animar&quot;&gt;O operador atende. &lt;b&gt;O que dizer agora?&lt;/b&gt;&lt;/p&gt;
-          &lt;div class=&quot;choices-112&quot;&gt;             
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r1&quot; false true&gt;&gt; A minha morada ou localização&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r2&quot; false true&gt;&gt; O nome do meu médico de família&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r3&quot; false true&gt;&gt; Se vejo chamas ou fumo e qual a sua cor&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r4&quot; false true&gt;&gt; O meu número de contribuinte&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r5&quot; false true&gt;&gt; O tipo de vegetação a arder&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r6&quot; false true&gt;&gt; A direção do incêndio e para onde se dirige&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r7&quot; false true&gt;&gt; O número da minha conta bancária&lt;/label&gt;
-              &lt;label&gt;&lt;&lt;checkbox &quot;$r8&quot; false true&gt;&gt; Um ponto de referência próximo se não souber a morada&lt;/label&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;choices&quot;&gt;
-              &lt;&lt;button &quot;Enviar informação&quot; &quot;Resultado 112&quot;&gt;&gt;
-              		&lt;&lt;set $fez112 to true&gt;&gt;
-                   &lt;&lt;set $perfeito112 to false&gt;&gt;
-                   &lt;&lt;set $ligou112 to false&gt;&gt;
-              &lt;&lt;/button&gt;&gt;
-          &lt;/div&gt;
+
+  &lt;div class=&quot;notebook-overlay&quot;&gt;
+    &lt;div class=&quot;notebook&quot; role=&quot;group&quot; aria-labelledby=&quot;nb-titulo-112&quot;&gt;
+      &lt;h2 class=&quot;notebook-title&quot; id=&quot;nb-titulo-112&quot;&gt;Chamada para o 112&lt;/h2&gt;
+      &lt;div class=&quot;notebook-list&quot;&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r1&quot; false true&gt;&gt; A minha morada ou localização&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r2&quot; false true&gt;&gt; O nome do meu médico de família&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r3&quot; false true&gt;&gt; Se vejo chamas ou fumo e qual a sua cor&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r4&quot; false true&gt;&gt; O meu número de contribuinte&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r5&quot; false true&gt;&gt; O tipo de vegetação a arder&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r6&quot; false true&gt;&gt; A direção do incêndio e para onde se dirige&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r7&quot; false true&gt;&gt; O número da minha conta bancária&lt;/label&gt;
+        &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$r8&quot; false true&gt;&gt; Um ponto de referência próximo se não souber a morada&lt;/label&gt;
       &lt;/div&gt;
+      &lt;div class=&quot;choices notebook-actions&quot;&gt;
+        &lt;&lt;button &quot;Enviar informação&quot; &quot;Resultado 112&quot;&gt;&gt;
+            &lt;&lt;set $fez112 to true&gt;&gt;
+            &lt;&lt;set $perfeito112 to false&gt;&gt;
+            &lt;&lt;set $ligou112 to false&gt;&gt;
+        &lt;&lt;/button&gt;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;
-</tw-passagedata><tw-passagedata pid="13" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;
+
+  &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+      &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+      &lt;p class=&quot;animar nb-dica&quot;&gt;O operador atende. Marco no caderno a informação que devo transmitir.&lt;/p&gt;
+      &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que dizer agora?&lt;/b&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="13" name="7" tags="" position="700,525" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay fire-overlay chamas-mexer fireFlicker vibrate-2&quot;&gt;&lt;/div&gt;
@@ -10201,106 +10314,75 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
-        &lt;div id=&quot;pergunta-casa&quot;&gt;
-        	&lt;&lt;if $mobilidadeReduzida&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt;Enquanto espero pelo Sr. Miguel e o filho, vou vendo o que falta tratar em casa antes de sairmos. &lt;b&gt;O que tenho de verificar?
-&lt;/b&gt;&lt;/p&gt;
-            &lt;&lt;elseif not $naoEvacuar&gt;&gt;
-            	&lt;p class=&quot;animar&quot;&gt;O fogo parece estar já demasiado próximo, por isso devo certificar-me que preparei a casa com as medidas de segurança necessárias antes de evacuar.&lt;b&gt;O que tenho que verificar?&lt;/b&gt;&lt;/p&gt;
-                &lt;&lt;else&gt;&gt;
-                	&lt;p class=&quot;animar&quot;&gt;O fogo parece estar já demasiado próximo, por isso não é seguro evacuar. Terei de ficar aqui. &lt;b&gt;Mas será que preparei a casa com as medidas de segurança necessárias?&lt;/b&gt;&lt;/p&gt;
-            &lt;&lt;/if&gt;&gt;
-            &lt;div class=&quot;choices-112&quot;&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$p1&quot; false true&gt;&gt; O terreno à volta da casa está com a vegetação controlada&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$e1&quot; false true&gt;&gt; Escondo-me na cave, no ponto mais baixo da casa&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$p2&quot; false true&gt;&gt; Não tenho lenha ou outros objetos inflamáveis junto às paredes da casa&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$e2&quot; false true&gt;&gt; Visto roupa de material sintético para me proteger do calor&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$p3&quot; false true&gt;&gt; Todas as portas e janelas estão fechadas&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$e3&quot; false true&gt;&gt; Vou buscar o carro para o pôr a salvo dentro da garagem fechada&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$p4&quot; false true&gt;&gt; Tenho acesso a água e/ou extintores&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$e4&quot; false true&gt;&gt; Deixo a porta da frente aberta para poder sair rapidamente se for preciso&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$p5&quot; false true&gt;&gt; Tenho um pano húmido para colocar sobre as vias respiratórias&lt;/label&gt;
-                &lt;label&gt;&lt;&lt;checkbox &quot;$e5&quot; false true&gt;&gt; Abro todas as janelas para o ar circular e não ficar abafado&lt;/label&gt;
+    &lt;div class=&quot;notebook-overlay&quot;&gt;
+        &lt;div class=&quot;notebook&quot; role=&quot;group&quot; aria-labelledby=&quot;nb-titulo-casa&quot;&gt;
+            &lt;h2 class=&quot;notebook-title&quot; id=&quot;nb-titulo-casa&quot;&gt;Preparar a Casa&lt;/h2&gt;
+            &lt;div class=&quot;notebook-list&quot;&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$p1&quot; false true&gt;&gt; O terreno à volta da casa está com a vegetação controlada&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e1&quot; false true&gt;&gt; Escondo-me na cave, no ponto mais baixo da casa&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$p2&quot; false true&gt;&gt; Não tenho lenha ou outros objetos inflamáveis junto às paredes da casa&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e2&quot; false true&gt;&gt; Visto roupa de material sintético para me proteger do calor&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$p3&quot; false true&gt;&gt; Todas as portas e janelas estão fechadas&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e3&quot; false true&gt;&gt; Vou buscar o carro para o pôr a salvo dentro da garagem fechada&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$p4&quot; false true&gt;&gt; Tenho acesso a água e/ou extintores&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e4&quot; false true&gt;&gt; Deixo a porta da frente aberta para poder sair rapidamente se for preciso&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$p5&quot; false true&gt;&gt; Tenho um pano húmido para colocar sobre as vias respiratórias&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e5&quot; false true&gt;&gt; Abro todas as janelas para o ar circular e não ficar abafado&lt;/label&gt;
             &lt;/div&gt;
-
-            &lt;div class=&quot;choices&quot;&gt;
+            &lt;div class=&quot;choices notebook-actions&quot;&gt;
                 &lt;&lt;button &quot;Confirmar preparação&quot; &quot;Resultado Casa&quot;&gt;&gt;
-					&lt;&lt;set $fezCasa to true&gt;&gt;
+                    &lt;&lt;set $fezCasa to true&gt;&gt;
                     &lt;&lt;set $casaPerfeita to false&gt;&gt;
                     &lt;&lt;set $casaPreparada to false&gt;&gt;
-                    
                     &lt;&lt;set $corretasCasa to 0&gt;&gt;
-                    &lt;&lt;if $p1&gt;&gt;
-                        &lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $p2&gt;&gt;
-                        &lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $p3&gt;&gt;
-                        &lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $p4&gt;&gt;
-                        &lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $p5&gt;&gt;
-                        &lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
+                    &lt;&lt;if $p1&gt;&gt;&lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $p2&gt;&gt;&lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $p3&gt;&gt;&lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $p4&gt;&gt;&lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $p5&gt;&gt;&lt;&lt;set $corretasCasa to $corretasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
                     &lt;&lt;set $erradasCasa to 0&gt;&gt;
-
-                    &lt;&lt;if $e1&gt;&gt;
-                        &lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $e2&gt;&gt;
-                        &lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $e3&gt;&gt;
-                        &lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $e4&gt;&gt;
-                        &lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
-                    &lt;&lt;if $e5&gt;&gt;
-                        &lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;
-                    &lt;&lt;/if&gt;&gt;
-
+                    &lt;&lt;if $e1&gt;&gt;&lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e2&gt;&gt;&lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e3&gt;&gt;&lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e4&gt;&gt;&lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e5&gt;&gt;&lt;&lt;set $erradasCasa to $erradasCasa + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
                     &lt;&lt;if $corretasCasa eq 5 and $erradasCasa eq 0&gt;&gt;
                         &lt;&lt;set $casaPreparada to true&gt;&gt;
                         &lt;&lt;set $casaPerfeita to true&gt;&gt;
                         &lt;&lt;set $mensagemCasa to &quot;Perfeito! Preparaste a casa com todas as medidas de segurança necessárias.&quot;&gt;&gt;
                         &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Casa Perfeita\nTomaste todas as medidas certas para ficar em segurança.&#39;, &#39;house&#39;)&gt;&gt;
-
                     &lt;&lt;elseif $corretasCasa gte 4 and $erradasCasa lte 1&gt;&gt;
                         &lt;&lt;set $casaPreparada to true&gt;&gt;
                         &lt;&lt;set $mensagemCasa to &quot;Preparaste bem a casa, mas cometeste algum erro. As medidas que tomaste vão ajudar-te a manter-te em segurança.&quot;&gt;&gt;
                         &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Casa Preparada\nTomaste as medidas certas para ficar em segurança em casa.&#39;, &#39;house&#39;)&gt;&gt;
-
                     &lt;&lt;else&gt;&gt;
                         &lt;&lt;set $casaPreparada to false&gt;&gt;
                         &lt;&lt;set $mensagemCasa to &quot;A preparação não foi suficiente ou cometeste erros graves. Vais precisar de ajuda.&quot;&gt;&gt;
-
                     &lt;&lt;/if&gt;&gt;
                 &lt;&lt;/button&gt;&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
-&lt;/div&gt;
 
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;&lt;if $mobilidadeReduzida&gt;&gt;
+            &lt;p class=&quot;animar nb-dica&quot;&gt;Enquanto espero pelo Sr. Miguel e o filho, vou vendo o que falta tratar em casa antes de sairmos. Marco no caderno o que tenho de verificar.&lt;/p&gt;
+        &lt;&lt;elseif not $naoEvacuar&gt;&gt;
+            &lt;p class=&quot;animar nb-dica&quot;&gt;O fogo parece estar já demasiado próximo, por isso devo certificar-me que preparei a casa com as medidas de segurança necessárias antes de evacuar. Marco no caderno o que tenho que verificar.&lt;/p&gt;
+        &lt;&lt;else&gt;&gt;
+            &lt;p class=&quot;animar nb-dica&quot;&gt;O fogo parece estar já demasiado próximo, por isso não é seguro evacuar. Terei de ficar aqui. Marco no caderno se preparei a casa com as medidas de segurança necessárias.&lt;/p&gt;
+        &lt;&lt;/if&gt;&gt;
+        &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que tenho que verificar?&lt;/b&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="final-2" tags="" position="1950,375" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay seguranca&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-bg casa-naoardida-final pan-final&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;image-overlay casa-naoardida-finallady pan-final&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;fumo-casa nv3&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+&lt;/div&gt;
 
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -10322,9 +10404,9 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
           &lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]]&lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;&lt;/div&gt;
   		&lt;/div&gt;
  		&lt;div class=&quot;footer&quot;&gt;
-            &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/isa.png&quot; alt=&quot;Website do Instituto Superior de Agronomia&quot;&gt;&lt;/a&gt;
-            &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/logo-ceabn.png&quot; alt=&quot;Website do Centro de Ecologia Aplicada&quot;&gt;&lt;/a&gt;
-            &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/ui/logo.png&quot; alt=&quot;Website do Fire Explorer&quot;&gt;&lt;/a&gt;
+            &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/isa.png&quot; alt=&quot;Website do Instituto Superior de Agronomia&quot;&gt;&lt;/a&gt;
+            &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/logo-ceabn.png&quot; alt=&quot;Website do Centro de Ecologia Aplicada&quot;&gt;&lt;/a&gt;
+            &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/ui/logo.png&quot; alt=&quot;Website do Fire Explorer&quot;&gt;&lt;/a&gt;
             &lt;/div&gt;
  		&lt;/div&gt;
   	&lt;/div&gt;
@@ -10465,7 +10547,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay pose-112before&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;phone-scene&quot;&gt;
-        &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/phone.png&quot; crossorigin=&quot;anonymous&quot;&gt;
+        &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/phone.png&quot; crossorigin=&quot;anonymous&quot;&gt;
         &lt;div class=&quot;phone-keys&quot;&gt;
             &lt;button class=&quot;phone-key&quot; data-num=&quot;1&quot; aria-label=&quot;1&quot;&gt;1&lt;/button&gt;
             &lt;button class=&quot;phone-key&quot; data-num=&quot;2&quot; aria-label=&quot;2&quot;&gt;2&lt;/button&gt;
@@ -10480,7 +10562,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
             &lt;button class=&quot;phone-key&quot; data-num=&quot;0&quot; aria-label=&quot;0&quot;&gt;0&lt;/button&gt;
             &lt;button class=&quot;phone-key&quot; data-num=&quot;#&quot; aria-label=&quot;cardinal&quot;&gt;#&lt;/button&gt;
             &lt;button class=&quot;phone-call&quot; id=&quot;phone-call&quot; aria-label=&quot;Ligar&quot;&gt;
-                &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/phone-call.png&quot;&gt;
+                &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/phone-call.png&quot;&gt;
             &lt;/button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
@@ -10646,7 +10728,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene&quot;&gt;
    &lt;&lt;run mostrarToast(&#39;arvore&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg rio&quot;&gt;&lt;/div&gt;
-    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/car-invert.png&quot;&gt;
+    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/car-invert.png&quot;&gt;
 
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -10763,7 +10845,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="24" tags="" position="750,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg rio-para-fogo&quot;&gt;&lt;/div&gt;
-    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.2/images/cenas/car-invert.png&quot;&gt;
+    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.3/images/cenas/car-invert.png&quot;&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
         &lt;p class=&quot;animar&quot;&gt;A conduzir por entre as árvores apercebo-me que o fumo se aproxima cada vez mais e tudo fica mais quente e cinzento. Acho que não deveria ter arriscado, &lt;b&gt;mas e agora?&lt;/b&gt;&lt;/p&gt;
@@ -10792,7 +10874,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
     &lt;div class=&quot;image-bg casa passagem-29-bg focar-tarde&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;fumo-casa nv4&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
     &lt;div class=&quot;piscar-overlay piscar-tarde&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;sirene-fx desfalecer-luzes&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;sirene-fx desfalecer-luzes luzes-longas&quot;&gt;&lt;/div&gt;
 
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -10823,67 +10905,68 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
-        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-		&lt;&lt;if $mobilidadeReduzida&gt;&gt;
-        	&lt;p class=&quot;animar&quot;&gt;Enquanto isso, penso no que preciso de levar para não ser apanhada desprevenida quando chegar a hora de sair.&lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
-       &lt;&lt;else&gt;&gt;
-       		&lt;p class=&quot;animar&quot;&gt;Lembro-me que é importante ter um kit, para não ser apanhada desprevenida. &lt;b&gt;Mas o que devo lá pôr?&lt;/b&gt;&lt;/p&gt;
-        &lt;&lt;/if&gt;&gt;
-        &lt;div class=&quot;choices-112&quot;&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k1&quot; false true&gt;&gt; Documentos de identificação e papéis importantes&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k2&quot; false true&gt;&gt; Kit de primeiros socorros e medicamentos&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k3&quot; false true&gt;&gt; Rádio sem pilhas&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$d1&quot; false true&gt;&gt; Comida perecível, como iogurtes e queijos frescos&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k4&quot; false true&gt;&gt; Água engarrafada e alimentos não perecíveis&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k5&quot; false true&gt;&gt; Muda de roupa e artigos de higiene&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k6&quot; false true&gt;&gt; Lanterna, apito, rádio&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$d2&quot; false true&gt;&gt; Jogos de tabuleiro e livros para entretenimento&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k7&quot; false true&gt;&gt; Carregador de telemóvel e dinheiro&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k8&quot; false true&gt;&gt; Lista de contactos de família e amigos&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k9&quot; false true&gt;&gt; Bens valiosos (computador, álbuns de fotografias)&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$k10&quot; false true&gt;&gt; Extintor de incêndio&lt;/label&gt;
-        &lt;/div&gt;
 
-        &lt;div class=&quot;choices&quot;&gt;
-            &lt;&lt;button &quot;Confirmar kit&quot; &quot;Resultado Kit&quot;&gt;&gt;
-            	&lt;&lt;set $fezKit to true&gt;&gt;
-                &lt;&lt;set $kitPerfeito to false&gt;&gt;
-                &lt;&lt;set $kit to false&gt;&gt;
-
-                &lt;&lt;set $corretasKit to 0&gt;&gt;
-                &lt;&lt;if $k1&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k2&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k4&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k5&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k6&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k7&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k8&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-
-                &lt;&lt;set $erradasKit to 0&gt;&gt;
-                &lt;&lt;if $k3&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k9&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $k10&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $d1&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $d2&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
-
+    &lt;div class=&quot;notebook-overlay&quot;&gt;
+        &lt;div class=&quot;notebook&quot; role=&quot;group&quot; aria-labelledby=&quot;nb-titulo-kit&quot;&gt;
+            &lt;h2 class=&quot;notebook-title&quot; id=&quot;nb-titulo-kit&quot;&gt;Kit de Emergência&lt;/h2&gt;
+            &lt;div class=&quot;notebook-list&quot;&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k1&quot; false true&gt;&gt; Documentos de identificação e papéis importantes&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k2&quot; false true&gt;&gt; Kit de primeiros socorros e medicamentos&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k3&quot; false true&gt;&gt; Rádio sem pilhas&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$d1&quot; false true&gt;&gt; Comida perecível, como iogurtes e queijos frescos&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k4&quot; false true&gt;&gt; Água engarrafada e alimentos não perecíveis&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k5&quot; false true&gt;&gt; Muda de roupa e artigos de higiene&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k6&quot; false true&gt;&gt; Lanterna, apito, rádio&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$d2&quot; false true&gt;&gt; Jogos de tabuleiro e livros para entretenimento&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k7&quot; false true&gt;&gt; Carregador de telemóvel e dinheiro&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k8&quot; false true&gt;&gt; Lista de contactos de família e amigos&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k9&quot; false true&gt;&gt; Bens valiosos (computador, álbuns de fotografias)&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$k10&quot; false true&gt;&gt; Extintor de incêndio&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;choices notebook-actions&quot;&gt;
+                &lt;&lt;button &quot;Confirmar kit&quot; &quot;Resultado Kit&quot;&gt;&gt;
+                    &lt;&lt;set $fezKit to true&gt;&gt;
+                    &lt;&lt;set $kitPerfeito to false&gt;&gt;
+                    &lt;&lt;set $kit to false&gt;&gt;
+                    &lt;&lt;set $corretasKit to 0&gt;&gt;
+                    &lt;&lt;if $k1&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k2&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k4&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k5&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k6&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k7&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k8&gt;&gt; &lt;&lt;set $corretasKit to $corretasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;set $erradasKit to 0&gt;&gt;
+                    &lt;&lt;if $k3&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k9&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $k10&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $d1&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $d2&gt;&gt; &lt;&lt;set $erradasKit to $erradasKit + 1&gt;&gt; &lt;&lt;/if&gt;&gt;
                     &lt;&lt;if $corretasKit eq 7 and $erradasKit eq 0&gt;&gt;
                         &lt;&lt;set $kit to true&gt;&gt;
                         &lt;&lt;set $kitPerfeito to true&gt;&gt;
                         &lt;&lt;set $mensagemKit to &quot;Excelente! Preparaste o kit perfeitamente. Levas tudo o que é essencial para enfrentar a emergência.&quot;&gt;&gt;
                         &lt;&lt;run mostrarToast(&#39;achievement&#39;, &#39;Kit Perfeito\nMontaste o kit de emergência ideal sem erros!&#39;, &#39;backpack&#39;)&gt;&gt;
-
                     &lt;&lt;elseif ($corretasKit eq 6 and $erradasKit eq 0) or ($corretasKit eq 7 and $erradasKit eq 1) or ($corretasKit eq 6 and $erradasKit eq 1)&gt;&gt;
                         &lt;&lt;set $kit to true&gt;&gt;
                         &lt;&lt;set $mensagemKit to &quot;Quase lá! Faltou algum item essencial ou levaste algo desnecessário. Revê a tua mochila e corrige antes de partires.&quot;&gt;&gt;
-
                     &lt;&lt;else&gt;&gt;
                         &lt;&lt;set $kit to false&gt;&gt;
                         &lt;&lt;set $mensagemKit to &quot;O kit não está completo ou levas muitas coisas desnecessárias. Vais ter dificuldades durante a evacuação.&quot;&gt;&gt;
                     &lt;&lt;/if&gt;&gt;
-
-            &lt;&lt;/button&gt;&gt;
+                &lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
         &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
+        &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
+        &lt;&lt;if $mobilidadeReduzida&gt;&gt;
+            &lt;p class=&quot;animar nb-dica&quot;&gt;Enquanto isso, penso no que preciso de levar para não ser apanhada desprevenida quando chegar a hora de sair. Marco no caderno o que devo lá pôr.&lt;/p&gt;
+        &lt;&lt;else&gt;&gt;
+            &lt;p class=&quot;animar nb-dica&quot;&gt;Lembro-me que é importante ter um kit, para não ser apanhada desprevenida. Marco no caderno o que devo lá pôr.&lt;/p&gt;
+        &lt;&lt;/if&gt;&gt;
+        &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que devo levar no kit?&lt;/b&gt;&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="32" tags="" position="1600,800" size="100,100">&lt;&lt;nobr&gt;&gt;    
@@ -11155,6 +11238,7 @@ Ao menos estamos vivos e seguros. Abro o kit ao lado do carro com tudo o que dei
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="44" name="37" tags="" position="925,750" size="100,100">&lt;&lt;nobr&gt;&gt;    
     &lt;div class=&quot;scene&quot;&gt;
     	&lt;div class=&quot;image-bg salvar-laurinda fullheight&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;fumo-casa nv3&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
     
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     	&lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -11219,67 +11303,61 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
 
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
-
     &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo6 fumo-entra-6 fullheight&quot;&gt;&lt;/div&gt;
-
     &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay pose-reparar overlay-top fullheight&quot;&gt;&lt;/div&gt;
-
     &lt;div class=&quot;fumo-casa nv5&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;notebook-overlay&quot;&gt;
+        &lt;div class=&quot;notebook&quot; role=&quot;group&quot; aria-labelledby=&quot;nb-titulo-seguranca&quot;&gt;
+            &lt;h2 class=&quot;notebook-title&quot; id=&quot;nb-titulo-seguranca&quot;&gt;Segurança em Casa&lt;/h2&gt;
+            &lt;div class=&quot;notebook-list&quot;&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$s1&quot; false true&gt;&gt; Ficar longe das paredes.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e1&quot; false true&gt;&gt; Refugiar-me numa divisão com janelas viradas para o lado do incêndio.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$s2&quot; false true&gt;&gt; Procurar abrigo nas divisões do extremo oposto da habitação em relação ao lado por onde o incêndio se está a aproximar.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e2&quot; false true&gt;&gt; Sair para o telhado para vigiar a aproximação das chamas.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$s3&quot; false true&gt;&gt; Esperar que o fogo passe e, posteriormente, verificar a existência de focos de incêndio na envolvente da habitação e no seu telhado.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e3&quot; false true&gt;&gt; Ir para a cave, no ponto mais baixo da casa.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$s4&quot; false true&gt;&gt; Usar máscara ou proteger as vias respiratórias do fumo.&lt;/label&gt;
+                &lt;label class=&quot;nb-row&quot;&gt;&lt;&lt;checkbox &quot;$e4&quot; false true&gt;&gt; Permanecer junto às janelas a observar o fogo.&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;choices notebook-actions&quot;&gt;
+                &lt;&lt;button &quot;Confirmar&quot; &quot;Resultado Segurança&quot;&gt;&gt;
+                    &lt;&lt;set $fezSeguranca to true&gt;&gt;
+                    &lt;&lt;set $casaSeguraFinal to false&gt;&gt;
+                    &lt;&lt;set $segurancaPerfeita to false&gt;&gt;
+                    &lt;&lt;set $respostasCorretas to 0&gt;&gt;
+                    &lt;&lt;set $respostasErradas to 0&gt;&gt;
+                    &lt;&lt;if $s1&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $s2&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $s3&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $s4&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e1&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e2&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e3&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $e4&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
+                    &lt;&lt;if $respostasCorretas eq 4 and $respostasErradas eq 0&gt;&gt;
+                        &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
+                        &lt;&lt;set $segurancaPerfeita to true&gt;&gt;
+                    &lt;&lt;elseif $respostasCorretas gte 3 and $respostasErradas eq 0&gt;&gt;
+                        &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
+                    &lt;&lt;elseif $respostasCorretas eq 4 and $respostasErradas eq 1&gt;&gt;
+                        &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
+                    &lt;&lt;/if&gt;&gt;
+                &lt;&lt;/button&gt;&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
 
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
-
-        &lt;p class=&quot;animar&quot;&gt;Após preparar tudo, vejo a paisagem pela janela. O fogo está tão perto... se quisesse evacuar teria de ser agora, se esperar mais ainda me arriscava a ser apanhada pelo fogo pelo caminho.&lt;/p&gt;
-        &lt;p class=&quot;animar&quot;&gt;Mas olhando para tudo o que tenho em casa, todas as minhas memórias e pertences, toda a minha vida entre estas 4 paredes. Não conseguiria abandonar.&lt;/p&gt;
-        &lt;p class=&quot;animar&quot;&gt;Posso ter a casa mais segura, mas a luta pela segurança ainda não acabou.&lt;/p&gt;
+        &lt;p class=&quot;animar nb-dica&quot;&gt;Após preparar tudo, vejo a paisagem pela janela. O fogo está tão perto... se quisesse evacuar teria de ser agora, se esperar mais ainda me arriscava a ser apanhada pelo fogo pelo caminho. Mas olhando para tudo o que tenho em casa, todas as minhas memórias e pertences, toda a minha vida entre estas 4 paredes. Não conseguiria abandonar. Posso ter a casa mais segura, mas a luta pela segurança ainda não acabou. Marco no caderno o que devo fazer.&lt;/p&gt;
         &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que devo fazer para me manter em segurança?&lt;/b&gt;&lt;/p&gt;
-
-        &lt;div class=&quot;choices-112&quot;&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s1&quot; false true&gt;&gt; Ficar longe das paredes.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$e1&quot; false true&gt;&gt; Refugiar-me numa divisão com janelas viradas para o lado do incêndio.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s2&quot; false true&gt;&gt; Procurar abrigo nas divisões do extremo oposto da habitação em relação ao lado por onde o incêndio se está a aproximar.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$e2&quot; false true&gt;&gt; Sair para o telhado para vigiar a aproximação das chamas.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s3&quot; false true&gt;&gt; Esperar que o fogo passe e, posteriormente, verificar a existência de focos de incêndio na envolvente da habitação e no seu telhado.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$e3&quot; false true&gt;&gt; Ir para a cave, no ponto mais baixo da casa.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$s4&quot; false true&gt;&gt; Usar máscara ou proteger as vias respiratórias do fumo.&lt;/label&gt;
-            &lt;label&gt;&lt;&lt;checkbox &quot;$e4&quot; false true&gt;&gt; Permanecer junto às janelas a observar o fogo.&lt;/label&gt;
-        &lt;/div&gt;
-
-        &lt;div class=&quot;choices&quot;&gt;
-            &lt;&lt;button &quot;Confirmar&quot; &quot;Resultado Segurança&quot;&gt;&gt;
-                &lt;&lt;set $fezSeguranca to true&gt;&gt;
-                &lt;&lt;set $casaSeguraFinal to false&gt;&gt;
-                &lt;&lt;set $segurancaPerfeita to false&gt;&gt;
-
-                &lt;&lt;set $respostasCorretas to 0&gt;&gt;
-                &lt;&lt;set $respostasErradas to 0&gt;&gt;
-
-                &lt;&lt;if $s1&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $s2&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $s3&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $s4&gt;&gt;&lt;&lt;set $respostasCorretas to $respostasCorretas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-
-                &lt;&lt;if $e1&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $e2&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $e3&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-                &lt;&lt;if $e4&gt;&gt;&lt;&lt;set $respostasErradas to $respostasErradas + 1&gt;&gt;&lt;&lt;/if&gt;&gt;
-
-                &lt;&lt;if $respostasCorretas eq 4 and $respostasErradas eq 0&gt;&gt;
-                    &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
-                    &lt;&lt;set $segurancaPerfeita to true&gt;&gt;
-                &lt;&lt;elseif $respostasCorretas gte 3 and $respostasErradas eq 0&gt;&gt;
-                    &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
-                &lt;&lt;elseif $respostasCorretas eq 4 and $respostasErradas eq 1&gt;&gt;
-                    &lt;&lt;set $casaSeguraFinal to true&gt;&gt;
-                &lt;&lt;/if&gt;&gt;
-            &lt;&lt;/button&gt;&gt;
-        &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="Resultado Segurança" tags="" position="700,225" size="100,100">&lt;&lt;nobr&gt;&gt;
