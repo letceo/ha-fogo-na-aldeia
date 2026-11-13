@@ -818,11 +818,12 @@ body.reduce-motion .cena-progresso {
    Telemóvel: maior e mais abaixo, para fugir aos botões de som/definições
    e sobrepor-se um pouco à personagem. */
 .image-overlay.kit1 {
-  background-size: 60% auto !important;
+  background-size: 70% auto !important;
   background-position: right top !important;
 }
 
 @media screen and (max-width: 600px) {
+  /* Passagem 31: igual ao original */
   .image-overlay.kit1 {
     --balao-w: 105%;
     --balao-top: 7vh;
@@ -830,11 +831,43 @@ body.reduce-motion .cena-progresso {
     background-position: right 2% top var(--balao-top) !important;
   }
 
+  /* Resultado Kit: só a imagem kit1-mobile, encostada à direita */
+  .scene.resultado-kit {
+    background-color: #fff;   
+  }
+
+  .resultado-kit .image-bg.kit {
+    display: none;
+  }
+
+  .resultado-kit .image-overlay.kit1 {
+    top: 6vh;                                             /* desce a imagem */
+    height: calc(var(--app-height) - var(--ca-textbox-px, 24vh) - 6vh) !important;
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/cenas/kit1-mobile.webp") !important;
+    background-size: cover !important;
+    background-position: 80% center !important;
+  }
+
   .image-overlay.seguranca {
-    --balao-w: 135%;    
-    --balao-top: 6vh;
+    --balao-w: 145%;
     background-size: var(--balao-w) auto !important;
-    background-position: right 2% top var(--balao-top) !important;
+    background-position: right 2% top 0 !important;
+  }
+  
+    /* Resultado Casa: seguranca.webp a cobrir a área acima da text-box */
+  .resultado-casa .image-bg.bg-seguranca {
+    top: 0;
+    height: calc(var(--app-height) - var(--ca-textbox-px, 24vh)) !important;
+    background-size: cover !important;
+    background-position: center !important;
+  }
+
+  /* Resultado Segurança: mesma imagem, focada no lado direito */
+  .resultado-seguranca .image-bg.bg-seguranca {
+    top: 0;
+    height: calc(var(--app-height) - var(--ca-textbox-px, 24vh)) !important;
+    background-size: cover !important;
+    background-position: right center !important;
   }
 }
 
@@ -5892,8 +5925,9 @@ body.reduce-motion .sirene-fx.sirene-34 {
   border: 1px solid transparent;
   border-radius: 10px;
   color: #FFF5E6;
+  font-family: "Fira Sans", sans-serif;  
   font-size: 1.15em;
-  font-weight: 500;
+  font-weight: 500;                        
   text-align: left;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
   cursor: pointer;
@@ -5950,7 +5984,7 @@ body.reduce-motion .sirene-fx.sirene-34 {
   border-left: 3px solid #E4A172;
   border-radius: 0;
   box-shadow: 0 8px 20px -8px #00000026;
-  font-size: 0.92em;
+  font-size: 1em;
   line-height: 1.5;
   text-align: left;
   -webkit-overflow-scrolling: touch;
@@ -6249,11 +6283,10 @@ body.reduce-motion .sirene-fx.sirene-34 {
   transform: translateX(-50%);
   width: 36px;
   height: 36px;
-  
-  /* Fundo #C9A288 e ícone branco */
   background-color: #C9A288;
   color: #FFFFFF;
-  
+  border: 2px solid #B08D76;   
+  box-sizing: border-box;     
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -6404,7 +6437,9 @@ body.reduce-motion .sirene-fx.sirene-34 {
   .notebook-overlay {
     padding: calc(max(1%, env(safe-area-inset-top, 0px)) + var(--icon-btn-size, 52px) + 8px) 12px 12px;
     background: rgba(20, 10, 5, .65);
-    place-items: center;
+    display: flex;
+    align-items: stretch;        /* o caderno ocupa exatamente a área livre */
+    justify-content: center;
   }
 
   .notebook {
@@ -6413,8 +6448,10 @@ body.reduce-motion .sirene-fx.sirene-34 {
     --nb-box:       22px;
 
     width: 100%;
-    height: 100%; 
-    max-height: calc(100vh - var(--nb-textbox-px, 30vh) - 20px);
+    max-width: 850px;
+    height: auto;                /* a altura vem do stretch do overlay */
+    max-height: none;
+    min-height: 0;
     border-radius: 12px;
     border-width: 10px;
     font-size: calc(1rem * var(--nb-scale));
@@ -6447,6 +6484,17 @@ body.reduce-motion .sirene-fx.sirene-34 {
     min-width: 0 !important;
     min-height: 44px !important;
     font-size: 1.05em !important;
+  }
+
+    /* Seta de scroll: fica por cima do rodapé, não por cima do botão */
+  .nb-scroll-hint {
+    top: auto;
+    margin-top: 0;
+    bottom: calc(100% + 6px);
+  }
+
+  .nb-scroll-hint:not(.visible) {
+    pointer-events: none;        /* invisível não bloqueia o botão */
   }
 
   .text-box {
@@ -6768,6 +6816,8 @@ var imagesBackground = [
   IMG + 'cenas/cinzas.webp',
   IMG + 'cenas/fire-forest.png',
   IMG + 'cenas/kit1.png',
+  IMG + 'cenas/seguranca.webp',
+  IMG + 'cenas/kit1-mobile.webp',
   IMG + 'cenas/salva-pelo-bombeiro.jpg',
   IMG + 'cenas/fogo-na-casa.webp',
   IMG + 'cenas/fogo-na-casa-overlay.png',
@@ -9491,7 +9541,7 @@ function ajustarCasaArdida() {
   var box = document.querySelector('.text-box');
   if (!box) return;
   var h = box.getBoundingClientRect().height + 'px';
-  document.querySelectorAll('.image-bg.casa-ardida, .pan-final').forEach(function (el) {
+  document.querySelectorAll('.image-bg.casa-ardida, .pan-final, .resultado-casa .image-bg, .resultado-seguranca .image-bg, .resultado-kit .image-overlay').forEach(function (el) {
     el.style.setProperty('--ca-textbox-px', h);
   });
 }
@@ -10312,8 +10362,15 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;/silently&gt;&gt;
 
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;fumo-casa nv2&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
 
     &lt;div class=&quot;notebook-overlay&quot;&gt;
         &lt;div class=&quot;notebook&quot; role=&quot;group&quot; aria-labelledby=&quot;nb-titulo-casa&quot;&gt;
@@ -10641,12 +10698,13 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-como&quot;&gt;
           &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Como jogar -&lt;/h3&gt;
-          &lt;p&gt;Leia cada situação com atenção e selecione uma das opções para avançar na história. As suas decisões têm consequências e, no fim, vai descobrir se tomou as melhores opções para lidar com um incêndio florestal.&lt;/p&gt;
+          &lt;p&gt;O jogador lê cada situação com atenção e escolhe uma das opções para avançar na história. As decisões têm consequências e, no fim, descobre se tomou as melhores opções para lidar com um incêndio florestal.&lt;/p&gt;
           &lt;ul class=&quot;guide-howto&quot;&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Decida a tempo:&lt;/b&gt; em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. Podes alargar ou desligar o tempo nas Definições.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Texto mais rápido:&lt;/b&gt; toque na caixa de texto (ou prima &lt;b&gt;Espaço&lt;/b&gt;) para o mostrar de imediato.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Som:&lt;/b&gt; use o ícone no canto superior esquerdo para ligar ou desligar o som.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito pode ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Aqui também pode &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Elementos interativos:&lt;/b&gt; nem tudo se resolve com os botões de escolha. Em certas cenas, o jogador interage diretamente com o ecrã, por exemplo ao marcar o número no telemóvel ou ao assinalar respostas num caderno de quizzes. Quando a cena o exige, cabe ao jogador tocar nesses elementos para continuar.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Decisões a tempo:&lt;/b&gt; em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. O tempo pode ser alargado ou desligado nas Definições.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Texto mais rápido:&lt;/b&gt; tocar na caixa de texto (ou premir &lt;b&gt;Espaço&lt;/b&gt;) mostra-o de imediato.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Som:&lt;/b&gt; o ícone no canto superior esquerdo liga ou desliga o som.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito é possível ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Também é possível &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/section&gt;
@@ -10662,8 +10720,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 
     &lt;div class=&quot;guide-layout&quot;&gt;
 
-      &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-sobre&quot; class=&quot;guide-radio&quot; checked&gt;
-      &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-como&quot;  class=&quot;guide-radio&quot;&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-sobre&quot; class=&quot;guide-radio&quot; checked&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-como&quot;  class=&quot;guide-radio&quot;&gt;
 
       &lt;nav class=&quot;guide-menu&quot;&gt;
         &lt;h2 class=&quot;guide-menu-title&quot;&gt;- Guia de jogo -&lt;/h2&gt;
@@ -10696,13 +10754,14 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;/div&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-como&quot;&gt;
-            &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Como jogar -&lt;/h3&gt;
-            &lt;p&gt;Leia cada situação com atenção e selecione uma das opções para avançar na história. As suas decisões têm consequências e, no fim, vai descobrir se tomou as melhores opções para lidar com um incêndio florestal.&lt;/p&gt;
-            &lt;ul class=&quot;guide-howto&quot;&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Decida a tempo:&lt;/b&gt; em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. Podes alargar ou desligar o tempo nas Definições.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Texto mais rápido:&lt;/b&gt; toque na caixa de texto (ou prima &lt;b&gt;Espaço&lt;/b&gt;) para o mostrar de imediato.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Som:&lt;/b&gt; use o ícone no canto superior esquerdo para ligar ou desligar o som.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito pode ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Aqui também pode &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
+          &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Como jogar -&lt;/h3&gt;
+          &lt;p&gt;O jogador lê cada situação com atenção e escolhe uma das opções para avançar na história. As decisões têm consequências e, no fim, descobre se tomou as melhores opções para lidar com um incêndio florestal.&lt;/p&gt;
+          &lt;ul class=&quot;guide-howto&quot;&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Elementos interativos:&lt;/b&gt; nem tudo se resolve com os botões de escolha. Em certas cenas, o jogador interage diretamente com o ecrã, por exemplo ao marcar o número no telemóvel ou ao assinalar respostas num caderno de quizzes. Quando a cena o exige, cabe ao jogador tocar nesses elementos para continuar.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Decisões a tempo:&lt;/b&gt; em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. O tempo pode ser alargado ou desligado nas Definições.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Texto mais rápido:&lt;/b&gt; tocar na caixa de texto (ou premir &lt;b&gt;Espaço&lt;/b&gt;) mostra-o de imediato.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Som:&lt;/b&gt; o ícone no canto superior esquerdo liga ou desliga o som.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito é possível ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Também é possível &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/section&gt;
@@ -10903,8 +10962,15 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
 &lt;&lt;/silently&gt;&gt;
 
 &lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo1 fumo-leve fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo2 fumo-medio fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo3 fumo-entra-3 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
+
+    &lt;div class=&quot;fumo-casa nv2&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
 
     &lt;div class=&quot;notebook-overlay&quot;&gt;
         &lt;div class=&quot;notebook&quot; role=&quot;group&quot; aria-labelledby=&quot;nb-titulo-kit&quot;&gt;
@@ -11065,7 +11131,7 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="Resultado Kit" tags="" position="800,1450" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;div class=&quot;scene&quot;&gt;
+&lt;div class=&quot;scene resultado-kit&quot;&gt;
     &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
@@ -11117,9 +11183,8 @@ Um aperto no peito lembra-me de tudo o que perdi. Sem os meus pertences, que nã
    &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="Resultado Casa" tags="" position="1075,1450" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;scene resultado-casa&quot;&gt;
+    &lt;div class=&quot;image-bg bg-seguranca&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
@@ -11361,9 +11426,8 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="Resultado Segurança" tags="" position="700,225" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;div class=&quot;scene&quot;&gt;
-    &lt;div class=&quot;image-bg kit&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay seguranca thought-fade-in-a&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;scene resultado-seguranca&quot;&gt;
+    &lt;div class=&quot;image-bg bg-seguranca&quot;&gt;&lt;/div&gt;&lt;/div&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
 
