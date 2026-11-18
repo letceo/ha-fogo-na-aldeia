@@ -6898,6 +6898,16 @@ function T(key) {
 function TA(key) { return T(key).replace(/"/g, '&quot;'); }
 setup.T = T;
 
+/* Traduz atributos que não aceitam macros: data-t-aria / data-t-alt */
+function aplicarTraducoesDOM() {
+  $('[data-t-aria]').each(function () {
+    this.setAttribute('aria-label', T(this.getAttribute('data-t-aria')));
+  });
+  $('[data-t-alt]').each(function () {
+    this.setAttribute('alt', T(this.getAttribute('data-t-alt')));
+  });
+}
+
 Macro.add('t', {
   handler: function () { $(this.output).wiki(T(this.args[0])); }
 });
@@ -9930,6 +9940,7 @@ $(document).on(':passageend', function () {
   });
 
   aplicarIconeFechar();
+  aplicarTraducoesDOM();
   $('.alarm .confirm-restart a').each(function () {
     if (!$(this).find('.ph-icon').length) $(this).prepend(ICON_RESTART + ' ');
   });
@@ -9945,7 +9956,7 @@ $(document).one(':passagestart', function () {
 });
 
 /* I18N-DATA:START (gerado por build-i18n.js — não editar) */
-setup.i18n = {"de":{},"el":{},"en":{"ui.settings.title":"Settings","ui.settings.open":"Open settings","ui.settings.close":"Close settings","ui.group.general":"General","ui.language":"Language","ui.fullscreen":"Full screen","ui.group.audio":"Audio","ui.sound.general":"Master volume","ui.sound.mute":"Mute sound","ui.sound.unmute":"Turn sound on","ui.sound.level":"Volume level","ui.narration":"Narration","ui.narration.aria":"Voice narration","ui.group.access":"Accessibility","ui.font.size":"Font size","ui.font.a1":"Size A","ui.font.a2":"Size A plus","ui.font.a3":"Size A plus plus","ui.font.a4":"Size A plus plus plus","ui.animations":"Animations","ui.timer":"Timer","ui.timer.aria":"Decision timer","ui.timer.normal":"Normal","ui.timer.extended":"Extended","ui.timer.off":"Off","ui.timer.hint.off":"No time limit on decisions.","ui.timer.hint.seconds":"{n} seconds per decision.","ui.guide":"Game guide","ui.back":"Previous decision","ui.restart":"Restart","ui.close":"Close","ui.rotate.text":"Rotate your device to portrait mode","ui.rotate.sub":"— Best experienced in portrait mode —","ui.phone.erase":"Delete number","ui.phone.invalid":"Invalid no.","ui.phone.dial":"Dial a no.","ui.phone.wrong":"Wrong no.","game.title":"Fire in the Village.","ui.loading.text":"Loading...","ui.loading.tip":"Tip: ","tip.1":"Never light bonfires on windy days.","tip.2":"Never throw matches on the ground.","tip.3":"If you see a fire, call 112."},"es":{},"fr":{},"it":{},"pt":{"ui.settings.title":"Definições","ui.settings.open":"Abrir definições","ui.settings.close":"Fechar definições","ui.group.general":"Geral","ui.language":"Idioma","ui.fullscreen":"Ecrã cheio","ui.group.audio":"Áudio","ui.sound.general":"Som Geral","ui.sound.mute":"Silenciar som","ui.sound.unmute":"Ligar som","ui.sound.level":"Nível de volume","ui.narration":"Narração","ui.narration.aria":"Narração de voz","ui.group.access":"Acessibilidade","ui.font.size":"Tamanho da letra","ui.font.a1":"Tamanho A","ui.font.a2":"Tamanho A mais","ui.font.a3":"Tamanho A mais mais","ui.font.a4":"Tamanho A mais mais mais","ui.animations":"Animações","ui.timer":"Temporizador","ui.timer.aria":"Temporizador de decisão","ui.timer.normal":"Normal","ui.timer.extended":"Alargado","ui.timer.off":"Desligado","ui.timer.hint.off":"Sem limite de tempo nas decisões.","ui.timer.hint.seconds":"{n} segundos por decisão.","ui.guide":"Guia de jogo","ui.back":"Decisão anterior","ui.restart":"Recomeçar","ui.close":"Fechar","ui.rotate.text":"Rode o dispositivo para a posição vertical","ui.rotate.sub":"— Melhor experiência em modo retrato —","ui.phone.erase":"Apagar número","ui.phone.invalid":"Nº inválido","ui.phone.dial":"Marca um nº","ui.phone.wrong":"Nº errado","game.title":"Há fogo na aldeia.","ui.loading.text":"Carregando...","ui.loading.tip":"Dica: ","tip.1":"Nunca faça fogueiras em dias de vento forte.","tip.2":"Não atire fósforos para o chão.","tip.3":"Se vir um incêndio, ligue o 112."},"ru":{}};
+setup.i18n = {"de":{},"el":{},"en":{"ui.settings.title":"Settings","ui.settings.open":"Open settings","ui.settings.close":"Close settings","ui.group.general":"General","ui.language":"Language","ui.fullscreen":"Full screen","ui.group.audio":"Audio","ui.sound.general":"Volume","ui.sound.mute":"Mute sound","ui.sound.unmute":"Turn sound on","ui.sound.level":"Volume level","ui.narration":"Narration","ui.narration.aria":"Voice narration","ui.group.access":"Accessibility","ui.font.size":"Font size","ui.font.a1":"Size A","ui.font.a2":"Size A plus","ui.font.a3":"Size A plus plus","ui.font.a4":"Size A plus plus plus","ui.animations":"Animations","ui.timer":"Timer","ui.timer.aria":"Decision timer","ui.timer.normal":"Normal","ui.timer.extended":"Extended","ui.timer.off":"Off","ui.timer.hint.off":"No time limit on decisions.","ui.timer.hint.seconds":"{n} seconds per decision.","ui.guide":"Game guide","ui.back":"Previous decision","ui.restart":"Restart","ui.close":"Close","ui.rotate.text":"Rotate your device to portrait mode","ui.rotate.sub":"— Best experienced in portrait mode —","ui.phone.erase":"Delete number","ui.phone.invalid":"Invalid no.","ui.phone.dial":"Dial a no.","ui.phone.wrong":"Wrong no.","game.title":"Fire in the Village.","ui.loading.text":"Loading...","ui.loading.tip":"Tip: ","tip.1":"Never light bonfires on windy days.","tip.2":"Never throw matches on the ground.","tip.3":"If you see a fire, call 112.","home.sound_tip":"For the best experience, make sure your sound is on.","home.start":"Start","home.about":"About","alt.isa":"Instituto Superior de Agronomia website","alt.ceabn":"Centre for Applied Ecology website","alt.fire":"Fire Explorer website","guide.aria":"Game guide","about.aria":"About","guide.title":"- Game guide -","guide.tab.about":"About the game","guide.tab.how":"How to play","guide.about.title":"- About -","guide.about.p1":"\"Fire in the Village\" is an interactive narrative developed by CEABN (Centre for Applied Ecology \"Prof. Baeta Neves\") at Instituto Superior de Agronomia, for the education platform","guide.about.p2":"In collaboration with Colab ForestWise and Civil Protection.","guide.about.credits":"Credits:","credits.1":"Coordinated by Conceição Colaço;","credits.2":"Artistic and multimedia direction: Letícia Oliveira;","credits.3":"UX/UI design and programming: Letícia Oliveira;","credits.4":"Programming: Filipa Irina Loureiro;","credits.5":"Illustrations: Inês Freitas.","guide.how.title":"- How to play -","guide.how.intro":"Read each situation carefully and choose one of the options to move the story forward. Your decisions have consequences and, in the end, you find out whether you made the best choices for dealing with a wildfire.","guide.how.interactive.t":"Interactive elements:","guide.how.interactive.d":"not everything is solved with the choice buttons. In some scenes you interact directly with the screen, for example by dialling a number on the phone or ticking answers in a quiz notebook. When a scene requires it, tap those elements to continue.","guide.how.timer.t":"Timed decisions:","guide.how.timer.d":"at certain moments a timer appears in the corner of the screen. In an emergency, every second counts. The time can be extended or turned off in Settings.","guide.how.fast.t":"Faster text:","guide.how.fast.d":"tapping the text box (or pressing \u003cb>Space\u003c/b>) shows it immediately.","guide.how.sound.t":"Sound:","guide.how.sound.d":"the icon in the top left corner turns the sound on or off.","guide.how.settings.t":"Settings:","guide.how.settings.d":"in the top right corner you can adjust the volume, the \u003cb>font size\u003c/b>, full screen and animations. You can also \u003cb>go back\u003c/b> or \u003cb>restart\u003c/b> the scenario.","restart.title":"Restart scenario?","restart.warning":"This action cannot be undone and will erase all your progress so far.","restart.cancel":"Cancel"},"es":{},"fr":{},"it":{},"pt":{"ui.settings.title":"Definições","ui.settings.open":"Abrir definições","ui.settings.close":"Fechar definições","ui.group.general":"Geral","ui.language":"Idioma","ui.fullscreen":"Ecrã cheio","ui.group.audio":"Áudio","ui.sound.general":"Som Geral","ui.sound.mute":"Silenciar som","ui.sound.unmute":"Ligar som","ui.sound.level":"Nível de volume","ui.narration":"Narração","ui.narration.aria":"Narração de voz","ui.group.access":"Acessibilidade","ui.font.size":"Tamanho da letra","ui.font.a1":"Tamanho A","ui.font.a2":"Tamanho A mais","ui.font.a3":"Tamanho A mais mais","ui.font.a4":"Tamanho A mais mais mais","ui.animations":"Animações","ui.timer":"Temporizador","ui.timer.aria":"Temporizador de decisão","ui.timer.normal":"Normal","ui.timer.extended":"Alargado","ui.timer.off":"Desligado","ui.timer.hint.off":"Sem limite de tempo nas decisões.","ui.timer.hint.seconds":"{n} segundos por decisão.","ui.guide":"Guia de jogo","ui.back":"Decisão anterior","ui.restart":"Recomeçar","ui.close":"Fechar","ui.rotate.text":"Rode o dispositivo para a posição vertical","ui.rotate.sub":"— Melhor experiência em modo retrato —","ui.phone.erase":"Apagar número","ui.phone.invalid":"Nº inválido","ui.phone.dial":"Marca um nº","ui.phone.wrong":"Nº errado","game.title":"Há fogo na aldeia.","ui.loading.text":"Carregando...","ui.loading.tip":"Dica: ","tip.1":"Nunca faça fogueiras em dias de vento forte.","tip.2":"Não atire fósforos para o chão.","tip.3":"Se vir um incêndio, ligue o 112.","home.sound_tip":"Para uma melhor experiência, verifica se o som está ligado.","home.start":"Começar","home.about":"Sobre","alt.isa":"Website do Instituto Superior de Agronomia","alt.ceabn":"Website do Centro de Ecologia Aplicada","alt.fire":"Website do Fire Explorer","guide.aria":"Guia de jogo","about.aria":"Sobre","guide.title":"- Guia de jogo -","guide.tab.about":"Sobre o jogo","guide.tab.how":"Como jogar","guide.about.title":"- Sobre -","guide.about.p1":"\"Há fogo na aldeia\" é uma narrativa interativa desenvolvida pelo CEABN (Centro de Ecologia Aplicada \"Prof. Baeta Neves\") do Instituto Superior de Agronomia, para a plataforma de educação","guide.about.p2":"Em colaboração com o Colab ForestWise e Proteção Civil.","guide.about.credits":"Créditos:","credits.1":"Coordenação por Conceição Colaço;","credits.2":"Coordenação artística e multimédia: Letícia Oliveira;","credits.3":"UX/UI Design e programação: Letícia Oliveira;","credits.4":"Programação: Filipa Irina Loureiro;","credits.5":"Ilustrações: Inês Freitas.","guide.how.title":"- Como jogar -","guide.how.intro":"O jogador lê cada situação com atenção e escolhe uma das opções para avançar na história. As decisões têm consequências e, no fim, descobre se tomou as melhores opções para lidar com um incêndio florestal.","guide.how.interactive.t":"Elementos interativos:","guide.how.interactive.d":"nem tudo se resolve com os botões de escolha. Em certas cenas, o jogador interage diretamente com o ecrã, por exemplo ao marcar o número no telemóvel ou ao assinalar respostas num caderno de quizzes. Quando a cena o exige, cabe ao jogador tocar nesses elementos para continuar.","guide.how.timer.t":"Decisões a tempo:","guide.how.timer.d":"em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. O tempo pode ser alargado ou desligado nas Definições.","guide.how.fast.t":"Texto mais rápido:","guide.how.fast.d":"tocar na caixa de texto (ou premir \u003cb>Espaço\u003c/b>) mostra-o de imediato.","guide.how.sound.t":"Som:","guide.how.sound.d":"o ícone no canto superior esquerdo liga ou desliga o som.","guide.how.settings.t":"Definições:","guide.how.settings.d":"no canto superior direito é possível ajustar o volume, o \u003cb>tamanho da letra\u003c/b>, o ecrã cheio e as animações. Também é possível \u003cb>voltar atrás\u003c/b> ou \u003cb>recomeçar\u003c/b> o cenário.","restart.title":"Recomeçar cenário?","restart.warning":"Esta ação é irreversível e vai eliminar todo o teu progresso até ao momento.","restart.cancel":"Cancelar"},"ru":{}};
 /* I18N-DATA:END */
 </script><tw-tag name="end" color="red"></tw-tag><tw-tag name="widget" color="purple"></tw-tag><tw-passagedata pid="1" name="12" tags="" position="1025,225" size="100,100">&lt;&lt;nobr&gt;&gt;
 
@@ -10494,20 +10505,19 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="Start" tags="" position="100,450" size="100,100">&lt;&lt;nobr&gt;&gt;
   &lt;div class=&quot;scene&quot;&gt;
-  	&lt;div class=&quot;image-bg village fullheight&quot;&gt;
-  		&lt;div class=&quot;sombrinha centro&quot;&gt;
-  			&lt;h1 class=&quot;drop-shadow animar&quot;&gt;Há fogo na aldeia.&lt;/h1&gt;
-            &lt;p class=&quot;readable animar&quot;&gt;Para uma melhor experiência, verifica se o som está ligado.&lt;/p&gt;
-          &lt;div class=&quot;choices&quot;&gt;[[Começar-&gt;1]]&lt;span class=&quot;btn-sobre&quot;&gt;[[Sobre]]&lt;/span&gt;&lt;/div&gt;
-  		&lt;/div&gt;
- 		&lt;div class=&quot;footer&quot;&gt;
-            &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/isa.png&quot; alt=&quot;Website do Instituto Superior de Agronomia&quot;&gt;&lt;/a&gt;
-            &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo-ceabn.png&quot; alt=&quot;Website do Centro de Ecologia Aplicada&quot;&gt;&lt;/a&gt;
-            &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo.png&quot; alt=&quot;Website do Fire Explorer&quot;&gt;&lt;/a&gt;
-            &lt;/div&gt;
- 		&lt;/div&gt;
-  	&lt;/div&gt;
-  
+    &lt;div class=&quot;image-bg village fullheight&quot;&gt;
+      &lt;div class=&quot;sombrinha centro&quot;&gt;
+        &lt;h1 class=&quot;drop-shadow animar&quot;&gt;&lt;&lt;t &quot;game.title&quot;&gt;&gt;&lt;/h1&gt;
+        &lt;p class=&quot;readable animar&quot;&gt;&lt;&lt;t &quot;home.sound_tip&quot;&gt;&gt;&lt;/p&gt;
+        &lt;div class=&quot;choices&quot;&gt;&lt;&lt;link `setup.T(&quot;home.start&quot;)` &quot;1&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;span class=&quot;btn-sobre&quot;&gt;&lt;&lt;link `setup.T(&quot;home.about&quot;)` &quot;Sobre&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;footer&quot;&gt;
+        &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/isa.png&quot; data-t-alt=&quot;alt.isa&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo-ceabn.png&quot; data-t-alt=&quot;alt.ceabn&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@main/images/ui/logo.png&quot; data-t-alt=&quot;alt.fire&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="StoryInit" tags="" position="0,1050" size="100,100">&lt;&lt;cacheaudio &quot;birds&quot; &quot;audio/birds.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;hover&quot; &quot;audio/hover.mp3&quot;&gt;&gt;
 &lt;&lt;cacheaudio &quot;fire&quot;  &quot;audio/fire.mp3&quot;&gt;&gt;
@@ -10563,18 +10573,18 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
     &lt;div class=&quot;image-bg village&quot;&gt;
         &lt;div class=&quot;alarm&quot;&gt;
-            &lt;button type=&quot;button&quot; class=&quot;alarm-close&quot; aria-label=&quot;Fechar&quot;&gt;×&lt;/button&gt;
-            &lt;h2&gt;Recomeçar cenário?&lt;/h2&gt;
-            &lt;p class=&quot;alarm-subtext&quot;&gt;Esta ação é irreversível e vai eliminar todo o teu progresso até ao momento.&lt;/p&gt;
+            &lt;button type=&quot;button&quot; class=&quot;alarm-close&quot;&gt;×&lt;/button&gt;
+            &lt;h2&gt;&lt;&lt;t &quot;restart.title&quot;&gt;&gt;&lt;/h2&gt;
+            &lt;p class=&quot;alarm-subtext&quot;&gt;&lt;&lt;t &quot;restart.warning&quot;&gt;&gt;&lt;/p&gt;
 
             &lt;div class=&quot;choices&quot;&gt;
-                &lt;div class=&quot;btn-sobre cancel-restart&quot;&gt;
-                    &lt;&lt;back &quot;Cancelar&quot;&gt;&gt;
-                &lt;/div&gt;
+               &lt;div class=&quot;btn-sobre cancel-restart&quot;&gt;
+                  &lt;&lt;back `setup.T(&quot;restart.cancel&quot;)`&gt;&gt;
+              &lt;/div&gt;
 
-                &lt;div class=&quot;confirm-restart&quot;&gt;
-                    [[Recomeçar-&gt;Start]]
-                &lt;/div&gt;
+              &lt;div class=&quot;confirm-restart&quot;&gt;
+                  &lt;&lt;link `setup.T(&quot;ui.restart&quot;)` &quot;Start&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;
+              &lt;/div&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
@@ -10698,8 +10708,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
   &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;alarm guide-modal&quot; role=&quot;dialog&quot; aria-label=&quot;Guia de jogo&quot;&gt;
-    &lt;span class=&quot;alarm-close&quot; tabindex=&quot;0&quot; aria-label=&quot;Fechar&quot;&gt;&lt;&lt;back &quot;✕&quot;&gt;&gt;&lt;/span&gt;
+  &lt;div class=&quot;alarm guide-modal&quot; role=&quot;dialog&quot; data-t-aria=&quot;guide.aria&quot;&gt;
+    &lt;span class=&quot;alarm-close&quot; tabindex=&quot;0&quot;&gt;&lt;&lt;back &quot;✕&quot;&gt;&gt;&lt;/span&gt;
 
     &lt;div class=&quot;guide-layout&quot;&gt;
 
@@ -10707,44 +10717,44 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
       &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-como&quot;  class=&quot;guide-radio&quot; checked&gt;
 
       &lt;nav class=&quot;guide-menu&quot;&gt;
-        &lt;h2 class=&quot;guide-menu-title&quot;&gt;- Guia de jogo -&lt;/h2&gt;
+        &lt;h2 class=&quot;guide-menu-title&quot;&gt;&lt;&lt;t &quot;guide.title&quot;&gt;&gt;&lt;/h2&gt;
 
         &lt;label for=&quot;gt-sobre&quot; class=&quot;guide-tab&quot;&gt;
           &lt;span class=&quot;guide-tab-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
-          &lt;span&gt;Sobre o jogo&lt;/span&gt;
+          &lt;span&gt;&lt;&lt;t &quot;guide.tab.about&quot;&gt;&gt;&lt;/span&gt;
         &lt;/label&gt;
 
         &lt;label for=&quot;gt-como&quot; class=&quot;guide-tab&quot;&gt;
           &lt;span class=&quot;guide-tab-ico&quot; data-icon=&quot;guide&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
-          &lt;span&gt;Como jogar&lt;/span&gt;
+          &lt;span&gt;&lt;&lt;t &quot;guide.tab.how&quot;&gt;&gt;&lt;/span&gt;
         &lt;/label&gt;
       &lt;/nav&gt;
 
       &lt;section class=&quot;guide-content fira-sans-regular&quot;&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-sobre&quot;&gt;
-          &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Sobre -&lt;/h3&gt;
-          &lt;p&gt;&quot;Há fogo na aldeia&quot; é uma narrativa interativa desenvolvida pelo CEABN (Centro de Ecologia Aplicada &quot;Prof. Baeta Neves&quot;) do Instituto Superior de Agronomia, para a plataforma de educação &lt;b&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Fire-Explorer&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
-          &lt;p&gt;Em colaboração com o Colab ForestWise e Proteção Civil.&lt;/p&gt;
-          &lt;p class=&quot;guide-subtitle&quot;&gt;&lt;b&gt;Créditos:&lt;/b&gt;&lt;/p&gt;
+          &lt;h3 class=&quot;guide-pane-title&quot;&gt;&lt;&lt;t &quot;guide.about.title&quot;&gt;&gt;&lt;/h3&gt;
+          &lt;p&gt;&lt;&lt;t &quot;guide.about.p1&quot;&gt;&gt; &lt;b&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Fire-Explorer&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+          &lt;p&gt;&lt;&lt;t &quot;guide.about.p2&quot;&gt;&gt;&lt;/p&gt;
+          &lt;p class=&quot;guide-subtitle&quot;&gt;&lt;b&gt;&lt;&lt;t &quot;guide.about.credits&quot;&gt;&gt;&lt;/b&gt;&lt;/p&gt;
           &lt;ul&gt;
-            &lt;li&gt;Coordenação por Conceição Colaço;&lt;/li&gt;
-            &lt;li&gt;Coordenação artística e multimédia: Letícia Oliveira;&lt;/li&gt;
-            &lt;li&gt;UX/UI Design e programação: Letícia Oliveira;&lt;/li&gt;
-            &lt;li&gt;Programação: Filipa Irina Loureiro;&lt;/li&gt;
-            &lt;li&gt;Ilustrações: Inês Freitas.&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.1&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.2&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.3&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.4&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.5&quot;&gt;&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-como&quot;&gt;
-          &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Como jogar -&lt;/h3&gt;
-          &lt;p&gt;O jogador lê cada situação com atenção e escolhe uma das opções para avançar na história. As decisões têm consequências e, no fim, descobre se tomou as melhores opções para lidar com um incêndio florestal.&lt;/p&gt;
+          &lt;h3 class=&quot;guide-pane-title&quot;&gt;&lt;&lt;t &quot;guide.how.title&quot;&gt;&gt;&lt;/h3&gt;
+          &lt;p&gt;&lt;&lt;t &quot;guide.how.intro&quot;&gt;&gt;&lt;/p&gt;
           &lt;ul class=&quot;guide-howto&quot;&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Elementos interativos:&lt;/b&gt; nem tudo se resolve com os botões de escolha. Em certas cenas, o jogador interage diretamente com o ecrã, por exemplo ao marcar o número no telemóvel ou ao assinalar respostas num caderno de quizzes. Quando a cena o exige, cabe ao jogador tocar nesses elementos para continuar.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Decisões a tempo:&lt;/b&gt; em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. O tempo pode ser alargado ou desligado nas Definições.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Texto mais rápido:&lt;/b&gt; tocar na caixa de texto (ou premir &lt;b&gt;Espaço&lt;/b&gt;) mostra-o de imediato.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Som:&lt;/b&gt; o ícone no canto superior esquerdo liga ou desliga o som.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito é possível ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Também é possível &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.interactive.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.interactive.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.timer.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.timer.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.fast.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.fast.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.sound.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.sound.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.settings.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.settings.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/section&gt;
@@ -10754,54 +10764,54 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="Sobre" tags="" position="0,325" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene alarm-scene&quot;&gt;
   &lt;div class=&quot;image-bg village fullheight&quot;&gt;&lt;/div&gt;
-
-  &lt;div class=&quot;alarm guide-modal&quot; role=&quot;dialog&quot; aria-label=&quot;Sobre&quot;&gt;
-    &lt;span class=&quot;alarm-close&quot; tabindex=&quot;0&quot; aria-label=&quot;Fechar&quot;&gt;&lt;&lt;back &quot;✕&quot;&gt;&gt;&lt;/span&gt;
+  &lt;div class=&quot;alarm guide-modal&quot; role=&quot;dialog&quot; data-t-aria=&quot;about.aria&quot;&gt;
+  
+    &lt;span class=&quot;alarm-close&quot; tabindex=&quot;0&quot;&gt;&lt;&lt;back &quot;✕&quot;&gt;&gt;&lt;/span&gt;
 
     &lt;div class=&quot;guide-layout&quot;&gt;
 
-    &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-sobre&quot; class=&quot;guide-radio&quot; checked&gt;
-    &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-como&quot;  class=&quot;guide-radio&quot;&gt;
+      &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-sobre&quot; class=&quot;guide-radio&quot; checked&gt;
+      &lt;input type=&quot;radio&quot; name=&quot;guide-tab&quot; id=&quot;gt-como&quot;  class=&quot;guide-radio&quot;&gt;
 
       &lt;nav class=&quot;guide-menu&quot;&gt;
-        &lt;h2 class=&quot;guide-menu-title&quot;&gt;- Guia de jogo -&lt;/h2&gt;
+        &lt;h2 class=&quot;guide-menu-title&quot;&gt;&lt;&lt;t &quot;guide.title&quot;&gt;&gt;&lt;/h2&gt;
 
         &lt;label for=&quot;gt-sobre&quot; class=&quot;guide-tab&quot;&gt;
           &lt;span class=&quot;guide-tab-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
-          &lt;span&gt;Sobre o jogo&lt;/span&gt;
+          &lt;span&gt;&lt;&lt;t &quot;guide.tab.about&quot;&gt;&gt;&lt;/span&gt;
         &lt;/label&gt;
 
         &lt;label for=&quot;gt-como&quot; class=&quot;guide-tab&quot;&gt;
           &lt;span class=&quot;guide-tab-ico&quot; data-icon=&quot;guide&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
-          &lt;span&gt;Como jogar&lt;/span&gt;
+          &lt;span&gt;&lt;&lt;t &quot;guide.tab.how&quot;&gt;&gt;&lt;/span&gt;
         &lt;/label&gt;
       &lt;/nav&gt;
 
       &lt;section class=&quot;guide-content fira-sans-regular&quot;&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-sobre&quot;&gt;
-          &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Sobre -&lt;/h3&gt;
-          &lt;p&gt;&quot;Há fogo na aldeia&quot; é uma narrativa interativa desenvolvida pelo CEABN (Centro de Ecologia Aplicada &quot;Prof. Baeta Neves&quot;) do Instituto Superior de Agronomia, para a plataforma de educação &lt;b&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Fire-Explorer&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
-          &lt;p&gt;Em colaboração com o Colab ForestWise e Proteção Civil.&lt;/p&gt;
-          &lt;p class=&quot;guide-subtitle&quot;&gt;&lt;b&gt;Créditos:&lt;/b&gt;&lt;/p&gt;
+          &lt;h3 class=&quot;guide-pane-title&quot;&gt;&lt;&lt;t &quot;guide.about.title&quot;&gt;&gt;&lt;/h3&gt;
+          &lt;p&gt;&lt;&lt;t &quot;guide.about.p1&quot;&gt;&gt; &lt;b&gt;&lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Fire-Explorer&lt;/a&gt;&lt;/b&gt;.&lt;/p&gt;
+          &lt;p&gt;&lt;&lt;t &quot;guide.about.p2&quot;&gt;&gt;&lt;/p&gt;
+          &lt;p class=&quot;guide-subtitle&quot;&gt;&lt;b&gt;&lt;&lt;t &quot;guide.about.credits&quot;&gt;&gt;&lt;/b&gt;&lt;/p&gt;
           &lt;ul&gt;
-            &lt;li&gt;Coordenação por Conceição Colaço;&lt;/li&gt;
-            &lt;li&gt;Coordenação artística e multimédia: Letícia Oliveira;&lt;/li&gt;
-            &lt;li&gt;UX/UI Design e programação: Letícia Oliveira;&lt;/li&gt;
-            &lt;li&gt;Programação: Filipa Irina Loureiro;&lt;/li&gt;
-            &lt;li&gt;Ilustrações: Inês Freitas.&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.1&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.2&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.3&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.4&quot;&gt;&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;&lt;t &quot;credits.5&quot;&gt;&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
 
         &lt;div class=&quot;guide-pane&quot; id=&quot;guide-como&quot;&gt;
-          &lt;h3 class=&quot;guide-pane-title&quot;&gt;- Como jogar -&lt;/h3&gt;
-          &lt;p&gt;O jogador lê cada situação com atenção e escolhe uma das opções para avançar na história. As decisões têm consequências e, no fim, descobre se tomou as melhores opções para lidar com um incêndio florestal.&lt;/p&gt;
+          &lt;h3 class=&quot;guide-pane-title&quot;&gt;&lt;&lt;t &quot;guide.how.title&quot;&gt;&gt;&lt;/h3&gt;
+          &lt;p&gt;&lt;&lt;t &quot;guide.how.intro&quot;&gt;&gt;&lt;/p&gt;
           &lt;ul class=&quot;guide-howto&quot;&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Elementos interativos:&lt;/b&gt; nem tudo se resolve com os botões de escolha. Em certas cenas, o jogador interage diretamente com o ecrã, por exemplo ao marcar o número no telemóvel ou ao assinalar respostas num caderno de quizzes. Quando a cena o exige, cabe ao jogador tocar nesses elementos para continuar.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Decisões a tempo:&lt;/b&gt; em alguns momentos aparece um cronómetro no canto do ecrã. Em situações de emergência, cada segundo conta. O tempo pode ser alargado ou desligado nas Definições.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Texto mais rápido:&lt;/b&gt; tocar na caixa de texto (ou premir &lt;b&gt;Espaço&lt;/b&gt;) mostra-o de imediato.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Som:&lt;/b&gt; o ícone no canto superior esquerdo liga ou desliga o som.&lt;/span&gt;&lt;/li&gt;
-            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;Definições:&lt;/b&gt; no canto superior direito é possível ajustar o volume, o &lt;b&gt;tamanho da letra&lt;/b&gt;, o ecrã cheio e as animações. Também é possível &lt;b&gt;voltar atrás&lt;/b&gt; ou &lt;b&gt;recomeçar&lt;/b&gt; o cenário.&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;info&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.interactive.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.interactive.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;timer&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.timer.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.timer.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;fast&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.fast.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.fast.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;sound&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.sound.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.sound.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;gh-ico&quot; data-icon=&quot;settings&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;span&gt;&lt;b&gt;&lt;&lt;t &quot;guide.how.settings.t&quot;&gt;&gt;&lt;/b&gt; &lt;&lt;t &quot;guide.how.settings.d&quot;&gt;&gt;&lt;/span&gt;&lt;/li&gt;
           &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/section&gt;
