@@ -7107,10 +7107,7 @@ try {
 } catch (e) {}
 
 var timerMode = 'normal';
-try {
-  var savedTimerMode = localStorage.getItem('hfna-timer-mode');
-  if (savedTimerMode && TIMER_MODES.hasOwnProperty(savedTimerMode)) timerMode = savedTimerMode;
-} catch (e) {}
+try { localStorage.removeItem('hfna-timer-mode'); } catch (e) {}  
 
 /* Duração ativa. Em modo "off" o valor é 0, por isso usa-se o "normal"
    (não é usado enquanto estiver desligado). */
@@ -8083,7 +8080,6 @@ function setTimerMode(mode) {
   var oldMs = TIMER_MS;
 
   timerMode = mode;
-  try { localStorage.setItem('hfna-timer-mode', mode); } catch (e) {}
 
   if (mode === 'off') {
     resetTimer();            // pára e remove o contador
@@ -11313,9 +11309,18 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="30" name="26" tags="" position="1225,50" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
-        &lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;fumo-casa nv4 fumo-pe&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
-    &lt;div class=&quot;image-overlay  multidao&quot;&gt;&lt;/div&gt;
+
+    /* ---- Ponto de encontro por camadas (de baixo para cima) ---- */
+    &lt;&lt;peFundo&gt;&gt;
+    &lt;div class=&quot;image-bg ponto-de-encontro-fogo&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg pontodeencontro-fumonomonte pe-fumo-vivo&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-bg pontodeencontro-fuminho pe-fumo-vivo&quot;&gt;&lt;/div&gt;
+    &lt;&lt;peFrente&gt;&gt;
+    &lt;div class=&quot;image-overlay multidao&quot;&gt;&lt;/div&gt;
+
+    /* Fumaça procedural por cima de tudo (a text-box fica acima, z 3, por vir depois no DOM) */
+    &lt;div class=&quot;fumo-casa nv4 fumo-pe&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
         &lt;p class=&quot;animar&quot;&gt;No parque de estacionamento encontram-se já algumas pessoas. Vejo que estão equipadas, têm os documentos, dinheiro, os seus animais estão em segurança. Fico a pensar em tudo que deixei em casa, espero que a situação não piore.&lt;/p&gt;
@@ -12051,6 +12056,22 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;peFundo&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+    &lt;&lt;if pontoEncontroPreparado()&gt;&gt;
+        &lt;div class=&quot;image-bg pontoencontro&quot;&gt;&lt;/div&gt;
+    &lt;&lt;else&gt;&gt;
+        &lt;div class=&quot;image-bg ponto-de-encontro&quot;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget &quot;peFrente&quot;&gt;&gt;&lt;&lt;nobr&gt;&gt;
+    &lt;&lt;if pontoEncontroPreparado()&gt;&gt;
+        &lt;div class=&quot;image-bg pontodeencontro-semceu&quot;&gt;&lt;/div&gt;
+    &lt;&lt;else&gt;&gt;
+        &lt;div class=&quot;image-bg ponto-de-encontrosemfundo&quot;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
 &lt;&lt;/nobr&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="13-Laurinda" tags="" position="1050,500" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set $viuLaurinda to true&gt;&gt;
   &lt;div class=&quot;scene&quot; id=&quot;prontoevacuarScene&quot;&gt;
