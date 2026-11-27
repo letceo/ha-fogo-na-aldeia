@@ -141,6 +141,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
    [23] ACESSIBILIDADE ...... body.reduce-motion (desliga animações)
    [24] RESULTADOS .......... .er-card + sirene
    [25] QUIZ EM CADERNO ..... notebook-overlay + .nb-row + .nb-row-content
+   [26] RESULTADOS FINAIS ... separadores + caderno final (.rs-*)
 
    CONVENÇÕES
    --------------------------------------------------------------------------
@@ -266,7 +267,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --btn-shadow-rest:  0 4px 0 rgba(0, 0, 0, .35);
   --btn-shadow-lift:  0 6px 0 rgba(0, 0, 0, .35);
   --btn-shadow-press: 0 2px 0 rgba(0, 0, 0, .35), inset 0 2px 4px rgba(0, 0, 0, .45);
-  --btn-texture: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/wood-dark.png");
+  --btn-texture: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/wood-dark.png");
 
   /* Painel de definições */
   --settings-accent: #EAA788;
@@ -394,7 +395,7 @@ p { color: white !important; }
   padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   color: white !important;
   background-color: #6b4226 !important;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png") !important;
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png") !important;
   background-size: cover !important;
   background-position: center !important;
   border: 8px solid #b77e56 !important;
@@ -575,7 +576,7 @@ body.reduce-motion .cena-progresso {
   padding-bottom: calc(1% + env(safe-area-inset-bottom, 0px));
   background-color: #6b4226;
   background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)),
-    url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png);
+    url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png);
   border: 15px solid #b77e56;
   border-radius: 6px;
   line-height: 1.4 !important;
@@ -845,7 +846,7 @@ body.reduce-motion .cena-progresso {
   .resultado-kit .image-overlay.kit1 {
     top: 6vh;                                             /* desce a imagem */
     height: calc(var(--app-height) - var(--ca-textbox-px, 24vh) - 6vh) !important;
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/kit1-mobile.webp") !important;
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/kit1-mobile.webp") !important;
     background-size: cover !important;
     background-position: 80% center !important;
   }
@@ -854,6 +855,23 @@ body.reduce-motion .cena-progresso {
     --balao-w: 145%;
     background-size: var(--balao-w) auto !important;
     background-position: right 2% top 0 !important;
+  }
+
+  /* Passagem 39: balão ao lado da senhora, em vez de por cima da cena toda */
+  .image-overlay.seguranca.seguranca-lado {
+    --balao-w: 65%;
+    --balao-x: right;
+    --balao-y: top 8vh;
+    background-size: var(--balao-w) auto !important;
+    background-position: var(--balao-x) var(--balao-y) !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    .image-overlay.seguranca.seguranca-lado {
+      --balao-w: 120%;
+      --balao-y: top 4vh;
+      background-position: right 2% var(--balao-y) !important;
+    }
   }
   
     /* Resultado Casa: seguranca.webp a cobrir a área acima da text-box */
@@ -1066,7 +1084,7 @@ h1 {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -1113,7 +1131,7 @@ h1 {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -1242,7 +1260,7 @@ h1 {
 }
 
 .sino-overlay {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/homem-sino.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/homem-sino.png");
 }
 
 .sino-bg-abanar {
@@ -1321,7 +1339,7 @@ h1 {
 
 /* ---- Página inicial / segurança ---- */
 .village {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/bg-village.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/bg-village.webp);
 }
 
 .village::after {
@@ -1344,16 +1362,16 @@ h1 {
 }
 
 .bg-seguranca {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/seguranca.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/seguranca.webp);
 }
 
 .seguranca {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/seguranca2.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/seguranca2.png);
 }
 
 /* ---- Fogo (overlay animado) ---- */
 .fire-overlay {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/fire-transparent.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/fire-transparent.webp");
 }
 
 .vibrate-2 {
@@ -1401,7 +1419,7 @@ h1 {
 
 .cinzas-overlay {
   z-index: 3;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/cinzas.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/cinzas.webp");
   animation: cinzas-fade-in 6s ease-in-out forwards;
 }
 
@@ -1427,7 +1445,7 @@ h1 {
 
 .fogo-floresta {
   z-index: 2;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/fire-forest.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/fire-forest.png);
   background-size: cover;
   animation:
     vibrate-2 0.35s linear infinite both,
@@ -1525,62 +1543,62 @@ h1 {
 
 /* ---- Casas e cenários base ---- */
 .casa {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa.webp);
 }
 
 .casa-fire {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-fire.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-fire.jpg);
 }
 
 .casa-naoardida-final {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-naoardida-final.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-naoardida-final.webp);
 }
 
 .casa-naoardida-finallady {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-naoardida-finallady.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-naoardida-finallady.webp);
 }
 
 .sino {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/sino.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/sino.webp);
 }
 
 .transito {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/estrada-impedida.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/estrada-impedida.webp);
 }
 
 .carro-andar {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/car.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/car.png);
 }
 
 .carro-inversao {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/car.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/car.png);
 }
 
 .ponto-de-encontro {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/ponto-de-encontro.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/ponto-de-encontro.webp);
 }
 
 .pontoencontro {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/pontoencontro.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/pontoencontro.webp);
 }
 
 .multidao {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/multidao.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/multidao.png);
 }
 
 .multidao-laurindabem {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/multidao-laurindabem.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/multidao-laurindabem.png);
 }
 
 .multidao-semlaurinda {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/multidao-semlaurinda.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/multidao-semlaurinda.png);
 }
 
 /* Passagem 19: senhora + Bobi por cima da multidão.
    A altura é só a área acima da text-box (--ev-textbox-px, medida pelo JS),
    com a imagem encostada ao fundo dessa área: o Bobi nunca fica tapado. */
 .image-overlay.evacuar {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/evacuar.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/evacuar.png");
   background-size: contain;
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -1590,47 +1608,47 @@ h1 {
 }
 
 .rio {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/rio.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/rio.webp);
 }
 
 .floresta {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/floresta.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/floresta.webp);
 }
 
 .kit {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/kit2.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/kit2.webp);
 }
 
 .kit1 {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/kit1.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/kit1.png);
 }
 
 .fumo-sino-bg {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/fumo-sino-bg.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/fumo-sino-bg.webp);
 }
 
 .fogo-na-casa {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/fogo-na-casa.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/fogo-na-casa.webp);
 }
 
 .fogo-na-casa-overlay {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/fogo-na-casa-overlay.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/fogo-na-casa-overlay.png);
 }
 
 .mobilidade {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/mobilidade.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/mobilidade.jpg);
 }
 
 .salva-pelo-bombeiro {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/salva-pelo-bombeiro.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/salva-pelo-bombeiro.jpg);
 }
 
 .ponto-da-mulher {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/ponto-da-mulher.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/ponto-da-mulher.png);
 }
 
 .ponto-de-encontro-fogo {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/ponto-de-encontro-fogo.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/ponto-de-encontro-fogo.webp);
   animation:
     sceneFade .5s ease,
     vibrate-2 0.35s linear infinite both,
@@ -1638,19 +1656,19 @@ h1 {
 }
 
 .ponto-de-encontrosemfundo {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/ponto-de-encontrosemfundo.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/ponto-de-encontrosemfundo.webp);
 }
 
 .pontodeencontro-fuminho {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/pontodeencontro-fuminho.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/pontodeencontro-fuminho.webp);
 }
 
 .pontodeencontro-fumonomonte {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/pontodeencontro-fumonomonte.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/pontodeencontro-fumonomonte.png);
 }
 
 .pontodeencontro-semceu {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/pontodeencontro-semceu.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/pontodeencontro-semceu.webp);
 }
 
 .overlay-top {
@@ -1661,13 +1679,13 @@ h1 {
 /* ---- Casa a arder: transição "de pé" → "ardida" ---- */
 .casafire-de {
   z-index: 2;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa.webp");
   animation: fadeOut-de 3s ease-in-out forwards;
 }
 
 .casafire-para {
   z-index: 1;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-fire.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-fire.jpg");
 }
 
 @keyframes fadeOut-de {
@@ -1683,7 +1701,7 @@ h1 {
 /* ---- Casa ardida: cover + pan vertical (personagem → telhado) ---- */
 .image-bg.casa-ardida,
 .image-bg.casa-ardida.fullheight {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-ardida.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-ardida.jpg");
   background-size: cover;
   background-position: center 100%;
   background-repeat: no-repeat;
@@ -1750,58 +1768,58 @@ h1 {
 }
 
 .salvar-laurinda {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/salvar-laurinda.jpg");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/salvar-laurinda.jpg");
 }
 
 /* ---- Pronto para evacuar (variantes ainda sem passagem) ---- */
 .prontoparaevacuar-sembobi {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar-sembobi.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar-sembobi.png");
 }
 
 .prontoparaevacuar-sembobi2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar-sembobi2.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar-sembobi2.webp");
 }
 
 .prontoparaevacuar-sembobi3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar-sembobi3.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar-sembobi3.webp");
 }
 
 /* ---- Overlays do Bobi e fumo progressivo (casafumo1…6) ---- */
 .casa-semjanela-jardim {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-semjanela-jardim.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-semjanela-jardim.webp");
 }
 
 .casa-semjanela {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casa-semjanela.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casa-semjanela.webp");
 }
 
 .casafumo1 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casafumo1.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casafumo1.webp");
 }
 
 .casafumo2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casafumo2.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casafumo2.webp");
 }
 
 .casafumo3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casafumo3.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casafumo3.webp");
 }
 
 .casafumo4 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casafumo4.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casafumo4.webp");
 }
 
 .casafumo5 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casafumo5.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casafumo5.webp");
 }
 
 .casafumo6 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/casafumo6.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/casafumo6.webp");
 }
 
 /* ---- Reparar / chamar 112 / avisar vizinhos (animações de overlay) ---- */
 .reparar-overlay {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/repararbefore.png);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/repararbefore.png);
 }
 
 .turn-around {
@@ -1812,17 +1830,17 @@ h1 {
 @keyframes turnAround {
   0%, 40% {
     transform: rotate(0deg);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/repararbefore.png");
   }
 
   70% {
     transform: rotate(10deg);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/reparar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/reparar.png");
   }
 
   100% {
     transform: rotate(8deg);
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/reparar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/reparar.png");
   }
 }
 
@@ -1833,29 +1851,29 @@ h1 {
 
 @keyframes call-112 {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/repararbefore.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112before.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112.png");
   }
 }
 
 /* Poses estáticas do 112 (sem animação) */
 .pose-112before {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112before.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112before.png");
 }
 
 .pose-112 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112.png");
 }
 
 .pose-panico2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/panico2.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/panico2.png");
 }
 
 /* Passagem 34: pessoa em pânico (pose fixa) a tremer/respirar com dificuldade */
@@ -1865,8 +1883,8 @@ h1 {
     tremer-respirar-dificil 1.8s ease-in-out infinite;
 }
 
-.pose-ignorar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/ignorar.png"); }
-.pose-reparar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/reparar.png"); }
+.pose-ignorar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/ignorar.png"); }
+.pose-reparar { background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/reparar.png"); }
 
 @keyframes seq-entra { from { opacity: 0; } to { opacity: 1; } }
 @keyframes seq-corta { from { opacity: 1; } to { opacity: 0; } }
@@ -1901,15 +1919,15 @@ h1 {
 
 @keyframes call-only {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/repararbefore.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112before.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/ligar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/ligar.png");
   }
 }
 
@@ -1924,15 +1942,15 @@ h1 {
 
 @keyframes call-viz {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/repararbefore.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/repararbefore.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112before.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/avisar-vizinhos.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/avisar-vizinhos.png");
   }
 }
 
@@ -1944,15 +1962,15 @@ h1 {
 
 @keyframes em-panico {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/reparar.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/reparar.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/reparar3.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/reparar3.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/panico2.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/panico2.png");
   }
 }
 
@@ -1991,15 +2009,15 @@ h1 {
 
 @keyframes acalmarpanico {
   0%, 40% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/panico2.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/panico2.png");
   }
 
   70% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/panico3.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/panico3.png");
   }
 
   100% {
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/112before.png");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/112before.png");
   }
 }
 
@@ -2312,7 +2330,7 @@ body.reduce-motion .fumo-casa > i {
 
 .laurinda-dentro {
   /* TODO: trocar pela imagem da Laurinda dentro de casa que já tens */
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/laurinda-dentro.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/laurinda-dentro.png");
 }
 
 /* Definições abertas: pára estas animações (tal como pára o AUTO_FIM) */
@@ -2563,7 +2581,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/rio.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/rio.webp);
   background-size: cover;
   background-position: center;
   z-index: 1;
@@ -2573,7 +2591,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/floresta.webp);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/floresta.webp);
   background-size: cover;
   background-position: center;
   z-index: 2;
@@ -2682,7 +2700,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
    O JS (sequenciaChegada) acrescenta .fase-b à .scene quando a fase A
    acaba: a A desvanece e as camadas da B entram uma a uma (transition-delay). */
 .vizinhos {
-  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/vizinhos.jpg);
+  background-image: url(https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/vizinhos.jpg);
 }
 
 .chegada-a {
@@ -2800,16 +2818,16 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
 }
 
 .prontoevacuar-stage .s1 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar1.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar1.png");
   opacity: 1;
 }
 
 .prontoevacuar-stage .s2 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuarbobi.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuarbobi.png");
 }
 
 .prontoevacuar-stage .s3 {
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar3.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar3.png");
 }
 /* Continuação: s1 e s2 ficam estáticos e visíveis; só o s3 entra */
 .prontoevacuar-stage.continua .s1,
@@ -2854,18 +2872,18 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
 
 .pe3-fogo {
   z-index: 1;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar3-fogo.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar3-fogo.png");
   animation: vibrate-2 0.35s linear infinite both;
 }
 
 .pe3-semfundo {
   z-index: 2;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar-3semfundo.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar-3semfundo.png");
 }
 
 .pe3-fuminho {
   z-index: 3;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuar3-fuminhp.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuar3-fuminhp.png");
   animation:
     pe3-fuminho-drift     5s   ease-in-out infinite,
     pe3-fuminho-opacidade 4.5s ease-in-out infinite,
@@ -2940,7 +2958,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
     display: block;
     opacity: 1 !important;
     animation: none !important;
-    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/prontoparaevacuarbobi3.webp");
+    background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/prontoparaevacuarbobi3.webp");
     background-size: cover;
     background-position: center 30%;
     transform: scale(var(--pe-mobile-zoom));
@@ -2971,7 +2989,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
   transition: right 0.4s ease;
   font-family: "Fira Sans", sans-serif;
   border: 3px solid #b77e56;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/wood.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/wood.png");
   background-size: cover;
   background-position: center;
 }
@@ -3815,7 +3833,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
   text-align: center;
 
   background-color: rgba(0, 0, 0, 0.5);
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/bg-village.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/bg-village.webp");
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
@@ -3849,7 +3867,7 @@ body:has(#settings-overlay.open) :is(.fumo-preto, .revela-fogo-casa, .fumo-39, .
   line-height: 1.6;
   padding: min(1.8rem, 4vh) 2rem;
 
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png");
   background-size: cover;
   background-position: center;
   border: 4px solid #b77e56;
@@ -4020,7 +4038,7 @@ html[data-init="loading"] #init-loading {
   position: absolute;
   inset: 0;
   background-color: #1a1108;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/bg-village.webp");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/bg-village.webp");
   background-size: cover;
   background-position: center;
   filter: blur(2px);
@@ -4092,7 +4110,7 @@ html[data-init="loading"] #init-loading {
   position: relative;
   overflow: hidden;
 
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/wood-dark.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/wood-dark.png");
   background-size: cover;
   background-position: center;
 
@@ -4700,7 +4718,7 @@ body:has(#settings-overlay.open) #sound-btn {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -4828,7 +4846,7 @@ body:has(#settings-overlay.open) #sound-btn {
   overflow-y: auto;
 
   background-color: #4A2711;
-  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/wood.png");
+  background-image: url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/wood.png");
   background-size: 180px 180px;
   background-repeat: repeat;
   background-position: left top;
@@ -5480,7 +5498,7 @@ body:has(#settings-overlay.open) #sound-btn {
   background-color: #8A5A3B !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, 0.15), rgba(30, 18, 10, 0.15)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-position: left top, left top !important;
   background-repeat: no-repeat, repeat !important;
@@ -6043,6 +6061,10 @@ body.reduce-motion .sirene-fx.sirene-34 {
   line-height: 1.2;
   color: var(--er-ok-ink);
 }
+
+.notebook .er-score.nota-boa  { color: var(--er-ok-ink); }
+.notebook .er-score.nota-media { color: var(--er-miss-ink); }
+.notebook .er-score.nota-ma   { color: var(--er-bad-ink); }
 
 .notebook .er-score-num,
 .notebook .er-score-total {
@@ -6791,25 +6813,93 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
 .nb-pagina-baixo > .notebook-actions > a,
 .nb-pagina-baixo > .notebook-actions > button { visibility: hidden; }
 
+/* ---- Entrada do caderno do quiz (depois da cena + balão) ----
+   Escondido até o JS acrescentar .nb-visivel. Só afeta o quiz:
+   não mexe nos resultados (.resultado) nem no ecrã final (.rs-overlay). */
+.notebook-overlay:not(.rs-overlay):not(.nb-visivel):has(.notebook:not(.resultado)) {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.notebook-overlay.nb-entra {
+  animation: nb-overlay-in .6s ease-out backwards;
+}
+
+.notebook-overlay.nb-entra > .notebook {
+  animation: nb-caderno-entra 1s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+@keyframes nb-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes nb-caderno-entra {
+  from { opacity: 0; transform: translateY(70px) rotate(-2deg) scale(.94); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* ==========================================================================
-   RESULTADOS FINAIS (separadores + caderno)
-   Reutiliza .notebook / .notebook.resultado de [25].
+   [26] RESULTADOS FINAIS
+   --------------------------------------------------------------------------
+   Ecrã final (sem text-box): separadores Resultados / Conquistas / Lições +
+   caderno com um painel por separador. Reutiliza .notebook / .resultado de
+   [25] (papel, moldura, argolas, linha de margem vertical).
+
+   Estrutura:
+     .notebook-overlay.rs-overlay
+       └ .rs-wrap
+           ├ .rs-tabs > .rs-tab[data-tab="resultados|conquistas|licoes"]
+           └ .notebook.resultado.rs-notebook
+               ├ .rs-panel#rs-resultados | #rs-conquistas | #rs-licoes
+               └ .rs-footer  (botões; fixo ao fundo do caderno)
+
+   JS: story.js [16] (catálogo, separadores, setinha de scroll).
+   Sub-blocos: 26.1 Layout · 26.2 Separadores · 26.3 Caderno e painéis ·
+   26.4 Tipografia · 26.5 Caixas de resultado · 26.6 Conquistas e lições ·
+   26.7 Continua a aprender · 26.8 Rodapé · 26.9 Telemóvel · 26.10 Acessib.
    ========================================================================== */
+
+/* ---- 26.1 Layout (sem text-box: o caderno ocupa o ecrã) ---- */
+.notebook-overlay.rs-overlay {
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (min-width: 601px) {
+  .notebook-overlay.rs-overlay { padding: 6vh 24px; }
+}
+
 .rs-wrap {
-  --rs-res:   #BF713F;
+  --rs-res:   #BF713F;     /* cores dos separadores */
   --rs-conq:  #A6A64D;
   --rs-licao: #C791B1;
   --rs-ico:   #EFB13E;
 
   width: min(850px, 92%);
   height: 100%;
-  max-height: calc(100vh - var(--nb-textbox-px, 30vh) - 40px);
+  max-height: min(100%, 760px);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
-/* ---- Separadores ---- */
+@media screen and (min-width: 601px) {
+  .rs-wrap {
+    width: min(1100px, 78vw);
+    max-height: 820px;
+  }
+}
+
+/* Fundo da cena menos escuro do que nos alertas (.alarm-scene põe .82) */
+.alarm-scene:has(.rs-wrap) .image-bg.village::after {
+  background-color: rgba(0, 0, 0, .35) !important;
+}
+
+/* ---- 26.2 Separadores ---- */
 .rs-tabs {
   position: relative;
   z-index: 3;
@@ -6832,21 +6922,20 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   background-color: var(--tab-bg) !important;
   background-image:
     linear-gradient(rgba(30, 18, 10, .12), rgba(30, 18, 10, .12)),
-    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/texture.png") !important;
+    url("https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/texture.png") !important;
   background-size: 100% 100%, 120px 120px !important;
   background-blend-mode: normal, soft-light;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .18), 0 -2px 4px rgba(0, 0, 0, .15);
   color: #2B2118;
   font-family: "Winky Rough", sans-serif;
   font-size: .95rem;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
-  opacity: 1;
   filter: brightness(.88) saturate(.9);
   transform-origin: center bottom;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .18), 0 -2px 4px rgba(0, 0, 0, .15);
   transition:
     padding .35s cubic-bezier(.34, 1.56, .64, 1),
     font-size .35s cubic-bezier(.34, 1.56, .64, 1),
@@ -6868,12 +6957,12 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   .rs-tab:not(.active):hover { filter: brightness(1) saturate(1); }
 }
 
-/* Selecionado: cresce; os outros encolhem (efeito de padding + fonte) */
+/* Selecionado: cresce; os outros encolhem */
 .rs-tab.active {
+  z-index: 2;
   padding: .65rem 1.35rem .95rem;
   font-size: 1.15rem;
   filter: none;
-  z-index: 2;
   animation: rs-pop .35s ease-out;
 }
 
@@ -6888,56 +6977,98 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   outline-offset: 2px;
 }
 
-/* ---- Caderno ---- */
+/* ---- 26.3 Caderno e painéis ----
+   Pauta decorativa: só entre a zona do título e a do rodapé (limites em
+   --rs-topo-livre e --nb-acoes-h), para não passar atrás do título nem dos
+   botões. Ajustar o "peso" visual nestas variáveis. */
 .rs-notebook {
+  --rs-linha-passo: calc(2.4rem * var(--nb-scale, 1));   /* distância entre linhas */
+  --rs-linha-cor:   rgba(70, 55, 40, .10);               /* pauta do papel */
+  --rs-sep:         rgba(70, 55, 40, .14);               /* separadores dentro das caixas */
+  --rs-topo-livre:  5rem;                                /* sem pauta atrás do título */
+  --nb-acoes-h: 60px;      /* altura do rodapé (botões mais pequenos) */
+
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
   height: auto;
   max-height: none;
+
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--rs-linha-passo) - 1px),
+    var(--rs-linha-cor) calc(var(--rs-linha-passo) - 1px),
+    var(--rs-linha-cor) var(--rs-linha-passo)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 var(--rs-topo-livre);
+  background-size: 100% calc(100% - var(--rs-topo-livre) - var(--nb-acoes-h, 70px));
 }
 
+/* Painel com scroll; o padding-bottom reserva o espaço do .rs-footer */
 .rs-panel {
   display: none;
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 1.6rem 1.2rem calc(var(--nb-acoes-h, 70px) + .5rem) var(--nb-res-pad, 2.6rem);
+  padding: 1.6rem 1.2rem calc(var(--nb-acoes-h, 70px) + 1.2rem) var(--nb-res-pad, 2.6rem);
   box-sizing: border-box;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #FFF5E6 rgba(250, 237, 205, .15);
 }
-.rs-panel::-webkit-scrollbar { width: 5px; }
+
+.rs-panel::-webkit-scrollbar       { width: 5px; }
 .rs-panel::-webkit-scrollbar-track { background: rgba(250, 237, 205, .15); border-radius: 999px; }
 .rs-panel::-webkit-scrollbar-thumb { background: #FFF5E6; border-radius: 999px; }
 
-.rs-panel.active { display: block; animation: rs-panel-in .3s ease-out; }
-@keyframes rs-panel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.rs-panel.active {
+  display: block;
+  animation: rs-panel-in .3s ease-out;
+}
 
-/* ---- Tipografia: Winky nos títulos, Fira Sans no resto ---- */
+@keyframes rs-panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- 26.4 Tipografia (Winky nos títulos, Fira Sans no resto) ---- */
 .rs-notebook p,
-.rs-notebook li { color: var(--nb-ink) !important; }
+.rs-notebook li { color: var(--nb-ink) !important; }   /* p {color:white} é global */
 
 .rs-kicker {
   margin: 0 !important;
   font-family: "Fira Sans", sans-serif;
-  font-weight: 700;
   font-size: .9em;
+  font-weight: 700;
 }
 
 .rs-title {
+  position: relative;
   margin: .1rem 0 1rem;
-  padding-bottom: .4rem;
-  border-bottom: 1px solid var(--nb-rule);
+  padding-bottom: .6rem;           /* a linha vem do ::after (como o .notebook-title) */
   font-family: "Winky Rough", sans-serif;
   font-size: 1.5em;
   font-weight: 700;
   color: #B8741A;
   text-shadow: none;
 }
+
+.rs-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 80px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--nb-margin);
+  opacity: .6;
+}
+
 .rs-title small {
   font-family: "Fira Sans", sans-serif;
   font-size: .55em;
@@ -6953,7 +7084,9 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   color: var(--nb-ink);
 }
 
-/* ---- Caixas de resultado ---- */
+.rs-intro { margin: 0 0 .8rem !important; font-size: .95em; }
+
+/* ---- 26.5 Caixas de resultado (perigo / depende / boas decisões) ---- */
 .rs-box {
   margin-bottom: .8rem;
   padding: .6rem .9rem;
@@ -6963,6 +7096,7 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   font-size: .9em;
   color: var(--nb-ink);
 }
+
 .rs-box.perigo  { background: rgba(217, 10, 10, .08);  border-color: rgba(217, 10, 10, .45); }
 .rs-box.depende { background: rgba(213, 138, 16, .10); border-color: rgba(213, 138, 16, .55); }
 .rs-box.boas    { background: rgba(93, 147, 96, .12);  border-color: rgba(93, 147, 96, .6); }
@@ -6976,22 +7110,33 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   font-size: 1em;
   font-weight: 700;
 }
+
 .rs-box.perigo  h4 { color: #B00808; }
 .rs-box.depende h4 { color: #9A5C06; }
 .rs-box.boas    h4 { color: #2F6B35; }
-.rs-box h4 small { font-weight: 400; opacity: .7; }
-.rs-box-ico .ph-icon { width: 1.3em; height: 1.3em; stroke: currentColor; stroke-width: 14; stroke-linejoin: round; }
+.rs-box h4 small   { font-weight: 400; opacity: .7; }
+
+.rs-box h4 .er-msg-ico             { margin-right: 0; }
+.rs-box h4 .er-msg-ico .ph-icon    { filter: none; }
+.rs-box-ico .ph-icon {
+  width: 1.3em;
+  height: 1.3em;
+  stroke: currentColor;
+  stroke-width: 14;
+  stroke-linejoin: round;
+}
 
 .rs-item {
   display: flex;
   gap: 1rem;
   padding: .3rem 0;
-  border-top: 1px solid var(--nb-rule);
+  border-top: 1px solid var(--rs-sep);
   font-size: .95em;
 }
+
 .rs-item strong { flex: 0 0 8.5rem; font-weight: 600; }
 
-/* ---- Conquistas / Lições ---- */
+/* ---- 26.6 Conquistas e lições ---- */
 .rs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
 .rs-panel#rs-licoes .rs-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
 
@@ -7008,35 +7153,42 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   line-height: 1.25;
   color: var(--nb-ink);
 }
-.rs-conq > div { display: flex; flex-direction: column; }
-.rs-conq b { font-weight: 700; color: #6B2A1A; }
-.rs-conq img { width: 44px; height: 44px; flex: 0 0 auto; }
 
+.rs-conq > div   { display: flex; flex-direction: column; }
+.rs-conq b       { font-weight: 700; color: #6B2A1A; }
+.rs-conq span    { display: block; font-weight: 400; }
+
+.rs-link {
+  margin-top: .25em;
+  color: #2F6B35 !important;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* Ícone circular (3px). Tem de ser position:relative + overflow:hidden:
+   é ele que recorta a <img> (posicionada em absolute, ver abaixo) ao círculo. */
+.rs-ico,
+.rs-conq.locked .q {
+  position: relative;
+  box-sizing: border-box;
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border: 3px solid #E4A635;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #F6E3C3;
+}
+
+/* Bloqueadas: tracejado, cartão esbatido e um "?" por cima do ícone */
 .rs-conq.locked {
   background: rgba(70, 55, 40, .1);
   border: 2px dashed rgba(70, 55, 40, .35);
   opacity: .85;
 }
-.rs-conq.locked .q {
-  position: relative;
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-  display: block;
-  border: none;
-  border-radius: 50%;
-  overflow: hidden;
-}
 
-/* ícone a cinzento e esbatido */
-.rs-conq.locked .q img {
-  width: 100%;
-  height: 100%;
-  filter: grayscale(1) brightness(.75);
-  opacity: .45;
-}
+.rs-conq.locked .q { border-style: dashed; }
 
-/* o "?" fica por cima do ícone */
 .rs-conq.locked .q::after {
   content: "?";
   position: absolute;
@@ -7049,49 +7201,204 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   text-shadow: 0 1px 2px rgba(255, 255, 255, .6);
 }
 
-.rs-conq.locked .q:empty {
-  box-sizing: border-box;
-  border: 2px dashed #E0A566;
+/* ---- Tags sobre o ícone ("100%" / "ZEN") ----
+   Fazem parte da "imagem": texto em Winky Rough com contorno grosso (por trás
+   do preenchimento) e sombra, encostado ao fundo do círculo. O .rs-ico tem
+   overflow:hidden, por isso a tag é recortada pelo círculo, como na referência.
+   Só aparecem nas conquistas desbloqueadas (as bloqueadas usam .q, não .rs-ico). */
+.rs-conq.mestre .rs-ico::after,
+.rs-conq.mestre-quiz .rs-ico::after,
+.rs-conq.cabeca-fria .rs-ico::after {
+  --tag-fill:   #D9E83A;
+  --tag-stroke: #3E4A12;
+
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  z-index: 2;
+  transform: translateX(-50%) rotate(-5deg);
+  white-space: nowrap;
+  pointer-events: none;
+
+  font-family: "Winky Rough", sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: .01em;
+
+  color: var(--tag-fill);
+  -webkit-text-stroke: 3.5px var(--tag-stroke);
+  paint-order: stroke fill;               /* o contorno fica por trás, sem "comer" as letras */
+  text-shadow: 0 2px 2px rgba(0, 0, 0, .35);
 }
 
-/* ---- Rodapé (sobre o papel, como o .notebook-actions) ---- */
+.rs-conq.mestre .rs-ico::after,
+.rs-conq.mestre-quiz .rs-ico::after {
+  content: "100%";
+}
+
+.rs-conq.cabeca-fria .rs-ico::after {
+  content: "ZEN";
+  --tag-fill:   #C79BE0;
+  --tag-stroke: #3F2257;
+  bottom: 4px;
+  font-size: 18px;
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+/* O círculo deixa de cortar tudo; só a imagem é recortada ao círculo
+   (raio 25px = 56px − 2×3px de borda, a dividir por 2) */
+.rs-ico { overflow: visible; }
+
+.rs-ico > img {
+  clip-path: circle(25px at var(--fx, 50%) var(--fy, 50%));
+}
+
+/* "100%" por cima da borda inferior do círculo (mesmo tamanho, cor e letra) */
+.rs-conq.mestre .rs-ico::after,
+.rs-conq.mestre-quiz .rs-ico::after {
+  bottom: -7px;
+}
+
+/* Enquadramento do ícone: a <img> é posicionada pelo ponto de interesse.
+   --zoom  largura da imagem em múltiplos do círculo (1 = a imagem toda)
+   --fx/--fy  ponto da imagem (em %) que fica no centro do círculo
+   Cada conquista só define estas 3 variáveis (ver abaixo). */
+.rs-ico > img,
+.rs-conq.locked .q img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--zoom, 1) * 100%);
+  height: auto;
+  max-width: none;
+  /* a % do translate refere-se ao tamanho da própria imagem */
+  transform: translate(calc(var(--fx, 50%) * -1), calc(var(--fy, 50%) * -1));
+}
+
+/* Bloqueadas: ícone a cinzento e esbatido */
+.rs-conq.locked .q img {
+  filter: grayscale(1) brightness(.75);
+  opacity: .45;
+}
+
+/* ---- Enquadramento por conquista ----
+   Cada linha define o recorte do ícone (ver "Enquadramento do ícone" acima):
+     --zoom  quantas vezes a imagem é mais larga do que o círculo
+     --fx/--fy  ponto da imagem (em %) que fica no centro do círculo
+   A classe tem de existir no .rs-conq da conquista (ids de setup.catalogo).
+   Valores iniciais: afinar no DevTools (ver nota no fim). */
+.rs-conq.casa-segura                       { --zoom: 1.4; --fx: 40%; --fy: 50%; }   /* a casa */
+.rs-conq.kit-perfeito                      { --zoom: 1; --fx: 50%; --fy: 55%; }   /* o kit */
+.rs-conq.guardiao                          { --zoom: 1.2; --fx: 45%; --fy: 45%; }   /* vizinhos */
+.rs-conq.mestre,
+.rs-conq.mestre-quiz                       { --zoom: 4.8; --fx: 43%; --fy: 34%; }   /* cara da senhora */
+.rs-conq.bobi                              { --zoom: 6.2; --fx: 40%; --fy: 68%; }   /* cabeça do Bobi */
+.rs-conq.conversador                       { --zoom: 4; --fx: 41%; --fy: 35%; }   /* senhora ao telefone (112) */
+.rs-conq.mao-amiga                         { --zoom: 1.3; --fx: 55%; --fy: 50%; }   /* Laurinda + personagem */
+.rs-conq.cabeca-fria                       { --zoom: 7; --fx: 44%; --fy: 32%; }   /* senhora ZEN */
+
+/* ---- 26.7 "Continua a aprender" ---- */
+.rs-more { margin: 0 0 .8rem !important; font-size: .95em; font-weight: 600; }
+.rs-more a { color: #9A5C06; text-decoration: underline; }
+
+.rs-soon {
+  display: flex;
+  gap: .9rem;
+  align-items: center;
+  padding: .7rem .8rem;
+  border: 2px solid #BF713F;
+  border-radius: .7rem;
+  background: linear-gradient(135deg, rgba(239, 177, 62, .32), rgba(191, 113, 63, .18));
+  box-shadow: 0 3px 0 rgba(191, 113, 63, .45), 0 8px 16px rgba(70, 40, 15, .16);
+  font-family: "Fira Sans", sans-serif;
+  font-size: .9em;
+  color: var(--nb-ink);
+}
+
+.rs-soon img {
+  width: 96px;
+  flex: 0 0 auto;
+  border: 2px solid #E4A635;
+  border-radius: .5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+}
+
+.rs-soon > div { display: flex; flex-direction: column; gap: .3em; }
+
+.rs-soon b,
+.rs-soon strong {                  /* título do próximo jogo */
+  font-family: "Winky Rough", sans-serif;
+  font-size: 1.05em;
+  color: #6B2A1A;
+}
+
+.rs-badge {
+  align-self: flex-start;
+  padding: .1em .7em;
+  border: 1px solid #9A5C06;
+  border-radius: 999px;
+  background: #E4A635;
+  color: #4A2711;
+  font-size: .7em;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ---- 26.8 Rodapé (igual ao .notebook-actions do quiz) ----
+   Fixo ao fundo do caderno, transparente (não ocupa espaço; o painel reserva
+   a altura). Os botões só aparecem no fim do scroll (.aguarda-fim, posta pelo
+   JS), com fade preto por baixo da setinha. */
 .rs-footer {
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 2;
+  height: var(--nb-acoes-h, 70px);
+  box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;           /* botões encostados ao fundo da faixa… */
+  padding: .5rem 1.2rem calc(.6rem + env(safe-area-inset-bottom, 0px));   /* margem até à borda */
   gap: .6rem;
-  padding: .5rem 1.2rem calc(.5rem + env(safe-area-inset-bottom, 0px));
-  pointer-events: none;
+  margin: 0;
+  pointer-events: none;            /* deixa o scroll passar por baixo */
 }
+
 .rs-footer a {
-  pointer-events: auto;
   position: relative;
   isolation: isolate;
   overflow: hidden;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: .4em;
-  min-height: 44px;
-  padding: .5em 1.2em;
+  min-width: 128px;
+  min-height: 38px;
+  padding: .4em 1em;
   border: 2px solid var(--btn-sec-border);
   border-radius: var(--btn-radius);
   background-color: #9C6E52;
-  box-shadow: var(--btn-shadow-rest);
+  box-shadow: var(--btn-shadow-lift);
   color: var(--btn-text) !important;
+  font-family: "Winky Rough", sans-serif;
+  font-size: .95em;
+  font-weight: 700;
   text-decoration: none !important;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, .7);
-  font-family: "Winky Rough", sans-serif;
-  font-size: 1.05em;
-  font-weight: 700;
-  transition: var(--btn-transition);
+  pointer-events: auto;
+  transition: var(--btn-transition), opacity .3s ease;
 }
-.rs-footer a:last-child {                       /* "Jogar novamente" = principal */
+
+/* last-of-type (e não last-child): a setinha é um <div> no fim do rodapé */
+.rs-footer a:last-of-type {        /* "Jogar novamente" = principal */
   background-color: var(--btn-main-bg);
   border-color: var(--btn-main-border);
 }
-.rs-footer a::before {                          /* textura madeira */
+
+.rs-footer a::before {             /* textura de madeira */
   content: "";
   position: absolute;
   inset: 0;
@@ -7100,303 +7407,12 @@ body.transicao-caderno .scene.a-carregar :is(.image-bg, .image-overlay, .image-f
   opacity: .4;
   pointer-events: none;
 }
-.rs-footer a:hover  { border-color: var(--btn-main-border-hover); box-shadow: var(--btn-shadow-lift); transform: translateY(-1px); }
-.rs-footer a:active { box-shadow: var(--btn-shadow-press); transform: translateY(2px); }
+
+.rs-footer a:hover         { border-color: var(--btn-main-border-hover); transform: translateY(-1px); }
+.rs-footer a:active        { box-shadow: var(--btn-shadow-press); transform: translateY(2px); }
 .rs-footer a:focus-visible { outline: 3px solid var(--btn-focus) !important; outline-offset: 2px; }
 
-/* ---- Telemóvel ---- */
-@media screen and (max-width: 600px) {
-  .rs-wrap { width: 100%; }
-  .rs-tabs { padding-left: .8rem; gap: .3rem; }
-  .rs-tab { padding: .4rem .6rem .65rem; font-size: .85rem; }
-  .rs-tab:not(.active) .rs-tab-label { display: none; }   /* só ícone nos inativos */
-  .rs-tab.active { padding: .6rem 1rem .9rem; font-size: 1rem; }
-
-  .rs-panel { padding: 1.2rem .8rem calc(var(--nb-acoes-h, 60px) + .5rem) 2.2rem; }
-  .rs-grid,
-  .rs-panel#rs-licoes .rs-grid { grid-template-columns: 1fr; }
-  .rs-item { flex-direction: column; gap: .1rem; }
-  .rs-item strong { flex: none; }
-  .rs-footer { padding: .5rem 1rem; }
-  .rs-footer a { flex: 1; justify-content: center; }
-}
-
-/* ---- Sem text-box: o caderno ocupa o ecrã todo ---- */
-.notebook-overlay.rs-overlay { inset: 0; }
-
-.rs-overlay .rs-wrap {
-  height: 100%;
-  max-height: min(100%, 760px);
-}
-
-/* Fundo menos escuro do que o dos alertas (o .alarm-scene põe 0.82) */
-.alarm-scene:has(.rs-wrap) .image-bg.village::after {
-  background-color: rgba(0, 0, 0, .35) !important;
-}
-
-/* ---- Cabeçalhos das caixas (ícones do <<erIcon>>) ---- */
-.rs-box h4 .er-msg-ico { margin-right: 0; }
-.rs-box h4 .er-msg-ico .ph-icon { filter: none; }
-
-/* ---- Cartões de conquista / lição ---- */
-.rs-conq span { display: block; font-weight: 400; }
-.rs-link {
-  margin-top: .25em;
-  color: #2F6B35 !important;
-  font-weight: 600;
-  text-decoration: underline;
-}
-.rs-intro { margin: 0 0 .8rem !important; font-size: .95em; }
-
-/* ---- "Continua a aprender" ---- */
-.rs-more { margin: 0 0 .8rem !important; font-size: .95em; font-weight: 600; }
-.rs-more a { color: #9A5C06; text-decoration: underline; }
-
-.rs-soon {
-  display: flex;
-  gap: .8rem;
-  align-items: center;
-  padding: .6rem;
-  border: 2px solid #C98B5A;
-  border-radius: .6rem;
-  background: rgba(191, 113, 63, .08);
-  font-family: "Fira Sans", sans-serif;
-  font-size: .9em;
-  color: var(--nb-ink);
-}
-.rs-soon img { width: 80px; flex: 0 0 auto; border-radius: .4rem; }
-.rs-soon > div { display: flex; flex-direction: column; gap: .3em; }
-.rs-badge {
-  align-self: flex-start;
-  padding: .05em .6em;
-  border: 1px solid #C98B5A;
-  border-radius: 999px;
-  background: #F6E3C3;
-  color: #9A5C06;
-  font-size: .7em;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-body.reduce-motion .rs-tab.active,
-body.reduce-motion .rs-panel.active { animation: none; }
-
-/* ---- Ícones das conquistas: círculo 3px ---- */
-.rs-conq > img,
-.rs-conq.locked .q {
-  box-sizing: border-box;
-  flex: 0 0 56px;
-  width: 56px;
-  height: 56px;
-  border: 3px solid #E4A635;
-  border-radius: 50%;
-  background-color: #F6E3C3;
-}
-
-.rs-conq > img {
-  object-fit: cover;              /* preenche o círculo sem distorcer */
-}
-
-.rs-conq.locked .q {
-  border-style: dashed;           /* bloqueadas: tracejado, como no modelo */
-}
-
-.rs-conq.locked .q img {
-  object-fit: cover;
-}
-
-/* ---- Wrapper circular do ícone (substitui o border-radius na img) ---- */
-.rs-ico {
-  flex: 0 0 56px;
-  width: 56px;
-  height: 56px;
-  box-sizing: border-box;
-  border: 3px solid #E4A635;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: #F6E3C3;
-  position: relative;
-}
-
-.rs-ico > img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  /* O zoom faz-se com transform — o overflow do .rs-ico corta ao círculo */
-}
-
-/* ---- Zoom por conquista ---- */
-/* Mestre dos Quizzes: mais zoom na cara da senhora */
-.rs-conq.mestre .rs-ico > img {
-  object-position: center 30%;
-  transform: scale(1.4);
-  transform-origin: center 30%;
-}
-
-/* Bobi: só o bobi no círculo */
-.rs-conq.bobi .rs-ico > img {
-  object-position: center 42%;
-  transform: scale(1.8);
-  transform-origin: center 42%;
-}
-
-/* Mão Amiga: zoom na Laurinda + personagem */
-.rs-conq.mao-amiga .rs-ico > img {
-  object-position: 58% 45%;
-  transform: scale(1.45);
-  transform-origin: 58% 45%;
-}
-
-/* "100%" no canto do Mestre dos Quizzes */
-.rs-conq.mestre .rs-ico::after {
-  content: '100%';
-  position: absolute;
-  bottom: 3%;
-  right: 2%;
-  padding: 0 .25em;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.72);
-  color: #FFE9A8;
-  font-family: "Fira Sans", sans-serif;
-  font-size: 0.62em;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-  pointer-events: none;
-}
-
-/* ---- Rodapé no fluxo do conteúdo (não sticky) ----
-   Reaproveita o padrão do .nb-scroll-hint dos quizzes: uma seta "⌄" antes
-   dos botões, e os botões aparecem em bloco no fim do painel. */
-.rs-panel .rs-footer {
-  position: static;               /* rola com o conteúdo */
-  display: flex;
-  justify-content: flex-end;
-  gap: .8rem;
-  margin: 2rem 0 0;
-  padding: 1rem 0 0;
-  border-top: 1px solid var(--nb-rule);
-  pointer-events: auto;
-}
-
-/* Tamanho dos botões: ligeiramente menor que o actual (eram "grandes") */
-.rs-panel .rs-footer a {
-  min-width: 150px;
-  min-height: 44px;
-  font-size: 0.95em;
-  padding: .55em 1.2em;
-}
-
-/* Setinha a indicar scroll: mesmo visual do .nb-scroll-hint mas dentro do papel */
-.rs-scroll-hint {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  margin: 1rem auto 0;
-  border-radius: 50%;
-  background: rgba(201, 162, 136, .55);
-  color: #FFF5E6;
-  font-size: 1.1em;
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  animation: rs-bob 1.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes rs-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
-}
-
-/* Telemóvel: botões em coluna, largura total */
-@media screen and (max-width: 600px) {
-  .rs-panel .rs-footer {
-    flex-direction: column;
-  }
-  .rs-panel .rs-footer a {
-    width: 100%;
-    min-width: 0;
-    justify-content: center;
-  }
-}
-
-/* ---- Tamanho do caderno dos resultados finais ---- */
-.notebook-overlay.rs-overlay {
-  display: flex;                  /* dá uma altura definida ao caderno: deixa de cortar */
-  align-items: center;
-  justify-content: center;
-}
-
-@media screen and (min-width: 601px) {
-  .notebook-overlay.rs-overlay {
-    padding: 6vh 24px;            /* margem em cima e em baixo */
-  }
-
-  .rs-overlay .rs-wrap {
-    width: min(1100px, 78vw);     /* largura, com margens laterais grandes */
-    height: 100%;
-    max-height: 820px;
-    min-height: 0;
-  }
-}
-
-/* ---- Linhas pautadas no papel dos resultados finais ----
-   Só no .rs-notebook (não afecta o quiz em [25]).
-   O pitch das linhas é 1.55em (alinhado com o line-height 1.35 do texto),
-   com uma linha de 1px por baixo de cada linha de texto. A cor é a mesma
-   dos separadores (--nb-rule) mas um pouco mais escura para se destacar. */
-.rs-notebook {
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent calc(1.55em - 1px),
-      rgba(70, 55, 40, 0.28) calc(1.55em - 1px),
-      rgba(70, 55, 40, 0.28) 1.55em
-    );
-  background-position: 0 1.2rem;   /* offset para alinhar com o 1.º parágrafo */
-}
-
-/* ==========================================================================
-   FIX RESULTADOS FINAIS
-   ========================================================================== */
-
-/* 1. As linhas ficam apenas no fundo. As caixas ficam opacas para tapar as linhas. */
-.rs-box {
-  background-color: var(--nb-paper) !important;
-}
-.rs-box.perigo  { background-image: linear-gradient(rgba(217, 10, 10, .08), rgba(217, 10, 10, .08)) !important; }
-.rs-box.depende { background-image: linear-gradient(rgba(213, 138, 16, .10), rgba(213, 138, 16, .10)) !important; }
-.rs-box.boas    { background-image: linear-gradient(rgba(93, 147, 96, .12), rgba(93, 147, 96, .12)) !important; }
-
-/* 2. Botões mais pequenos */
-.rs-footer a {
-  min-height: 36px !important;
-  padding: .4em 1em !important;
-  font-size: 0.85em !important;
-}
-
-/* 3. Rodapé fixo no fundo do caderno (igual ao quiz) */
-.rs-footer {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: var(--nb-acoes-h, 70px);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: .6rem;
-  padding: 0 1.2rem calc(env(safe-area-inset-bottom, 0px));
-  pointer-events: none;
-  z-index: 2;
-  box-sizing: border-box;
-}
-
-/* Fade black idêntico ao do quiz */
+/* Fade preto por baixo da setinha, só enquanto há scroll por fazer */
 .rs-footer::before {
   content: "";
   position: absolute;
@@ -7411,29 +7427,39 @@ body.reduce-motion .rs-panel.active { animation: none; }
   transition: opacity .3s ease;
 }
 
-.rs-footer.aguarda-fim::before {
-  opacity: 1;
-}
+.rs-footer.aguarda-fim::before { opacity: 1; }
 
-/* Esconde os botões enquanto houver conteúdo por ler */
 .rs-footer.aguarda-fim > a {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
-/* Ajuste da opacidade das linhas (agora ficam por trás do texto) */
-.rs-notebook {
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent calc(1.55em - 1px),
-      rgba(70, 55, 40, 0.15) calc(1.55em - 1px),
-      rgba(70, 55, 40, 0.15) 1.55em
-    ) !important;
-  background-position: 0 1.2rem;
+/* ---- 26.9 Telemóvel ---- */
+@media screen and (max-width: 600px) {
+  .rs-wrap { width: 100%; }
+
+  .rs-notebook { --rs-topo-livre: 4.2rem; --nb-acoes-h: 56px; }
+
+  .rs-tabs { padding-left: .8rem; gap: .3rem; }
+  .rs-tab { padding: .4rem .6rem .65rem; font-size: .85rem; }
+  .rs-tab:not(.active) .rs-tab-label { display: none; }   /* só ícone nos inativos */
+  .rs-tab.active { padding: .6rem 1rem .9rem; font-size: 1rem; }
+
+  .rs-panel { padding: 1.2rem .8rem calc(var(--nb-acoes-h, 60px) + 1.2rem) 2.2rem; }
+  .rs-grid,
+  .rs-panel#rs-licoes .rs-grid { grid-template-columns: 1fr; }
+
+  .rs-item { flex-direction: column; gap: .1rem; }
+  .rs-item strong { flex: none; }
+
+  .rs-footer { padding: .5rem 1rem calc(.6rem + env(safe-area-inset-bottom, 0px)); }
+  .rs-footer a { flex: 1; min-width: 0; padding: .4em .6em; font-size: .95em; }
 }
+
+/* ---- 26.10 Acessibilidade ---- */
+body.reduce-motion .rs-tab.active,
+body.reduce-motion .rs-panel.active { animation: none; }
 
 /* ==========================================================================
    FIX FINAL
@@ -7499,6 +7525,7 @@ body.reduce-motion .rs-panel.active { animation: none; }
     [14B] CONTINUIDADE DE CAMADAS
     [14C] IMAGENS PRONTAS
     [15] EVENTOS PRINCIPAIS .. :passagestart / :passageend / :storyready
+    [16] RESULTADOS FINAIS .... catálogo, desbloqueios, separadores, setinha
 
    CONVENÇÕES
    --------------------------------------------------------------------------
@@ -7556,6 +7583,10 @@ var CHAMADA_112_MS = 3600;
 
 /* ---- Som: virar a página do caderno (quiz → resultados) ---- */
 var PAGE_FLIP_VOL       = 0.1;   // era 0.4
+
+/* ---- Caderno do quiz: entra depois da cena + balão ---- */
+var CADERNO_PAUSA_MS = 1200;    // pausa entre o fim do texto e a entrada do caderno
+var CADERNO_MAX_MS   = 15000;   // salvaguarda: aparece sempre, mesmo que o texto encrave
 
 /* ---- Fim automático ("Será o fim?") ----
    espera = ms depois de o texto terminar (duplica no modo "extended") */
@@ -7664,7 +7695,7 @@ var HEART_PASSAGES        = ['7', '8', '16', '20', '21', '13-Laurinda'];
 var EAR_RINGING_PASSAGES  = ['20', '21', '28', '34', '29', '35'];
 
 /* ---- Imagens (carregamento) ---- */
-var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/';
+var CDN = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/';
 var IMG = CDN + 'images/';
 
 /* Passagem 13: telemóvel (≤600px) só usa o painel 2; tablet/desktop os 3.
@@ -7768,7 +7799,7 @@ var imagesBackground = [
 var TIP_KEYS = ['tip.1', 'tip.2', 'tip.3'];
 
 /* URL base dos ícones da app (favicon / apple-touch-icon) */
-var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/favicon/';
+var base = 'https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/favicon/';
 
 /* ---- Preferências guardadas no browser (localStorage) ----
    hfna-animations: '1' | '0'      hfna-timer-mode: normal | extended | off */
@@ -9130,6 +9161,7 @@ function iniciarTextoAnimado() {
   if ($box.length === 0) {
     timerTextReady = true;
     passageTextDone = true;
+    revelarCaderno(); 
     syncTimer();
     return;
   }
@@ -9193,6 +9225,7 @@ function iniciarTextoAnimado() {
         'opacity': '1'
       });
 
+      revelarCaderno(); 
       iniciarAutoFim();
 
       timerTextReady = true;
@@ -9892,94 +9925,74 @@ Macro.add('erIcon', {
   }
 });
 
-/* ======== 10A - Ajuste do Caderno */
+/* ---- 10A.1 Setinha de scroll (partilhada) ----
+   Usada pelo caderno do quiz ([25]) e pelos resultados finais ([26]).
+   Põe uma setinha no centro da barra de botões e marca a barra com
+   .aguarda-fim enquanto a lista não chegou ao fim (esconde os botões e
+   mostra o fade preto). Clicar na seta desce 80% da altura visível. */
+var SETA_SCROLL_SVG =
+  '<svg class="ph-icon" viewBox="0 0 256 256"><path fill="currentColor" d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
+
+function ligarSetaDeScroll(scrollEl, barra) {
+  if (!scrollEl || !barra) return;
+
+  var antiga = barra.querySelector('.nb-scroll-hint');
+  if (antiga) antiga.remove();
+
+  var seta = document.createElement('div');
+  seta.className = 'nb-scroll-hint';
+  seta.innerHTML = SETA_SCROLL_SVG;
+  seta.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    scrollEl.scrollBy({ top: scrollEl.clientHeight * 0.8, behavior: 'smooth' });
+  });
+  barra.appendChild(seta);
+
+  function verificar() {
+    var temScroll = scrollEl.scrollHeight > scrollEl.clientHeight + 5;
+    var perto     = scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 20;
+    seta.classList.toggle('visible', temScroll && !perto);
+    barra.classList.toggle('aguarda-fim', temScroll && !perto);
+  }
+
+  verificar();                 // já, para os botões nunca "piscarem" no início
+  setTimeout(verificar, 50);   // e outra vez quando o layout assentar
+
+  if (scrollEl._scrollHandler) scrollEl.removeEventListener('scroll', scrollEl._scrollHandler);
+  scrollEl._scrollHandler = verificar;
+  scrollEl.addEventListener('scroll', verificar);
+}
+
 /* Quiz em caderno: altura disponível = espaço acima da text-box */
 function ajustarCaderno() {
   var ov  = document.querySelector('.notebook-overlay');
   var box = document.querySelector('.text-box');
   if (!ov || !box) return;
-  
+
   ov.style.setProperty('--nb-textbox-px', box.getBoundingClientRect().height + 'px');
-
-  var list = document.querySelector('.notebook-list');
-  var actions = document.querySelector('.notebook-actions');
-  if (!list || !actions) return;
-
-  // Remove setas antigas
-  var oldHint = actions.querySelector('.nb-scroll-hint');
-  if (oldHint) oldHint.remove();
-
-  // Cria a setinha
-  var hint = document.createElement('div');
-  hint.className = 'nb-scroll-hint';
-  hint.innerHTML = '<svg class="ph-icon" viewBox="0 0 256 256"><path fill="currentColor" d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
-
-  // Ação de clicar para scrollar para baixo
-  hint.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    list.scrollBy({ top: list.clientHeight * 0.8, behavior: 'smooth' });
-  });
-
-  // Anexa a seta ao RODAPÉ (a mesma secção do botão)
-  actions.appendChild(hint);
-
-  function verificarScroll() {
-    var hasScroll = list.scrollHeight > list.clientHeight + 5;
-    var isNearBottom = list.scrollTop + list.clientHeight >= list.scrollHeight - 20;
-    hint.classList.toggle('visible', hasScroll && !isNearBottom);
-    actions.classList.toggle('aguarda-fim', hasScroll && !isNearBottom);
-  }
-
-  verificarScroll();               // já, para o botão nunca "piscar" no início
-  setTimeout(verificarScroll, 50); // e outra vez quando o layout assentar
-  
-  if (list._scrollHandler) {
-    list.removeEventListener('scroll', list._scrollHandler);
-  }
-  list._scrollHandler = verificarScroll;
-  list.addEventListener('scroll', verificarScroll);
+  ligarSetaDeScroll(
+    document.querySelector('.notebook-list'),
+    document.querySelector('.notebook-actions')
+  );
 }
 
-/* Ajuste do caderno de resultados (setinha de scroll e botões escondidos) */
-function ajustarResultados() {
-  var panel = document.querySelector('.rs-panel.active');
-  var footer = document.querySelector('.rs-footer');
-  if (!panel || !footer) return;
-
-  // Remove setas antigas
-  var oldHint = footer.querySelector('.nb-scroll-hint');
-  if (oldHint) oldHint.remove();
-
-  // Cria a setinha (exatamente o mesmo SVG do quiz)
-  var hint = document.createElement('div');
-  hint.className = 'nb-scroll-hint';
-  hint.innerHTML = '<svg class="ph-icon" viewBox="0 0 256 256"><path fill="currentColor" d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
-
-  // Ação de clicar para scrollar para baixo
-  hint.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    panel.scrollBy({ top: panel.clientHeight * 0.8, behavior: 'smooth' });
+/* Mostra o caderno do quiz com animação (ver CSS [25], .nb-visivel / .nb-entra).
+   imediato = true ignora a pausa (usado na salvaguarda). */
+function revelarCaderno(imediato) {
+  var $ov = $('.notebook-overlay').not('.rs-overlay').filter(function () {
+    return $(this).find('.notebook:not(.resultado)').length > 0;
   });
+  if (!$ov.length || $ov.hasClass('nb-visivel')) return;
 
-  footer.appendChild(hint);
-
-  function verificarScroll() {
-    var hasScroll = panel.scrollHeight > panel.clientHeight + 5;
-    var isNearBottom = panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 20;
-    hint.classList.toggle('visible', hasScroll && !isNearBottom);
-    footer.classList.toggle('aguarda-fim', hasScroll && !isNearBottom);
+  function mostrar() {
+    $ov.addClass('nb-visivel' + (animationsEnabled ? ' nb-entra' : ''));
+    ajustarCaderno();
+    setTimeout(function () { $ov.removeClass('nb-entra'); }, 1200);
   }
 
-  verificarScroll();
-  setTimeout(verificarScroll, 50);
-
-  if (panel._scrollHandler) {
-    panel.removeEventListener('scroll', panel._scrollHandler);
-  }
-  panel._scrollHandler = verificarScroll;
-  panel.addEventListener('scroll', verificarScroll);
+  if (imediato || !animationsEnabled) mostrar();
+  else agendarNaPassagem(CADERNO_PAUSA_MS, mostrar);
 }
 
 /* ---- 10A.2 Virar a página: quiz → resultados ----
@@ -10568,7 +10581,7 @@ $(document).one(':storyready', function () {
     '<main class="loading-content">' +
       '<h1 class="loading-title">' + T('game.title') + '</h1>' +
       '<div class="loading-flame">' +
-        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
+        '<dotlottie-wc src="https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/animations/Flame_animation.json" autoplay loop mode="forward"></dotlottie-wc>' +
       '</div>' +
       '<span class="custom-loader"></span>' +
       '<p class="loading-text">' + T('ui.loading.text') + '</p>' +
@@ -10784,6 +10797,7 @@ function reajustarCenas() {
   ajustarEvacuar();
   ajustarCasaArdida();
   ajustarCaderno();
+  ajustarResultados();  
 }
 $(window).on('resize', reajustarCenas);
 
@@ -11154,8 +11168,10 @@ $(document).on(':passageend', function () {
     sequenciaDesfalecer();
   } else if (passage() !== '⟲') {
     // A passagem '⟲' (confirmar recomeçar) não tem texto animado
-    iniciarTextoAnimado();
+    iniciarTextoAnimado();  
   }
+
+  agendarNaPassagem(CADERNO_MAX_MS, function () { revelarCaderno(true); });
 
   // Recomeçar: guardar cena / aplicar cena guardada
   guardarCenaParaRecomecar();
@@ -11179,7 +11195,7 @@ $(document).on(':passageend', function () {
     if (!$(this).find('.ph-icon').length) $(this).prepend(ICON_RESTART + ' ');
   });
 
-  $('.rs-footer a:last-child').each(function () {
+  $('.rs-footer a:last-of-type').each(function () {
     if (!$(this).find('.ph-icon').length) $(this).prepend(ICON_RESTART + ' ');
   });
 
@@ -11194,7 +11210,16 @@ $(document).one(':passagestart', function () {
   tentarBloquearOrientacao();
 });
 
-/* ===== Resultados: catálogo e separadores ===== */
+/* ==========================================================================
+   [16] RESULTADOS FINAIS
+   --------------------------------------------------------------------------
+   Ecrã final com separadores (Resultados / Conquistas / Lições). O HTML vem
+   das passagens; aqui ficam os dados, os desbloqueios e o comportamento.
+   CSS em [26]. A setinha de scroll e o botão só no fim usam ligarSetaDeScroll
+   ([10A.1]), chamada por reajustarCenas ([13]).
+   ========================================================================== */
+
+/* ---- 16.1 Catálogo ---- */
 setup.catalogo = {
   conquistas: [
     { id: "casa-segura",   nome: "Casa segura",        desc: "Casa preparada antes de sair",  icon: "icon-casa-segura.png" },
@@ -11202,7 +11227,7 @@ setup.catalogo = {
     { id: "guardiao",      nome: "Guardião da aldeia", desc: "Avisa os vizinhos",             icon: "icon-guardiao-da-aldeia.png" },
     { id: "mestre-quiz",   nome: "Mestre dos Quizzes", desc: "Acerta todos os quizzes",       icon: "icon-mestre-quiz.png" },
     { id: "bobi",          nome: "Bobi",               desc: "Salvo o Bobi",                  icon: "icon-bobi.png" },
-    { id: "conversador",   nome: "Mestre conversador", desc: "Acerta na conversa com o 112",  icon: "icon-mestre-conversador.png" },
+    { id: "conversador",   nome: "Mestre conversador", desc: "Acerta na conversa com o 112",  icon: "icon-conversador.png" },
     { id: "mao-amiga",     nome: "Mão amiga",          desc: "Ajuda sem te colocares em perigo", icon: "icon-mao-amiga.png" },
     { id: "cabeca-fria",   nome: "Cabeça fria",        desc: "Nunca entrar em pânico",        icon: "icon-cabeca-fria.png" }
   ],
@@ -11214,16 +11239,27 @@ setup.catalogo = {
   ]
 };
 
+/* ---- 16.2 Desbloqueios (guardados no browser: localStorage "hfa-<tipo>") ---- */
 setup.getDesbloq = function (tipo) {
   try { return JSON.parse(localStorage.getItem("hfa-" + tipo) || "[]"); }
   catch (e) { return []; }
 };
+
 setup.desbloquear = function (tipo, ids) {
   var a = setup.getDesbloq(tipo);
   ids.forEach(function (id) { if (a.indexOf(id) < 0) a.push(id); });
   try { localStorage.setItem("hfa-" + tipo, JSON.stringify(a)); } catch (e) {}
 };
 
+/* ---- 16.3 Painel ativo: setinha de scroll + botões só no fim ---- */
+function ajustarResultados() {
+  var painel = document.querySelector('.rs-panel.active');
+  if (!painel) return;
+  var rodape = painel.querySelector('.rs-footer') || document.querySelector('.rs-footer');
+  ligarSetaDeScroll(painel, rodape);
+}
+
+/* ---- 16.4 Separadores ---- */
 $(document).on("click", ".rs-tab", function () {
   var $tab = $(this);
   if ($tab.hasClass("active")) return;
@@ -11236,7 +11272,6 @@ $(document).on("click", ".rs-tab", function () {
   $("#rs-" + t).addClass("active").scrollTop(0);
 
   ajustarResultados();
-
   tocarSom("hover", 0.3);
 });
 
@@ -11705,7 +11740,8 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
-
+	&lt;div class=&quot;image-overlay pose-112before overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a overlay-top fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;fumo-casa nv2&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
 
     &lt;div class=&quot;notebook-overlay&quot;&gt;
@@ -11796,9 +11832,9 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
         &lt;div class=&quot;choices&quot;&gt;&lt;&lt;link `setup.T(&quot;home.start&quot;)` &quot;1&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;span class=&quot;btn-sobre&quot;&gt;&lt;&lt;link `setup.T(&quot;home.about&quot;)` &quot;Sobre&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;&lt;/span&gt;&lt;/div&gt;
       &lt;/div&gt;
       &lt;div class=&quot;footer&quot;&gt;
-        &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/isa.png&quot; data-t-alt=&quot;alt.isa&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
-        &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/logo-ceabn.png&quot; data-t-alt=&quot;alt.ceabn&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
-        &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/ui/logo.png&quot; data-t-alt=&quot;alt.fire&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;a href=&quot;https://www.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/isa.png&quot; data-t-alt=&quot;alt.isa&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;a href=&quot;https://ceabn.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/logo-ceabn.png&quot; data-t-alt=&quot;alt.ceabn&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
+        &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/ui/logo.png&quot; data-t-alt=&quot;alt.fire&quot; alt=&quot;&quot;&gt;&lt;/a&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
@@ -11940,7 +11976,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
     &lt;div class=&quot;image-bg casa&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay pose-112before&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;phone-scene&quot;&gt;
-        &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/phone.png&quot; crossorigin=&quot;anonymous&quot;&gt;
+        &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/phone.png&quot; crossorigin=&quot;anonymous&quot;&gt;
         &lt;div class=&quot;phone-keys&quot;&gt;
             &lt;button class=&quot;phone-key&quot; data-num=&quot;1&quot; aria-label=&quot;1&quot;&gt;1&lt;/button&gt;
             &lt;button class=&quot;phone-key&quot; data-num=&quot;2&quot; aria-label=&quot;2&quot;&gt;2&lt;/button&gt;
@@ -11955,7 +11991,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
             &lt;button class=&quot;phone-key&quot; data-num=&quot;0&quot; aria-label=&quot;0&quot;&gt;0&lt;/button&gt;
             &lt;button class=&quot;phone-key&quot; data-num=&quot;#&quot; aria-label=&quot;cardinal&quot;&gt;#&lt;/button&gt;
             &lt;button class=&quot;phone-call&quot; id=&quot;phone-call&quot; aria-label=&quot;Ligar&quot;&gt;
-                &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/phone-call.png&quot;&gt;
+                &lt;img src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/phone-call.png&quot;&gt;
             &lt;/button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
@@ -12123,7 +12159,7 @@ Sem reparar, começo a tossir. Realmente o cheiro a queimado parece mais forte, 
 &lt;div class=&quot;scene&quot;&gt;
    &lt;&lt;run mostrarToast(&#39;arvore&#39;, &#39;Zonas arborizadas são extremamente perigosas.\nO fogo propaga-se muito mais depressa na floresta.&#39;)&gt;&gt;
     &lt;div class=&quot;image-bg rio&quot;&gt;&lt;/div&gt;
-    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/car-invert.png&quot;&gt;
+    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/car-invert.png&quot;&gt;
 
 &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
     &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
@@ -12191,9 +12227,20 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
 &lt;&lt;if $fez112&gt;&gt;
   &lt;&lt;run _boas.push({t:&quot;Ligar ao 112&quot;, d:&quot;Avisaste as autoridades.&quot;})&gt;&gt;
   &lt;&lt;run _conq.push(&quot;conversador&quot;)&gt;&gt;
+&lt;&lt;elseif $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+  &lt;&lt;run _depende.push({t:&quot;112&quot;, d:&quot;Escolheste avisar os vizinhos. Também é importante ligar ao 112 e informar sobre a localização do fogo.&quot;})&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;run _perigo.push({t:&quot;Não ligar ao 112&quot;, d:&quot;Faltou ligar ao 112 e informar sobre a localização do fogo.&quot;})&gt;&gt;
   &lt;&lt;run _lic.push(&quot;112&quot;)&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
+&lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
+  &lt;&lt;run _boas.push({t:&quot;Vizinhos&quot;, d:&quot;Avisaste ou ajudaste os vizinhos.&quot;})&gt;&gt;
+  &lt;&lt;run _conq.push(&quot;guardiao&quot;)&gt;&gt;
+&lt;&lt;elseif $fez112&gt;&gt;
+  &lt;&lt;run _depende.push({t:&quot;Vizinhos&quot;, d:&quot;Escolheste ligar ao 112. Avisar os vizinhos também pode salvar vidas.&quot;})&gt;&gt;
+&lt;&lt;else&gt;&gt;
+  &lt;&lt;run _perigo.push({t:&quot;Vizinhos&quot;, d:&quot;Não avisaste nem ajudaste os vizinhos.&quot;})&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $casaPreparada&gt;&gt;
@@ -12201,13 +12248,6 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
   &lt;&lt;run _conq.push(&quot;casa-segura&quot;)&gt;&gt;
 &lt;&lt;else&gt;&gt;
   &lt;&lt;run _perigo.push({t:&quot;Casa em risco&quot;, d:&quot;Não fizeste a preparação adequada.&quot;})&gt;&gt;
-&lt;&lt;/if&gt;&gt;
-
-&lt;&lt;if $avisouVizinhos or $tocouSinoGeral&gt;&gt;
-  &lt;&lt;run _boas.push({t:&quot;Vizinhos&quot;, d:&quot;Avisaste ou ajudaste os vizinhos.&quot;})&gt;&gt;
-  &lt;&lt;run _conq.push(&quot;guardiao&quot;)&gt;&gt;
-&lt;&lt;else&gt;&gt;
-  &lt;&lt;run _perigo.push({t:&quot;Vizinhos&quot;, d:&quot;Não avisaste nem ajudaste os vizinhos.&quot;})&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
 &lt;&lt;if $bobiSeguro&gt;&gt;
@@ -12241,7 +12281,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
   &lt;&lt;run _perigo.push({t:&quot;Resgate&quot;, d:&quot;Ficaste em perigo e tiveste de ser resgatado.&quot;})&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
-&lt;&lt;if $perfeito112 and $kitPerfeito and $casaPerfeita and $segurancaPerfeita&gt;&gt;
+&lt;&lt;if $perfeito112 and $kitPerfeito and $casaPerfeita and ($segurancaPerfeita or !$fezSeguranca)&gt;&gt;
   &lt;&lt;run _conq.push(&quot;mestre-quiz&quot;)&gt;&gt;
 &lt;&lt;/if&gt;&gt;
 
@@ -12296,7 +12336,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
       &lt;&lt;/if&gt;&gt;
 
       &lt;h3 class=&quot;rs-sub&quot;&gt;Continua a aprender:&lt;/h3&gt;
-      &lt;p class=&quot;rs-more&quot;&gt;Aprende mais em &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Fire-Explorer ↗&lt;/a&gt;&lt;/p&gt;
+      &lt;p class=&quot;rs-more&quot;&gt;Aprende mais em &lt;a href=&quot;https://fire-explorer.isa.ulisboa.pt/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;Fire-Explorer &lt;/a&gt;&lt;/p&gt;
       &lt;div class=&quot;rs-soon&quot;&gt;
         &lt;img @src=&quot;IMG + &#39;icons/icon-em-breve.png&#39;&quot; alt=&quot;&quot;&gt;
         &lt;div&gt;
@@ -12312,7 +12352,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
       &lt;div class=&quot;rs-grid&quot;&gt;
         &lt;&lt;for _c range setup.catalogo.conquistas&gt;&gt;
           &lt;&lt;if _conqOk.includes(_c.id)&gt;&gt;
-            &lt;div class=&quot;rs-conq &lt;&lt;= _c.id&gt;&gt;&quot;&gt;&lt;span class=&quot;rs-ico&quot;&gt;&lt;img @src=&quot;IMG + &#39;icons/&#39; + _c.icon&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;&lt;&lt;= _c.nome&gt;&gt;&lt;/b&gt;&lt;span&gt;&lt;&lt;= _c.desc&gt;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div @class=&quot;&#39;rs-conq &#39; + _c.id&quot;&gt;&lt;span class=&quot;rs-ico&quot;&gt;&lt;img @src=&quot;IMG + &#39;icons/&#39; + _c.icon&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;&lt;&lt;= _c.nome&gt;&gt;&lt;/b&gt;&lt;span&gt;&lt;&lt;= _c.desc&gt;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
           &lt;&lt;/if&gt;&gt;
         &lt;&lt;/for&gt;&gt;
       &lt;/div&gt;
@@ -12321,7 +12361,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
       &lt;div class=&quot;rs-grid&quot;&gt;
         &lt;&lt;for _c range setup.catalogo.conquistas&gt;&gt;
           &lt;&lt;if !_conqOk.includes(_c.id)&gt;&gt;
-            &lt;div class=&quot;rs-conq locked &lt;&lt;= _c.id&gt;&gt;&quot;&gt;&lt;span class=&quot;q&quot;&gt;&lt;img @src=&quot;IMG + &#39;icons/&#39; + _c.icon&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;&lt;&lt;= _c.nome&gt;&gt;&lt;/b&gt;&lt;span&gt;&lt;&lt;= _c.desc&gt;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+            &lt;div @class=&quot;&#39;rs-conq locked &#39; + _c.id&quot;&gt;&lt;span class=&quot;q&quot;&gt;&lt;img @src=&quot;IMG + &#39;icons/&#39; + _c.icon&quot; alt=&quot;&quot;&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;&lt;&lt;= _c.nome&gt;&gt;&lt;/b&gt;&lt;span&gt;&lt;&lt;= _c.desc&gt;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
           &lt;&lt;/if&gt;&gt;
         &lt;&lt;/for&gt;&gt;
       &lt;/div&gt;
@@ -12365,7 +12405,7 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="24" tags="" position="750,25" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;scene&quot;&gt;
     &lt;div class=&quot;image-bg rio-para-fogo&quot;&gt;&lt;/div&gt;
-    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.4/images/cenas/car-invert.png&quot;&gt;
+    &lt;img class=&quot;carro-floresta-img&quot; src=&quot;https://cdn.jsdelivr.net/gh/letceo/ha-fogo-na-aldeia@v1.0.6/images/cenas/car-invert.png&quot;&gt;
     &lt;div class=&quot;text-box fira-sans-regular&quot;&gt;
         &lt;div class=&quot;ui-btn&quot;&gt;[[⟲]] &lt;&lt;back &quot;←&quot;&gt;&gt;&lt;/div&gt;
         &lt;p class=&quot;animar&quot;&gt;A conduzir por entre as árvores apercebo-me que o fumo se aproxima cada vez mais e tudo fica mais quente e cinzento. Acho que não deveria ter arriscado, &lt;b&gt;mas e agora?&lt;/b&gt;&lt;/p&gt;
@@ -12430,7 +12470,8 @@ E ainda bem. Sem o kit de sobrevivência e o cão que ficou para trás, estes mo
     &lt;div class=&quot;image-fumo casafumo4 fumo-entra-4 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-fumo casafumo5 fumo-entra-5 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
-
+	&lt;div class=&quot;image-overlay pose-112before overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a overlay-top fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;fumo-casa nv2&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
 
     &lt;div class=&quot;notebook-overlay&quot;&gt;
@@ -12843,6 +12884,8 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
     &lt;div class=&quot;image-fumo casafumo6 fumo-entra-6 fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-bg casa-semjanela fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;image-overlay pose-reparar overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay pose-112before overlay-top fullheight&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;image-overlay kit1 thought-bubble-kit-a overlay-top fullheight&quot;&gt;&lt;/div&gt;
     &lt;div class=&quot;fumo-casa nv5&quot;&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
 
     &lt;div class=&quot;notebook-overlay&quot;&gt;
@@ -12892,7 +12935,7 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
         &lt;p class=&quot;animar&quot;&gt;&lt;b&gt;O que devo fazer para me manter em segurança?&lt;/b&gt;&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="Resultado Segurança" tags="" position="700,150" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="Resultado Segurança" tags="" position="700,200" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;silently&gt;&gt;
     &lt;&lt;set _opcoesSeguranca to [
         [&quot;Ficar longe das paredes.&quot;,                                                                                                         !!$s1, true ],
@@ -12956,6 +12999,8 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
 &lt;&lt;set _faltou  = _opcoes.filter(function(o){ return !o[1] &amp;&amp; o[2]; })&gt;&gt;
 &lt;&lt;set _total   = _opcoes.filter(function(o){ return o[2]; }).length&gt;&gt;
 &lt;&lt;set _perfeito = (_acertos.length === _total &amp;&amp; _erros.length === 0)&gt;&gt;
+&lt;&lt;set _nota = _total &gt; 0 ? Math.max(0, _acertos.length - _erros.length) / _total : 0&gt;&gt;
+&lt;&lt;set _nivel = _nota &gt;= 0.8 ? &quot;nota-boa&quot; : (_nota &gt;= 0.5 ? &quot;nota-media&quot; : &quot;nota-ma&quot;)&gt;&gt;
 
 &lt;div class=&quot;notebook-overlay&quot;&gt;
   &lt;div class=&quot;notebook resultado&quot;&gt;
@@ -12964,7 +13009,7 @@ A multidão na praça espanta o Bobi, que corre desenfreado tentando confortar o
       &lt;div class=&quot;er-card&quot;&gt;
 
         &lt;div class=&quot;er-head&quot;&gt;
-          &lt;div class=&quot;er-score&quot;&gt;
+         &lt;div @class=&quot;&#39;er-score &#39; + _nivel&quot;&gt;
             &lt;span class=&quot;er-score-num&quot;&gt;&lt;&lt;= _acertos.length&gt;&gt;&lt;/span&gt;&lt;span class=&quot;er-score-slash&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;er-score-total&quot;&gt;&lt;&lt;= _total&gt;&gt;&lt;/span&gt;
             &lt;span class=&quot;er-score-label&quot;&gt;&lt;&lt;= _rotulo&gt;&gt;&lt;/span&gt;
           &lt;/div&gt;
